@@ -11,7 +11,7 @@ namespace eQACoLTD.IdentityServer.Configurations
     {
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            context.IssuedClaims.AddRange(context.Subject.Claims.Where(x => x.Type == "role"));
+            context.IssuedClaims.AddRange(context.Subject.Claims.Where(x => x.Type == "role" || x.Type=="name"));
 
             return Task.FromResult(0);
         }

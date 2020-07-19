@@ -39,7 +39,7 @@ namespace eQACoLTD.AdminMvc
                  config.SignedOutCallbackPath = "/Home/Index";
 
                  config.Scope.Add("backend_api");
-                 config.Scope.Add("roles");
+                 //config.Scope.Add("roles");
 
              });
 

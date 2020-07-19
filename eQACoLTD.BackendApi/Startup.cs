@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using eQACoLTD.Application.System.Role;
+using eQACoLTD.Application.System.User;
 using eQACoLTD.BackendApi.Configurations;
 using eQACoLTD.Data.DBContext;
 using eQACoLTD.Data.Entities;
@@ -43,6 +44,7 @@ namespace eQACoLTD.BackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {

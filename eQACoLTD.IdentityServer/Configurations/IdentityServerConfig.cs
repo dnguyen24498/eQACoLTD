@@ -12,21 +12,21 @@ namespace eQACoLTD.IdentityServer.Configurations
     {
         public static IEnumerable<ApiResource> GetApiResources() => new List<ApiResource>
         {
-            new ApiResource("backend_api","Backend API",new List<string>(){ ClaimTypes.Role}),
+            new ApiResource("backend_api","Backend API"/*,new List<string>(){ ClaimTypes.Role}*/),
         };
 
         public static IEnumerable<IdentityResource> GetIdentityResources() => new List<IdentityResource>
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
-            new IdentityResource()
-            {
-                Name="roles",
-                UserClaims =
-                {
-                    ClaimTypes.Role
-                }
-            }
+            //new IdentityResource()
+            //{
+            //    Name="roles",
+            //    UserClaims =
+            //    {
+            //        ClaimTypes.Role
+            //    }
+            //}
         };
 
         public static IEnumerable<Client> GetClients() => new List<Client>
@@ -44,7 +44,7 @@ namespace eQACoLTD.IdentityServer.Configurations
                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
                     "backend_api",
-                    "roles"
+                    //"roles"
                 }
             },
             new Client()
@@ -60,7 +60,7 @@ namespace eQACoLTD.IdentityServer.Configurations
                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
                     "backend_api",
-                    "roles"
+                    //"roles"
                 }
             }
         };

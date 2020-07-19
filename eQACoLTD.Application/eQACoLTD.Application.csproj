@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="System\Account\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\eQACoLTD.Data\eQACoLTD.Data.csproj" />
+    <ProjectReference Include="..\eQACoLTD.Utilities\eQACoLTD.Utilities.csproj" />
+    <ProjectReference Include="..\eQACoLTD.ViewModel\eQACoLTD.ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>

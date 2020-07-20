@@ -66,7 +66,7 @@ namespace eQACoLTD.BackendApi
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Protected API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Protected Backend API", Version = "v1" });
 
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -79,7 +79,7 @@ namespace eQACoLTD.BackendApi
                             TokenUrl = new Uri("https://localhost:5000/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
-                                {"backend_api", "Demo API - full access"}
+                                {"backend_api", "Backend API - full access"}
                             }
                         }
                     }
@@ -109,10 +109,10 @@ namespace eQACoLTD.BackendApi
 
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend API V1");
 
-                options.OAuthClientId("demo_api_swagger");
-                options.OAuthAppName("Demo API - Swagger");
+                options.OAuthClientId("backend_api_swagger");
+                options.OAuthAppName("Backend API - Swagger");
                 options.OAuthUsePkce();
             });
 

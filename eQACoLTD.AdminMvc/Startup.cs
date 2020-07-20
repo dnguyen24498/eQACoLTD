@@ -28,7 +28,9 @@ namespace eQACoLTD.AdminMvc
             {
                 config.DefaultScheme = "Cookie";
                 config.DefaultChallengeScheme = "oidc";
-            }).AddCookie("Cookie")
+            }).AddCookie("Cookie",config=> {
+                config.ExpireTimeSpan=TimeSpan.FromHours(2);
+            })
              .AddOpenIdConnect("oidc", config =>
              {
                  config.Authority = Configuration["IdentityServerHost"];

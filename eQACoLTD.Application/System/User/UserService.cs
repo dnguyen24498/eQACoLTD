@@ -6,6 +6,7 @@ using eQACoLTD.ViewModel.System.User.Queries;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,10 @@ namespace eQACoLTD.Application.System.User
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null) return new ApiErrorResult<UserProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
-            return new ApiSuccessResult<UserProfileResponse>(ObjectMapper.Mapper.Map<UserProfileResponse>(user));
+            var roles = await _userManager.GetRolesAsync(user);
+            var userProfile = ObjectMapper.Mapper.Map<UserProfileResponse>(user);
+            userProfile.Roles = roles?.ToList();
+            return new ApiSuccessResult<UserProfileResponse>(userProfile);
         }
 
         public async Task<ApiResult<UserProfileResponse>> UpdateUserProfileAsync(string userName,UserProfileResponse request)

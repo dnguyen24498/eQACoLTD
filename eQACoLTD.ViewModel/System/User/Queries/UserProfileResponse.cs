@@ -18,6 +18,7 @@ namespace eQACoLTD.ViewModel.System.User.Queries
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string UserName { get; set; }
+        public List<string> Roles { get; set; }
 
     }
 }

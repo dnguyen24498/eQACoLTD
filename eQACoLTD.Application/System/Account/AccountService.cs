@@ -19,7 +19,6 @@ namespace eQACoLTD.Application.System.Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
-
         public AccountService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _userManager = userManager;
@@ -41,7 +40,8 @@ namespace eQACoLTD.Application.System.Account
             foreach (var role in userRoles)
             {
                 roleTemp = await _roleManager.FindByNameAsync(role);
-                if (await _roleManager.FindByNameAsync(role) != null) userResponse.InRoles.Add(ObjectMapper.Mapper.Map<RoleResponse>(roleTemp));
+                if (await _roleManager.FindByNameAsync(role) != null) 
+                    userResponse.InRoles.Add(ObjectMapper.Mapper.Map<RoleResponse>(roleTemp));
             }
             userResponse.NotInRoles = ObjectMapper.Mapper.Map<List<AppRole>, List<RoleResponse>>(roles).
                 Except(userResponse.InRoles).ToList();

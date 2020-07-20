@@ -25,7 +25,8 @@ namespace eQACoLTD.Application.System.User
             var checkUser = await _userManager.FindByNameAsync(userName);
             var checkOldPassword = await _userManager.CheckPasswordAsync(checkUser, request.OldPassword);
             if (!checkOldPassword) return new ApiErrorResult<string>("Mật khẩu hiện tại không đúng");
-            var changePasswordResult = await _userManager.ChangePasswordAsync(checkUser, request.OldPassword, request.NewPassword);
+            var changePasswordResult = await _userManager.ChangePasswordAsync(checkUser, 
+                request.OldPassword, request.NewPassword);
             if(!changePasswordResult.Succeeded) return new ApiErrorResult<string>("Có lỗi khi đổi mật khẩu");
             return new ApiSuccessResult<string>(checkUser.UserName);
         }
@@ -33,20 +34,24 @@ namespace eQACoLTD.Application.System.User
         public async Task<ApiResult<UserProfileResponse>> GetUserProfileAsync(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            if (user == null) return new ApiErrorResult<UserProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
+            if (user == null) 
+                return new ApiErrorResult<UserProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
             var roles = await _userManager.GetRolesAsync(user);
             var userProfile = ObjectMapper.Mapper.Map<UserProfileResponse>(user);
             userProfile.Roles = roles?.ToList();
             return new ApiSuccessResult<UserProfileResponse>(userProfile);
         }
 
-        public async Task<ApiResult<UserProfileResponse>> UpdateUserProfileAsync(string userName,UserProfileResponse request)
+        public async Task<ApiResult<UserProfileResponse>> UpdateUserProfileAsync(string userName,
+            UserProfileResponse request)
         {
             var checkUser = await _userManager.FindByNameAsync(userName);
-            if (checkUser == null) return new ApiErrorResult<UserProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
+            if (checkUser == null) 
+                return new ApiErrorResult<UserProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
             checkUser=ObjectMapper.Mapper.Map(request, checkUser);
             var result = await _userManager.UpdateAsync(checkUser);
-            if (!result.Succeeded) return new ApiErrorResult<UserProfileResponse>("Cập nhật thông tin không thành công");
+            if (!result.Succeeded) 
+                return new ApiErrorResult<UserProfileResponse>("Cập nhật thông tin không thành công");
             return new ApiSuccessResult<UserProfileResponse>(ObjectMapper.Mapper.Map<UserProfileResponse>(checkUser));
         }
     }

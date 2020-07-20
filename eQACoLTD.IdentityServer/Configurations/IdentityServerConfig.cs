@@ -37,6 +37,7 @@ namespace eQACoLTD.IdentityServer.Configurations
                 ClientSecrets={new Secret("secret_key_mvc".ToSha256())},
                 AllowedGrantTypes=GrantTypes.Code,
                 RequireConsent=false,
+                AccessTokenLifetime=60*60*2,
                 RedirectUris={ "https://localhost:5003/signin-oidc" },
                 PostLogoutRedirectUris={ "https://localhost:5003/Home/Index" },
                 AllowedScopes =
@@ -53,6 +54,7 @@ namespace eQACoLTD.IdentityServer.Configurations
                 ClientSecrets={new Secret("secret_key_mvc".ToSha256())},
                 AllowedGrantTypes=GrantTypes.Code,
                 RequireConsent=false,
+                AccessTokenLifetime=60*60*2,
                 RedirectUris={ "https://localhost:5002/signin-oidc" },
                 PostLogoutRedirectUris={ "https://localhost:5002/Home/Index" },
                 AllowedScopes =
@@ -65,13 +67,14 @@ namespace eQACoLTD.IdentityServer.Configurations
             },
             new Client
                 {
-                    ClientId = "demo_api_swagger",
+                    ClientId = "backend_api_swagger",
                     ClientName = "Swagger UI for demo_api",
-                    ClientSecrets = {new Secret("secret".Sha256())}, // change me!
+                    ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true,
                     RequireConsent=false,
                     RequireClientSecret = false,
+                    AccessTokenLifetime=60*60*2,
                     RedirectUris = {"https://localhost:5001/swagger/oauth2-redirect.html"},
                     AllowedCorsOrigins = {"https://localhost:5001"},
                     AllowedScopes = {"backend_api"}

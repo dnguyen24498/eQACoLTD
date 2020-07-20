@@ -16,6 +16,7 @@ namespace eQACoLTD.Application.Configurations
         {
             CreateMap<CreateRoleRequest, AppRole>();
             CreateMap<AppRole, RoleResponse>();
+            CreateMap<RoleResponse, AppRole>();
             CreateMap<UpdateRoleRequest, AppRole>()
                 .ForMember(des => des.NormalizedName, opt => opt.MapFrom(src => src.Name));
 

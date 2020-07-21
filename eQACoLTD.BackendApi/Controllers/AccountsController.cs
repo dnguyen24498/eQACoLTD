@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eQACoLTD.Application.System.Account;
+using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Account.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,7 @@ namespace eQACoLTD.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="Admin,SuperAdmin",AuthenticationSchemes ="Bearer")]
+    [Authorize(Roles ="Admin",AuthenticationSchemes ="Bearer")]
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -34,6 +35,13 @@ namespace eQACoLTD.BackendApi.Controllers
             [FromBody] UpdateAccountRoleRequest request)
         {
             var result = await _accountService.UpdateAccountRolesAsync(userName,request);
+            if (!result.IsSuccess) return Ok(result.Message);
+            return Ok(result.ResultObj);
+        }
+        [HttpPost("paging")]
+        public async Task<IActionResult> GetAccountProfilePaging(PagingRequestBase request)
+        {
+            var result = await _accountService.GetAccountProfilePagingAsync(request);
             if (!result.IsSuccess) return Ok(result.Message);
             return Ok(result.ResultObj);
         }

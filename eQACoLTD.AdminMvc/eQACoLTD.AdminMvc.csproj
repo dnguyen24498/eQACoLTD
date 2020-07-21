@@ -196,6 +196,11 @@
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="4.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\eQACoLTD.ViewModel\eQACoLTD.ViewModel.csproj" />
   </ItemGroup>
 
 </Project>

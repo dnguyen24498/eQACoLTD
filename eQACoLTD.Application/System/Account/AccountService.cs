@@ -1,16 +1,15 @@
 ﻿using eQACoLTD.Application.Configurations;
+using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Account.Handlers;
 using eQACoLTD.ViewModel.System.Account.Queries;
 using eQACoLTD.ViewModel.System.Role.Queries;
+using eQACoLTD.ViewModel.System.User.Queries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace eQACoLTD.Application.System.Account
@@ -23,6 +22,16 @@ namespace eQACoLTD.Application.System.Account
         {
             _userManager = userManager;
             _roleManager = roleManager;
+        }
+
+        public async Task<ApiResult<PagedResult<UserProfileResponse>>> GetAccountProfilePagingAsync(PagingRequestBase pagingRequest)
+        {
+            if (pagingRequest == null)
+                return new ApiErrorResult<PagedResult<UserProfileResponse>>("Nhập sai dữ liệu");
+            var users = await _userManager.Users
+                .OrderByDescending(p=>p.UserName)
+                .GetPagedAsync<AppUser, UserProfileResponse>(pagingRequest.PageIndex, pagingRequest.PageSize);
+            return new ApiSuccessResult<PagedResult<UserProfileResponse>>(users);
         }
 
         public async Task<ApiResult<GetAccountRoleResponse>> GetAccountRolesAsync(string userName)

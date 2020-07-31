@@ -26,30 +26,30 @@ namespace eQACoLTD.BackendApi.Controllers
         public async Task<IActionResult> GetRoles()
         {
             var response = await _roleService.GetRolesAsync();
-            if (!response.IsSuccess) return Ok(response.Message);
-            return Ok(response.ResultObj);
+            if (!response.IsSuccess) return BadRequest(response.Message);
+            return Ok(response);
         }
         [HttpGet("{roleId}")]
         public async Task<IActionResult> GetRole(string roleId)
         {
             var response = await _roleService.GetRoleAsync(roleId);
-            if (!response.IsSuccess) return Ok(response.Message);
-            return Ok(response.ResultObj);
+            if (!response.IsSuccess) return BadRequest(response.Message);
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> PostRole([FromBody] CreateRoleRequest newRole)
         {
             var response = await _roleService.PostRoleAsync(newRole);
-            if (!response.IsSuccess) return Ok(response.Message);
-            return Ok(response.ResultObj);
+            if (!response.IsSuccess) return BadRequest(response.Message);
+            return Ok(response);
         }
         [HttpPut("{roleId}")]
         public async Task<IActionResult> PutRole(string roleId,[FromBody] UpdateRoleRequest infoRole)
         {
             var response = await _roleService.PutRoleAsync(roleId,infoRole);
-            if (!response.IsSuccess) return Ok(response.Message);
-            return Ok(response.ResultObj);
+            if (!response.IsSuccess) return BadRequest(response.Message);
+            return Ok(response);
         }
         [HttpDelete("{roleId}")]
         public async Task<IActionResult> DeleteRole(string roleId)

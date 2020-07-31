@@ -29,32 +29,21 @@ namespace eQACoLTD.Application.System.Account
             if (pagingRequest == null)
                 return new ApiErrorResult<PagedResult<UserProfileResponse>>("Nhập sai dữ liệu");
             var users = await _userManager.Users
-                .OrderByDescending(p=>p.UserName)
                 .GetPagedAsync<AppUser, UserProfileResponse>(pagingRequest.PageIndex, pagingRequest.PageSize);
             return new ApiSuccessResult<PagedResult<UserProfileResponse>>(users);
         }
 
-        public async Task<ApiResult<GetAccountRoleResponse>> GetAccountRolesAsync(string userName)
+        public async Task<ApiResult<AccountRolesVM>> GetAccountRolesAsync(string userName)
         {
             var checkUser = await _userManager.FindByNameAsync(userName);
             if (checkUser == null) return new
-                       ApiErrorResult<GetAccountRoleResponse>($"Không tìm thấy người dùng có tên: {userName}");
-            var roles = await _roleManager.Roles.ToListAsync();
-            var userRoles = await _userManager.GetRolesAsync(checkUser);
-            var userResponse = new GetAccountRoleResponse();
+                       ApiErrorResult<AccountRolesVM>($"Không tìm thấy người dùng có tên: {userName}");
+            var userResponse = new AccountRolesVM();
             userResponse.UserName = checkUser.UserName;
-            userResponse.InRoles = new List<RoleResponse>();
-            userResponse.NotInRoles = new List<RoleResponse>();
-            var roleTemp = new AppRole();
-            foreach (var role in userRoles)
-            {
-                roleTemp = await _roleManager.FindByNameAsync(role);
-                if (await _roleManager.FindByNameAsync(role) != null) 
-                    userResponse.InRoles.Add(ObjectMapper.Mapper.Map<RoleResponse>(roleTemp));
-            }
-            userResponse.NotInRoles = ObjectMapper.Mapper.Map<List<AppRole>, List<RoleResponse>>(roles).
-                Except(userResponse.InRoles).ToList();
-            return new ApiSuccessResult<GetAccountRoleResponse>(userResponse);
+            userResponse.InRoles = (List<string>)await _userManager.GetRolesAsync(checkUser);
+            var allRole = await _roleManager.Roles.Select(x => x.Name).ToListAsync();
+            userResponse.NotInRoles = (List<string>)allRole.Except(userResponse.InRoles).ToList();
+            return new ApiSuccessResult<AccountRolesVM>(userResponse);
         }
 
         public async Task<ApiResult<string>> UpdateAccountRolesAsync(string userName,
@@ -62,9 +51,9 @@ namespace eQACoLTD.Application.System.Account
         {
             var checkUser = await _userManager.FindByNameAsync(userName);
             AppRole roleIdTemp;
-            if (request.AddRoleIds != null && request.AddRoleIds.Count>0)
+            if (request.AddRoleNames != null && request.AddRoleNames.Count>0)
             {
-                foreach (var role in request.AddRoleIds)
+                foreach (var role in request.AddRoleNames)
                 {
                     roleIdTemp = await _roleManager.FindByNameAsync(role);
                     if (roleIdTemp != null)
@@ -74,9 +63,9 @@ namespace eQACoLTD.Application.System.Account
                 }
             }
 
-            if (request.DeleteRoleIds != null && request.AddRoleIds.Count>0)
+            if (request.DeleteRoleNames != null && request.DeleteRoleNames.Count>0)
             {
-                foreach (var role in request.DeleteRoleIds)
+                foreach (var role in request.DeleteRoleNames)
                 {
                     roleIdTemp = await _roleManager.FindByNameAsync(role);
                     if (roleIdTemp != null)

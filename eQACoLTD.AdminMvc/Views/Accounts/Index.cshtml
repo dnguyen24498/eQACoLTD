@@ -115,9 +115,12 @@
                                                         @r.value.PhoneNumber
                                                     </td>
                                                     <td class=" last">
-                                                        <a><i class="fa fa-eye btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Chi tiết"></i></a>
-                                                        <a><i class="fa fa-lock btn btn-warning text-white" data-toggle="tooltip" data-placement="bottom" title="Khóa/Mở khóa"></i></a>
-                                                        <a><i class="fa fa-trash btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Xóa"></i></a>
+                                                        <form method="post">
+                                                            <input type="hidden" asp-for="@r.value.UserName"/>
+                                                            <a asp-controller="Accounts" asp-action="Roles" asp-route-userName="@r.value.UserName"><i class="fa fa-eye btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Chi tiết phân quyền"></i></a>
+                                                            <a><i class="fa fa-lock btn btn-warning text-white" data-toggle="tooltip" data-placement="bottom" title="Khóa/Mở khóa"></i></a>
+                                                            <a><i class="fa fa-trash btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Xóa"></i></a>
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             }

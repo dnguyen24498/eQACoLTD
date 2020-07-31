@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using eQACoLTD.AdminMvc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,7 @@ namespace eQACoLTD.AdminMvc
                 config.DefaultChallengeScheme = "oidc";
             }).AddCookie("Cookie",config=> {
                 config.ExpireTimeSpan=TimeSpan.FromHours(2);
+                config.Cookie.Name = "CustomCookieAspNetCore";
             })
              .AddOpenIdConnect("oidc", config =>
              {
@@ -44,10 +47,14 @@ namespace eQACoLTD.AdminMvc
                  //config.Scope.Add("roles");
 
              });
-
+            services.AddSession(options=> {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+            });
             services.AddHttpClient();
             services.AddControllersWithViews();
-
+            services.AddTransient<IAccountApiClient, AccountApiClient>();
+            services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -66,6 +73,8 @@ namespace eQACoLTD.AdminMvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 

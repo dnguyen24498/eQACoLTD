@@ -41,18 +41,6 @@
 
                     <div class="clearfix"></div>
 
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="/images/img.jpg" alt="." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
                     <br />
 
                     <!-- sidebar menu -->
@@ -126,7 +114,7 @@
                                     <a><i class="fa fa-cogs"></i> Hệ thống <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="e_commerce.html"> Phân quyền </a></li>
-                                        <li><a asp-controller="System" asp-action="Accounts"> Tài khoản </a></li>
+                                        <li><a asp-controller="Accounts" asp-action="Index"> Tài khoản </a></li>
                                         <li><a href="project_detail.html">Project Detail</a></li>
                                         <li><a href="contacts.html">Contacts</a></li>
                                         <li><a href="profile.html">Profile</a></li>
@@ -200,7 +188,8 @@
                         <ul class=" navbar-right">
                             <li class="nav-item dropdown open" style="padding-left: 15px;">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="/images/img.jpg" alt="">John Doe
+                                    <img src="/images/img.jpg" alt="">
+                                    @(await Component.InvokeAsync<UserNameViewComponent>())
                                 </a>
                                 <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="javascript:;"> Profile</a>

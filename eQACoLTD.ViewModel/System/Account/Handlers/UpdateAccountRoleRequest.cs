@@ -7,7 +7,7 @@ namespace eQACoLTD.ViewModel.System.Account.Handlers
 {
     public class UpdateAccountRoleRequest
     {
-        public List<string> AddRoleIds { get; set; }
-        public List<string> DeleteRoleIds { get; set; }
+        public List<string> AddRoleNames { get; set; }
+        public List<string> DeleteRoleNames { get; set; }
     }
 }

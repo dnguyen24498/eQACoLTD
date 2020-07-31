@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eQACoLTD.Application.System.Account;
+﻿using eQACoLTD.Application.System.Account;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Account.Handlers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace eQACoLTD.BackendApi.Controllers
 {
@@ -17,33 +14,39 @@ namespace eQACoLTD.BackendApi.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IConfiguration _configuration;   
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(IAccountService accountService,IConfiguration configuration)
         {
+            _configuration = configuration;
             _accountService = accountService;
         }
         [HttpGet("{userName}/roles")]
         public async Task<IActionResult> GetAccountRoles(string userName)
         {
             var result = await _accountService.GetAccountRolesAsync(userName);
-            if (!result.IsSuccess) return Ok(result.Message);
-            return Ok(result.ResultObj);
+            if (!result.IsSuccess) return BadRequest(result.Message);
+            return Ok(result);
         }
 
-        [HttpPost("{userName}/roles/update")]
+        [HttpPut("{userName}/roles/")]
         public async Task<IActionResult> UpdateRoles(string userName,
             [FromBody] UpdateAccountRoleRequest request)
         {
             var result = await _accountService.UpdateAccountRolesAsync(userName,request);
-            if (!result.IsSuccess) return Ok(result.Message);
-            return Ok(result.ResultObj);
+            if (!result.IsSuccess) return BadRequest(result.Message);
+            return Ok(result);
         }
-        [HttpPost("paging")]
-        public async Task<IActionResult> GetAccountProfilePaging(PagingRequestBase request)
+        [HttpGet]
+        public async Task<IActionResult> GetAccountProfilePaging(int pageIndex)
         {
-            var result = await _accountService.GetAccountProfilePagingAsync(request);
-            if (!result.IsSuccess) return Ok(result.Message);
-            return Ok(result.ResultObj);
+            var result = await _accountService.GetAccountProfilePagingAsync(new PagingRequestBase()
+            {
+                PageIndex = pageIndex,
+                PageSize = int.Parse(_configuration["PageSize"])
+            }); ;
+            if (!result.IsSuccess) return BadRequest(result.Message);
+            return Ok(result);
         }
     }
 }

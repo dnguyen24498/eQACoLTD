@@ -48,7 +48,9 @@ namespace eQACoLTD.IdentityServer
             }).AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
 
-            services.AddIdentityServer()
+            services.AddIdentityServer(config=> {
+                config.Authentication.CookieLifetime = TimeSpan.FromHours(2);
+            })
                 .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
                 .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
                 .AddInMemoryClients(IdentityServerConfig.GetClients())

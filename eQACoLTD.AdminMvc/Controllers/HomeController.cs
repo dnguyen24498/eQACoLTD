@@ -1,9 +1,12 @@
-﻿using IdentityModel.Client;
+﻿using eQACoLTD.AdminMvc.Constants;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace eQACoLTD.AdminMvc.Controllers
@@ -21,10 +24,9 @@ namespace eQACoLTD.AdminMvc.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var acessToken = await HttpContext.GetTokenAsync("access_token");
-
-            //var content = await GetSecret(acessToken);
-            return View("Index",acessToken);
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            HttpContext.Session.SetString("access_token", accessToken);
+            return View();
         }
 
         [HttpGet]
@@ -35,16 +37,17 @@ namespace eQACoLTD.AdminMvc.Controllers
         }
 
 
-        private async Task<string> GetSecret(string accessToken)
-        {
-            var apiClient = _httpClientFactory.CreateClient();
+        //private async Task<string> GetSecret(string accessToken)
+        //{
+        //    var apiClient = _httpClientFactory.CreateClient();
 
-            apiClient.SetBearerToken(accessToken);
+        //    apiClient.SetBearerToken(accessToken);
 
-            var response = await apiClient.GetAsync("https://localhost:5001/api/secret/admin");
+        //    apiClient.BaseAddress =new System.Uri(ConstantProperties.BackendAPIEndPoint);
+        //    var response = await apiClient.GetAsync("https://localhost:5001/api/secret/admin");
 
-            var content = await response.Content.ReadAsStringAsync();
-            return content;
-        }
+        //    var content = await response.Content.ReadAsStringAsync();
+        //    return content;
+        //}
     }
 }

@@ -27,8 +27,8 @@ namespace eQACoLTD.BackendApi.Controllers
         {
             var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
             var result = await _userService.GetUserProfileAsync(userName);
-            if (!result.IsSuccess) return Ok(result.Message);
-            return Ok(result.ResultObj);
+            if (!result.IsSuccess) return BadRequest(result.Message);
+            return Ok(result);
         }
 
         [HttpPut("profile")]
@@ -37,8 +37,8 @@ namespace eQACoLTD.BackendApi.Controllers
         {
             var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
             var result = await _userService.UpdateUserProfileAsync(userName,updateInfo);
-            if (!result.IsSuccess) return Ok(result.Message);
-            return Ok(result.ResultObj);
+            if (!result.IsSuccess) return BadRequest(result.Message);
+            return Ok(result);
         }
 
         [HttpPost("change-password")]
@@ -47,8 +47,8 @@ namespace eQACoLTD.BackendApi.Controllers
         {
             var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
             var result = await _userService.ChangeUserPasswordAsync(userName, request);
-            if (!result.IsSuccess) return Ok(result.Message);
-            return Ok(result.ResultObj);
+            if (!result.IsSuccess) return BadRequest(result.Message);
+            return Ok(result);
         }
     }
 }

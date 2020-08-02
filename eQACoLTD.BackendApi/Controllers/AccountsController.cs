@@ -44,7 +44,7 @@ namespace eQACoLTD.BackendApi.Controllers
             {
                 PageIndex = pageIndex,
                 PageSize = int.Parse(_configuration["PageSize"])
-            }); ;
+            });
             if (!result.IsSuccess) return BadRequest(result.Message);
             return Ok(result);
         }

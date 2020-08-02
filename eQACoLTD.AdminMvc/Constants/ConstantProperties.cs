@@ -25,5 +25,10 @@ namespace eQACoLTD.AdminMvc.Constants
 
         public static string GetUserProfileEndPoint = "/api/users/profile";
         public static string PutUserProfileEndPoint = "/api/users/profile";
+
+        public static string GetRolesEndPoint(int page)
+        {
+            return $"/api/roles?pageIndex={page}";
+        }
     }
 }

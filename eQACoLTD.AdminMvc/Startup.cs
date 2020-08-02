@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using eQACoLTD.AdminMvc.Services;
+using eQACoLTD.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -42,11 +44,13 @@ namespace eQACoLTD.AdminMvc
                  config.SaveTokens = true;
                  config.ResponseType = "code";
                  config.SignedOutCallbackPath = "/Home/Index";
-
+                 config.MaxAge = TimeSpan.FromHours(2);
                  config.Scope.Add("backend_api");
+                 config.UseTokenLifetime = true;
                  //config.Scope.Add("roles");
 
              });
+            services.AddDistributedMemoryCache();
             services.AddSession(options=> {
                 options.IdleTimeout = TimeSpan.FromHours(2);
             });
@@ -54,6 +58,7 @@ namespace eQACoLTD.AdminMvc
             services.AddControllersWithViews();
             services.AddTransient<IAccountApiClient, AccountApiClient>();
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IRoleApiClient, RoleApiClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }

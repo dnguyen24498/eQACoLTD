@@ -1,4 +1,5 @@
 ﻿using eQACoLTD.Application.Configurations;
+using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.Utilities.Exceptions;
 using eQACoLTD.ViewModel.Common;
@@ -36,15 +37,16 @@ namespace eQACoLTD.Application.System.Role
             return new ApiSuccessResult<RoleResponse>(ObjectMapper.Mapper.Map<RoleResponse>(checkRole));
         }
 
-        public async Task<ApiResult<List<RoleResponse>>> GetRolesAsync()
+        public async Task<ApiResult<PagedResult<RoleResponse>>> GetRolesAsync(PagingRequestBase pagingRequestBase)
         {
-            var roles = await _roleManager.Roles.ToListAsync();
-            var rolesConvert = new List<RoleResponse>();
-            roles.ForEach(x =>
-            {
-                rolesConvert.Add(ObjectMapper.Mapper.Map<RoleResponse>(x));
-            });
-            return new ApiSuccessResult<List<RoleResponse>>(rolesConvert);
+            var roles = await _roleManager.Roles.
+                GetPagedAsync<AppRole,RoleResponse>(pagingRequestBase.PageIndex,pagingRequestBase.PageSize);
+            //var rolesConvert = new List<RoleResponse>();
+            //roles.ForEach(x =>
+            //{
+            //    rolesConvert.Add(ObjectMapper.Mapper.Map<RoleResponse>(x));
+            //});
+            return new ApiSuccessResult<PagedResult<RoleResponse>>(roles);
         }
 
         public async Task<ApiResult<string>> PostRoleAsync(CreateRoleRequest newRole)

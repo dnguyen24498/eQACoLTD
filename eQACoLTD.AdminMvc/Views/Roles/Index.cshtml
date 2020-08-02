@@ -1,0 +1,89 @@
+﻿@model PagedResult<eQACoLTD.ViewModel.System.Role.Queries.RoleResponse>
+<div class="w-100">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-sm-3 offset-md-9 mt-3 form-group pull-right top_search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Thông tin tài khoản...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary text-light" type="button">Tìm kiếm</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Quản lý<small>phân quyền</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Settings 1</a>
+                                <a class="dropdown-item" href="#">Settings 2</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <p>Danh sách các quyền trong hệ thống</p>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:5%">STT</th>
+                                <th class="text-center" style="width:35%">Tên quyền</th>
+                                <th class="text-center" style="width:40%">Mô tả</th>
+                                <th class="text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var r in Model.Results.Select((value, i) => new { i, value }))
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            @{
+                                                int index = r.i + 1;
+                                                <p>@index</p>
+                                            }
+                                        </td>
+                                        <td class="text-center text-wrap">@r.value.Name</td>
+                                        <td class="text-center text-wrap">@r.value.Description</td>
+                                        <td class="text-center">
+                                            <form>
+                                                <a class="btn btn-primary text-white">
+                                                    <i class="fa fa-info-circle"></i>
+                                                    Chi tiết
+                                                </a>
+                                                <a class="btn btn-warning">
+                                                    <i class="fa fa-pencil"></i>
+                                                    Sửa
+                                                </a>
+                                                <a class="btn btn-danger text-white">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    Xóa
+                                                </a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                @(await Component.InvokeAsync<PagerViewComponent>(Model))
+            </div>
+        </div>
+    </div>
+</div>

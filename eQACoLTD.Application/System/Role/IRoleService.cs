@@ -11,7 +11,7 @@ namespace eQACoLTD.Application.System.Role
 {
     public interface IRoleService
     {
-        Task<ApiResult<List<RoleResponse>>> GetRolesAsync();
+        Task<ApiResult<PagedResult<RoleResponse>>> GetRolesAsync(PagingRequestBase pagingRequestBase);
         Task<ApiResult<RoleResponse>> GetRoleAsync(string roleId);
         Task<ApiResult<string>> PostRoleAsync(CreateRoleRequest newRole);
         Task DeleteRoleAsync(string roleId);

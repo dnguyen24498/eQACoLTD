@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eQACoLTD.Application.System.Role;
+﻿using eQACoLTD.Application.System.Role;
+using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Role.Handlers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace eQACoLTD.BackendApi.Controllers
 {
@@ -16,16 +14,21 @@ namespace eQACoLTD.BackendApi.Controllers
     public class RolesController : ControllerBase
     {
         private readonly IRoleService _roleService;
-
-        public RolesController(IRoleService roleService)
+        private readonly IConfiguration _configuration;
+        public RolesController(IRoleService roleService,IConfiguration configuration)
         {
             _roleService = roleService;
+            _configuration = configuration;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRoles()
+        public async Task<IActionResult> GetRoles(int pageIndex)
         {
-            var response = await _roleService.GetRolesAsync();
+            var response = await _roleService.GetRolesAsync(new PagingRequestBase()
+            {
+                PageIndex = pageIndex,
+                PageSize= int.Parse(_configuration["PageSize"])
+            });
             if (!response.IsSuccess) return BadRequest(response.Message);
             return Ok(response);
         }

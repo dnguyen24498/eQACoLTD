@@ -8,7 +8,6 @@ namespace eQACoLTD.AdminMvc.Constants
 {
     public static class ConstantProperties
     {
-        public static int PageSize = 20;
         public static string BackendAPIEndPoint = "https://localhost:5001";
         public static string GetAccountPagingEndPoint(int page) {
             return $"/api/accounts?pageIndex={page}";

@@ -35,7 +35,7 @@ namespace eQACoLTD.AdminMvc.Services
             return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<UserProfileResponse>>>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ApiResult<AccountRolesVM>> GetAccountRolesAsync(string userName)
+        public async Task<ApiResult<AccountRolesResponse>> GetAccountRolesAsync(string userName)
         {
             var apiClient = _httpClientFactory.CreateClient();
             apiClient.SetBearerToken(_httpContextAccessor.HttpContext.Session.GetString("access_token"));
@@ -43,9 +43,9 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await apiClient.GetAsync(ConstantProperties.GetAccountRolesEndPoint(userName));
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<AccountRolesVM>>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<ApiSuccessResult<AccountRolesResponse>>(await response.Content.ReadAsStringAsync());
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<AccountRolesVM>>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<ApiErrorResult<AccountRolesResponse>>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<ApiResult<string>> UpdateAccountRolesAsync(string userName, UpdateAccountRoleRequest request)

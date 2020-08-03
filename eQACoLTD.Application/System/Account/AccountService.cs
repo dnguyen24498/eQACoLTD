@@ -33,17 +33,17 @@ namespace eQACoLTD.Application.System.Account
             return new ApiSuccessResult<PagedResult<UserProfileResponse>>(users);
         }
 
-        public async Task<ApiResult<AccountRolesVM>> GetAccountRolesAsync(string userName)
+        public async Task<ApiResult<AccountRolesResponse>> GetAccountRolesAsync(string userName)
         {
             var checkUser = await _userManager.FindByNameAsync(userName);
             if (checkUser == null) return new
-                       ApiErrorResult<AccountRolesVM>($"Không tìm thấy người dùng có tên: {userName}");
-            var userResponse = new AccountRolesVM();
+                       ApiErrorResult<AccountRolesResponse>($"Không tìm thấy người dùng có tên: {userName}");
+            var userResponse = new AccountRolesResponse();
             userResponse.UserName = checkUser.UserName;
             userResponse.InRoles = (List<string>)await _userManager.GetRolesAsync(checkUser);
             var allRole = await _roleManager.Roles.Select(x => x.Name).ToListAsync();
             userResponse.NotInRoles = (List<string>)allRole.Except(userResponse.InRoles).ToList();
-            return new ApiSuccessResult<AccountRolesVM>(userResponse);
+            return new ApiSuccessResult<AccountRolesResponse>(userResponse);
         }
 
         public async Task<ApiResult<string>> UpdateAccountRolesAsync(string userName,

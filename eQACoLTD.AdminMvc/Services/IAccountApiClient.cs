@@ -13,7 +13,7 @@ namespace eQACoLTD.AdminMvc.Services
     public interface IAccountApiClient
     {
         Task<ApiResult<PagedResult<UserProfileResponse>>> GetAccountProfilePagingAsync(int page);
-        Task<ApiResult<AccountRolesVM>> GetAccountRolesAsync(string userName);
+        Task<ApiResult<AccountRolesResponse>> GetAccountRolesAsync(string userName);
         Task<ApiResult<string>> UpdateAccountRolesAsync(string userName,UpdateAccountRoleRequest request);
     }
 }

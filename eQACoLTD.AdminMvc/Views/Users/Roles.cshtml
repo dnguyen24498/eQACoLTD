@@ -1,4 +1,4 @@
-﻿@model AccountRolesResponse
+﻿@model UserRolesResponse
 <div class="row w-100">
     <div class="col-md-12">
         <div class="col-md-3 profile_left">
@@ -60,7 +60,7 @@
 
         </div>
         <div class="col-md-9">
-            <form method="post" asp-controller="Accounts" asp-action="UpdateRoles">
+            <form method="post" asp-controller="Users" asp-action="UpdateRoles">
                 <input type="hidden" asp-for="@Model.UserName" />
                 <div class="x_panel">
                     <div class="x_title">

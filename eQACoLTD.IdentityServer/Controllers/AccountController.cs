@@ -54,7 +54,7 @@ namespace eQACoLTD.IdentityServer.Controllers
             }
             var context = await _identityServerInteractionService
                .GetAuthorizationContextAsync(loginRequestViewModel.ReturnUrl);
-            if (string.Equals(context.ClientId, "mvc_admin"))
+            if (context!=null && string.Equals(context.ClientId, "mvc_admin"))
             {
                 var roles = await _userManager.GetRolesAsync(checkUser);
                 if (!roles.Contains("Admin"))
@@ -101,13 +101,11 @@ namespace eQACoLTD.IdentityServer.Controllers
                 registerRequestViewModel.Error = $"Có lỗi khi tạo tài khoản, xin vui lòng liên hệ quản trị viên!";
                 return View(registerRequestViewModel);
             }
-            var signinResult = await _signInManager.PasswordSignInAsync(newUser.UserName, registerRequestViewModel.Password, false, false);
-            if (!signinResult.Succeeded) return View(registerRequestViewModel);
             if (string.IsNullOrEmpty(registerRequestViewModel.ReturnUrl))
             {
                 //Trường hợp không có Return Url
             }
-            return Redirect(registerRequestViewModel.ReturnUrl);
+            return RedirectToAction(nameof(Login),registerRequestViewModel.ReturnUrl);
 
         }
 

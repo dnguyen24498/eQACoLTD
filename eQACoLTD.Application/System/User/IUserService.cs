@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eQACoLTD.Application.System.User
+namespace eQACoLTD.Application.System.Account
 {
     public interface IUserService
     {
-        Task<ApiResult<UserProfileResponse>> GetUserProfileAsync(string userName);
-        Task<ApiResult<string>> ChangeUserPasswordAsync(string userName,ChangeUserPasswordRequest request);
-        Task<ApiResult<UserProfileResponse>> UpdateUserProfileAsync(string userName,UserProfileResponse request);
+        Task<ApiResult<UserRolesResponse>> GetUserRolesAsync(string userName);
+        Task<ApiResult<string>> UpdateUserRolesAsync(string userName,UpdateUserRoleRequest request);
+        Task<ApiResult<PagedResult<UserProfileResponse>>> GetUserProfilePagingAsync(PagingRequestBase pagingRequest);
     }
 }

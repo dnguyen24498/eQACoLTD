@@ -9,21 +9,21 @@ namespace eQACoLTD.AdminMvc.Constants
     public static class ConstantProperties
     {
         public static string BackendAPIEndPoint = "https://localhost:5001";
-        public static string GetAccountPagingEndPoint(int page) {
-            return $"/api/accounts?pageIndex={page}";
+        public static string GetUserProfilesPagingEndPoint(int page) {
+            return $"/api/users?pageIndex={page}";
         }
 
-        public static string GetAccountRolesEndPoint(string userName)
+        public static string GetUsersRolesEndPoint(string userName)
         {
-            return $"/api/accounts/{userName}/roles";
+            return $"/api/users/{userName}/roles";
         }
-        public static string PutAccountRolesEndPoint(string userName)
+        public static string PutUserRolesEndPoint(string userName)
         {
-            return $"/api/accounts/{userName}/roles";
+            return $"/api/users/{userName}/roles";
         }
 
-        public static string GetUserProfileEndPoint = "/api/users/profile";
-        public static string PutUserProfileEndPoint = "/api/users/profile";
+        public static string GetAccountProfileEndPoint = "/api/accounts/profile";
+        public static string PutAccountProfileEndPoint = "/api/accounts/profile";
 
         public static string GetRolesEndPoint(int page)
         {

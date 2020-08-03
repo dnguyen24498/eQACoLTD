@@ -1,4 +1,5 @@
 ﻿using eQACoLTD.ViewModel.Common;
+using eQACoLTD.ViewModel.System.Role.Handlers;
 using eQACoLTD.ViewModel.System.Role.Queries;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace eQACoLTD.AdminMvc.Services
     public interface IRoleApiClient
     {
         Task<ApiResult<PagedResult<RoleResponse>>> GetRolesPagingAsync(int page);
+        Task<ApiResult<string>> CreateRolesAsync(CreateRoleRequest request);
     }
 }

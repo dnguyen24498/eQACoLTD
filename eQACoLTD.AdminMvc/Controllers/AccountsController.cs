@@ -48,7 +48,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> UpdateRoles(AccountRolesVM request)
+        public async Task<IActionResult> UpdateRoles(AccountRolesResponse request)
         {
             var updateRequest = new UpdateAccountRoleRequest()
             {

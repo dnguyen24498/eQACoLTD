@@ -7,7 +7,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.System.Account.Queries
 {
-    public class AccountRolesVM
+    public class AccountRolesResponse
     {
         public string UserName { get; set; }
         public List<string> InRoles { get; set; }

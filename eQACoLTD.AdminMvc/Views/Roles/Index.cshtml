@@ -36,7 +36,18 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Danh sách các quyền trong hệ thống</p>
+                    <div class="row">
+                        <div class="col-md-3 pt-md-2">
+                            <p>Danh sách các quyền trong hệ thống</p>
+                        </div>
+                        <div class="col-md-1 offset-md-8">
+                            <a asp-controller="Roles" asp-action="Create"
+                               class="btn btn-success text-white" style="cursor:pointer">
+                                <i class="fa fa-plus"></i>
+                                Tạo mới
+                            </a>
+                        </div>
+                    </div>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>

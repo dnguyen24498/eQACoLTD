@@ -1,6 +1,7 @@
 ﻿using eQACoLTD.AdminMvc.Constants;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.ViewModel.Common;
+using eQACoLTD.ViewModel.System.Role.Handlers;
 using eQACoLTD.ViewModel.System.Role.Queries;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,12 @@ namespace eQACoLTD.AdminMvc.Services
             _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
         }
+
+        public Task<ApiResult<string>> CreateRolesAsync(CreateRoleRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ApiResult<PagedResult<RoleResponse>>> GetRolesPagingAsync(int page)
         {
             var apiClient = _httpClientFactory.CreateClient();

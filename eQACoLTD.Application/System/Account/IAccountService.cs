@@ -11,7 +11,7 @@ namespace eQACoLTD.Application.System.Account
 {
     public interface IAccountService
     {
-        Task<ApiResult<AccountRolesVM>> GetAccountRolesAsync(string userName);
+        Task<ApiResult<AccountRolesResponse>> GetAccountRolesAsync(string userName);
         Task<ApiResult<string>> UpdateAccountRolesAsync(string userName,UpdateAccountRoleRequest request);
         Task<ApiResult<PagedResult<UserProfileResponse>>> GetAccountProfilePagingAsync(PagingRequestBase pagingRequest);
     }

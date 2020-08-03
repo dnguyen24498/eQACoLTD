@@ -9,14 +9,14 @@ namespace eQACoLTD.AdminMvc.Components
 {
     public class UserNameViewComponent:ViewComponent
     {
-        private readonly IUserApiClient _userApiClient;
-        public UserNameViewComponent(IUserApiClient userApiClient)
+        private readonly IAccountsApiClient _userApiClient;
+        public UserNameViewComponent(IAccountsApiClient userApiClient)
         {
             _userApiClient = userApiClient;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var userProfile = await _userApiClient.GetUserProfileAsync();
+            var userProfile = await _userApiClient.GetAccountProfileAsync();
             var userName = "Unknown";
             if(userProfile!=null) userName = userProfile.ResultObj.UserName;
             return View("Default",userName);

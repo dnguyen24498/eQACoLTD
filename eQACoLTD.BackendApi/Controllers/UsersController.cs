@@ -1,52 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eQACoLTD.Application.System.User;
+﻿using eQACoLTD.Application.System.Account;
+using eQACoLTD.ViewModel.Common;
+using eQACoLTD.ViewModel.System.Account.Handlers;
 using eQACoLTD.ViewModel.System.User.Handlers;
-using eQACoLTD.ViewModel.System.User.Queries;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace eQACoLTD.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Admin",AuthenticationSchemes ="Bearer")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;   
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService accountService,IConfiguration configuration)
         {
-            _userService = userService;
+            _configuration = configuration;
+            _userService = accountService;
         }
-        [HttpGet("profile")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetUserProfile()
+        [HttpGet("{userName}/roles")]
+        public async Task<IActionResult> GetUserRoles(string userName)
         {
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _userService.GetUserProfileAsync(userName);
+            var result = await _userService.GetUserRolesAsync(userName);
             if (!result.IsSuccess) return BadRequest(result.Message);
             return Ok(result);
         }
 
-        [HttpPut("profile")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateUserProfile([FromBody] UserProfileResponse updateInfo)
+        [HttpPut("{userName}/roles")]
+        public async Task<IActionResult> UpdateUserRoles(string userName,
+            [FromBody] UpdateUserRoleRequest request)
         {
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _userService.UpdateUserProfileAsync(userName,updateInfo);
+            var result = await _userService.UpdateUserRolesAsync(userName,request);
             if (!result.IsSuccess) return BadRequest(result.Message);
             return Ok(result);
         }
-
-        [HttpPost("change-password")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordRequest request)
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfilesPaging(int pageIndex)
         {
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _userService.ChangeUserPasswordAsync(userName, request);
+            var result = await _userService.GetUserProfilePagingAsync(new PagingRequestBase()
+            {
+                PageIndex = pageIndex,
+                PageSize = int.Parse(_configuration["PageSize"])
+            });
             if (!result.IsSuccess) return BadRequest(result.Message);
             return Ok(result);
         }

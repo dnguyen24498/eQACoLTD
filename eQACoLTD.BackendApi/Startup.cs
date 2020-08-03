@@ -48,8 +48,8 @@ namespace eQACoLTD.BackendApi
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
             services.AddTransient<IRoleService, RoleService>();
-            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {

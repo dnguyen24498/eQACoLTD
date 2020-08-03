@@ -1,80 +1,54 @@
 ﻿using eQACoLTD.Application.Configurations;
-using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Account.Handlers;
 using eQACoLTD.ViewModel.System.Account.Queries;
-using eQACoLTD.ViewModel.System.Role.Queries;
 using eQACoLTD.ViewModel.System.User.Queries;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eQACoLTD.Application.System.Account
+namespace eQACoLTD.Application.System.User
 {
     public class AccountService : IAccountService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppRole> _roleManager;
-        public AccountService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+
+        public AccountService(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
         }
-
-        public async Task<ApiResult<PagedResult<UserProfileResponse>>> GetAccountProfilePagingAsync(PagingRequestBase pagingRequest)
-        {
-            if (pagingRequest == null)
-                return new ApiErrorResult<PagedResult<UserProfileResponse>>("Nhập sai dữ liệu");
-            var users = await _userManager.Users
-                .GetPagedAsync<AppUser, UserProfileResponse>(pagingRequest.PageIndex, pagingRequest.PageSize);
-            return new ApiSuccessResult<PagedResult<UserProfileResponse>>(users);
-        }
-
-        public async Task<ApiResult<AccountRolesResponse>> GetAccountRolesAsync(string userName)
+        public async Task<ApiResult<string>> ChangeAccountPasswordAsync(string userName,ChangeAccountPasswordRequest request)
         {
             var checkUser = await _userManager.FindByNameAsync(userName);
-            if (checkUser == null) return new
-                       ApiErrorResult<AccountRolesResponse>($"Không tìm thấy người dùng có tên: {userName}");
-            var userResponse = new AccountRolesResponse();
-            userResponse.UserName = checkUser.UserName;
-            userResponse.InRoles = (List<string>)await _userManager.GetRolesAsync(checkUser);
-            var allRole = await _roleManager.Roles.Select(x => x.Name).ToListAsync();
-            userResponse.NotInRoles = (List<string>)allRole.Except(userResponse.InRoles).ToList();
-            return new ApiSuccessResult<AccountRolesResponse>(userResponse);
-        }
-
-        public async Task<ApiResult<string>> UpdateAccountRolesAsync(string userName,
-            UpdateAccountRoleRequest request)
-        {
-            var checkUser = await _userManager.FindByNameAsync(userName);
-            AppRole roleIdTemp;
-            if (request.AddRoleNames != null && request.AddRoleNames.Count>0)
-            {
-                foreach (var role in request.AddRoleNames)
-                {
-                    roleIdTemp = await _roleManager.FindByNameAsync(role);
-                    if (roleIdTemp != null)
-                    {
-                        await _userManager.AddToRoleAsync(checkUser, role);
-                    }
-                }
-            }
-
-            if (request.DeleteRoleNames != null && request.DeleteRoleNames.Count>0)
-            {
-                foreach (var role in request.DeleteRoleNames)
-                {
-                    roleIdTemp = await _roleManager.FindByNameAsync(role);
-                    if (roleIdTemp != null)
-                    {
-                        await _userManager.RemoveFromRoleAsync(checkUser, role);
-                    }
-                }
-            }
+            var checkOldPassword = await _userManager.CheckPasswordAsync(checkUser, request.OldPassword);
+            if (!checkOldPassword) return new ApiErrorResult<string>("Mật khẩu hiện tại không đúng");
+            var changePasswordResult = await _userManager.ChangePasswordAsync(checkUser, 
+                request.OldPassword, request.NewPassword);
+            if(!changePasswordResult.Succeeded) return new ApiErrorResult<string>("Có lỗi khi đổi mật khẩu");
             return new ApiSuccessResult<string>(checkUser.UserName);
+        }
+
+        public async Task<ApiResult<AccountProfileResponse>> GetAccountProfileAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null) 
+                return new ApiErrorResult<AccountProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
+            var userProfile = ObjectMapper.Mapper.Map<AccountProfileResponse>(user);
+            return new ApiSuccessResult<AccountProfileResponse>(userProfile);
+        }
+
+        public async Task<ApiResult<AccountProfileResponse>> UpdateAccountProfileAsync(string userName,
+            AccountProfileResponse request)
+        {
+            var checkUser = await _userManager.FindByNameAsync(userName);
+            if (checkUser == null) 
+                return new ApiErrorResult<AccountProfileResponse>($"Không tìm thấy người dùng có tên {userName}");
+            checkUser=ObjectMapper.Mapper.Map(request, checkUser);
+            var result = await _userManager.UpdateAsync(checkUser);
+            if (!result.Succeeded) 
+                return new ApiErrorResult<AccountProfileResponse>("Cập nhật thông tin không thành công");
+            return new ApiSuccessResult<AccountProfileResponse>(ObjectMapper.Mapper.Map<AccountProfileResponse>(checkUser));
         }
     }
 }

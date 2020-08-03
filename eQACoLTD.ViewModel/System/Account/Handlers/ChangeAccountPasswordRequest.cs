@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace eQACoLTD.ViewModel.System.User.Handlers
+namespace eQACoLTD.ViewModel.System.Account.Handlers
 {
-    public class ChangeUserPasswordRequest
+    public class ChangeAccountPasswordRequest
     {
 
         [Required(ErrorMessage ="Mật khẩu không được để trống")]

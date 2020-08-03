@@ -56,8 +56,8 @@ namespace eQACoLTD.AdminMvc
             });
             services.AddHttpClient();
             services.AddControllersWithViews();
-            services.AddTransient<IAccountApiClient, AccountApiClient>();
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IAccountsApiClient, AccountsApiClient>();
             services.AddTransient<IRoleApiClient, RoleApiClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();

@@ -1,15 +1,19 @@
 ﻿using eQACoLTD.ViewModel.Common;
-using eQACoLTD.ViewModel.System.Account.Handlers;
 using eQACoLTD.ViewModel.System.Account.Queries;
-using eQACoLTD.ViewModel.System.User.Queries;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace eQACoLTD.Application.System.User
+namespace eQACoLTD.Application.System.Account
 {
     public interface IAccountService
     {
-        Task<ApiResult<AccountProfileResponse>> GetAccountProfileAsync(string userName);
-        Task<ApiResult<string>> ChangeAccountPasswordAsync(string userName,ChangeAccountPasswordRequest request);
-        Task<ApiResult<AccountProfileResponse>> UpdateAccountProfileAsync(string userName, AccountProfileResponse request);
+        public Task<ApiResult<PagedResult<AccountResponse>>> GetAccountsPagingAsync(int pageIndex);
+        public Task<ApiResult<AccountDetailResponse>> GetAccountDetailAsync(Guid userId);
+        public Task<ApiResult<List<AccountRolesResponse>>> GetAccountRolesAsync(Guid userId);
+        public Task<ApiResult<List<AccountRolesResponse>>> GetAccountNotInRolesAsync(Guid userId);
+        public Task DeleteAccountRoleAsync(Guid userId, Guid roleId);
+        public Task<ApiResult<string>> AddAccountRoleAsync(Guid userId, Guid roleId);
     }
 }

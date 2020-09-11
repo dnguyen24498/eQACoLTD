@@ -12,15 +12,12 @@ namespace eQACoLTD.Data.Entities
         {
             this.UserName = userName;
         }
-        public DateTime DOB { get; set; }
-        public string City { get; set; }
-        public string District { get; set; }
-        public string SubDistrict { get; set; }
-        public string Street { get; set; }
-        public string Address { get; set; }
-        public bool Gender { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
+        public DateTime DateCreated { get; set; }
+
+        public Employee Employee { get; set; }
+        public Customer Customer { get; set; }
+        public List<Cart> Carts { get; set; }
+        public List<ProductReview> ProductReviews { get; set; }
+        public List<ProductReviewReply> ProductReviewReplies { get; set; }
     }
 }

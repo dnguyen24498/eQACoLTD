@@ -1,18 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+using eQACoLTD.AdminMvc.Handlers;
 using eQACoLTD.AdminMvc.Services;
-using eQACoLTD.Data.Entities;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using eQACoLTD.AdminMvc.Global;
 
 namespace eQACoLTD.AdminMvc
 {
@@ -21,6 +25,7 @@ namespace eQACoLTD.AdminMvc
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         }
 
         public IConfiguration Configuration { get; }
@@ -28,39 +33,56 @@ namespace eQACoLTD.AdminMvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            services.AddTransient<BearerTokenHandler>();
             services.AddAuthentication(config =>
             {
-                config.DefaultScheme = "Cookie";
-                config.DefaultChallengeScheme = "oidc";
-            }).AddCookie("Cookie",config=> {
-                config.ExpireTimeSpan=TimeSpan.FromHours(2);
-                config.Cookie.Name = "CustomCookieAspNetCore";
+                config.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config=> {
+                config.AccessDeniedPath = "/Auth/AccessDenied";
+                config.LogoutPath = "/Home/Index";
             })
-             .AddOpenIdConnect("oidc", config =>
+             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, config =>
              {
+                 config.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                  config.Authority = Configuration["IdentityServerHost"];
                  config.ClientId = Configuration["ClientId"];
                  config.ClientSecret = Configuration["ClientSecret"];
                  config.SaveTokens = true;
-                 config.ResponseType = "code";
-                 config.SignedOutCallbackPath = "/Home/Index";
-                 config.MaxAge = TimeSpan.FromHours(2);
+                 config.ResponseType = OpenIdConnectResponseType.Code;
                  config.Scope.Add("backend_api");
-                 config.UseTokenLifetime = true;
-                 //config.Scope.Add("roles");
-
-             });
-            services.AddDistributedMemoryCache();
-            services.AddSession(options=> {
-                options.IdleTimeout = TimeSpan.FromHours(2);
+                 config.GetClaimsFromUserInfoEndpoint = true;
+                 config.ClaimActions.DeleteClaim("sid");
+                 config.ClaimActions.DeleteClaim("idp");
+                 config.Scope.Add("roles");
+                 config.Scope.Add("offline_access");
+                 config.ClaimActions.MapUniqueJsonKey("role", "role","role");
+                 config.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     RoleClaimType = JwtClaimTypes.Role
+                 };
+               
+             });    
+            //services.AddDistributedMemoryCache();
+            //services.AddSession(options=> {
+            //    options.IdleTimeout = TimeSpan.FromHours(2);
+            //});
+            services.AddHttpClient("APIClient",client=> {
+                client.BaseAddress =new Uri(Configuration["APIServerHost"]);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+            }).AddHttpMessageHandler<BearerTokenHandler>();
+            services.AddHttpClient("IDPClient", client =>
+            {
+                client.BaseAddress = new Uri(Configuration["IdentityServerHost"]);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
-            services.AddHttpClient();
             services.AddControllersWithViews();
-            services.AddTransient<IUserApiClient, UserApiClient>();
-            services.AddTransient<IAccountsApiClient, AccountsApiClient>();
-            services.AddTransient<IRoleApiClient, RoleApiClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddTransient<IAccountAPIService, AccountAPIService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +101,7 @@ namespace eQACoLTD.AdminMvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseSession();
+            //app.UseSession();
 
             app.UseRouting();
 

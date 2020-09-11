@@ -1,0 +1,35 @@
+﻿@model List<CategoryAndBrandsResponse>
+<div class="cat_menu_container">
+    <div class="cat_menu_title d-flex flex-row align-items-center justify-content-start">
+        <div class="cat_burger"><span></span><span></span><span></span></div>
+        <div class="cat_menu_text">Danh mục</div>
+    </div>
+
+    <ul class="cat_menu">
+        @if (Model != null)
+        {
+            foreach (var c in Model)
+            {
+                if (c.BrandsName.Count() > 0)
+                {
+                    <li class="hassubs">
+                        <a href="#">@c.CategoryName<i class="fas fa-chevron-right"></i></a>
+                        <ul>
+                            <li class="text-center font-weight-bold text-dark pt-2">
+                                THƯƠNG HIỆU
+                            </li>
+                            @foreach (var b in c.BrandsName)
+                            {
+                                <li><a href="#">@b<i class="fas fa-chevron-right"></i></a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li><a href="#">@c.CategoryName <i class="fas fa-chevron-right ml-auto"></i></a></li>
+                }
+            }
+        }
+    </ul>
+</div>

@@ -4,12 +4,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using eQACoLTD.Application.Customer;
+using eQACoLTD.Application.Extensions;
+using eQACoLTD.Application.Product.Category;
+using eQACoLTD.Application.Product.ListProduct;
+using eQACoLTD.Application.Product.Supplier;
 using eQACoLTD.Application.System.Account;
-using eQACoLTD.Application.System.Role;
-using eQACoLTD.Application.System.User;
+using eQACoLTD.Application.System.Employee;
 using eQACoLTD.BackendApi.Configurations;
 using eQACoLTD.Data.DBContext;
 using eQACoLTD.Data.Entities;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -42,16 +47,15 @@ namespace eQACoLTD.BackendApi
         {
             services.AddDbContext<AppIdentityDbContext>(options =>
                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithOrigins("https://localhost:5002").AllowCredentials()));
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
-            services.AddTransient<IRoleService, RoleService>();
-            services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IUserService, UserService>();
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddJwtBearer(IdentityServerAuthenticationDefaults.AuthenticationScheme,options =>
                 {
                     options.Authority = Configuration["IdentityServerHost"];
                     options.Audience = Configuration["Audience"];
@@ -62,7 +66,7 @@ namespace eQACoLTD.BackendApi
                .AddEntityFrameworkStores<AppIdentityDbContext>()
                .AddDefaultTokenProviders();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
             services.AddSwaggerGen(options =>
             {
@@ -87,19 +91,29 @@ namespace eQACoLTD.BackendApi
 
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ISupplierService, SupplierService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IListProductService, ListProductService>();
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IStorageService, FileStorageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthentication();
 

@@ -1,11 +1,11 @@
-﻿using eQACoLTD.Application.System.User;
-using eQACoLTD.ViewModel.System.Account.Handlers;
-using eQACoLTD.ViewModel.System.Account.Queries;
-using eQACoLTD.ViewModel.System.User.Queries;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eQACoLTD.Application.System.Account;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eQACoLTD.BackendApi.Controllers
 {
@@ -15,37 +15,46 @@ namespace eQACoLTD.BackendApi.Controllers
     {
         private readonly IAccountService _accountService;
 
-        public AccountsController(IAccountService userService)
+        public AccountsController(IAccountService accountService)
         {
-            _accountService = userService;
+            _accountService = accountService;
         }
-        [HttpGet("profile")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAccountProfile()
+        [HttpGet]
+        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAccounts(int pageIndex)
         {
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _accountService.GetAccountProfileAsync(userName);
-            if (!result.IsSuccess) return BadRequest(result.Message);
+            var result = await _accountService.GetAccountsPagingAsync(pageIndex);
             return Ok(result);
         }
-
-        [HttpPut("profile")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> UpdateAccountProfile([FromBody] AccountProfileResponse updateInfo)
+        [HttpGet("{userId}")]
+        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAccountDetail(Guid userId)
         {
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _accountService.UpdateAccountProfileAsync(userName,updateInfo);
-            if (!result.IsSuccess) return BadRequest(result.Message);
+            var result = await _accountService.GetAccountDetailAsync(userId);
+            if (!result.IsSuccess) return NotFound();
             return Ok(result);
         }
-
-        [HttpPost("change-password")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangeAccountPasswordRequest request)
+        [HttpGet("{userId}/not-in-roles")]
+        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAccountNotInRoles(Guid userId)
         {
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _accountService.ChangeAccountPasswordAsync(userName, request);
-            if (!result.IsSuccess) return BadRequest(result.Message);
+            var result = await _accountService.GetAccountNotInRolesAsync(userId);
+            if (!result.IsSuccess) return NotFound();
+            return Ok(result);
+        }
+        [HttpDelete("{userId}/roles")]
+        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> DeleteAccountRole(Guid userId,[FromBody]Guid roleId)
+        {
+            await _accountService.DeleteAccountRoleAsync(userId, roleId);
+            return Ok();
+        }
+        [HttpPost("{userId}/roles")]
+        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> AddAccountRole(Guid userId,[FromBody]Guid roleId)
+        {
+            var result = await _accountService.AddAccountRoleAsync(userId, roleId);
+            if (!result.IsSuccess) return BadRequest();
             return Ok(result);
         }
     }

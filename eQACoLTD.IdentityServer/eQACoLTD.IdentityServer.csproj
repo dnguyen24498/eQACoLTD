@@ -5,12 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="IdentityServer4" Version="3.1.4" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.1.4" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Sách\asp\10-Reset Password\EmailService\EmailService.csproj" />
     <ProjectReference Include="..\eQACoLTD.Data\eQACoLTD.Data.csproj" />
     <ProjectReference Include="..\eQACoLTD.ViewModel\eQACoLTD.ViewModel.csproj" />
   </ItemGroup>

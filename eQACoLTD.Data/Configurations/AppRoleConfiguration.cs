@@ -12,7 +12,7 @@ namespace eQACoLTD.Data.Configurations
         public void Configure(EntityTypeBuilder<AppRole> builder)
         {
             builder.ToTable("AppRoles");
-            builder.Property(x => x.Description).IsUnicode().HasMaxLength(200);
+            builder.Property(x => x.Description).HasColumnType("nvarchar(250)");
         }
     }
 }

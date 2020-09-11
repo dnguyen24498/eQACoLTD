@@ -1,0 +1,178 @@
+﻿@model AccountDetailResponse
+@section Scripts{
+    <script>
+        getAccountNotInRoles();
+        function getAccountNotInRoles() {
+        $.ajax({
+            url: 'https://localhost:5001/api/Accounts/@Model.Id/not-in-roles',
+            headers: {"Authorization":'Bearer @Constans.AccessToken'},
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                var rolesSelect = $('#roles-select');
+                rolesSelect.empty();
+                console.log(data);
+                $(data.resultObj).each(function (index,empt) {
+                    rolesSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>')
+                })
+            },
+            error: function () {
+                var rolesSelect = $('#roles-select');
+                rolesSelect.empty();
+                rolesSelect.append('<option>Có lỗi khi lấy phân quyền</option>')
+                }
+            })
+        };
+        function deleteAccountRole(e, id) {
+            $.ajax({
+                url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
+                headers: {
+                    "Authorization": 'Bearer @Constans.AccessToken',
+                },
+                method: 'delete',
+                contentType: "application/json;charset=utf-8",
+                data:JSON.stringify(id),
+                success: function () {
+                    var aElement = $(e).parents('a').first();
+                    $(aElement).remove();
+                },
+                error: function (ts) {
+                    console.log(ts.responseText);
+                }
+            })
+        };
+        function addAccountRole() {
+            var roleId = $("#roles-select option:selected").val();
+            var roleName = $("#roles-select option:selected").text();
+            console.log(roleName);
+            $.ajax({
+                url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
+                headers: {
+                    "Authorization": 'Bearer @Constans.AccessToken',
+                },
+                method: 'post',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(roleId),
+                success: function () {
+                    var anchorEl = document.createElement("a");
+                    $(anchorEl).attr("class", "btn btn-info text-white ml-1");
+                    var idiomaticEl = document.createElement("i");
+                    $(idiomaticEl).attr("class", "fa fa-close pl-1");
+                    $(idiomaticEl).attr("style", "cursor: pointer");
+                    $(idiomaticEl).click(function () {
+                        deleteAccountRole(this, roleId)
+                    });
+                    $(anchorEl).append(roleName);
+                    $(anchorEl).append(idiomaticEl);
+                    $("#in-roles-el").append(anchorEl);
+                    console.log("Thành công");
+
+                },
+                error: function () {
+                    console.log("Lỗi");
+                }
+            })
+        };
+    </script>
+}
+
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" href="index.html">Hệ thống</a>
+        <span class="breadcrumb-item active" href="#">Tài khoản hệ thống</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Danh sách tài khoản</h4>
+    <p class="mg-b-0">Quản lý tài khoản có trong hệ thống</p>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">Bordered Form Group Wrapper</h6>
+            <p class="mg-b-30 tx-gray-600">A bordered form group wrapper with a label on top of each form control.</p>
+
+            <div class="form-layout form-layout-2">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label">Tên tài khoản: <span class="tx-danger">*</span></label>
+                            <a class="form-control text-dark">@Model.UserName</a>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="col-md-4 mg-t--1 mg-md-t-0">
+                        <div class="form-group mg-md-l--1">
+                            <label class="form-control-label">Người sở hữu: <span class="tx-danger">*</span></label>
+                            <a class="form-control text-dark">@Model.FullName</a>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="col-md-4 mg-t--1 mg-md-t-0">
+                        <div class="form-group mg-md-l--1">
+                            <label class="form-control-label text-dark">Giới tính: <span class="tx-danger">*</span></label>
+                            <a class="form-control">
+                                @{
+                                    if (1 == Model.Gender)
+                                    {
+                                        <p class="text-dark">Nam</p>;
+                                    }
+                                    else
+                                    {
+                                        <p class="text-dark">Nữ</p>;
+                                    }
+                                }
+                            </a>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="col-md-4 mg-t--1">
+                        <div class="form-group">
+                            <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
+                            <a class="form-control text-dark">@Model.Email</a>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="col-md-4 mg-t--1">
+                        <div class="form-group mg-md-l--1">
+                            <label class="form-control-label">Điện thoại: <span class="tx-danger">*</span></label>
+                            <a class="form-control text-dark">@Model.PhoneNumber</a>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="col-md-4 mg-t--1">
+                        <div class="form-group mg-l--1">
+                            <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
+                            <a class="form-control text-dark">@Model.Address</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mg-t--1">
+                            <label class="form-control-label"> Phân quyền: <span class="tx-danger">*</span></label>
+                            <div class="row pt-1">
+                                <select id="roles-select" class="col-md-8 mx-auto">
+                                </select>
+                                <a class="btn btn-info text-white col-md-3" onclick="addAccountRole()" style="cursor:pointer">Thêm</a>
+                            </div>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="col-md-8 mg-t--1 mg-b-1-force">
+                        <div class="form-group mg-md-l--1">
+                            <label class="form-control-label"> Các quyền trực thuộc: <span class="tx-danger">*</span></label>
+                            <div id="in-roles-el" class="row pt-1 pl-3">
+                                @{ 
+                                    foreach(var r in Model.InRoles)
+                                    {
+                                        <a class="btn btn-info text-white ml-1">
+                                            @r.Name
+                                            <i class="fa fa-close" onclick="deleteAccountRole(this,'@r.Id')" style="cursor:pointer"></i>
+                                        </a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div><!-- col-4 -->
+                </div><!-- row -->
+                <div class="form-layout-footer bd pd-20 bd-t-0">
+                    <button class="btn btn-info">Submit Form</button>
+                    <button class="btn btn-secondary">Cancel</button>
+                </div><!-- form-group -->
+            </div><!-- form-layout -->
+        </div><!-- table-wrapper -->
+    </div>
+</div>

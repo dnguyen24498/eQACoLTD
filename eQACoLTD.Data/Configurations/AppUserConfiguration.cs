@@ -12,15 +12,11 @@ namespace eQACoLTD.Data.Configurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable("AppUsers");
-            builder.Property(x => x.FirstName).HasMaxLength(50);
-            builder.Property(x => x.MiddleName).HasMaxLength(50);
-            builder.Property(x => x.LastName).HasMaxLength(50);
-            builder.Property(x => x.City).HasMaxLength(50);
-            builder.Property(x => x.District).HasMaxLength(100);
-            builder.Property(x => x.SubDistrict).HasMaxLength(100);
-            builder.Property(x => x.Street).HasMaxLength(100);
-            builder.Property(x => x.Address).HasMaxLength(200);
-            builder.Property(x => x.UserName).IsRequired().HasMaxLength(20);
+            builder.Property(x => x.UserName).HasColumnType("varchar(14)");
+            builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.Email).HasColumnType("varchar(150)");
+            builder.Property(x => x.EmailConfirmed).HasColumnType("varchar(150)");
+            builder.Property(x => x.PhoneNumber).HasColumnType("varchar(30)");
         }
     }
 }

@@ -1,10 +1,19 @@
-﻿@model string
+﻿@using Microsoft.AspNetCore.Authentication
 @{
-    ViewData["Title"] = "Home Page";
-}
+    <h2>Claims</h2>
+    foreach (var c in User.Claims)
+    {
+        <p><b>@c.Type</b></p>
+        <p>@c.Value</p>
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p class="text-break">Acess token: @Model</p>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <h2>Properties</h2>
+
+    <dl>
+        @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
+        {
+            <dt>@prop.Key</dt>
+            <dd>@prop.Value</dd>
+        }
+    </dl>
+}

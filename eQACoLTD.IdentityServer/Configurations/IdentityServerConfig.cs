@@ -12,21 +12,14 @@ namespace eQACoLTD.IdentityServer.Configurations
     {
         public static IEnumerable<ApiResource> GetApiResources() => new List<ApiResource>
         {
-            new ApiResource("backend_api","Backend API"/*,new List<string>(){ ClaimTypes.Role}*/),
+            new ApiResource("backend_api","Backend API")
         };
 
         public static IEnumerable<IdentityResource> GetIdentityResources() => new List<IdentityResource>
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
-            //new IdentityResource()
-            //{
-            //    Name="roles",
-            //    UserClaims =
-            //    {
-            //        ClaimTypes.Role
-            //    }
-            //}
+            new IdentityResource("roles","User role(s)",new List<string>{"role"})
         };
 
         public static IEnumerable<Client> GetClients() => new List<Client>
@@ -37,16 +30,18 @@ namespace eQACoLTD.IdentityServer.Configurations
                 ClientSecrets={new Secret("secret_key_mvc".ToSha256())},
                 AllowedGrantTypes=GrantTypes.Code,
                 RequireConsent=false,
-                AccessTokenLifetime=60*60*2,
+                RequirePkce=true,
                 RedirectUris={ "https://localhost:5003/signin-oidc" },
-                PostLogoutRedirectUris={ "https://localhost:5003/Home/Index" },
+                PostLogoutRedirectUris={ "https://localhost:5003/signout-callback-oidc" },
                 AllowedScopes =
                 {
                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
                     "backend_api",
-                    //"roles"
-                }
+                    "roles"
+                },
+                AllowOfflineAccess=true,
+                UpdateAccessTokenClaimsOnRefresh=true,
             },
             new Client()
             {
@@ -54,16 +49,19 @@ namespace eQACoLTD.IdentityServer.Configurations
                 ClientSecrets={new Secret("secret_key_mvc".ToSha256())},
                 AllowedGrantTypes=GrantTypes.Code,
                 RequireConsent=false,
-                AccessTokenLifetime=60*60*2,
+                RequirePkce=true,
                 RedirectUris={ "https://localhost:5002/signin-oidc" },
-                PostLogoutRedirectUris={ "https://localhost:5002/Home/Index" },
+                PostLogoutRedirectUris={ "https://localhost:5002/signout-callback-oidc" },
                 AllowedScopes =
                 {
                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
                     "backend_api",
-                    //"roles"
-                }
+                    "roles"
+                },
+                AllowOfflineAccess=true,
+                UpdateAccessTokenClaimsOnRefresh=true,
             },
             new Client
                 {
@@ -74,10 +72,9 @@ namespace eQACoLTD.IdentityServer.Configurations
                     RequirePkce = true,
                     RequireConsent=false,
                     RequireClientSecret = false,
-                    AccessTokenLifetime=60*60*2,
                     RedirectUris = {"https://localhost:5001/swagger/oauth2-redirect.html"},
                     AllowedCorsOrigins = {"https://localhost:5001"},
-                    AllowedScopes = {"backend_api"}
+                    AllowedScopes = {"backend_api","roles"}
                 }
         };
     }

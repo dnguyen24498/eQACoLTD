@@ -8,4 +8,8 @@
     <ProjectReference Include="..\eQACoLTD.Data\eQACoLTD.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.7" />
+  </ItemGroup>
+
 </Project>

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
+using EmailService;
 using eQACoLTD.Data.DBContext;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.IdentityServer.Configurations;
@@ -29,6 +31,10 @@ namespace eQACoLTD.IdentityServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var emailConfig = Configuration.GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
@@ -45,21 +51,32 @@ namespace eQACoLTD.IdentityServer
                 config.Password.RequireDigit = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
+                config.User.RequireUniqueEmail = true;
+                config.SignIn.RequireConfirmedEmail = true; 
             }).AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
-
-            services.AddIdentityServer(config=> {
-                config.Authentication.CookieLifetime = TimeSpan.FromHours(2);
-            })
-                .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
-                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
-                .AddInMemoryClients(IdentityServerConfig.GetClients())
+            var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            services.AddIdentityServer()
+                .AddConfigurationStore(opt =>
+                {
+                    opt.ConfigureDbContext = c => c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    sql => sql.MigrationsAssembly(migrationAssembly));
+                })
+                .AddOperationalStore(opt =>
+                {
+                    opt.ConfigureDbContext = o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    sql => sql.MigrationsAssembly(migrationAssembly));
+                })
                 .AddAspNetIdentity<AppUser>()
                 .AddProfileService<ProfileService>()
                 .AddDeveloperSigningCredential();
 
+
             services.AddControllersWithViews();
-            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt => 
+                opt.TokenLifespan = TimeSpan.FromHours(2));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,7 +96,6 @@ namespace eQACoLTD.IdentityServer
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>

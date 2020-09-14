@@ -1,5 +1,4 @@
-﻿using eQACoLTD.AdminMvc.Global;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +30,7 @@ namespace eQACoLTD.AdminMvc.Handlers
             CancellationToken cancellationToken)
         {
             var accessToken = await GetAccessTokenAsync();
-            Constans.AccessToken = accessToken;
+            _httpContextAccessor.HttpContext.Session.SetString("access_token",accessToken);
             if (!string.IsNullOrWhiteSpace(accessToken))
                 request.SetBearerToken(accessToken);
             return await base.SendAsync(request, cancellationToken);

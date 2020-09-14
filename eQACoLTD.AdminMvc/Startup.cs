@@ -16,7 +16,6 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using eQACoLTD.AdminMvc.Global;
 
 namespace eQACoLTD.AdminMvc
 {
@@ -64,10 +63,10 @@ namespace eQACoLTD.AdminMvc
                  };
                
              });    
-            //services.AddDistributedMemoryCache();
-            //services.AddSession(options=> {
-            //    options.IdleTimeout = TimeSpan.FromHours(2);
-            //});
+            services.AddDistributedMemoryCache();
+            services.AddSession(options=> {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+            });
             services.AddHttpClient("APIClient",client=> {
                 client.BaseAddress =new Uri(Configuration["APIServerHost"]);
                 client.DefaultRequestHeaders.Clear();
@@ -83,6 +82,7 @@ namespace eQACoLTD.AdminMvc
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddTransient<IAccountAPIService, AccountAPIService>();
+            services.AddTransient<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,7 +101,7 @@ namespace eQACoLTD.AdminMvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            //app.UseSession();
+            app.UseSession();
 
             app.UseRouting();
 

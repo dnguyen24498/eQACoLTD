@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authentication
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -19,99 +20,143 @@
     <link rel="stylesheet" href="~/css/bracket.css">
 </head>
 <body>
-    <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>Q&A Computer<span>]</span></a></div>
-    <div class="br-sideleft overflow-y-auto">
-        <label class="sidebar-label pd-x-15 mg-t-20">Chung</label>
-        <div class="br-sideleft-menu">
-            <a href="index.html" class="br-menu-link active">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon icon ion-home tx-24"></i>
-                    <span class="menu-item-label">Tổng quan</span>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <a href="#" class="br-menu-link">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon icon ion-ios-paper tx-24"></i>
-                    <span class="menu-item-label">Đơn hàng</span>
-                    <i class="menu-item-arrow fa fa-angle-down"></i>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub nav flex-column">
-                <li class="nav-item"><a href="accordion.html" class="nav-link">Tạo đơn và giao hàng</a></li>
-                <li class="nav-item"><a href="alerts.html" class="nav-link">Danh sách đơn hàng</a></li>
-            </ul>
-            <a href="#" class="br-menu-link">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon ion-android-car tx-24"></i>
-                    <span class="menu-item-label">Vận chuyển</span>
-                    <i class="menu-item-arrow fa fa-angle-down"></i>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub nav flex-column">
-                <li class="nav-item"><a href="navigation.html" class="nav-link">Tổng quan</a></li>
-                <li class="nav-item"><a href="navigation-layouts.html" class="nav-link">Quản lý giao hàng</a></li>
-            </ul>
-            <a href="mailbox.html" class="br-menu-link">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon icon ion-ios-people tx-24"></i>
-                    <span class="menu-item-label">Khách hàng</span>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <a href="#" class="br-menu-link">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon ion-ios-box tx-24"></i>
-                    <span class="menu-item-label">Sản phẩm</span>
-                    <i class="menu-item-arrow fa fa-angle-down"></i>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub nav flex-column">
-                <li class="nav-item"><a href="chart-morris.html" class="nav-link">Quản lý danh mục</a></li>
-                <li class="nav-item"><a href="chart-morris.html" class="nav-link">Danh sách sản phẩm</a></li>
-                <li class="nav-item"><a href="chart-flot.html" class="nav-link">Quản lý kho</a></li>
-                <li class="nav-item"><a href="chart-chartjs.html" class="nav-link">Nhập hàng</a></li>
-                <li class="nav-item"><a href="chart-rickshaw.html" class="nav-link">Nhà chung cấp</a></li>
-            </ul>
-            <a href="#" class="br-menu-link">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon icon ion-ios-book tx-24"></i>
-                    <span class="menu-item-label">Sổ quỹ</span>
-                    <i class="menu-item-arrow fa fa-angle-down"></i>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub nav flex-column">
-                <li class="nav-item"><a href="form-elements.html" class="nav-link">Tổng quan</a></li>
-                <li class="nav-item"><a href="form-layouts.html" class="nav-link">Phiếu thu</a></li>
-                <li class="nav-item"><a href="form-validation.html" class="nav-link">Phiếu chi</a></li>
-                <li class="nav-item"><a href="form-wizards.html" class="nav-link">Sổ quỹ</a></li>
-            </ul>
-            <a href="#" class="br-menu-link">
-                <div class="br-menu-item">
-                    <i class="menu-item-icon icon ion-ios-bookmarks tx-24"></i>
-                    <span class="menu-item-label">Báo cáo</span>
-                    <i class="menu-item-arrow fa fa-angle-down"></i>
-                </div><!-- menu-item -->
-            </a><!-- br-menu-link -->
-            <ul class="br-menu-sub nav flex-column">
-                <li class="nav-item"><a href="table-basic.html" class="nav-link">Báo cáo bán hàng</a></li>
-                <li class="nav-item"><a href="table-datatable.html" class="nav-link">Báo cáo nhập hàng</a></li>
-                <li class="nav-item"><a href="table-datatable.html" class="nav-link">Báo cáo kho</a></li>
-                <li class="nav-item"><a href="table-datatable.html" class="nav-link">Báo cáo tài chính</a></li>
-            </ul>
-        </div><!-- br-sideleft-menu -->
-        <label class="sidebar-label pd-x-15 mg-t-20">Tài khoản</label>
+<!-- ########## START: LEFT PANEL ########## -->
+<div class="br-logo">
+    <a href=""><span>[</span>Q&A Computer<span>]</span></a>
+</div>
+<div class="br-sideleft overflow-y-auto">
+    <label class="sidebar-label pd-x-15 mg-t-20">Chung</label>
+    <div class="br-sideleft-menu">
+        <a href="index.html" class="br-menu-link active">
+            <div class="br-menu-item">
+                <i class="menu-item-icon icon ion-home tx-24"></i>
+                <span class="menu-item-label">Tổng quan</span>
+            </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
         <a href="#" class="br-menu-link">
             <div class="br-menu-item">
-                <i class="menu-item-icon icon ion-ios-person tx-24"></i>
-                <span class="menu-item-label">Quản lý tài khoản</span>
+                <i class="menu-item-icon icon ion-ios-paper tx-24"></i>
+                <span class="menu-item-label">Đơn hàng</span>
                 <i class="menu-item-arrow fa fa-angle-down"></i>
             </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-            <li class="nav-item"><a href="table-basic.html" class="nav-link">Thông tin</a></li>
-            <li class="nav-item"><a href="table-datatable.html" class="nav-link">Đổi mật khẩu</a></li>
-            <li class="nav-item"><a href="table-datatable.html" class="nav-link">Đăng xuất</a></li>
+            <li class="nav-item">
+                <a href="accordion.html" class="nav-link">Tạo đơn và giao hàng</a>
+            </li>
+            <li class="nav-item">
+                <a href="alerts.html" class="nav-link">Danh sách đơn hàng</a>
+            </li>
         </ul>
+        <a href="#" class="br-menu-link">
+            <div class="br-menu-item">
+                <i class="menu-item-icon ion-android-car tx-24"></i>
+                <span class="menu-item-label">Vận chuyển</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+            <li class="nav-item">
+                <a href="navigation.html" class="nav-link">Tổng quan</a>
+            </li>
+            <li class="nav-item">
+                <a href="navigation-layouts.html" class="nav-link">Quản lý giao hàng</a>
+            </li>
+        </ul>
+        <a href="mailbox.html" class="br-menu-link">
+            <div class="br-menu-item">
+                <i class="menu-item-icon icon ion-ios-people tx-24"></i>
+                <span class="menu-item-label">Khách hàng</span>
+            </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <a href="#" class="br-menu-link">
+            <div class="br-menu-item">
+                <i class="menu-item-icon ion-ios-box tx-24"></i>
+                <span class="menu-item-label">Sản phẩm</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+            <li class="nav-item">
+                <a asp-controller="Product" asp-action="Category" class="nav-link">Quản lý danh mục</a>
+            </li>
+            <li class="nav-item">
+                <a href="chart-morris.html" class="nav-link">Danh sách sản phẩm</a>
+            </li>
+            <li class="nav-item">
+                <a href="chart-flot.html" class="nav-link">Quản lý kho</a>
+            </li>
+            <li class="nav-item">
+                <a href="chart-chartjs.html" class="nav-link">Nhập hàng</a>
+            </li>
+            <li class="nav-item">
+                <a href="chart-rickshaw.html" class="nav-link">Nhà chung cấp</a>
+            </li>
+        </ul>
+        <a href="#" class="br-menu-link">
+            <div class="br-menu-item">
+                <i class="menu-item-icon icon ion-ios-book tx-24"></i>
+                <span class="menu-item-label">Sổ quỹ</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+            <li class="nav-item">
+                <a href="form-elements.html" class="nav-link">Tổng quan</a>
+            </li>
+            <li class="nav-item">
+                <a href="form-layouts.html" class="nav-link">Phiếu thu</a>
+            </li>
+            <li class="nav-item">
+                <a href="form-validation.html" class="nav-link">Phiếu chi</a>
+            </li>
+            <li class="nav-item">
+                <a href="form-wizards.html" class="nav-link">Sổ quỹ</a>
+            </li>
+        </ul>
+        <a href="#" class="br-menu-link">
+            <div class="br-menu-item">
+                <i class="menu-item-icon icon ion-ios-bookmarks tx-24"></i>
+                <span class="menu-item-label">Báo cáo</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+            <li class="nav-item">
+                <a href="table-basic.html" class="nav-link">Báo cáo bán hàng</a>
+            </li>
+            <li class="nav-item">
+                <a href="table-datatable.html" class="nav-link">Báo cáo nhập hàng</a>
+            </li>
+            <li class="nav-item">
+                <a href="table-datatable.html" class="nav-link">Báo cáo kho</a>
+            </li>
+            <li class="nav-item">
+                <a href="table-datatable.html" class="nav-link">Báo cáo tài chính</a>
+            </li>
+        </ul>
+    </div><!-- br-sideleft-menu -->
+    <label class="sidebar-label pd-x-15 mg-t-20">Tài khoản</label>
+    <a href="#" class="br-menu-link">
+        <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-person tx-24"></i>
+            <span class="menu-item-label">Quản lý tài khoản</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+        </div><!-- menu-item -->
+    </a><!-- br-menu-link -->
+    <ul class="br-menu-sub nav flex-column">
+        <li class="nav-item">
+            <a href="table-basic.html" class="nav-link">Thông tin</a>
+        </li>
+        <li class="nav-item">
+            <a href="table-datatable.html" class="nav-link">Đổi mật khẩu</a>
+        </li>
+        <li class="nav-item">
+            <a href="table-datatable.html" class="nav-link">Đăng xuất</a>
+        </li>
+    </ul>
+    @if (@User.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value.Contains("Administrator") == true)
+    {
         <label class="sidebar-label pd-x-15 mg-t-20">Hệ thống</label>
         <a href="mailbox.html" class="br-menu-link">
             <div class="br-menu-item">
@@ -128,8 +173,12 @@
             </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-            <li class="nav-item"><a href="table-basic.html" class="nav-link">Sao lưu</a></li>
-            <li class="nav-item"><a href="table-datatable.html" class="nav-link">Phục hồi</a></li>
+            <li class="nav-item">
+                <a href="table-basic.html" class="nav-link">Sao lưu</a>
+            </li>
+            <li class="nav-item">
+                <a href="table-datatable.html" class="nav-link">Phục hồi</a>
+            </li>
         </ul>
         <a href="#" class="br-menu-link">
             <div class="br-menu-item">
@@ -137,75 +186,101 @@
                 <span class="menu-item-label">Cấu hình hệ thống</span>
             </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <br>
-    </div><!-- br-sideleft -->
-    <!-- ########## END: LEFT PANEL ########## -->
-    <!-- ########## START: HEAD PANEL ########## -->
-    <div class="br-header">
-        <div class="br-header-left">
-            <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
-            <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
-            <div class="input-group hidden-xs-down wd-170 transition">
-                <input id="searchbox" type="text" class="form-control" placeholder="Tìm kiếm">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-                </span>
-            </div><!-- input-group -->
-        </div><!-- br-header-left -->
-        <div class="br-header-right">
-            <nav class="nav">
-                <div class="dropdown">
-                    <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-                        <span class="logged-name hidden-md-down">Katherine</span>
-                        <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
-                        <span class="square-10 bg-success"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-header wd-200">
-                        <ul class="list-unstyled user-profile-nav">
-                            <li><a href=""><i class="icon ion-ios-person"></i> Thông tin</a></li>
-                            <li><a asp-controller="Auth" asp-action="Logout"><i class="icon ion-power"></i> Đăng xuất</a></li>
-                        </ul>
-                    </div><!-- dropdown-menu -->
-                </div><!-- dropdown -->
-            </nav>
-        </div><!-- br-header-right -->
-    </div><!-- br-header -->
-    <!-- ########## END: HEAD PANEL ########## -->
-    <!-- ########## START: MAIN PANEL ########## -->
-    <div class="br-mainpanel">
+    }
+    <br>
+</div><!-- br-sideleft -->
+<!-- ########## END: LEFT PANEL ########## -->
+<!-- ########## START: HEAD PANEL ########## -->
+<div class="br-header">
+    <div class="br-header-left">
+        <div class="navicon-left hidden-md-down">
+            <a id="btnLeftMenu" href="">
+                <i class="icon ion-navicon-round"></i>
+            </a>
+        </div>
+        <div class="navicon-left hidden-lg-up">
+            <a id="btnLeftMenuMobile" href="">
+                <i class="icon ion-navicon-round"></i>
+            </a>
+        </div>
+        <div class="input-group hidden-xs-down wd-170 transition">
+            <input id="searchbox" type="text" class="form-control" placeholder="Tìm kiếm">
+            <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div><!-- input-group -->
+    </div><!-- br-header-left -->
+    <div>
+        <div id="msg-Alert" role="alert">
+        </div>
+    </div>
+    <div class="br-header-right">
+        <nav class="nav">
+            <div class="dropdown">
+                <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                    <span class="logged-name hidden-md-down">Katherine</span>
+                    <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
+                    <span class="square-10 bg-success"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-header wd-200">
+                    <ul class="list-unstyled user-profile-nav">
+                        <li>
+                            <a href=""><i class="icon ion-ios-person"></i> Thông tin</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Auth" asp-action="Logout"><i class="icon ion-power"></i> Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div><!-- dropdown-menu -->
+            </div><!-- dropdown -->
+        </nav>
+    </div><!-- br-header-right -->
+</div><!-- br-header -->
+<!-- ########## END: HEAD PANEL ########## -->
+<!-- ########## START: MAIN PANEL ########## -->
+<div class="br-mainpanel">
+    <div class="container-fluid">
         @RenderBody()
-        <footer class="br-footer">
-            <div class="footer-left">
-                <div class="mg-b-2">Copyright &copy; 2017. Bracket. All Rights Reserved.</div>
-                <div>Attentively and carefully made by ThemePixels.</div>
-            </div>
-            <div class="footer-right d-flex align-items-center">
-                <span class="tx-uppercase mg-r-10">Share:</span>
-                <a target="_blank" class="pd-x-5" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//themepixels.me/bracket/intro"><i class="fa fa-facebook tx-20"></i></a>
-                <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Bracket,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/bracket/intro"><i class="fa fa-twitter tx-20"></i></a>
-            </div>
-        </footer>
-    </div><!-- br-mainpanel -->
-    <!-- ########## END: MAIN PANEL ########## -->
+    </div>
 
-    <script src="~/lib/jquery/jquery.js"></script>
-    <script src="~/lib/popper.js/popper.js"></script>
-    <script src="~/lib/bootstrap/bootstrap.js"></script>
-    <script src="~/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
-    <script src="~/lib/moment/moment.js"></script>
-    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-    <script src="~/lib/jquery-switchbutton/jquery.switchButton.js"></script>
-    <script src="~/lib/peity/jquery.peity.js"></script>
-    <script src="~/lib/chartist/chartist.js"></script>
-    <script src="~/lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
-    <script src="~/lib/d3/d3.js"></script>
-    <script src="~/lib/rickshaw/rickshaw.min.js"></script>
+    <footer class="br-footer">
+        <div class="footer-left">
+            <div class="mg-b-2">Copyright &copy; 2017. Bracket. All Rights Reserved.</div>
+            <div>Attentively and carefully made by ThemePixels.</div>
+        </div>
+        <div class="footer-right d-flex align-items-center">
+            <span class="tx-uppercase mg-r-10">Share:</span>
+            <a target="_blank" class="pd-x-5" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//themepixels.me/bracket/intro">
+                <i class="fa fa-facebook tx-20"></i>
+            </a>
+            <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Bracket,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/bracket/intro">
+                <i class="fa fa-twitter tx-20"></i>
+            </a>
+        </div>
+    </footer>
+</div><!-- br-mainpanel -->
+<!-- ########## END: MAIN PANEL ########## -->
+
+<script src="~/lib/jquery/jquery.js"></script>
+<script src="~/lib/popper.js/popper.js"></script>
+<script src="~/lib/bootstrap/bootstrap.js"></script>
+<script src="~/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+<script src="~/lib/moment/moment.js"></script>
+<script src="~/lib/jquery-ui/jquery-ui.js"></script>
+<script src="~/lib/jquery-switchbutton/jquery.switchButton.js"></script>
+<script src="~/lib/peity/jquery.peity.js"></script>
+<script src="~/lib/chartist/chartist.js"></script>
+<script src="~/lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
+<script src="~/lib/d3/d3.js"></script>
+<script src="~/lib/rickshaw/rickshaw.min.js"></script>
 
 
-    <script src="~/js/bracket.js"></script>
-    <script src="~/js/ResizeSensor.js"></script>
-    <script src="~/js/dashboard.js"></script>
-    <script>
+<script src="~/js/bracket.js"></script>
+<script src="~/js/ResizeSensor.js"></script>
+<script src="~/js/dashboard.js"></script>
+<script>
         $(function () {
             'use strict'
 
@@ -233,6 +308,17 @@
             }
         });
     </script>
-    @RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
+<script>
+    function showAlertMessage(isSuccess,message){
+             if(isSuccess){
+                 $("#msg-Alert").attr('class','alert alert-success').text(message);
+             }
+             else{
+                 $("#msg-Alert").attr('class','alert alert-danger').text(message);
+             }
+             $("#msg-Alert").fadeIn(1000).delay(2000).fadeOut(1000);
+         }
+</script>
 </body>
 </html>

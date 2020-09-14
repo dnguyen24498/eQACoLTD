@@ -1,17 +1,17 @@
-﻿@model AccountDetailResponse
+﻿@using Microsoft.AspNetCore.Http
+@model AccountDetailResponse
 @section Scripts{
     <script>
         getAccountNotInRoles();
         function getAccountNotInRoles() {
         $.ajax({
             url: 'https://localhost:5001/api/Accounts/@Model.Id/not-in-roles',
-            headers: {"Authorization":'Bearer @Constans.AccessToken'},
+            headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
             method: 'get',
             dataType: 'json',
             success: function (data) {
                 var rolesSelect = $('#roles-select');
                 rolesSelect.empty();
-                console.log(data);
                 $(data.resultObj).each(function (index,empt) {
                     rolesSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>')
                 })
@@ -19,7 +19,7 @@
             error: function () {
                 var rolesSelect = $('#roles-select');
                 rolesSelect.empty();
-                rolesSelect.append('<option>Có lỗi khi lấy phân quyền</option>')
+                showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
                 }
             })
         };
@@ -27,7 +27,7 @@
             $.ajax({
                 url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
                 headers: {
-                    "Authorization": 'Bearer @Constans.AccessToken',
+                    "Authorization": 'Bearer @Context.Session.GetString("access_token")',
                 },
                 method: 'delete',
                 contentType: "application/json;charset=utf-8",
@@ -35,20 +35,20 @@
                 success: function () {
                     var aElement = $(e).parents('a').first();
                     $(aElement).remove();
+                    showAlertMessage(true,"Xóa quyền tài khoản thành công.");
                 },
                 error: function (ts) {
-                    console.log(ts.responseText);
+                    showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
                 }
             })
         };
         function addAccountRole() {
             var roleId = $("#roles-select option:selected").val();
             var roleName = $("#roles-select option:selected").text();
-            console.log(roleName);
             $.ajax({
                 url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
                 headers: {
-                    "Authorization": 'Bearer @Constans.AccessToken',
+                    "Authorization": 'Bearer @Context.Session.GetString("access_token")',
                 },
                 method: 'post',
                 contentType: "application/json;charset=utf-8",
@@ -65,11 +65,11 @@
                     $(anchorEl).append(roleName);
                     $(anchorEl).append(idiomaticEl);
                     $("#in-roles-el").append(anchorEl);
-                    console.log("Thành công");
+                    showAlertMessage(true,"Thêm quyền tài khoản thành công.");
 
                 },
-                error: function () {
-                    console.log("Lỗi");
+                error: function (ts) {
+                    showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
                 }
             })
         };
@@ -79,19 +79,17 @@
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
         <a class="breadcrumb-item" href="index.html">Hệ thống</a>
-        <span class="breadcrumb-item active" href="#">Tài khoản hệ thống</span>
+        <a class="breadcrumb-item" asp-controller="Account" asp-action="Index">Tài khoản hệ thống</a>
+        <span class="breadcrumb-item active" href="#">@Model.UserName</span>
     </nav>
 </div><!-- br-pageheader -->
 <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Danh sách tài khoản</h4>
-    <p class="mg-b-0">Quản lý tài khoản có trong hệ thống</p>
+    <h4 class="tx-gray-800 mg-b-5">Chi tiết tài khoản</h4>
 </div>
 <div class="br-pagebody">
     <div class="br-section-wrapper">
         <div class="table-wrapper">
-            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">Bordered Form Group Wrapper</h6>
-            <p class="mg-b-30 tx-gray-600">A bordered form group wrapper with a label on top of each form control.</p>
-
+            <h2 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Thông tin chi tiết tài khoản: @Model.UserName</h2>
             <div class="form-layout form-layout-2">
                 <div class="row no-gutters">
                     <div class="col-md-4">
@@ -169,8 +167,8 @@
                     </div><!-- col-4 -->
                 </div><!-- row -->
                 <div class="form-layout-footer bd pd-20 bd-t-0">
-                    <button class="btn btn-info">Submit Form</button>
-                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-danger">Xoá tài khoản</button>
+                    <button class="btn btn-warning">Khóa tài khoản</button>
                 </div><!-- form-group -->
             </div><!-- form-layout -->
         </div><!-- table-wrapper -->

@@ -1,4 +1,16 @@
 ﻿@model PagedResult<AccountResponse>
+@section Scripts
+{
+    <script >
+        function searchEnter(el) {
+            if(event.keyCode===13){
+                event.preventDefault();
+                console.log($(el).val());
+                $(el).val('');
+            }
+        }
+    </script>
+}
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
         <a class="breadcrumb-item" href="index.html">Hệ thống</a>
@@ -12,59 +24,66 @@
 <div class="br-pagebody">
     <div class="br-section-wrapper">
         <div class="table-wrapper">
+            <div class="row m-1">
+                <select class="form-control col-md-2 bd-r-0">
+                    <option selected="selected">Lọc</option>
+                    <option>Theo tên</option>
+                </select>
+                <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm tài khoản">
+            </div>
             <table id="datatable2" class="table display responsive nowrap">
                 <thead>
-                    <tr>
-                        <th class="wd-15p">Tài khoản</th>
-                        <th class="wd-20p">Email</th>
-                        <th class="wd-15p">Người sở hữu</th>
-                        <th class="wd-10p">Số điện thoại</th>
-                        <th class="wd-10p">Ngày tạo</th>
-                        <th class="wd-20p">Hành động</th>
-                    </tr>
+                <tr>
+                    <th class="wd-15p">Tài khoản</th>
+                    <th class="wd-20p">Email</th>
+                    <th class="wd-15p">Người sở hữu</th>
+                    <th class="wd-10p">Số điện thoại</th>
+                    <th class="wd-10p">Ngày tạo</th>
+                    <th class="wd-20p">Hành động</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @{
-                        foreach (var a in Model.Results)
-                        {
-                            <tr>
-                                <td>@a.UserName</td>
-                                <td>@a.Email</td>
-                                <td>
-                                    @{
-                                        if (!string.IsNullOrEmpty(a.CustomerName))
-                                        {
-                                            <p>@a.CustomerName</p>
-                                        }
-                                        else
-                                        {
-                                            <p>@a.EmployeeName</p>
-                                        }
+                @{
+                    foreach (var a in Model.Results)
+                    {
+                        <tr>
+                            <td class="pt-md-4 pt-sm-4">@a.UserName</td>
+                            <td class="pt-md-4 pt-sm-4">@a.Email</td>
+                            <td class="pt-md-4 pt-sm-4">
+                                @{
+                                    if (!string.IsNullOrEmpty(a.CustomerName))
+                                    {
+                                        <p>@a.CustomerName</p>
                                     }
-                                </td>
-                                <td>@a.PhoneNumber</td>
-                                <td>@a.DateCreated.ToString("dd/MM/yyyy")</td>
-                                <td>
-                                    <form asp-controller="Account" asp-action="Detail" method="get">
-                                        <input type="hidden" name="id" value="@a.Id"/>
-                                        <a style="cursor:pointer" class="btn btn-warning mr-1">
-                                            <i class="fa fa-lock"></i>
-                                            Khóa
-                                        </a>
-                                        <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
-                                            <i class="fa fa-trash"></i>
-                                            Xóa
-                                        </a>
-                                        <button type="submit" 
-                                                style="cursor:pointer" class="btn btn-primary text-white">
-                                            <i class="fa fa-eye"></i>
-                                            Chi tiết
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
+                                    else
+                                    {
+                                        <p>@a.EmployeeName</p>
+                                    }
+                                }
+                            </td>
+                            <td class="pt-md-4 pt-sm-4">@a.PhoneNumber</td>
+                            <td class="pt-md-4 pt-sm-4">@a.DateCreated.ToString("dd/MM/yyyy")</td>
+                            <td> 
+                                <form asp-controller="Account" asp-action="Detail" method="get">
+                                    <input type="hidden" name="id" value="@a.Id"/>
+                                    <a style="cursor:pointer" class="btn btn-warning mr-1">
+                                        <i class="fa fa-lock"></i>
+                                        Khóa
+                                    </a>
+                                    <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
+                                        <i class="fa fa-trash"></i>
+                                        Xóa
+                                    </a>
+                                    <button type="submit"
+                                            style="cursor:pointer" class="btn btn-primary text-white">
+                                        <i class="fa fa-eye"></i>
+                                        Chi tiết
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     }
+                }
                 </tbody>
             </table>
         </div><!-- table-wrapper -->

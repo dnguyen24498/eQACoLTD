@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using eQACoLTD.AdminMvc.Global;
+using eQACoLTD.AdminMvc.Handlers;
 using Microsoft.CodeAnalysis;
 
 namespace eQACoLTD.AdminMvc.Controllers
@@ -24,8 +24,6 @@ namespace eQACoLTD.AdminMvc.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var test = User.Claims.ToList();
-            var roles = User.Claims.ToList().Where(x=>x.ValueType=="role").FirstOrDefault()?.Value;
             return View();   
         }
     }

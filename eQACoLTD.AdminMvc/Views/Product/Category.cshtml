@@ -1,0 +1,82 @@
+﻿@model PagedResult<CategoryResponse>
+
+@section Scripts
+{
+    <script >
+        
+    </script>
+}
+
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Product" asp-action="Category">Sản phẩm</a>
+        <span class="breadcrumb-item active" href="#">Quản lý danh mục</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Danh sách danh mục sản phẩm</h4>
+    <p class="mg-b-0">Quản lý danh mục có trong hệ thống</p>
+    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" style="cursor: pointer">Thêm danh mục</a>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <div class="row m-1">
+                <select class="form-control col-md-2 bd-r-0">
+                    <option selected="selected">Lọc</option>
+                    <option>Theo tên</option>
+                </select>
+                <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm danh mục">
+            </div>
+            <table id="datatable2" class="table display responsive nowrap">
+                <thead>
+                <tr>
+                    <th class="wd-20p">Ảnh mô tả</th>
+                    <th class="wd-25p">Tên danh mục</th>
+                    <th class="wd-15p">Số sản phẩm</th>
+                    <th class="wd-25p">Mô tả</th>
+                    <th class="wd-20p">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                @{
+                    foreach (var c in Model.Results)
+                    {
+                        <tr>
+                            <td>
+                                @if (string.IsNullOrEmpty(@c.ThumbnailImagePath))
+                                {
+                                    <img src="~/img/no-image-icon.jpg" alt="Ảnh danh mục" width="50" height="50">
+                                }
+                                else
+                                {
+                                    <img src=@c.ThumbnailImagePath alt="Ảnh danh mục" width="50" height="50">
+                                }
+                            </td>
+                            <td class="pt-md-4 pt-sm-4">@c.Name</td>
+                            <td class="pt-md-4 pt-sm-4">@c.NumbProduct</td>
+                            <td class="pt-md-4 pt-sm-4">@c.Description</td>
+                            <td>
+                                <form method="post">
+                                    <input type="hidden" name="id" value="@c.Id"/>
+                                    <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
+                                        <i class="fa fa-trash"></i>
+                                        Xóa
+                                    </a>
+                                    <button type="submit"
+                                            style="cursor:pointer" class="btn btn-primary text-white">
+                                        <i class="fa fa-pencil"></i>
+                                        Sửa
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div><!-- table-wrapper -->
+    </div>
+    <div class="html mt-1">
+    </div>
+</div>

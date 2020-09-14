@@ -185,8 +185,9 @@ namespace eQACoLTD.Application.Product.ListProduct
                         $"WHERE ProductImages.IsThumbnail=1 AND Products.Id='{productId}'";
                     await connection.ExecuteAsync(query);
                 }
-                var insertQuery = $"INSERT INTO ProductImages VALUES('{imageId}','{productId}'," +
-                    @$"'{imagePath}',{request.IsThumbnail},'{_configuration["BackendServerHost"]}/app-content/{imagePath}')";
+                var insertQuery = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
+                    $"VALUES('{imageId}','{productId}'," +
+                    @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',{request.IsThumbnail})";
                 await connection.ExecuteAsync(insertQuery);
                 return new ApiSuccessResult<Guid>(imageId);
             }

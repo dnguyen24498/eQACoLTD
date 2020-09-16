@@ -33,12 +33,13 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _listProductService.GetProductAsync(productId);
             return Ok(result);
         }
-        [HttpPost("{productId}/images")]
-        public async Task<IActionResult> PostProductImage(string productId,[FromForm] ListProductImageRequest request)
-        {
-            var result = await _listProductService.PostProductImageAsync(productId,request);
-            return Ok(result);
-        }
+        // [HttpPost("{productId}/images")]
+        // [Consumes("multipart/form-data")]
+        // public async Task<IActionResult> PostProductImage(string productId,[FromForm] IList<IFormFile> files)
+        // {
+        //     var result = await _listProductService.PostProductImageAsync(productId,files);
+        //     return Ok(result);
+        // }
         [HttpDelete("images/{imageId}")]
         public async Task<IActionResult> DeleteProductImage(Guid imageId)
         {
@@ -58,7 +59,8 @@ namespace eQACoLTD.BackendApi.Controllers
             return Ok();
         }
         [HttpPost]
-        public async Task<IActionResult> PostProduct([FromBody] PostListProductRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> PostProduct([FromForm] PostListProductRequest request)
         {
             var result = await _listProductService.PostProductAsync(request);
             return Ok(result);

@@ -160,36 +160,63 @@ namespace eQACoLTD.Application.Product.ListProduct
                 await connection.OpenAsync();
                 var sequenceNumber = await connection.QueryFirstOrDefaultAsync<int>
                     ($"SELECT COUNT(*) FROM Products");
-                var id=IdentifyGenerator.GenerateProductId(sequenceNumber + 1);
+                var productId=IdentifyGenerator.GenerateProductId(sequenceNumber + 1);
                 var query = $"INSERT INTO Products(Id,Name,Information,CategoryId,Description,RetailPrice," +
-                    $"WholesalePrices,WarrantyPeriod,BrandId) VALUES('{id}',N'{request.Name}'," +
+                    $"WholesalePrices,WarrantyPeriod,BrandId) VALUES('{productId}',N'{request.Name}'," +
                     $"N'{request.Information}','{request.CategoryId}',N'{request.Description}'," +
                     $"{request.RetailPrice},{request.WholesalePrices},{request.WarrantyPeriod},'{request.BrandId}')";
                 await connection.ExecuteAsync(query);
-                return new ApiSuccessResult<string>(id);
+                string imagePath = "";
+                Guid imageId=Guid.Empty;
+                for (int i = 0; i < request.Images.Count; i++)
+                {
+                    imageId = Guid.NewGuid();
+                    imagePath = await this.SaveFile(request.Images[i],imageId);
+                    if (i == 0)
+                    {
+                        query = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
+                                $"VALUES('{imageId}','{productId}'," +
+                                @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',1)";
+                    }
+                    else
+                    {
+                        query = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
+                                $"VALUES('{imageId}','{productId}'," +
+                                @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',0)";
+                    }
+                    await connection.ExecuteAsync(query);   
+                }
+                return new ApiSuccessResult<string>(productId);
             }
         }
 
-        public async Task<ApiResult<Guid>> PostProductImageAsync(string productId,ListProductImageRequest request)
+        public async Task<ApiResult<string>> PostProductImageAsync(string productId,IList<IFormFile> files)
         {
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 await connection.OpenAsync();
-                var imageId = Guid.NewGuid();
-                var imagePath = await this.SaveFile(request.Image,imageId);
-                if (1==request.IsThumbnail)
+                Guid imageId=Guid.Empty;
+                string imagePath = "";
+                string query = "";
+                for (int i = 0; i < files.Count; i++)
                 {
-                    var query = $"UPDATE ProductImages " +
-                        $"SET IsThumbnail=0 " +
-                        $"FROM ProductImages LEFT JOIN Products ON Products.Id=ProductImages.ProductId " +
-                        $"WHERE ProductImages.IsThumbnail=1 AND Products.Id='{productId}'";
-                    await connection.ExecuteAsync(query);
+                    imageId = Guid.NewGuid();
+                    imagePath = await this.SaveFile(files[i],imageId);
+                    if (i == 0)
+                    {
+                        query = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
+                            $"VALUES('{imageId}','{productId}'," +
+                            @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',1)";
+                    }
+                    else
+                    {
+                        query = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
+                                $"VALUES('{imageId}','{productId}'," +
+                                @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',0)";
+                    }
+                    await connection.ExecuteAsync(query);   
                 }
-                var insertQuery = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
-                    $"VALUES('{imageId}','{productId}'," +
-                    @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',{request.IsThumbnail})";
-                await connection.ExecuteAsync(insertQuery);
-                return new ApiSuccessResult<Guid>(imageId);
+                return new ApiSuccessResult<string>(productId);
             }
         }
 

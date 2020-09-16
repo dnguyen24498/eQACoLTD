@@ -14,7 +14,7 @@ namespace eQACoLTD.Data.Configurations
             builder.ToTable("ProductReviewReplies");
             builder.Property(x => x.Id).HasColumnType("char(36)");
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Content).IsRequired().HasColumnType("nvarchar(500)");
+            builder.Property(x => x.Content).IsRequired().HasColumnType("nvarchar(1000)");
 
             builder.HasOne(pr => pr.ProductReview)
                 .WithMany(prd => prd.ProductReviewReplies)

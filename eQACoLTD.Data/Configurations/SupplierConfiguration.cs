@@ -15,9 +15,9 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
             builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(100)");
-            builder.Property(x => x.Address).IsRequired().HasColumnType("nvarchar(300)");
+            builder.Property(x => x.Address).HasColumnType("nvarchar(300)");
             builder.Property(x => x.PhoneNumber).HasColumnType("varchar(30)");
-            builder.Property(x => x.Email).HasColumnType("varchar(100)");
+            builder.Property(x => x.Email).HasColumnType("varchar(150)");
             builder.Property(x => x.Fax).HasColumnType("varchar(30)");
             builder.Property(x => x.Website).HasColumnType("varchar(150)");
             builder.Property(x => x.Description).HasColumnType("varchar(250)");

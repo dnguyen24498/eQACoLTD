@@ -16,7 +16,7 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Title).HasColumnType("nvarchar(100)");
             builder.Property(x => x.Content).HasColumnType("nvarchar(500)");
-            builder.Property(x => x.StarScore).HasDefaultValue(0);
+            builder.Property(x => x.StarScore).HasColumnType("tinyint").HasDefaultValue(1);
 
             builder.HasOne(p => p.Product)
                 .WithMany(pr => pr.ProductReviews)

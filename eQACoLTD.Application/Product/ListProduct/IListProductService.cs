@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace eQACoLTD.Application.Product.ListProduct
 {
@@ -12,7 +13,7 @@ namespace eQACoLTD.Application.Product.ListProduct
     {
         Task<ApiResult<PagedResult<ListProductResponse>>> GetProductPagingAsync(int pageIndex);
         Task<ApiResult<ListProductDetailResponse>> GetProductAsync(string productId);
-        Task<ApiResult<Guid>> PostProductImageAsync(string productId,ListProductImageRequest request);
+        Task<ApiResult<string>> PostProductImageAsync(string productId,IList<IFormFile> files);
         Task DeleteProductImageAsync(Guid imageId);
         Task<ApiResult<IEnumerable<ListProductImageResponse>>> GetProductImageAsync(string productId);
         Task DeleteProductAsync(string productId);

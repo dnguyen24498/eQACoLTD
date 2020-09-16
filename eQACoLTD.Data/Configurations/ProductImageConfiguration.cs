@@ -15,6 +15,7 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.Id).HasColumnType("char(36)");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.IsThumbnail).HasDefaultValue(false);
+            builder.Property(x => x.FullPath).HasColumnType("nvarchar(1000)");
 
             builder.HasOne(p => p.Product)
                 .WithMany(pi => pi.ProductImages)

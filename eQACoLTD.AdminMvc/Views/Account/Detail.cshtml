@@ -22,7 +22,7 @@
                 showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
                 }
             })
-        };
+        }
         function deleteAccountRole(e, id) {
             $.ajax({
                 url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
@@ -41,7 +41,7 @@
                     showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
                 }
             })
-        };
+        }
         function addAccountRole() {
             var roleId = $("#roles-select option:selected").val();
             var roleName = $("#roles-select option:selected").text();
@@ -72,7 +72,7 @@
                     showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
                 }
             })
-        };
+        }
     </script>
 }
 

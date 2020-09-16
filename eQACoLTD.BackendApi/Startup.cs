@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eQACoLTD.Application.Customer;
 using eQACoLTD.Application.Extensions;
+using eQACoLTD.Application.Other;
 using eQACoLTD.Application.Product.Category;
 using eQACoLTD.Application.Product.ListProduct;
 using eQACoLTD.Application.Product.Supplier;
@@ -98,6 +99,7 @@ namespace eQACoLTD.BackendApi
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IStorageService, FileStorageService>();
+            services.AddTransient<IOtherService, OtherService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

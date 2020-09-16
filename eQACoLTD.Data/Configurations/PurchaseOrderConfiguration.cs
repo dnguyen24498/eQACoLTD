@@ -19,6 +19,8 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.PurchaseDate).HasDefaultValue(DateTime.Now);
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
             builder.Property(x => x.DiscountTypeId).IsRequired(false).HasDefaultValue();
+            builder.Property(x => x.DiscountValue).HasColumnType("decimal").HasDefaultValue(0);
+            builder.Property(x => x.DiscountDescription).HasColumnType("nvarchar(500)");
 
             builder.HasOne(s => s.Supplier)
                 .WithMany(p => p.PurchaseOrders)

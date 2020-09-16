@@ -486,17 +486,12 @@ begin
 	where AppUsers.Id=@userId
 end;
 
-select UserName,AppRoles.Name from AppUserRoles 
-inner join AppUsers on AppUsers.Id=AppUserRoles.UserId
-inner join AppRoles on AppRoles.Id=AppUserRoles.RoleId
 
 
-select * from Brands
 
-select * from Products
 
-select * from Categories
 
+--Thêm dữ liệu
 insert into Categories(Id,Name) VALUES('dabde5d3-3311-4836-8b37-18df01b9a371',N'Máy in')
 insert into Categories(Id,Name) VALUES('45cb72fd-9ced-4de2-aae8-08dbb42fdbca',N'Bàn phím')
 insert into Categories(Id,Name) VALUES('9a3f3ba5-76db-434a-acae-18fc90f1e1d6',N'Chuột')
@@ -508,8 +503,6 @@ insert into Brands(Id,Name) VALUES('01e4179b-1042-489c-8470-984badfd6433',N'Leno
 insert into Brands(Id,Name) VALUES('af7c139a-02d4-4f24-99c6-d49173de2b19',N'Canon')
 insert into Brands(Id,Name) VALUES('992583af-900b-4318-93d5-008326458c4d',N'Razer')
 insert into Brands(Id,Name) VALUES('8e64301e-0a6c-48f5-b004-c5c0ffa155f5',N'Logitech')
-
-select * from ProductImages
 
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
@@ -599,7 +592,6 @@ VALUES('PRN00030',N'Kraken Pro V4','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,4
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
 VALUES('PRN00031',N'Hammerhead','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,6500000,6450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
 
-select * from Suppliers
 
 insert into Suppliers(Id,Name,Address) VALUES('SUN0003',N'Công ty TNHH A',N'Số 99, Hải Triều, Quán Toan, Hồng Bàng, Hải Phòng')
 insert into Suppliers(Id,Name,Address) VALUES('SUN0004',N'Công ty TNHH B',N'Số 98, Hải Triều, Quán Toan, Hồng Bàng, Hải Phòng')
@@ -613,12 +605,7 @@ insert into Suppliers(Id,Name,Address) VALUES('SUN0011',N'Công ty TNHH J',N'S�
 insert into Suppliers(Id,Name,Address) VALUES('SUN0012',N'Công ty TNHH K',N'Số 90, Hải Triều, Quán Toan, Hồng Bàng, Hải Phòng')
 insert into Suppliers(Id,Name,Address) VALUES('SUN0013',N'Công ty TNHH L',N'Số 89, Hải Triều, Quán Toan, Hồng Bàng, Hải Phòng')
 
-select * from PurchaseOrders
-select * from PurchaseOrderDetails
-select * from PaymentVouchers
-select * from OrderStatuses
-select * from PaymentStatuses
-select * from PaymentMethods
+
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
 VALUES ('PON0003','SUN0003',GETDATE(),GETDATE(),'0b243072-2e23-4397-81b5-cbf887b1d8d3',GETDATE(),'0b710f3a-6426-4dff-89ec-afc9f154b668',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
@@ -683,14 +670,6 @@ insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
 VALUES('PVN0011','PON0011',320000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
 
 
-select * from Customers
-select * from OrderStatuses
-select * from PaymentStatuses
-select * from PaymentMethods
-select * from Orders
-SELECT * from OrderDetails
-SELECT *from ReceiptVouchers
-
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
 VALUES('ODN0003','CUS0001',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
@@ -753,12 +732,4 @@ insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('bb2da4f7-ff64-4b90-93b9-4cd77f7b7924','ODN0011','PRN0011',1,32500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
 VALUES('RVN0011','ODN0011',32500000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
-
-
-
-
-
-
-
-
 

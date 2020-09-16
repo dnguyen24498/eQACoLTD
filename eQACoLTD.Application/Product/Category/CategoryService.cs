@@ -48,7 +48,8 @@ namespace eQACoLTD.Application.Product.Category
                 if (checkCategory!=null)
                 {
                     await connection.ExecuteAsync(query);
-                    await _storageService.DeleteFileAsync(checkCategory.ThumbnailImagePath);
+                    if(!string.IsNullOrEmpty(checkCategory.ThumbnailImagePath))
+                        await _storageService.DeleteFileAsync(checkCategory.ThumbnailImagePath);
                 }
             }
         }
@@ -70,11 +71,11 @@ namespace eQACoLTD.Application.Product.Category
         public async Task<ApiResult<string>> PostCategoryAsync(CategoryRequest request)
         {
             var newId = Guid.NewGuid().ToString();
-            string query = $"INSERT INTO Categories VALUES('{newId}',@Name,@Description)";
+            string query = $"INSERT INTO Categories(Id,Name,Description) VALUES('{newId}',N'{request.Name}',N'{request.Description}')";
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 await connection.OpenAsync();
-                await connection.ExecuteAsync(query,request);
+                await connection.ExecuteAsync(query);
                 return new ApiSuccessResult<string>(newId);
             }
         }

@@ -19,8 +19,8 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.Fee).HasDefaultValue(0);
             builder.Property(x => x.Address).HasColumnType("varchar(300)");
             builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
-            builder.Property(x => x.Description).HasColumnType("nvarchar(250)");
-            builder.Property(x => x.CustomerId).IsRequired(false).HasDefaultValue();
+            builder.Property(x => x.Description).HasColumnType("nvarchar(500)");
+            builder.Property(x => x.CustomerId).IsRequired(false);
 
             builder.HasOne(o => o.Order)
                 .WithMany(so => so.ShippingOrders)

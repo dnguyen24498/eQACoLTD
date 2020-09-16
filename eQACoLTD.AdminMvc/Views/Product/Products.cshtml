@@ -1,22 +1,14 @@
-﻿@model PagedResult<CategoryResponse>
-
-@section Scripts
-{
-    <script >
-        
-    </script>
-}
-
+﻿@model PagedResult<ListProductResponse>
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
-        <a class="breadcrumb-item" asp-controller="Product" asp-action="Category">Sản phẩm</a>
-        <span class="breadcrumb-item active" href="#">Quản lý danh mục</span>
+        <a class="breadcrumb-item" asp-controller="Product" asp-action="Categories">Sản phẩm</a>
+        <span class="breadcrumb-item active" href="#">Danh sách sản phẩm</span>
     </nav>
 </div><!-- br-pageheader -->
 <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Danh sách danh mục sản phẩm</h4>
-    <p class="mg-b-0">Quản lý danh mục có trong hệ thống</p>
-    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" style="cursor: pointer">Thêm danh mục</a>
+    <h4 class="tx-gray-800 mg-b-5">Danh sách sản phẩm</h4>
+    <p class="mg-b-0">Quản lý sản phẩm có trong hệ thống</p>
+    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" asp-controller="Product" asp-action="CreateProduct" style="cursor: pointer">Thêm sản phẩm</a>
 </div>
 <div class="br-pagebody">
     <div class="br-section-wrapper">
@@ -26,15 +18,16 @@
                     <option selected="selected">Lọc</option>
                     <option>Theo tên</option>
                 </select>
-                <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm danh mục">
+                <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm sản phẩm">
             </div>
             <table id="datatable2" class="table display responsive nowrap">
                 <thead>
                 <tr>
-                    <th class="wd-20p">Ảnh mô tả</th>
-                    <th class="wd-25p">Tên danh mục</th>
-                    <th class="wd-15p">Số sản phẩm</th>
-                    <th class="wd-25p">Mô tả</th>
+                    <th class="wd-10">Ảnh mô tả</th>
+                    <th class="wd-25p">Tên sản phẩm</th>
+                    <th class="wd-15p">Danh mục</th>
+                    <th class="wd-15p">Thương hiệu</th>
+                    <th class="wd-15p">Có thể bán</th>
                     <th class="wd-20p">Hành động</th>
                 </tr>
                 </thead>
@@ -44,22 +37,22 @@
                     {
                         <tr>
                             <td>
-                                @if (string.IsNullOrEmpty(@c.ThumbnailImagePath))
+                                @if (string.IsNullOrEmpty(@c.ThumbnailPath))
                                 {
                                     <img src="~/img/no-image-icon.jpg" alt="Ảnh danh mục" width="50" height="50">
                                 }
                                 else
                                 {
-                                    <img src=@c.ThumbnailImagePath alt="Ảnh danh mục" width="50" height="50">
+                                    <img src=@c.ThumbnailPath alt="Ảnh danh mục" width="50" height="50">
                                 }
                             </td>
-                            <td class="pt-md-4 pt-sm-4">@c.Name</td>
-                            <td class="pt-md-4 pt-sm-4">@c.NumbProduct</td>
-                            <td class="pt-md-4 pt-sm-4">@c.Description</td>
+                            <td class="pt-md-4 pt-sm-4">@c.ProductName</td>
+                            <td class="pt-md-4 pt-sm-4">@c.CategoryName</td>
+                            <td class="pt-md-4 pt-sm-4">@c.BrandName</td>
+                            <td class="pt-md-4 pt-sm-4">@c.AbleToSale</td>
                             <td>
                                 <form method="post">
-                                    <input type="hidden" name="id" value="@c.Id"/>
-                                    <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
+                                    <a style="cursor:pointer" onclick="deleteCategory(this,'@c.Id')" class="btn btn-danger text-white mr-1">
                                         <i class="fa fa-trash"></i>
                                         Xóa
                                     </a>
@@ -78,5 +71,6 @@
         </div><!-- table-wrapper -->
     </div>
     <div class="html mt-1">
+        @(await Component.InvokeAsync<PagerViewComponent>(Model))
     </div>
 </div>

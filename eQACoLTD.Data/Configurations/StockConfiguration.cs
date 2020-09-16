@@ -13,8 +13,8 @@ namespace eQACoLTD.Data.Configurations
         {
             builder.ToTable("Stocks");
             builder.HasKey(x => x.ProductId);
-            builder.Property(x => x.Inventory).HasDefaultValue(0);
-            builder.Property(x => x.AbleToSale).HasDefaultValue(0);
+            builder.Property(x => x.Inventory).HasColumnType("int").HasDefaultValue(0);
+            builder.Property(x => x.AbleToSale).HasColumnType("int").HasDefaultValue(0);
 
             builder.HasOne(p => p.Product)
                 .WithOne(s => s.Stock)

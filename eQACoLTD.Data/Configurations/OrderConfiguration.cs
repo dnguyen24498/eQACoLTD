@@ -15,9 +15,11 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
             builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
-            builder.Property(x => x.Note).HasColumnType("nvarchar(250)");
+            builder.Property(x => x.Note).HasColumnType("nvarchar(500)");
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
-            builder.Property(x => x.DiscountTypeId).IsRequired(false).HasDefaultValue();
+            builder.Property(x => x.DiscountTypeId).IsRequired(false);
+            builder.Property(x => x.DiscountValue).HasColumnType("decimal").HasDefaultValue(0);
+            builder.Property(x => x.DiscountDescription).HasColumnType("nvarchar(500)");
 
             builder.HasOne(c => c.Customer)
                 .WithMany(o => o.Orders)

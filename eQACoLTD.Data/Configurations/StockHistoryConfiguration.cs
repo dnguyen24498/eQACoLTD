@@ -15,10 +15,10 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.Id).HasColumnType("char(36)");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.RecordDate).HasDefaultValue(DateTime.Now);
-            builder.Property(x => x.ChangeQuantity).IsRequired();
-            builder.Property(x => x.EmployeeId).IsRequired(false).HasDefaultValue();
-            builder.Property(x => x.PurchaseOrderDetailId).IsRequired(false).HasDefaultValue();
-            builder.Property(x => x.OrderDetailId).IsRequired(false).HasDefaultValue();
+            builder.Property(x => x.ChangeQuantity).HasDefaultValue(0);
+            builder.Property(x => x.EmployeeId).IsRequired(false);
+            builder.Property(x => x.PurchaseOrderDetailId).IsRequired(false);
+            builder.Property(x => x.OrderDetailId).IsRequired(false);
 
             builder.HasOne(p => p.Product)
                 .WithMany(sh => sh.StockHistories)

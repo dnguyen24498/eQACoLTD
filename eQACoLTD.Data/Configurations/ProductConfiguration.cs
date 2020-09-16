@@ -15,16 +15,16 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
             builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(200)");
-            builder.Property(x => x.Information).HasColumnType("nvarchar(500)");
-            builder.Property(x => x.Description).HasColumnType("nvarchar(4000)");
+            builder.Property(x => x.Information).HasColumnType("nvarchar(600)");
+            builder.Property(x => x.Description).HasColumnType("nvarchar(max)");
             builder.Property(x => x.Views).HasDefaultValue(0);
             builder.Property(x => x.RetailPrice).HasDefaultValue(0);
             builder.Property(x => x.WholesalePrices).HasDefaultValue(0);
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
             builder.Property(x => x.CategoryId).IsRequired(false).HasDefaultValue();
             builder.Property(x => x.BrandId).IsRequired(false).HasDefaultValue();
-            builder.Property(x => x.StarScore).HasDefaultValue(0);
-            builder.Property(x => x.WarrantyPeriod).HasDefaultValue(0);
+            builder.Property(x => x.StarScore).HasColumnType("tinyint").HasDefaultValue(1);
+            builder.Property(x => x.WarrantyPeriod).HasColumnType("tinyint").HasDefaultValue(0);
 
             builder.HasOne(c => c.Category)
                 .WithMany(p => p.Products)

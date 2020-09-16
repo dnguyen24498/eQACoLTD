@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Sách\asp\10-Reset Password\EmailService\EmailService.csproj" />
+    <ProjectReference Include="..\EmailService\EmailService.csproj" />
     <ProjectReference Include="..\eQACoLTD.Data\eQACoLTD.Data.csproj" />
     <ProjectReference Include="..\eQACoLTD.ViewModel\eQACoLTD.ViewModel.csproj" />
   </ItemGroup>

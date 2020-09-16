@@ -16,6 +16,7 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasColumnType("nvarchar(100)");
             builder.Property(x => x.Description).HasColumnType("nvarchar(250)");
+            builder.Property(x => x.ThumbnailImagePath).HasColumnType("nvarchar(1000)");
         }
     }
 }

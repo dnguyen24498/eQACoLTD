@@ -487,10 +487,6 @@ begin
 end;
 
 
-
-
-
-
 --Thêm dữ liệu
 insert into Categories(Id,Name) VALUES('dabde5d3-3311-4836-8b37-18df01b9a371',N'Máy in')
 insert into Categories(Id,Name) VALUES('45cb72fd-9ced-4de2-aae8-08dbb42fdbca',N'Bàn phím')
@@ -506,91 +502,91 @@ insert into Brands(Id,Name) VALUES('8e64301e-0a6c-48f5-b004-c5c0ffa155f5',N'Logi
 
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0003',N'iMac 2017','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,32500000,32000000,'8f968a61-69da-4581-8279-61516dc17639',1,36)
+VALUES('PRN0003',N'iMac 2017','3db32842-3ed5-458b-ad96-a113d73775ee',2000,32500000,32000000,'bedf848d-f7d0-433f-98f1-2731067335af',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0004',N'iMac 2020','94b4b0d2-d389-4ded-a61b-50249e14525a',1234,42000000,41500000,'8f968a61-69da-4581-8279-61516dc17639',1,36)
+VALUES('PRN0004',N'iMac 2020','3db32842-3ed5-458b-ad96-a113d73775ee',1234,42000000,41500000,'bedf848d-f7d0-433f-98f1-2731067335af',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0005',N'Nitro 5','94b4b0d2-d389-4ded-a61b-50249e14525a',2040,22500000,22000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
+VALUES('PRN0005',N'Nitro 5','3db32842-3ed5-458b-ad96-a113d73775ee',2040,22500000,22000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0006',N'Predator Triton','94b4b0d2-d389-4ded-a61b-50249e14525a',2100,52500000,510000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
+VALUES('PRN0006',N'Predator Triton','3db32842-3ed5-458b-ad96-a113d73775ee',2100,52500000,510000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0007',N'Aspire 3','94b4b0d2-d389-4ded-a61b-50249e14525a',2300,9350000,9000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
+VALUES('PRN0007',N'Aspire 3','3db32842-3ed5-458b-ad96-a113d73775ee',2300,9350000,9000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0008',N'Swift 3','94b4b0d2-d389-4ded-a61b-50249e14525a',2300,12350000,12000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
+VALUES('PRN0008',N'Swift 3','3db32842-3ed5-458b-ad96-a113d73775ee',2300,12350000,12000000,'7d6affea-fde6-4136-a532-0909d68bc802',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0009',N'Vivobook','94b4b0d2-d389-4ded-a61b-50249e14525a',2695,12500000,12000000,'f1756f5a-bf11-4008-943a-9aa69f40e478',1,36)
+VALUES('PRN0009',N'Vivobook','3db32842-3ed5-458b-ad96-a113d73775ee',2695,12500000,12000000,'f1756f5a-bf11-4008-943a-9aa69f40e478',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0010',N'Zenbook','94b4b0d2-d389-4ded-a61b-50249e14525a',2700,22500000,22000000,'f1756f5a-bf11-4008-943a-9aa69f40e478',1,36)
+VALUES('PRN0010',N'Zenbook','3db32842-3ed5-458b-ad96-a113d73775ee',2700,22500000,22000000,'f1756f5a-bf11-4008-943a-9aa69f40e478',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN0011',N'ROG Strix','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,32500000,32000000,'f1756f5a-bf11-4008-943a-9aa69f40e478',1,36)
+VALUES('PRN0011',N'ROG Strix','3db32842-3ed5-458b-ad96-a113d73775ee',2000,32500000,32000000,'f1756f5a-bf11-4008-943a-9aa69f40e478',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00012',N'Thinkpad X250','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,12500000,12000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
+VALUES('PRN0012',N'Thinkpad X250','3db32842-3ed5-458b-ad96-a113d73775ee',2000,12500000,12000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00013',N'Thinkpad X260','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,15500000,15000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
+VALUES('PRN0013',N'Thinkpad X260','3db32842-3ed5-458b-ad96-a113d73775ee',2000,15500000,15000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00014',N'Thinkpad X270','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,18500000,18000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
+VALUES('PRN0014',N'Thinkpad X270','3db32842-3ed5-458b-ad96-a113d73775ee',2000,18500000,18000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00015',N'Thinkpad X280','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,21500000,20500000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
+VALUES('PRN0015',N'Thinkpad X280','3db32842-3ed5-458b-ad96-a113d73775ee',2000,21500000,20500000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00016',N'Thinkpad X290','94b4b0d2-d389-4ded-a61b-50249e14525a',2000,27500000,27000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
+VALUES('PRN0016',N'Thinkpad X290','3db32842-3ed5-458b-ad96-a113d73775ee',2000,27500000,27000000,'01e4179b-1042-489c-8470-984badfd6433',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00017',N'Canon LBP 290','dabde5d3-3311-4836-8b37-18df01b9a371',2000,2500000,2000000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
+VALUES('PRN0017',N'Canon LBP 290','dabde5d3-3311-4836-8b37-18df01b9a371',2000,2500000,2000000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00018',N'Canon LBP 290','dabde5d3-3311-4836-8b37-18df01b9a371',2000,2500000,2000000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
+VALUES('PRN0018',N'Canon LBP 290','dabde5d3-3311-4836-8b37-18df01b9a371',2000,2500000,2000000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00019',N'Canon LBP 310','dabde5d3-3311-4836-8b37-18df01b9a371',2000,2800000,2750000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
+VALUES('PRN0019',N'Canon LBP 310','dabde5d3-3311-4836-8b37-18df01b9a371',2000,2800000,2750000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00020',N'Canon LBP X320','dabde5d3-3311-4836-8b37-18df01b9a371',2000,3500000,3000000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
+VALUES('PRN0020',N'Canon LBP X320','dabde5d3-3311-4836-8b37-18df01b9a371',2000,3500000,3000000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00021',N'Canon LBP Z320','dabde5d3-3311-4836-8b37-18df01b9a371',2000,4500000,4250000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
+VALUES('PRN0021',N'Canon LBP Z320','dabde5d3-3311-4836-8b37-18df01b9a371',2000,4500000,4250000,'af7c139a-02d4-4f24-99c6-d49173de2b19',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00022',N'G102','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,500000,450000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
+VALUES('PRN0022',N'G102','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,500000,450000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00023',N'G103','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,540000,535000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
+VALUES('PRN0023',N'G103','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,540000,535000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00024',N'G104','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,580000,5500000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
+VALUES('PRN0024',N'G104','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,580000,5500000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00025',N'G105','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,600000,580000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
+VALUES('PRN0025',N'G105','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,600000,580000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00026',N'G106','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,630000,600000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
+VALUES('PRN0026',N'G106','9a3f3ba5-76db-434a-acae-18fc90f1e1d6',2000,630000,600000,'8e64301e-0a6c-48f5-b004-c5c0ffa155f5',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00027',N'Kraken Pro V1','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2300,2500000,2450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
+VALUES('PRN0027',N'Kraken Pro V1','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2300,2500000,2450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00028',N'Kraken Pro V2','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,3500000,3450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
+VALUES('PRN0028',N'Kraken Pro V2','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,3500000,3450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00029',N'Kraken Pro V3','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,4500000,4450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
+VALUES('PRN0029',N'Kraken Pro V3','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,4500000,4450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00030',N'Kraken Pro V4','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,42500000,4150000,'992583af-900b-4318-93d5-008326458c4d',1,36)
+VALUES('PRN0030',N'Kraken Pro V4','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,42500000,4150000,'992583af-900b-4318-93d5-008326458c4d',1,36)
 
 insert into Products(Id,Name,CategoryId,Views,RetailPrice,WholesalePrices,BrandId,StarScore,WarrantyPeriod)
-VALUES('PRN00031',N'Hammerhead','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,6500000,6450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
+VALUES('PRN0031',N'Hammerhead','2fac847b-9fa2-4e68-803f-9bc331fe5a02',2000,6500000,6450000,'992583af-900b-4318-93d5-008326458c4d',1,36)
 
 
 insert into Suppliers(Id,Name,Address) VALUES('SUN0003',N'Công ty TNHH A',N'Số 99, Hải Triều, Quán Toan, Hồng Bàng, Hải Phòng')
@@ -607,129 +603,128 @@ insert into Suppliers(Id,Name,Address) VALUES('SUN0013',N'Công ty TNHH L',N'S�
 
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0003','SUN0003',GETDATE(),GETDATE(),'0b243072-2e23-4397-81b5-cbf887b1d8d3',GETDATE(),'0b710f3a-6426-4dff-89ec-afc9f154b668',0.00)
+VALUES ('PON0003','SUN0003',GETDATE(),GETDATE(),'43972588-ea79-4bf0-8ed7-7e9ef42170a7',GETDATE(),'6187b25a-957c-4690-ba99-f64499119f35',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('03d117de-96a2-4f65-8d46-ef7e25e10a69','PON0003','PRN0003',100,30000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0003','PON0003',2500000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0003','PON0003',2500000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0004','SUN0004',GETDATE(),GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf',GETDATE(),'f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES ('PON0004','SUN0004',GETDATE(),GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1',GETDATE(),'646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('ab179c4e-d5d1-45d6-bbcf-d36403cdfd7b','PON0004','PRN0004',10,40000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0004','PON0004',400000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0004','PON0004',400000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0005','SUN0005',GETDATE(),GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf',GETDATE(),'f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES ('PON0005','SUN0005',GETDATE(),GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1',GETDATE(),'646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('d2a0a5c3-bbdf-43b4-9f61-867c6a426427','PON0005','PRN0005',100,22000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0005','PON0005',2200000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0005','PON0005',2200000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0006','SUN0006',GETDATE(),GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf',GETDATE(),'f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES ('PON0006','SUN0006',GETDATE(),GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1',GETDATE(),'646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('9b9b8b56-1f31-488f-b9e4-881828edc4e3','PON0006','PRN0006',10,52000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0006','PON0006',520000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0006','PON0006',520000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0007','SUN0007',GETDATE(),GETDATE(),'0b243072-2e23-4397-81b5-cbf887b1d8d3',GETDATE(),'73e1a911-ff43-4573-981b-3c363d4146e4',0.00)
+VALUES ('PON0007','SUN0007',GETDATE(),GETDATE(),'43972588-ea79-4bf0-8ed7-7e9ef42170a7',GETDATE(),'57fa4d1a-974a-4157-bd6c-287db184a51e',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('2435d63d-73a7-4f14-80af-e282386982c6','PON0007','PRN0007',100,9000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0007','PON0007',0,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0007','PON0007',0,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0008','SUN0008',GETDATE(),GETDATE(),'0b243072-2e23-4397-81b5-cbf887b1d8d3',GETDATE(),'73e1a911-ff43-4573-981b-3c363d4146e4',0.00)
+VALUES ('PON0008','SUN0008',GETDATE(),GETDATE(),'43972588-ea79-4bf0-8ed7-7e9ef42170a7',GETDATE(),'57fa4d1a-974a-4157-bd6c-287db184a51e',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('e3ff3913-0c7c-405a-8dbc-8f0b780fd25d','PON0008','PRN0008',10,12000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0008','PON0008',0,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0008','PON0008',0,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0009','SUN0009',GETDATE(),GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf',GETDATE(),'f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES ('PON0009','SUN0009',GETDATE(),GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1',GETDATE(),'646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('a86650db-bd73-4e0e-84ff-90d1ace73627','PON0009','PRN0009',10,12000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0009','PON0009',120000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0009','PON0009',120000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0010','SUN0010',GETDATE(),GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf',GETDATE(),'f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES ('PON0010','SUN0010',GETDATE(),GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1',GETDATE(),'646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('9cb9cd0f-bd17-427d-88d4-dcf2b8f3b9b9','PON0010','PRN0010',10,22000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0010','PON0010',220000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0010','PON0010',220000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into PurchaseOrders(Id,SupplierId,DateCreated,PurchaseDate,OrderStatusId,DeliveryDate,PaymentStatusId,DiscountValue)
-VALUES ('PON0011','SUN0011',GETDATE(),GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf',GETDATE(),'f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES ('PON0011','SUN0011',GETDATE(),GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1',GETDATE(),'646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into PurchaseOrderDetails(Id,PurchaseOrderId,ProductId,Quantity,UnitPrice) 
 VALUES('e6ab6df8-cca2-4317-aefe-4a23b88586a3','PON0011','PRN0011',10,32000000)
 insert into PaymentVouchers(Id,PurchaseOrderId,Paid,PayDate,PaymentMethodId)
-VALUES('PVN0011','PON0011',320000000,GETDATE(),'28021394-ea05-45aa-ab43-30cbe1cd53fc')
+VALUES('PVN0011','PON0011',320000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0003','CUS0001',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0003','CUS0001',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('e6f23913-f4b1-4908-9020-230ff2eee264','ODN0003','PRN0003',2,32500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0003','ODN0003',65000000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0003','ODN0003',65000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0004','CUS0001',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0004','CUS0001',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('bf5a1cca-3dd8-41a7-89b0-644cd2efc93f','ODN0004','PRN0004',1,42000000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0004','ODN0004',42000000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0004','ODN0004',42000000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0005','CUS0001',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0005','CUS0001',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('d0663a4c-52a6-49e6-85f8-462fe06321ac','ODN0005','PRN0005',1,22500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0005','ODN0005',22500000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0005','ODN0005',22500000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0006','CUS0001',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0006','CUS0001',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('6006ec40-abb1-4563-aaa5-db40fc8da52c','ODN0006','PRN0006',1,52500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0006','ODN0006',52500000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0006','ODN0006',52500000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0007','CUS0001',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0007','CUS0001',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('2ae60321-773f-48f0-9c66-25179ca216a1','ODN0007','PRN0007',1,9350000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0007','ODN0007',9350000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0007','ODN0007',9350000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0008','CUS0002',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0008','CUS0002',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('825050ee-defb-4cd2-b57f-bdb0c4a53d2a','ODN0008','PRN0008',1,12350000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0008','ODN0008',12350000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0008','ODN0008',12350000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0009','CUS0002',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0009','CUS0002',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('bf690d30-9ec7-4e23-a9ce-57b3598e5354','ODN0009','PRN0009',1,12500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0009','ODN0009',12500000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0009','ODN0009',12500000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0010','CUS0002',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0010','CUS0002',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('c18ea094-de2d-4934-b970-2f3d20e24ee5','ODN0010','PRN0010',1,22500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0010','ODN0010',22500000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
+VALUES('RVN0010','ODN0010',22500000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')
 
 insert into Orders(Id,CustomerId,DateCreated,OrderStatusId,PaymentStatusId,DiscountValue)
-VALUES('ODN0011','CUS0002',GETDATE(),'f1e884de-b62d-43ad-9ec1-6bfe13e9aadf','f3288f36-e405-413f-baa3-5c232ea7bd3f',0.00)
+VALUES('ODN0011','CUS0002',GETDATE(),'80b1a453-82a4-47ed-964e-1b69af87a1e1','646233ce-0eb0-4ed1-a5c6-8e16e1376393',0.00)
 insert into OrderDetails(Id,OrderId,ProductId,Quantity,UnitPrice)
 VALUES('bb2da4f7-ff64-4b90-93b9-4cd77f7b7924','ODN0011','PRN0011',1,32500000)
 insert into ReceiptVouchers(Id,OrderId,Received,ReceivedDate,PaymentMethodId)
-VALUES('RVN0011','ODN0011',32500000,GETDATE(),'8eb1249d-277d-450c-a023-92f80fc31f7f')
-
+VALUES('RVN0011','ODN0011',32500000,GETDATE(),'a2b931dd-c5be-47c5-a134-f9f3474cf630')

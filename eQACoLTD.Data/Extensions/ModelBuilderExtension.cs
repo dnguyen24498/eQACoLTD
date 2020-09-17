@@ -224,12 +224,12 @@ namespace eQACoLTD.Data.Extensions
             #region Categories
             var laptopCategory = new Category()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "3db32842-3ed5-458b-ad96-a113d73775ee",
                 Name = "Laptop"
             };
             var pcCategory = new Category()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "58060083-6e76-4dea-ba20-0e332ec96122",
                 Name = "PC"
             };
             modelBuilder.Entity<Category>().HasData(laptopCategory, pcCategory);
@@ -238,17 +238,17 @@ namespace eQACoLTD.Data.Extensions
             #region Brands
             var appleBrand = new Brand()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "bedf848d-f7d0-433f-98f1-2731067335af",
                 Name = "Apple"
             };
             var dellBrand = new Brand()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "b693eb5a-e457-447c-9e29-48f438703780",
                 Name = "Dell"
             };
             var hpBrand = new Brand()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "9d07f19f-afd8-408d-872e-d99331031c59",
                 Name = "HP"
             };
             modelBuilder.Entity<Brand>().HasData(appleBrand, dellBrand, hpBrand);
@@ -285,17 +285,17 @@ namespace eQACoLTD.Data.Extensions
             #region PaymentStatuses
             var unpaidPayment = new PaymentStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "57fa4d1a-974a-4157-bd6c-287db184a51e",
                 Name = "Chưa thanh toán"
             };
             var partialPayment = new PaymentStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "6187b25a-957c-4690-ba99-f64499119f35",
                 Name = "Thanh toán một phần"
             };
             var paidPayment = new PaymentStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "646233ce-0eb0-4ed1-a5c6-8e16e1376393",
                 Name = "Đã thanh toán"
             };
             modelBuilder.Entity<PaymentStatus>().HasData(unpaidPayment, partialPayment, paidPayment);
@@ -304,17 +304,17 @@ namespace eQACoLTD.Data.Extensions
             #region PaymentMethods
             var cashPayment = new PaymentMethod()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "a2b931dd-c5be-47c5-a134-f9f3474cf630",
                 Name = "Tiền mặt"
             };
             var cardPayment = new PaymentMethod()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "2107adeb-7574-4f62-a898-22b79b67ee62",
                 Name = "Quẹt thẻ"
             };
             var bankingPayment = new PaymentMethod()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "f859d3ef-13e6-411b-b701-d5d643524653",
                 Name = "Chuyển khoản"
             };
 
@@ -324,27 +324,27 @@ namespace eQACoLTD.Data.Extensions
             #region OrderStatuses
             var orderingStatus = new OrderStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "75d76ab9-5e0e-4b42-8bdc-7e3c5d4904a1",
                 Name = "Đặt hàng"
             };
             var tradingStatus = new OrderStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "43972588-ea79-4bf0-8ed7-7e9ef42170a7",
                 Name = "Đang giao dịch"
             };
             var finishedStatus = new OrderStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "80b1a453-82a4-47ed-964e-1b69af87a1e1",
                 Name = "Hoàn thành"
             };
             var endStatus = new OrderStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "537d8259-b206-496a-8a85-29f76539301b",
                 Name = "Kết thúc"
             };
             var cancelStatus = new OrderStatus()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "940195d2-885c-45aa-af98-17ad7549f90a",
                 Name = "Đã hủy"
             };
 
@@ -354,22 +354,22 @@ namespace eQACoLTD.Data.Extensions
             #region StockActions
             var initialStock = new StockAction()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "d6f2e2be-d9d4-40bf-b872-1c5d747466c9",
                 Name = "Khởi tạo"
             };
             var deliveryStock = new StockAction()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "1be88fef-0b15-4429-9012-9771a6e849f1",
                 Name = "Xuất kho giao hàng cho khách/shipper"
             };
             var receiptStock = new StockAction()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "0a12a679-0952-414f-a1e6-990b34f1be07",
                 Name = "Nhập hàng vào kho"
             };
             var adjustmentStock = new StockAction()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "a8ef7eae-3fad-4711-a4f0-8b5b7e5084af",
                 Name = "Cân bằng kho"
             };
 
@@ -379,7 +379,7 @@ namespace eQACoLTD.Data.Extensions
             #region Transporters
             var ghnTransporter = new Transporter()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "be2ba488-7bf5-491d-ac72-15d3d4c50c05",
                 Name = "Giao hàng nhanh",
                 PhoneNumber = "1234567890"
             };
@@ -569,11 +569,11 @@ namespace eQACoLTD.Data.Extensions
             #region DiscountTypes
             modelBuilder.Entity<DiscountType>().HasData(
                 new DiscountType() { 
-                    Id=Guid.NewGuid().ToString(),
+                    Id="0d3c8b87-8010-491b-9867-84805888d937",
                     Name="Phần trăm"
                 },
                 new DiscountType() { 
-                    Id=Guid.NewGuid().ToString(),
+                    Id="35d3f8e6-4c28-4315-8e98-5ea957c847c2",
                     Name="Tiền mặt"
                 });
             #endregion

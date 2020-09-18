@@ -16,6 +16,7 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using Microsoft.IdentityModel.Logging;
 
 namespace eQACoLTD.AdminMvc
 {
@@ -91,6 +92,7 @@ namespace eQACoLTD.AdminMvc
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
             }
             else
             {

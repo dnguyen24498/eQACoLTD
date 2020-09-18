@@ -59,8 +59,7 @@ namespace eQACoLTD.BackendApi.Controllers
             return Ok();
         }
         [HttpPost]
-        [Consumes("multipart/form-data")]
-        public async Task<IActionResult> PostProduct([FromForm] PostListProductRequest request)
+        public async Task<IActionResult> PostProduct(PostListProductRequest request)
         {
             var result = await _listProductService.PostProductAsync(request);
             return Ok(result);

@@ -260,7 +260,7 @@ begin
 		left join Stocks on Stocks.ProductId=Products.Id
 		left join Categories on Categories.Id=Products.CategoryId
 		left join Brands on Brands.Id=Products.BrandId
-		where IsDelete=0 and Stocks.AbleToSale > 0
+		where IsDelete=0
 	),Count_CE as(
 		select COUNT(*) as [TotalRecord] from Main_CE
 	)

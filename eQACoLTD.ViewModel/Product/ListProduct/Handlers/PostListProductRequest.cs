@@ -15,7 +15,5 @@ namespace eQACoLTD.ViewModel.Product.ListProduct.Handlers
         public decimal WholesalePrices { get; set; }
         public int WarrantyPeriod { get; set; }
         public string BrandId { get; set; }
-
-        public IList<IFormFile> Images { get; set; }
     }
 }

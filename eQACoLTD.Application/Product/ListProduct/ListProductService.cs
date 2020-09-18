@@ -166,26 +166,6 @@ namespace eQACoLTD.Application.Product.ListProduct
                     $"N'{request.Information}','{request.CategoryId}',N'{request.Description}'," +
                     $"{request.RetailPrice},{request.WholesalePrices},{request.WarrantyPeriod},'{request.BrandId}')";
                 await connection.ExecuteAsync(query);
-                string imagePath = "";
-                Guid imageId=Guid.Empty;
-                for (int i = 0; i < request.Images.Count; i++)
-                {
-                    imageId = Guid.NewGuid();
-                    imagePath = await this.SaveFile(request.Images[i],imageId);
-                    if (i == 0)
-                    {
-                        query = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
-                                $"VALUES('{imageId}','{productId}'," +
-                                @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',1)";
-                    }
-                    else
-                    {
-                        query = $"INSERT INTO ProductImages(Id,ProductId,ImagePath,FullPath,IsThumbnail) " +
-                                $"VALUES('{imageId}','{productId}'," +
-                                @$"'{imagePath}','{_configuration["BackendServerHost"]}/app-content/{imagePath}',0)";
-                    }
-                    await connection.ExecuteAsync(query);   
-                }
                 return new ApiSuccessResult<string>(productId);
             }
         }

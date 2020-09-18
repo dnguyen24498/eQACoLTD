@@ -3,13 +3,14 @@
 {
     <link href="~/lib/summernote/summernote-bs4.css" rel="stylesheet">
 }
-
 @section Scripts
 {
     <script src="~/lib/summernote/summernote-bs4.min.js"></script>
     <script>
      getBrands();
      getCategories();
+     var formData=new FormData();
+     var filesData=[];
      $('#summernote').summernote({
                height: 300,
                tooltip: false
@@ -18,6 +19,9 @@
          if(input.files){
              var filesAmount = input.files.length;
              for (i=0;i<filesAmount;i++){
+                 formData.append("files",input.files[i]);
+                 filesData.push(input.files[i]);
+                 console.log(filesData.length);
                  var reader=new FileReader();
                  reader.onload=function(event) {
                    var div=document.createElement('div');
@@ -28,7 +32,7 @@
                    $(iEl).attr('class','fa fa-close text-dark float-right pt-md-1 pr-md-2');
                    $(iEl).attr('style','cursor:pointer');
                    $(iEl).on('click',function() {
-                     deleteImage(this,input);
+                     deleteImage(this);
                    })
                    $(divChild).append(iEl);
                    var divBody=document.createElement('div');
@@ -41,24 +45,21 @@
                    $(div).append(divBody);
                    $(placeToInsertImagePreview).append(div);
                  }
-                 reader.onloadend=function(){
-                    var index=$("#preview-images").children().length-1;
-                    $("#preview-images").children().last().attr('id','files-'+index);       
-                 }
                  reader.readAsDataURL(input.files[i]);
              }
          }
      }
-     function deleteImage(el,input){
-         var idParent=$(el).parent().parent().attr('id');
-         $(el).parent().parent().fadeOut('slow').remove();
-         var id=idParent.split('-')[1];
+     function deleteImage(el){
+         var index=$("#preview-images div div i").index(el);
+         $(el).parent().parent().remove();
+         filesData.splice(index,1);
+         formData.delete('files');
+         $.each(filesData,function(i,v){
+             formData.append('files',v);
+         })
      }
      $("#image-files").on('change',function(){
         previewFiles(this,$("#preview-images")) 
-     })
-     $("#create-form").on('submit',function() {
-       var markupStr = $('#summernote').summernote('code');
      })
      function getBrands(){
          $.ajax({
@@ -88,6 +89,57 @@
             }
          })
      }
+     function postImage(productId){
+         $.ajax({
+           url:'https://localhost:5001/api/products/'+productId+'/images',
+           headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+           data:formData,
+           type:'POST',
+           contentType: false,
+           processData: false,
+           success:function() {
+             console.log("Thành công");
+           },
+           error:function() {
+             console.log("Thất bại");
+           }
+         })
+     }
+     function postProduct(){
+         var product={
+             name:$("#productName").val(),
+             information:$("#productInformation").val(),
+             categoryid:$("#categories-select").find(':selected').val(),
+             description:$('#summernote').summernote('code'),
+             retailprice:$("#productRetailPrice").val(),
+             wholesaleprices:parseFloat($("#productWholeSalePrice").val().replace(/,/g,'')),
+             warrantyperiod:$("#productWarrantyPeriod").val().replace(/,/g,''),
+             brandid:$("#brands-select").find(':selected').val()
+         };
+         $.ajax({
+            url:'https://localhost:5001/api/products',
+            headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+            contentType:'application/json',
+            method:'POST',
+            data:JSON.stringify(product),
+            success:function(data){
+                postImage(data.resultObj);
+                showAlertMessage(true,"Tạo mới sản phẩm thành công");
+            },
+            error:function() {
+              
+            }
+         })
+     }
+     $('#productRetailPrice,#productWholeSalePrice').keyup(function(event) {
+       if(event.which >= 37 && event.which <= 40) return;
+       $(this).val(function(index, value) {
+         return value
+         .replace(/\D/g, "")
+         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+         ;
+       });
+     });
      </script>
 }
 
@@ -109,19 +161,19 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-control-label">Tên sản phẩm: <span class="tx-danger">*</span></label>
-                                <input class="form-control" type="text" placeholder="Nhập tên sản phẩm">
+                                <input id="productName" class="form-control" type="text" placeholder="Nhập tên sản phẩm">
                             </div>
                         </div><!-- col-4 -->
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label">Tổng quan:</label>
-                                <input class="form-control" type="text" placeholder="Nhập thông tin tổng quan">
+                                <input id="productInformation" class="form-control" type="text" placeholder="Nhập thông tin tổng quan">
                             </div>
                         </div><!-- col-4 -->
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label">Thời gian bảo hành (tháng):</label>
-                                <input class="form-control" type="text" placeholder="Nhập thời gian bảo hành">
+                                <input id="productWarrantyPeriod" class="form-control" type="text" placeholder="Nhập thời gian bảo hành">
                             </div>
                         </div><!-- col-4 -->
                     </div><!-- row -->
@@ -132,13 +184,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label">Giá bán lẻ:</label>
-                                <input class="form-control" type="text" placeholder="Nhập giá bán lẻ">
+                                <input id="productRetailPrice" class="form-control" type="text" placeholder="Nhập giá bán lẻ">
                             </div>
                         </div><!-- col-4 -->
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label">Giá bán buôn:</label>
-                                <input class="form-control" type="text" placeholder="Nhập giá bán buôn">
+                                <input id="productWholeSalePrice" class="form-control" type="text" placeholder="Nhập giá bán buôn">
                             </div>
                         </div><!-- col-4 -->
                     </div><!-- row -->
@@ -180,7 +232,7 @@
             </div>
         </div>
         <div class="row mt-md-2 ml-md-0">
-            <input class="btn btn-primary text-white"  style="cursor: pointer" value="Thêm mới sản phẩm" type="submit"/>
+            <input class="btn btn-primary text-white" onclick="postProduct()"  style="cursor: pointer" value="Thêm mới sản phẩm" type="submit"/>
             <a class="btn btn-secondary text-white ml-md-1" style="cursor: pointer">Trở lại</a>
         </div>
     </div>

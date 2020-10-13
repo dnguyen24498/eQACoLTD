@@ -9,38 +9,40 @@ using Newtonsoft.Json;
 
 namespace eQACoLTD.AdminMvc.Services
 {
-    public class ProductService:IProductService
+    public class ProductAPIService:IProductAPIService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public ProductService(IHttpClientFactory httpClientFactory)
+        public ProductAPIService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ApiResult<string>> PostProductAsync(PostListProductRequest request)
+        public async Task<ApiResult<string>> PostProductAsync(ProductForCreationDto forCreationDto)
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
             var response = await httpClient.GetAsync($"api/products");
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<string>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<string>(System.Net.HttpStatusCode.OK) { 
+                    ResultObj=await response.Content.ReadAsStringAsync()
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<string>>
-                ("Có lỗi khi tạo sản phẩm");
+            return new ApiResult<string>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
-        public async Task<ApiResult<PagedResult<ListProductResponse>>> GetProductPagingAsync(int pageIndex)
+        public async Task<ApiResult<PagedResult<ProductsDto>>> GetProductPagingAsync(int pageIndex,int pageSize)
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync($"api/products?pageIndex={pageIndex}");
+            var response = await httpClient.GetAsync($"api/products?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<ListProductResponse>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<PagedResult<ProductsDto>>(System.Net.HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<PagedResult<ProductsDto>>
+                    (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<ListProductResponse>>>
-                ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<PagedResult<ProductsDto>>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
     }
 }

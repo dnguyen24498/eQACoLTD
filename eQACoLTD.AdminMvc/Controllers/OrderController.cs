@@ -9,5 +9,10 @@ namespace eQACoLTD.AdminMvc.Controllers
         {
             return View();
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

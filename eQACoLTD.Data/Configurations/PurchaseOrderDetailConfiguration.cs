@@ -24,6 +24,24 @@ namespace eQACoLTD.Data.Configurations
             builder.HasOne(p => p.Product)
                 .WithMany(pod => pod.PurchaseOrderDetails)
                 .HasForeignKey(pod => pod.ProductId);
+
+            builder.HasData(
+                new PurchaseOrderDetail()
+                {
+                    Id = "73e88c7b-6a11-4c27-9045-308d2d1b553a",
+                    PurchaseOrderId = "PON0001",
+                    ProductId = "PRN0001",
+                    UnitPrice = 42000000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "e93c0a07-69a3-4736-9671-21ce451bc656",
+                    PurchaseOrderId = "PON0001",
+                    ProductId = "PRN0002",
+                    UnitPrice = 30000000,
+                    Quantity = 10
+                });
         }
     }
 }

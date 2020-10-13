@@ -15,6 +15,5 @@ namespace eQACoLTD.Data.Entities
 
         public PurchaseOrder PurchaseOrder { get; set; }
         public Product Product { get; set; }
-        public StockHistory StockHistory { get; set; }
     }
 }

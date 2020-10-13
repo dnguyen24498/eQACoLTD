@@ -6,7 +6,7 @@ namespace eQACoLTD.Data.Entities
 {
     public class Cart
     {
-        public Guid? UserId { get; set; }
+        public Guid? AppUserId { get; set; }
         public string ProductId { get; set; }
         public int Quantity { get; set; }
 

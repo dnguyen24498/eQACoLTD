@@ -30,9 +30,9 @@ namespace eQACoLTD.AdminMvc.Handlers
             CancellationToken cancellationToken)
         {
             var accessToken = await GetAccessTokenAsync();
-            _httpContextAccessor.HttpContext.Session.SetString("access_token",accessToken);
             if (!string.IsNullOrWhiteSpace(accessToken))
                 request.SetBearerToken(accessToken);
+            _httpContextAccessor.HttpContext.Session.SetString("access_token", accessToken);
             return await base.SendAsync(request, cancellationToken);
         }
 

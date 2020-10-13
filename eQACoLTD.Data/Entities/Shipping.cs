@@ -4,9 +4,9 @@ using System.Text;
 
 namespace eQACoLTD.Data.Entities
 {
-    public class ShippingOrder
+    public class Shipping
     {
-        public string SalesReceiptId { get; set; }
+        public string OrderId { get; set; }
         public string Id { get; set; }
         public string Description { get; set; }
         public string CustomerId { get; set; }
@@ -18,10 +18,13 @@ namespace eQACoLTD.Data.Entities
         public string ShippingStatusId { get; set; }
         public DateTime DateCreated { get; set; }
         public string LiquidationVoucherId { get; set; }
-
-        public Order Order { get; set; }
         public Customer Customer { get; set; }
         public Transporter Transporter { get; set; }
         public ShippingStatus ShippingStatus { get; set; }
+        public Order Order { get; set; }
+        public List<PaymentVoucher> PaymentVouchers { get; set; }
+        public List<ReceiptVoucher> ReceiptVouchers { get; set; }
+        public LiquidationVoucher LiquidationVoucher { get; set; }
+        
     }
 }

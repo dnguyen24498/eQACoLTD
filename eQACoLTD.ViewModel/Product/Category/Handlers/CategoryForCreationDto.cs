@@ -5,7 +5,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.Product.Category.Handlers
 {
-    public class CategoryRequest
+    public class CategoryForCreationDto
     {
         public string Name { get; set; }
         public string Description { get; set; }

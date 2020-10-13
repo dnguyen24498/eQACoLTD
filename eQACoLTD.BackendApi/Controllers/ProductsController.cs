@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Product.ListProduct;
 using eQACoLTD.ViewModel.Product.ListProduct.Handlers;
@@ -14,91 +15,100 @@ namespace eQACoLTD.BackendApi.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IListProductService _listProductService;
-        public ProductsController(IListProductService listProductService)
+        private readonly IListProductService _productService;
+
+        public ProductsController(IListProductService productService)
         {
-            _listProductService = listProductService;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductPaging(int pageIndex = 1)
+        public async Task<IActionResult> GetListProducts(int pageIndex = 1, int pageSize = 15)
         {
-            var result = await _listProductService.GetProductPagingAsync(pageIndex);
-            return Ok(result);
+            var result = await _productService.GetProductsPagingAsync(pageIndex, pageSize);
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetProduct(string productId)
+        public async Task<IActionResult> GetProducts(string productId)
         {
-            var result = await _listProductService.GetProductAsync(productId);
-            return Ok(result);
+            var result = await _productService.GetProductAsync(productId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(ProductForCreationDto creationDto)
+        {
+            var result = await _productService.CreateProductAsync(creationDto);
+            if (result.Code == HttpStatusCode.InternalServerError)
+                return StatusCode(500, result.Message);
+            return Ok(result.ResultObj);
+        }
+
         [HttpPost("{productId}/images")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> PostProductImage(string productId,[FromForm] IList<IFormFile> files)
+        public async Task<IActionResult> AddImages(string productId, [FromForm] IList<IFormFile> files)
         {
-            var result = await _listProductService.PostProductImageAsync(productId,files);
-            return Ok(result);
+            var result = await _productService.AddImageToProductAsync(productId, files);
+            if (result.Code == HttpStatusCode.InternalServerError)
+                return StatusCode(500, result.Message);
+            if (result.Code == HttpStatusCode.NotFound)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
-        [HttpDelete("images/{imageId}")]
-        public async Task<IActionResult> DeleteProductImage(Guid imageId)
+
+        [HttpGet("best-selling-in-month")]
+        public async Task<IActionResult> GetBestSellingInMonth()
         {
-            await _listProductService.DeleteProductImageAsync(imageId);
-            return Ok();
+            var result = await _productService.GetBestSellingInMonth();
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
         }
-        [HttpGet("{productId}/images")]
-        public async Task<IActionResult> GetProductImage(string productId)
+
+        [HttpGet("random")]
+        public async Task<IActionResult> GetRandom()
         {
-            var result = await _listProductService.GetProductImageAsync(productId);
-            return Ok(result);
+            var result = await _productService.GetRandom();
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
         }
-        [HttpDelete("{productId}")]
-        public async Task<IActionResult> DeleteProduct(string productId)
-        {
-            await _listProductService.DeleteProductAsync(productId);
-            return Ok();
-        }
-        [HttpPost]
-        public async Task<IActionResult> PostProduct(PostListProductRequest request)
-        {
-            var result = await _listProductService.PostProductAsync(request);
-            return Ok(result);
-        }
-        [HttpGet("featured")]
-        public async Task<IActionResult> GetFeaturedProducts()
-        {
-            var result = await _listProductService.GetFeaturedProductsAsync();
-            return Ok(result);
-        }
-        [HttpGet("best-sell")]
-        public async Task<IActionResult> GetBestSellProducts()
-        {
-            var result = await _listProductService.GetBestSellProductsAsync();
-            return Ok(result);
-        }
+
         [HttpGet("new-arrived")]
-        public async Task<IActionResult> GetNewArrivedProducts()
+        public async Task<IActionResult> NewArrived()
         {
-            var result = await _listProductService.GetNewArrivedProductsAsync();
-            return Ok(result);
+            var result = await _productService.GetNewArrived();
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
         }
-        [HttpGet("suggestion")]
-        public async Task<IActionResult> GetSuggestionProducts()
+        [HttpGet("top-view")]
+        public async Task<IActionResult> TopView()
         {
-            var result = await _listProductService.GetRandomProductAsync();
-            return Ok(result);
+            var result = await _productService.TopView();
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
         }
-        [HttpGet("top-rated")]
-        public async Task<IActionResult> GetTopRatedProducts()
+        [HttpGet("top-rate")]
+        public async Task<IActionResult> TopRate()
         {
-            var result = await _listProductService.GetProductsTopRatedAsync();
-            return Ok(result);
+            var result = await _productService.TopRate();
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
         }
-        [HttpGet("top-viewed")]
-        public async Task<IActionResult> GetTopViewedProducts()
+        [HttpGet("best-selling")]
+        public async Task<IActionResult> BestSelling()
         {
-            var result = await _listProductService.GetProductsTopViewedAsync();
-            return Ok(result);
+            var result = await _productService.GetBestSelling();
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("search/{productName}")]
+        public async Task<IActionResult> SearchProduct(string productName)
+        {
+            var result = await _productService.SearchProductAsync(productName);
+            return Ok(result.ResultObj);
         }
     }
 }

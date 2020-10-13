@@ -18,7 +18,7 @@ namespace eQACoLTD.ClientMvc.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var result = await _homeService.GetBestSellProductsAsync();
-            if (result == null || !result.IsSuccess) return View("Default", new List<ListProductHomeResponse>());
+            if (result == null || !result.IsSuccess) return View("Default", new List<ProductHomePageDto>());
             return View("Default", result.ResultObj);
         }
     }

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.Product.Category.Handlers
 {
-    public class CategoryImageRequest
+    public class CategoryImageForCreationDto
     {
         public string CategoryId { get; set; }
-        public IFormFile Imagefile { get; set; }
+        public IFormFile ImageFile { get; set; }
     }
 }

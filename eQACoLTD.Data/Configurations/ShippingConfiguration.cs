@@ -7,11 +7,11 @@ using System.Text;
 
 namespace eQACoLTD.Data.Configurations
 {
-    public class ShippingOrderConfiguration : IEntityTypeConfiguration<Shipping>
+    public class ShippingConfiguration : IEntityTypeConfiguration<Shipping>
     {
         public void Configure(EntityTypeBuilder<Shipping> builder)
         {
-            builder.ToTable("ShippingOrders");
+            builder.ToTable("Shippings");
             builder.Property(x => x.Id).HasColumnType("char(36)");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.CustomerName).HasColumnType("nvarchar(150)");
@@ -23,14 +23,20 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.CustomerId).IsRequired(false);
             
             builder.HasOne(c => c.Customer)
-                .WithMany(so => so.ShippingOrders)
+                .WithMany(so => so.Shippings)
                 .HasForeignKey(so => so.CustomerId);
             builder.HasOne(t => t.Transporter)
-                .WithMany(so => so.ShippingOrders)
+                .WithMany(so => so.Shippings)
                 .HasForeignKey(so => so.TransporterId);
             builder.HasOne(ss => ss.ShippingStatus)
-                .WithMany(so => so.ShippingOrders)
+                .WithMany(so => so.Shippings)
                 .HasForeignKey(so => so.ShippingStatusId);
+            builder.HasOne(s => s.Order)
+                .WithMany(so => so.Shippings)
+                .HasForeignKey(so => so.OrderId);
+            builder.HasOne(l => l.LiquidationVoucher)
+                .WithMany(so => so.Shippings)
+                .HasForeignKey(so => so.LiquidationVoucherId);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.System.Account.Queries
 {
-    public class LoginAccountRequest
+    public class LoginAccountDto
     {
         [Required(ErrorMessage = "Tên đăng nhập không được trống")]
         public string UserName { get; set; }

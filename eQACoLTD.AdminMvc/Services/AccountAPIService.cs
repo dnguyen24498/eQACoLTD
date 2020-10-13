@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using eQACoLTD.ViewModel.Product.ListProduct.Handlers;
@@ -19,31 +20,32 @@ namespace eQACoLTD.AdminMvc.Services
         }
 
 
-        public async Task<ApiResult<AccountDetailResponse>> GetAccountDetailAsync(Guid userId)
+        public async Task<ApiResult<AccountDto>> GetAccountDetailAsync(Guid userId)
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
             var response = await httpClient.GetAsync($"api/accounts/{userId}");
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<AccountDetailResponse>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<AccountDto>(HttpStatusCode.OK){
+                    ResultObj= JsonConvert.DeserializeObject<AccountDto>(await response.Content.ReadAsStringAsync()) };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<AccountDetailResponse>>
-                    ("Không tìm thấy tài khoản");
+            return new ApiResult<AccountDto>(response.StatusCode,await response.Content.ReadAsStringAsync()); 
         }
         
 
-        public async Task<ApiResult<PagedResult<AccountResponse>>> GetAccountsPagingAsync(int pageIndex)
+        public async Task<ApiResult<PagedResult<AccountsDto>>> GetAccountsPagingAsync(int pageIndex,int pageSize)
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync($"api/accounts?pageIndex={pageIndex}");
+            var response = await httpClient.GetAsync($"api/accounts?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<AccountResponse>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<PagedResult<AccountsDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<PagedResult<AccountsDto>>
+                    (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<AccountResponse>>>
-                    ("Có lỗi khi lấy danh sách tài khoản");
+            return new ApiResult<PagedResult<AccountsDto>>(response.StatusCode,await response.Content.ReadAsStringAsync());
         }
     }
 }

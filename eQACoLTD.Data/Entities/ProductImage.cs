@@ -8,8 +8,7 @@ namespace eQACoLTD.Data.Entities
     {
         public string Id { get; set; }
         public string ProductId { get; set; }
-        public string ImagePath { get; set; }
-        public string FullPath { get; set; }
+        public string Path { get; set; }
         public bool IsThumbnail { get; set; }
 
         public Product Product { get; set; }

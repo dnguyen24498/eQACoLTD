@@ -17,9 +17,10 @@ namespace eQACoLTD.Data.Entities
         public string EmployeeId { get; set; }
         public string Website { get; set; }
         public string Description { get; set; }
-
-    
+        public Guid? AppUserId { get; set; }
+        
         public Employee Employee { get; set; }
+        public AppUser AppUser { get; set; }
         public List<PurchaseOrder> PurchaseOrders { get; set; }
         public List<PaymentVoucher> PaymentVouchers { get; set; }
         public List<ReceiptVoucher> ReceiptVouchers { get; set; }

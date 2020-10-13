@@ -4,11 +4,11 @@ using System.Text;
 
 namespace eQACoLTD.Data.Entities
 {
-    public class ProductReviewReply
+    public class ProductEvaluationReply
     {
         public string Id { get; set; }
-        public string ProductReviewId { get; set; }
-        public Guid? UserId { get; set; }
+        public string ProductEvaluationId { get; set; }
+        public Guid? AppUserId { get; set; }
         public string Content { get; set; }
 
         public ProductEvaluation ProductEvaluation { get; set; }

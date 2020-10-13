@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Customer;
 using eQACoLTD.ViewModel.Customer.Handlers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 
 namespace eQACoLTD.BackendApi.Controllers
 {
@@ -14,45 +16,59 @@ namespace eQACoLTD.BackendApi.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _customerService;
+
         public CustomersController(ICustomerService customerService)
         {
             _customerService = customerService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetCustomerPaging(int pageIndex = 1)
+        public async Task<IActionResult> GetCustomers(int pageIndex = 1, int pageSize = 15)
         {
-            var result = await _customerService.GetCustomersPagingAsync(pageIndex);
-            return Ok(result);
+            var result = await _customerService.GetCustomersPagingAsync(pageIndex, pageSize);
+            if (result.Code == HttpStatusCode.NoContent)
+                return NoContent();
+            return Ok(result.ResultObj);
         }
+
         [HttpGet("{customerId}")]
         public async Task<IActionResult> GetCustomer(string customerId)
         {
             var result = await _customerService.GetCustomerAsync(customerId);
-            return Ok(result);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
+
         [HttpGet("{customerId}/histories")]
-        public async Task<IActionResult> GetCustomerHistory(string customerId,int pageIndex)
+        public async Task<IActionResult> GetCustomerHistories(string customerId, int pageIndex=1, int pageSize=15)
         {
-            var result = await _customerService.GetCustomerHistoryPagingAsync(customerId,pageIndex);
-            return Ok(result);
+            var result = await _customerService.GetCustomerHistoriesAsync(customerId, pageIndex, pageSize);
+            if (result.Code == HttpStatusCode.NoContent) return NoContent();
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
+
         [HttpPost]
-        public async Task<IActionResult> PostCustomer(CustomerRequest request)
+        public async Task<IActionResult> CreateCustomer(CustomerForCreationDto creationDto)
         {
-            var result = await _customerService.PostCustomerAsync(request);
-            return Ok(result);
+            var result = await _customerService.CreateCustomerAsync(creationDto);
+            if (result.Code == HttpStatusCode.InternalServerError)
+                return StatusCode(500, result.Message);
+            return Ok(result.ResultObj);
         }
         [HttpDelete("{customerId}")]
         public async Task<IActionResult> DeleteCustomer(string customerId)
         {
-            await _customerService.DeleteCustomerAsync(customerId);
-            return Ok();
+            var result = await _customerService.DeleteCustomerAsync(customerId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
-        [HttpPut("{customerId}")]
-        public async Task<IActionResult> PutCustomer(string customerId,CustomerRequest request)
+
+        [HttpGet("search/{customerName}")]
+        public async Task<IActionResult> SearchCustomer(string customerName)
         {
-            var result = await _customerService.PutCustomerAsync(customerId, request);
-            return Ok(result);
+            var customers = await _customerService.SearchCustomerAsync(customerName);
+            return Ok(customers.ResultObj);
         }
     }
 }

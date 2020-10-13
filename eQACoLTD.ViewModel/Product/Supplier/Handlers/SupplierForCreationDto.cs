@@ -4,7 +4,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.Product.Supplier.Handlers
 {
-    public class SupplierRequest
+    public class SupplierForCreationDto
     {
         public string Name { get; set; }
         public string Address { get; set; }

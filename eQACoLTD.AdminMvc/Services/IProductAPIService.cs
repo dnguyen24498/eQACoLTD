@@ -6,9 +6,9 @@ using eQACoLTD.ViewModel.Product.ListProduct.Queries;
 
 namespace eQACoLTD.AdminMvc.Services
 {
-    public interface IProductService
+    public interface IProductAPIService
     {
-        Task<ApiResult<PagedResult<ListProductResponse>>> GetProductPagingAsync(int pageIndex);
-        Task<ApiResult<string>> PostProductAsync(PostListProductRequest request);
+        Task<ApiResult<PagedResult<ProductsDto>>> GetProductPagingAsync(int pageIndex,int pageSize);
+        Task<ApiResult<string>> PostProductAsync(ProductForCreationDto forCreationDto);
     }
 }

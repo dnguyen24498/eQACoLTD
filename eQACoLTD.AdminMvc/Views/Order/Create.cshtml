@@ -1,18 +1,390 @@
-﻿@model TModel
-
-@{
-    Layout = null;
+﻿@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@section Scripts
+{
+    <script>
+        var timer=null;
+        $("#customer-search").keyup(function() {
+          clearTimeout(timer);
+          timer=setTimeout(searchCustomer,1000)
+        })
+        $("#product-search").keyup(function() {
+                  clearTimeout(timer);
+                  timer=setTimeout(searchProduct,1000)
+                })
+        $(document).on('click', function(e) {
+            if ( e.target.id != 'ok' ) {
+                hideCustomerPanel();
+                hideProductPanel();
+            }
+        });
+        function searchCustomer() {
+          $("#customers-panel").css('display','block');
+          var customerName=$("#customer-search").val();
+          $.ajax({
+             url:'@Configuration["APIServerHost"]api/customers/search/'+customerName,
+             headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+             method:'GET',
+             dataType:'json',
+             success:function(data) {
+               $("#customers-ul").empty();
+               $(data).each(function(index,cus) {
+                 var liEl=document.createElement('li');
+                 liEl.setAttribute('id',cus.id);
+                 $(liEl).on('click',function() {
+                   console.log(cus);
+                 })
+                 liEl.setAttribute('class','list-group-item');
+                 liEl.append(cus.name);
+                 liEl.setAttribute('style','cursor:pointer');
+                 liEl.append(document.createElement('br'));
+                 liEl.append(cus.phoneNumber);
+                 $(liEl).on({
+                 mouseenter: function(){
+                      $(this).css("background-color", "#0085F9").css("color","white");},
+                      mouseleave: function(){
+                      $(this).css("background-color", "white").css("color","black");
+                      },});
+                 $("#customers-ul").append(liEl);
+               })
+             }
+          });
+        }
+        function hideCustomerPanel() {
+          $("#customers-panel").css('display','none');
+        }
+        function searchProduct() {
+            $("#product-panel").css('display','block');
+            var productName=$("#product-search").val();
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/products/search/'+productName,
+                headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                method:'GET',
+                dataType:'json',
+                success:function(data) {
+                  $("#products-ul").empty();
+                  $(data).each(function(index,prod) {
+                    var liEl=document.createElement('li');
+                    liEl.setAttribute('class','list-group-item');
+                    liEl.setAttribute('style','cursor:pointer');
+                    liEl.setAttribute('id',prod.id);
+                    var rowDiv=document.createElement('div');
+                    rowDiv.setAttribute('class','row');
+                    var imgDiv=document.createElement('div');
+                    imgDiv.setAttribute('class','col-md-1');
+                    var img=document.createElement('img');
+                    img.setAttribute('width','50px');
+                    img.setAttribute('height','50px');
+                    img.setAttribute('src','@Configuration["APIServerHost"]app-content/'+prod.path);
+                    imgDiv.append(img);
+                    rowDiv.append(imgDiv);
+                    var infoDiv=document.createElement('div');
+                    infoDiv.setAttribute('class','col-md-11');
+                    var pProduct=document.createElement('p');
+                    pProduct.setAttribute('class','p-3');
+                    pProduct.append(prod.name);
+                    infoDiv.append(pProduct);
+                    rowDiv.append(infoDiv);
+                    liEl.append(rowDiv);
+                    $(liEl).on({
+                        mouseenter: function(){
+                             $(this).css("background-color", "#0085F9").css("color","white");},
+                        mouseleave: function(){
+                             $(this).css("background-color", "white").css("color","black");
+                             },
+                        click:function(){
+                            var trProd=document.createElement('tr');
+                            trProd.setAttribute('class','border');
+                            trProd.setAttribute('id',prod.id);
+                            var tdId=document.createElement('td');
+                            tdId.setAttribute('class','align-middle');
+                            tdId.append(prod.id);
+                            trProd.append(tdId);
+                            var tdName=document.createElement('td');
+                            tdName.setAttribute('class','align-middle');
+                            tdName.append(prod.name);
+                            trProd.append(tdName);
+                            var tdUnit=document.createElement('td');
+                            tdUnit.setAttribute('class','align-middle');
+                            var unitSelect=document.createElement('select');
+                            unitSelect.setAttribute('class','form-control');
+                            var option=document.createElement('option');
+                            option.append('Cái');
+                            unitSelect.append(option);
+                            tdUnit.append(unitSelect);
+                            trProd.append(tdUnit);
+                            var tdQuantity=document.createElement('td');
+                            tdQuantity.setAttribute('class','align-middle');
+                            var inputQuantity=document.createElement('input');
+                            inputQuantity.setAttribute('type','text');
+                            inputQuantity.setAttribute('class','form-control price_format');
+                            inputQuantity.setAttribute('value','1');
+                            tdQuantity.append(inputQuantity);
+                            trProd.append(tdQuantity);
+                            var tdPrice=document.createElement('td');
+                            tdPrice.setAttribute('class','align-middle');
+                            var inputPrice=document.createElement('input');
+                            inputPrice.setAttribute('type','text');
+                            inputPrice.setAttribute('class','form-control price_format');
+                            inputPrice.setAttribute('value',accounting.format(prod.retailPrice));
+                            tdPrice.append(inputPrice);
+                            trProd.append(tdPrice);
+                            var tdTotal=document.createElement('td');
+                            tdTotal.setAttribute('class','text-right align-middle');
+                            var aEl=document.createElement('a');
+                            var spanEl=document.createElement('span');
+                            spanEl.append(accounting.formatNumber(prod.retailPrice));
+                            aEl.append(spanEl);
+                            var iEl=document.createElement('i');
+                            iEl.setAttribute('class','fa fa-close');
+                            iEl.setAttribute('style','cursor: pointer;padding-left: 3px');
+                            $(iEl).on('click',function() {
+                                $(trProd).remove();
+                            })
+                            aEl.append(iEl);
+                            tdTotal.append(aEl);
+                            trProd.append(tdTotal);
+                            $(inputQuantity).on('input',function() {
+                              var newTotal=$(inputQuantity).val().replace(/,/g,'')*prod.retailPrice;
+                              $(spanEl).empty().append(accounting.formatNumber(newTotal));
+                            });
+                            $(inputPrice).on('input',function() {
+                              var newTotal=$(inputPrice).val().replace(/,/g,'')*$(inputQuantity).val().replace(/,/g,'');
+                              $(spanEl).empty().append(accounting.formatNumber(newTotal));
+                            })
+                            $(inputPrice).add(inputQuantity).on('keyup',function(event) {
+                              if(event.which >= 37 && event.which <= 40) return;
+                                     $(this).val(function(index, value) {
+                                       return value
+                                       .replace(/\D/g, "")
+                                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                       ;
+                                     });
+                            })
+                            $("#order-table tbody").append(trProd);
+                        }});
+                    $("#products-ul").append(liEl);
+                  })
+                }
+            })
+        }
+        function hideProductPanel() {
+            $("#product-panel").css('display','none');
+        }
+        function addService() {
+          var tbody=$("#order-table tbody");
+          var tr=document.createElement('tr');
+          tr.append(document.createElement('td'));
+          var tdServiceName=document.createElement('td');
+          var inputServiceName=document.createElement('input');
+          inputServiceName.setAttribute('type','text');
+          inputServiceName.setAttribute('class','form-control');
+          inputServiceName.setAttribute('value',$("#serviceName").val());
+          tdServiceName.append(inputServiceName);
+          tr.append(tdServiceName);
+          tr.append(document.createElement('td'));
+          var tdQuantity=document.createElement('td');
+          tdQuantity.setAttribute('class','align-middle')
+          var inputQuantity=document.createElement('input');
+          inputQuantity.setAttribute('type','text');
+          inputQuantity.setAttribute('class','form-control price_format');
+          inputQuantity.setAttribute('value',$("#serviceQuantity").val());
+          tdQuantity.append(inputQuantity);
+          tr.append(tdQuantity);
+          var tdPrice=document.createElement('td');
+          tdPrice.setAttribute('class','align-middle')
+          var inputPrice=document.createElement('input');
+          inputPrice.setAttribute('type','text');
+          inputPrice.setAttribute('class','form-control price_format');
+          inputPrice.setAttribute('value',$("#servicePrice").val());
+          tdPrice.append(inputPrice);
+          tr.append(tdPrice);
+          var tdTotalAmount=document.createElement('td');
+          tdTotalAmount.setAttribute('class','text-right align-middle')
+          var aElTotalAmount=document.createElement('a');
+          var iElTotalAmount=document.createElement('i');
+          var totalAmount=$("#servicePrice").val().replace(/,/g,'')*$("#serviceQuantity").val().replace(/,/g,'');
+          var spanEl=document.createElement('span');
+          spanEl.append(accounting.formatNumber(totalAmount));
+          aElTotalAmount.append(spanEl);
+          iElTotalAmount.setAttribute('class','fa fa-close price_format');
+          iElTotalAmount.setAttribute('style','cursor: pointer;padding-left:3px');
+          $(iElTotalAmount).on('click',function() {
+            deleteService(iElTotalAmount);
+          });
+          $(inputQuantity).on('input',function() {
+             
+          })
+          aElTotalAmount.append(iElTotalAmount);
+          tdTotalAmount.append(aElTotalAmount);
+          tr.append(tdTotalAmount);
+          tbody.append(tr);
+          $(inputQuantity).add(inputPrice).on('keyup',function(event) {
+            if(event.which >= 37 && event.which <= 40) return;
+                   $(this).val(function(index, value) {
+                     return value
+                     .replace(/\D/g, "")
+                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                     ;
+                   });
+          })
+          $('#serviceName, #serviceQuantity, #servicePrice').val('');
+        }
+        function deleteService(el) {
+          $(el).closest('tr').remove();
+        }
+        $('#servicePrice,#serviceQuantity').keyup(function(event) {
+               if(event.which >= 37 && event.which <= 40) return;
+               $(this).val(function(index, value) {
+                 return value
+                 .replace(/\D/g, "")
+                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                 ;
+               });
+             });
+    </script>
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Order" asp-action="Create">Đơn hàng</a>
+        <span class="breadcrumb-item active">Tạo mới</span>
+    </nav>
 </div>
-</body>
-</html>
+<div class="br-pagebody">
+    <div>
+        <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thêm mới đơn hàng</h4>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h6 class="tx-gray-800 tx-bold">Thông tin khách hàng</h6>
+                    <input id="customer-search" style="display: block"
+                           placeholder="Tìm kiếm khách hàng..." class="form-control" type="text">
+                    <div id="customers-panel" style="display: none;position: absolute;z-index: 1"
+                         class="col-md-11 panel">
+                        <div class="panel-body row">
+                            <ul id="customers-ul" class="form-control" 
+                                style="max-height: 350px;margin-bottom: 10px;overflow:scroll;-webkit-overflow-scrolling: touch;">
+                                <li class="list-group-item">
+                                    Khách hàng:Nguyễn Dương Nguyên<br/>
+                                    Điện thoại: 1234567890
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="customer-details" style="display: block;position: absolute" class="col-md-11 panel">
+                        <div class="card">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="form-layout form-layout-1 bg-white mt-3">
+                    <h6 class="tx-gray-800 tx-bold">Thông tin sản phẩm</h6>
+                    <input id="product-search"
+                           placeholder="Tìm kiếm sản phẩm..." class="form-control" type="text">
+                    <div id="product-panel" style="display: none;position: absolute;z-index: 1" class="col-md-11 panel">
+                        <div class="panel-body row">
+                            <ul id="products-ul" class="form-control" 
+                                style="max-height: 350px;margin-bottom: 10px;overflow:scroll;-webkit-overflow-scrolling: touch;">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="~/img/no-image-icon.jpg" alt="Ảnh danh mục" width="50" height="50">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <p class="pt-3">Macbook Pro 2020</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table id="order-table" class="table mt-1" style="border-collapse: collapse">
+                        <thead style="background-color: #EEEEEE">
+                        <tr>
+                            <th scope="col" style="width: 8%">Mã</th>
+                            <th scope="col" style="width: 45%">Tên sản phẩm</th>
+                            <th scope="col" style="width: 10%">Đơn vị</th>
+                            <th scope="col" style="width: 10%">Số lượng</th>
+                            <th scope="col" style="width: 15%" class="text-right">Đơn giá</th>
+                            <th scope="col" style="width: 12%" class="text-right">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @* <tr class="border"> *@
+                        @*     <td class="align-middle">PRN0001</td> *@
+                        @*     <td class="align-middle">Macbook Pro 2020</td> *@
+                        @*     <td class="align-middle"> *@
+                        @*         <select class="form-control"> *@
+                        @*             <option>Cái</option> *@
+                        @*         </select> *@
+                        @*     </td> *@
+                        @*     <td class="align-middle"> *@
+                        @*         <input type="text" class="form-control price_format" value="0"> *@
+                        @*     </td> *@
+                        @*     <td class="align-middle"> *@
+                        @*         <input type="text" class="form-control price_format" value="0"> *@
+                        @*     </td> *@
+                        @*     <td class="text-right align-middle"> *@
+                        @*         <a> *@
+                        @*             30,000,000 *@
+                        @*             <i class="fa fa-close" style="cursor: pointer;padding-left: 3px"></i> *@
+                        @*         </a> *@
+                        @*     </td> *@
+                        @* </tr> *@
+                        @* <tr> *@
+                        @*     <td></td> *@
+                        @*     <td> *@
+                        @*         <input type="text" class="form-control" placeholder="Tên dịch vụ"> *@
+                        @*     </td> *@
+                        @*     <td></td> *@
+                        @*     <td class="align-middle"> *@
+                        @*         <input type="text" class="form-control price_format" value="0"> *@
+                        @*     </td> *@
+                        @*     <td class="align-middle"> *@
+                        @*         <input type="text" class="form-control price_format" value="0"> *@
+                        @*     </td> *@
+                        @*     <td class="text-right align-middle"> *@
+                        @*         <a> *@
+                        @*             100,000 *@
+                        @*             <i class="fa fa-close" style="cursor: pointer;padding-left: 4px"></i> *@
+                        @*         </a> *@
+                        @*     </td> *@
+                        @* </tr> *@
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <a style="cursor: pointer;color: dodgerblue;font-weight: bold;margin: 15px" class="btn btn-primary m-1 text-light">
+                            <i class="fa fa-plus text-light" style="color: dodgerblue"></i>
+                            Thêm dịch vụ khác
+                        </a>
+                        <div class="row col-md-9">
+                            <input id="serviceName" type="text" placeholder="Tên dịch vụ" class="form-control col-md-5 m-1">
+                            <input id="serviceQuantity" type="text" placeholder="Số lượng" value="1" class="form-control col-md-2 m-1 price_format">
+                            <input id="servicePrice" type="text" placeholder="Đơn giá" class="form-control col-md-2 m-1 price_format">
+                            <a class="btn btn-primary text-light m-1" style="cursor:pointer;" onclick="addService()">Thêm</a>
+                        </div>
+                        <div class="col-md-12" style="width: 35%">
+                            <p class="float-left">Tổng tiền</p>
+                            <p class="float-right">300,000,000</p>
+                            <div class="clearfix"></div>
+                            <p class="float-left">Chiết khấu</p>
+                            <p class="float-right">60,000</p>
+                            <div class="clearfix"></div>
+                            <p class="float-left" style="font-weight: bold">Số tiền khách phải trả</p>
+                            <p class="float-right">300,000,000</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+        <div class="row mt-md-2 ml-md-0">
+            <input class="btn btn-primary text-white" onclick="postOrder()" style="cursor: pointer" value="Thêm mới sản phẩm" type="submit"/>
+            <a class="btn btn-secondary text-white ml-md-1" style="cursor: pointer">Trở lại</a>
+        </div>
+    </div>
+</div>

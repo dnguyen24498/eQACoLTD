@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.System.Employee;
 using eQACoLTD.ViewModel.System.Employee.Handlers;
@@ -14,39 +15,47 @@ namespace eQACoLTD.BackendApi.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+
         public EmployeesController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetEmployeePaging(int pageIndex = 1)
+        public async Task<IActionResult> GetEmployeesPaging(int pageIndex = 1, int pageSize = 15)
         {
-            var result = await _employeeService.GetEmployeesPagingAsync(pageIndex);
-            return Ok(result);
+            var result = await _employeeService.GetEmployeeesPagingAsync(pageIndex, pageSize);
+            if (result.Code == HttpStatusCode.OK)
+                return Ok(result.ResultObj);
+            return BadRequest();
         }
+
         [HttpGet("{employeeId}")]
         public async Task<IActionResult> GetEmployee(string employeeId)
         {
             var result = await _employeeService.GetEmployeeAsync(employeeId);
-            return Ok(result);
+            if (result.Code == HttpStatusCode.NotFound)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
+
         [HttpPost]
-        public async Task<IActionResult> PostEmployee([FromBody]PostEmployeeRequest request)
+        public async Task<IActionResult> CreateEmployee(EmployeeForCreationDto creationDto)
         {
-            var result = await _employeeService.PostEmployeeAsync(request);
-            return Ok(result);
+            var result = await _employeeService.CreateEmployeeAsync(creationDto);
+            if (result.Code == HttpStatusCode.BadRequest)
+                return BadRequest(result.Message);
+            if (result.Code == HttpStatusCode.InternalServerError)
+                return StatusCode(500, result.Message);
+            return Ok(result.ResultObj);
         }
+
         [HttpDelete("{employeeId}")]
         public async Task<IActionResult> DeleteEmployee(string employeeId)
         {
-            await _employeeService.DeleteEmployeeAsync(employeeId);
-            return Ok();
-        }
-        [HttpPut("{employeeId}")]
-        public async Task<IActionResult> PutEmployee(string employeeId,[FromBody] PutEmployeeRequest request)
-        {
-            var result = await _employeeService.PutEmployeeAsync(employeeId, request);
-            return Ok(result);
+            var result = await _employeeService.DeleteEmployeeAsync(employeeId);
+            if (result.Code == HttpStatusCode.NotFound)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
     }
 }

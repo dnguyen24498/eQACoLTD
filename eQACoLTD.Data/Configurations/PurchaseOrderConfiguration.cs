@@ -14,26 +14,44 @@ namespace eQACoLTD.Data.Configurations
             builder.ToTable("PurchaseOrders");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
-            builder.Property(x => x.Note).HasColumnType("nvarchar(250)");
-            builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
-            builder.Property(x => x.PurchaseDate).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.DateCreated).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
-            builder.Property(x => x.DiscountTypeId).IsRequired(false).HasDefaultValue();
             builder.Property(x => x.DiscountValue).HasColumnType("decimal").HasDefaultValue(0);
             builder.Property(x => x.DiscountDescription).HasColumnType("nvarchar(500)");
+            builder.Property(x => x.Description).HasColumnType("nvarchar(300)");
+            builder.Property(x => x.DiscountType).HasColumnType("char(1)");
+            builder.Property(x => x.DeliveryDate).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
 
             builder.HasOne(s => s.Supplier)
                 .WithMany(p => p.PurchaseOrders)
                 .HasForeignKey(p => p.SupplierId);
-            builder.HasOne(o => o.OrderStatus)
+            builder.HasOne(b => b.Branch)
                 .WithMany(p => p.PurchaseOrders)
-                .HasForeignKey(p => p.OrderStatusId);
-            builder.HasOne(pa => pa.PaymentStatus)
+                .HasForeignKey(p => p.BrandId);
+            builder.HasOne(t => t.TransactionStatus)
+                .WithMany(p => p.PurchaseOrders)
+                .HasForeignKey(p => p.TransactionStatusId);
+            builder.HasOne(e => e.Employee)
+                .WithMany(p => p.PurchaseOrders)
+                .HasForeignKey(p => p.EmployeeId);
+            builder.HasOne(p => p.PaymentStatus)
                 .WithMany(p => p.PurchaseOrders)
                 .HasForeignKey(p => p.PaymentStatusId);
-            builder.HasOne(dt => dt.DiscountType)
-                .WithMany(pu => pu.PurchaseOrders)
-                .HasForeignKey(pu => pu.DiscountTypeId);
+
+            builder.HasData(
+                new PurchaseOrder()
+                {
+                    Id = "PON0001",
+                    SupplierId = "SUN0001",
+                    PaymentStatusId = "4cc5fe42-6e47-4d47-a205-96039474bdac",
+                    IsDelete = false,
+                    DeliveryDate = DateTime.Now,
+                    DateCreated = DateTime.Now,
+                    BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                    TransactionStatusId = "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8",
+                    EmployeeId = "EPN0001"
+                });
+
         }
     }
 }

@@ -12,12 +12,12 @@ namespace eQACoLTD.Data.Configurations
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
             builder.ToTable("Carts");
-            builder.HasKey(x => new { x.UserId, x.ProductId });
+            builder.HasKey(x => new { x.AppUserId, x.ProductId });
             builder.Property(x => x.Quantity).HasDefaultValue(1);
 
             builder.HasOne(a => a.AppUser)
                 .WithMany(c => c.Carts)
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.AppUserId);
             builder.HasOne(p => p.Product)
                 .WithMany(c => c.Carts)
                 .HasForeignKey(c => c.ProductId);

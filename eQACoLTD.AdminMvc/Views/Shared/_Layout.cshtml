@@ -43,7 +43,7 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
             <li class="nav-item">
-                <a href="accordion.html" class="nav-link">Tạo đơn và giao hàng</a>
+                <a asp-controller="Order" asp-action="Create" class="nav-link">Tạo đơn và giao hàng</a>
             </li>
             <li class="nav-item">
                 <a href="alerts.html" class="nav-link">Danh sách đơn hàng</a>
@@ -64,7 +64,7 @@
                 <a href="navigation-layouts.html" class="nav-link">Quản lý giao hàng</a>
             </li>
         </ul>
-        <a href="mailbox.html" class="br-menu-link">
+        <a asp-controller="Customer" asp-action="Index" class="br-menu-link">
             <div class="br-menu-item">
                 <i class="menu-item-icon icon ion-ios-people tx-24"></i>
                 <span class="menu-item-label">Khách hàng</span>
@@ -79,10 +79,10 @@
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
             <li class="nav-item">
-                <a asp-controller="Product" asp-action="Categories" class="nav-link">Quản lý danh mục</a>
+                <a asp-controller="Category" asp-action="Index" class="nav-link">Quản lý danh mục</a>
             </li>
             <li class="nav-item">
-                <a asp-controller="Product" asp-action="Products" class="nav-link">Danh sách sản phẩm</a>
+                <a asp-controller="Product" asp-action="Index" class="nav-link">Danh sách sản phẩm</a>
             </li>
             <li class="nav-item">
                 <a href="chart-flot.html" class="nav-link">Quản lý kho</a>
@@ -91,7 +91,7 @@
                 <a href="chart-chartjs.html" class="nav-link">Nhập hàng</a>
             </li>
             <li class="nav-item">
-                <a href="chart-rickshaw.html" class="nav-link">Nhà chung cấp</a>
+                <a asp-controller="Supplier" asp-action="Index" class="nav-link">Nhà cung cấp</a>
             </li>
         </ul>
         <a href="#" class="br-menu-link">
@@ -159,11 +159,10 @@
     @if (@User.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value.Contains("Administrator") == true)
     {
         <label class="sidebar-label pd-x-15 mg-t-20">Hệ thống</label>
-        <a href="mailbox.html" class="br-menu-link">
+        <a asp-controller="Account" asp-action="Index" class="br-menu-link">
             <div class="br-menu-item">
                 <i class="menu-item-icon icon ion-person-stalker tx-24"></i>
-                <span class="menu-item-label"></span>
-                <a class="text-white" asp-controller="Account" asp-action="Index">Tài khoản hệ thống</a>
+                <span class="menu-item-label">Tài khoản hệ thống</span>
             </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <a href="#" class="br-menu-link">
@@ -276,8 +275,7 @@
 <script src="~/lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
 <script src="~/lib/d3/d3.js"></script>
 <script src="~/lib/rickshaw/rickshaw.min.js"></script>
-
-
+<script src="~/js/accounting.js"></script>
 <script src="~/js/bracket.js"></script>
 <script src="~/js/ResizeSensor.js"></script>
 <script src="~/js/dashboard.js"></script>

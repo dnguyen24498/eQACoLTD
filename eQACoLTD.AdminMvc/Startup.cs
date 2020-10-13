@@ -16,6 +16,7 @@ using Microsoft.Net.Http.Headers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Http;
 using Microsoft.IdentityModel.Logging;
 
 namespace eQACoLTD.AdminMvc
@@ -83,7 +84,10 @@ namespace eQACoLTD.AdminMvc
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddTransient<IAccountAPIService, AccountAPIService>();
-            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductAPIService, ProductAPIService>();
+            services.AddTransient<ICustomerAPIService, CustomerAPIService>();
+            services.AddTransient<ICategoryAPIService, CategoryAPIService>();
+            services.AddTransient<ISupplierAPIService, SupplierAPIService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

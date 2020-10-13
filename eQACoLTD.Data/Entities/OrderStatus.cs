@@ -10,6 +10,5 @@ namespace eQACoLTD.Data.Entities
         public string Name { get; set; }
 
         public List<Order> Orders { get; set; }
-        public List<PurchaseOrder> PurchaseOrders { get; set; }
     }
 }

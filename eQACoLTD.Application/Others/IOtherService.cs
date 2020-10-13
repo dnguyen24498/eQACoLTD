@@ -8,6 +8,9 @@ namespace eQACoLTD.Application.Others
 {
     public interface IOtherService
     {
-        Task<IEnumerable<BrandsDto>> GetBrandsAsync();
+        Task<IEnumerable<BrandsForSelectionDto>> GetBrandsAsync();
+        Task<IEnumerable<CategoriesForSelectionDto>> GetCategoriesAsync();
+        Task<IEnumerable<CustomerTypesDto>> GetCustomertypesAsync();
+        Task<IEnumerable<EmployeesForSelection>> GetEmployeesAsync();
     }
 }

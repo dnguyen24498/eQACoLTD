@@ -34,68 +34,68 @@ namespace eQACoLTD.IdentityServer.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
-            return View(new LoginAccountRequest() { ReturnUrl = returnUrl });
+            return View(new LoginAccountDto() { ReturnUrl = returnUrl });
         }
 
         [HttpGet]
         public IActionResult Register(string returnUrl)
         {
-            return View(new RegisterAccountRequest() { ReturnUrl = returnUrl });
+            return View(new RegisterAccountDto() { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginAccountRequest loginRequestViewModel)
+        public async Task<IActionResult> Login(LoginAccountDto loginDtoViewModel)
         {
-            if (!ModelState.IsValid) return View(loginRequestViewModel);
-            var checkUser = await _userManager.FindByEmailAsync(loginRequestViewModel.UserName);
-            var checkPassword = await _userManager.CheckPasswordAsync(checkUser, loginRequestViewModel.Password);
+            if (!ModelState.IsValid) return View(loginDtoViewModel);
+            var checkUser = await _userManager.FindByEmailAsync(loginDtoViewModel.UserName);
+            var checkPassword = await _userManager.CheckPasswordAsync(checkUser, loginDtoViewModel.Password);
             if (checkUser == null || !checkPassword)
             {
                 ViewBag.LoginError = "Sai tên đăng nhập hoặc mật khẩu";
-                return View(loginRequestViewModel);
+                return View(loginDtoViewModel);
             }
             await _signInManager.SignOutAsync();
-            var signinResult = await _signInManager.PasswordSignInAsync(checkUser, loginRequestViewModel.Password, 
-                loginRequestViewModel.RememberLogin,false);
+            var signinResult = await _signInManager.PasswordSignInAsync(checkUser, loginDtoViewModel.Password, 
+                loginDtoViewModel.RememberLogin,false);
             if (signinResult.IsLockedOut)
             {
                 ViewBag.LoginError = "Tài khoản bị khóa, hãy liên hệ với quản trị viên để được hỗ trợ";
-                return View(loginRequestViewModel);
+                return View(loginDtoViewModel);
             }
             if (!signinResult.Succeeded)
             {
                 ViewBag.LoginError = "Tài khoản chưa xác nhận mail";
-                return View(loginRequestViewModel);
+                return View(loginDtoViewModel);
             }
-            return Redirect(loginRequestViewModel.ReturnUrl);
+            return Redirect(loginDtoViewModel.ReturnUrl);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterAccountRequest registerRequestViewModel)
+        public async Task<IActionResult> Register(RegisterAccountDto registerDtoViewModel)
         {
-            if (!ModelState.IsValid) return View(registerRequestViewModel);
-            var checkUser = await _userManager.FindByNameAsync(registerRequestViewModel.UserName);
+            if (!ModelState.IsValid) return View(registerDtoViewModel);
+            var checkUser = await _userManager.FindByNameAsync(registerDtoViewModel.UserName);
             if (checkUser != null)
             {
-                ViewBag.RegisterError = $"Tài khoản {registerRequestViewModel.UserName} đã tồn tại!";
-                return View(registerRequestViewModel);
+                ViewBag.RegisterError = $"Tài khoản {registerDtoViewModel.UserName} đã tồn tại!";
+                return View(registerDtoViewModel);
             }
-            var checkEmail = await _userManager.FindByEmailAsync(registerRequestViewModel.Email);
+            var checkEmail = await _userManager.FindByEmailAsync(registerDtoViewModel.Email);
             if (checkEmail != null)
             {
-                ViewBag.RegisterError = $"Email {registerRequestViewModel.Email} đã được sử dụng!";
-                return View(registerRequestViewModel);
+                ViewBag.RegisterError = $"Email {registerDtoViewModel.Email} đã được sử dụng!";
+                return View(registerDtoViewModel);
             }
-            AppUser newUser = new AppUser(registerRequestViewModel.UserName) { Email = registerRequestViewModel.Email };
-            var createUserResult = await _userManager.CreateAsync(newUser, registerRequestViewModel.Password);
+            AppUser newUser = new AppUser(registerDtoViewModel.UserName) { Email = registerDtoViewModel.Email };
+            var createUserResult = await _userManager.CreateAsync(newUser, registerDtoViewModel.Password);
             if (!createUserResult.Succeeded)
             {
                 ViewBag.RegisterError = $"Có lỗi khi tạo tài khoản, xin vui lòng liên hệ quản trị viên!";
-                return View(registerRequestViewModel);
+                return View(registerDtoViewModel);
             }
-            await SendEmailConfirmationLink(newUser, registerRequestViewModel.ReturnUrl);
+            await SendEmailConfirmationLink(newUser, registerDtoViewModel.ReturnUrl);
             var context = await _identityServerInteractionService
-                .GetAuthorizationContextAsync(registerRequestViewModel.ReturnUrl);
+                .GetAuthorizationContextAsync(registerDtoViewModel.ReturnUrl);
             if (context != null && string.Equals(context.ClientId, "mvc_admin"))
                 return Redirect(_configuration["AdminHost"]);
             return Redirect(_configuration["ClientHost"]);
@@ -153,11 +153,11 @@ namespace eQACoLTD.IdentityServer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest forgotPasswordRequest,
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto,
             string returnUrl)
         {
-            if (!ModelState.IsValid) return View(forgotPasswordRequest);
-            var user = await _userManager.FindByEmailAsync(forgotPasswordRequest.Email);
+            if (!ModelState.IsValid) return View(forgotPasswordDto);
+            var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
             if (user == null) return RedirectToAction(nameof(ForgotPasswordConfirmation));
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -178,22 +178,22 @@ namespace eQACoLTD.IdentityServer.Controllers
         public IActionResult ResetPassword(string token, string email, string returnUrl)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            var model = new ResetPasswordRequest { Token = token, Email = email };
+            var model = new ResetPasswordDto { Token = token, Email = email };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordRequest resetPasswordRequest, string returnUrl)
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto, string returnUrl)
         {
-            if (!ModelState.IsValid) return View(resetPasswordRequest);
+            if (!ModelState.IsValid) return View(resetPasswordDto);
 
-            var user = await _userManager.FindByEmailAsync(resetPasswordRequest.Email);
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
             if (user == null)
                 RedirectToAction(nameof(ResetPasswordConfirmation), new { returnUrl });
 
             var resetPassResult = await _userManager.ResetPasswordAsync(user,
-                resetPasswordRequest.Token, resetPasswordRequest.Password);
+                resetPasswordDto.Token, resetPasswordDto.Password);
             if (!resetPassResult.Succeeded)
             {
                 foreach (var error in resetPassResult.Errors)

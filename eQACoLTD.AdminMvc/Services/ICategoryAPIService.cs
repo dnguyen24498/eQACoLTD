@@ -4,8 +4,8 @@ using eQACoLTD.ViewModel.Product.Category.Queries;
 
 namespace eQACoLTD.AdminMvc.Services
 {
-    public interface ICategoryService
+    public interface ICategoryAPIService
     {
-        Task<ApiResult<PagedResult<CategoryResponse>>> GetCategoryPagingAsync(int pageIndex);
+        Task<ApiResult<PagedResult<CategoriesDto>>> GetCategoryPagingAsync(int pageIndex,int pageSize);
     }
 }

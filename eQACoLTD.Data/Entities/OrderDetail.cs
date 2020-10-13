@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace eQACoLTD.Data.Entities
+﻿namespace eQACoLTD.Data.Entities
 {
     public class OrderDetail
     {
@@ -15,6 +11,5 @@ namespace eQACoLTD.Data.Entities
 
         public Order Order { get; set; }
         public Product Product { get; set; }
-        public StockHistory StockHistory { get; set; }
     }
 }

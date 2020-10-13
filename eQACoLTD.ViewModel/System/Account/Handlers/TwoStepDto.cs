@@ -5,7 +5,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.System.Account.Handlers
 {
-    public class TwoStepRequest
+    public class TwoStepDto
     {
         [Required]
         [DataType(DataType.Text)]

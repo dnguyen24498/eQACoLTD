@@ -1,4 +1,4 @@
-﻿@model PagedResult<AccountResponse>
+﻿@model PagedResult<AccountsDto>
 @section Scripts
 {
     <script >
@@ -38,7 +38,6 @@
                     <th class="wd-20p">Email</th>
                     <th class="wd-15p">Người sở hữu</th>
                     <th class="wd-10p">Số điện thoại</th>
-                    <th class="wd-10p">Ngày tạo</th>
                     <th class="wd-20p">Hành động</th>
                 </tr>
                 </thead>
@@ -62,7 +61,6 @@
                                 }
                             </td>
                             <td class="pt-md-4 pt-sm-4">@a.PhoneNumber</td>
-                            <td class="pt-md-4 pt-sm-4">@a.DateCreated.ToString("dd/MM/yyyy")</td>
                             <td> 
                                 <form asp-controller="Account" asp-action="Detail" method="get">
                                     <input type="hidden" name="id" value="@a.Id"/>

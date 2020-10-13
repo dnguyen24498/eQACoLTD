@@ -9,6 +9,7 @@ namespace eQACoLTD.Data.Entities
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public List<StockHistory> StockHistories { get; set; }
+        public List<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
+        public List<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
     }
 }

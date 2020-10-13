@@ -12,12 +12,12 @@ namespace eQACoLTD.Data.Entities
         {
             this.UserName = userName;
         }
-        public DateTime DateCreated { get; set; }
 
         public Employee Employee { get; set; }
         public Customer Customer { get; set; }
+        public Supplier Supplier { get; set; }
         public List<Cart> Carts { get; set; }
-        public List<ProductReview> ProductReviews { get; set; }
-        public List<ProductReviewReply> ProductReviewReplies { get; set; }
+        public List<ProductEvaluation> ProductEvaluations { get; set; }
+        public List<ProductEvaluationReply> ProductEvaluationReplies { get; set; }
     }
 }

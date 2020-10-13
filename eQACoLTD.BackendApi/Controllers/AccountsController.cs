@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.System.Account;
+using eQACoLTD.Utilities.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,48 +16,55 @@ namespace eQACoLTD.BackendApi.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly ILoggerManager _loggerManager;
 
-        public AccountsController(IAccountService accountService)
+        public AccountsController(IAccountService accountService,ILoggerManager loggerManager)
         {
             _accountService = accountService;
+            _loggerManager = loggerManager;
         }
         [HttpGet]
-        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAccounts(int pageIndex)
+        public async Task<IActionResult> GetAccountsPaging(int pageIndex=1,int pageSize=15)
         {
-            var result = await _accountService.GetAccountsPagingAsync(pageIndex);
-            return Ok(result);
+            var result = await _accountService.GetAccountsPagingAsync(pageIndex, pageSize);
+            if(result.Code==HttpStatusCode.OK) return Ok(result.ResultObj);
+            return NoContent();
         }
-        [HttpGet("{userId}")]
-        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAccountDetail(Guid userId)
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAccount(Guid id)
         {
-            var result = await _accountService.GetAccountDetailAsync(userId);
-            if (!result.IsSuccess) return NotFound();
-            return Ok(result);
+            var result = await _accountService.GetAccountAsync(id);
+            if (result.Code == HttpStatusCode.NotFound)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
-        [HttpGet("{userId}/not-in-roles")]
-        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetAccountNotInRoles(Guid userId)
-        {
-            var result = await _accountService.GetAccountNotInRolesAsync(userId);
-            if (!result.IsSuccess) return NotFound();
-            return Ok(result);
-        }
-        [HttpDelete("{userId}/roles")]
-        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> DeleteAccountRole(Guid userId,[FromBody]Guid roleId)
-        {
-            await _accountService.DeleteAccountRoleAsync(userId, roleId);
-            return Ok();
-        }
+
         [HttpPost("{userId}/roles")]
-        [Authorize(Roles = "Administrator", AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> AddAccountRole(Guid userId,[FromBody]Guid roleId)
+        public async Task<IActionResult> AddRole(Guid userId, [FromBody]Guid roleId)
         {
-            var result = await _accountService.AddAccountRoleAsync(userId, roleId);
-            if (!result.IsSuccess) return BadRequest();
-            return Ok(result);
+            var result = await _accountService.AddRoleAsync(userId, roleId);
+            if (result.Code == HttpStatusCode.NotFound||result.Code==HttpStatusCode.NotModified)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpDelete("{userId}/roles/{roleId}")]
+        public async Task<IActionResult> RemoveRole(Guid userId, Guid roleId)
+        {
+            var result = await _accountService.RemoveRoleAsync(userId, roleId);
+            if (result.Code == HttpStatusCode.NotFound||result.Code==HttpStatusCode.NotModified)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("{userId}/roles/not-in")]
+        public async Task<IActionResult> NotInRoles(Guid userId)
+        {
+            var result = await _accountService.NotInRolesAsync(userId);
+            if (result.Code == HttpStatusCode.NotFound)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
     }
 }

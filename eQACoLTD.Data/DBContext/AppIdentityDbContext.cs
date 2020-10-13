@@ -22,6 +22,10 @@ namespace eQACoLTD.Data.DBContext
         {
             builder.ApplyConfiguration(new AppUserConfiguration());
             builder.ApplyConfiguration(new AppRoleConfiguration());
+            builder.ApplyConfiguration(new DepartmentConfiguration());
+            builder.ApplyConfiguration(new TransactionStatusConfiguration());
+            builder.ApplyConfiguration(new BranchConfiguration());
+            builder.ApplyConfiguration(new WarehouseConfiguration());
             builder.ApplyConfiguration(new CustomerTypeConfiguration());
             builder.ApplyConfiguration(new EmployeeConfiguration());
             builder.ApplyConfiguration(new CustomerConfiguration());
@@ -37,18 +41,33 @@ namespace eQACoLTD.Data.DBContext
             builder.ApplyConfiguration(new CartConfiguration());
             builder.ApplyConfiguration(new SupplierConfiguration());
             builder.ApplyConfiguration(new ProductImageConfiguration());
-            builder.ApplyConfiguration(new ProductReviewConfiguration());
-            builder.ApplyConfiguration(new ProductReviewReplyConfiguration());
+            builder.ApplyConfiguration(new ProductEvaluationConfiguration());
+            builder.ApplyConfiguration(new ProductEvaluationReplyConfiguration());
             builder.ApplyConfiguration(new PurchaseOrderConfiguration());
             builder.ApplyConfiguration(new PurchaseOrderDetailConfiguration());
             builder.ApplyConfiguration(new PaymentVoucherConfiguration());
             builder.ApplyConfiguration(new StockConfiguration());
+            builder.ApplyConfiguration(new ReceiptVoucherConfiguration());
+            builder.ApplyConfiguration(new ShippingConfiguration());
+            builder.ApplyConfiguration(new PromotionConfiguration());
+            builder.ApplyConfiguration(new PromotionDetailConfiguration());
+            builder.ApplyConfiguration(new WarrantyConfiguration());
+            builder.ApplyConfiguration(new WarrantyDetailConfiguration());
             builder.ApplyConfiguration(new OrderConfiguration());
             builder.ApplyConfiguration(new OrderDetailConfiguration());
-            builder.ApplyConfiguration(new ReceiptVoucherConfiguration());
-            builder.ApplyConfiguration(new StockHistoryConfiguration());
-            builder.ApplyConfiguration(new ShippingOrderConfiguration());
-            builder.ApplyConfiguration(new DiscountTypeConfiguration());
+            builder.ApplyConfiguration(new ReturnConfiguration());
+            builder.ApplyConfiguration(new ReturnDetailConfiguration());
+            builder.ApplyConfiguration(new RepairVoucherConfiguration());
+            builder.ApplyConfiguration(new RepairVoucherDetailConfiguration());
+            builder.ApplyConfiguration(new InventoryVoucherConfiguration());
+            builder.ApplyConfiguration(new InventoryVoucherDetailConfiguration());
+            builder.ApplyConfiguration(new LiquidationVoucherConfiguration());
+            builder.ApplyConfiguration(new LiquidationVoucherDetailConfiguration());
+            builder.ApplyConfiguration(new CustomerPromotionConfiguration());
+            builder.ApplyConfiguration(new GoodsDeliveryNoteConfiguration());
+            builder.ApplyConfiguration(new GoodsDeliveryNoteDetailConfiguration());
+            builder.ApplyConfiguration(new GoodsReceivedNoteConfiguration());
+            builder.ApplyConfiguration(new GoodsReceivedNoteDetailConfiguration());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -77,17 +96,36 @@ namespace eQACoLTD.Data.DBContext
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
-        public DbSet<ProductReview> ProductReviews { get; set; }
-        public DbSet<ProductReviewReply> ProductReviewReplies { get; set; }
+        public DbSet<ProductEvaluation> ProductReviews { get; set; }
+        public DbSet<ProductEvaluationReply> ProductReviewReplies { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public DbSet<PaymentVoucher> PaymentVouchers { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+        public DbSet<ReceiptVoucher> ReceiptVouchers { get; set; }
+        public DbSet<Shipping> ShippingOrders { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<TransactionStatus> TransactionStatuses { get; set; }
+        public DbSet<Branch> Branches { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+        public DbSet<PromotionDetail> PromotionDetails { get; set; }
+        public DbSet<GoodsReceivedNote> GoodReceivedNotes { get; set; }
+        public DbSet<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
+        public DbSet<Warranty> Warranties { get; set; }
+        public DbSet<WarrantyDetail> WarrantyDetails { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<ReceiptVoucher> ReceiptVouchers { get; set; }
-        public DbSet<StockHistory> StockHistories { get; set; }
-        public DbSet<ShippingOrder> ShippingOrders { get; set; }
-        public DbSet<DiscountType> DiscountTypes { get; set; }
+        public DbSet<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
+        public DbSet<GoodsDeliveryNoteDetail> GoodsDeliveryNoteDetails { get; set; }
+        public DbSet<Return> Returns { get; set; }
+        public DbSet<ReturnDetail> ReturnDetails { get; set; }
+        public DbSet<RepairVoucher> RepairVouchers { get; set; }
+        public DbSet<RepairVoucherDetail> RepairVoucherDetails { get; set; }
+        public DbSet<InventoryVoucher> InventoryVouchers { get; set; }
+        public DbSet<InventoryVoucherDetail> InventoryVoucherDetails { get; set; }
+        public DbSet<LiquidationVoucher> LiquidationVouchers { get; set; }
+        public DbSet<LiquidationVoucherDetail> LiquidationVoucherDetails { get; set; }
+        public DbSet<CustomerPromotion> CustomerPromotions { get; set; }
     }
 }

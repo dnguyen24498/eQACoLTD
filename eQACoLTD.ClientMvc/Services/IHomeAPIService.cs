@@ -10,12 +10,12 @@ namespace eQACoLTD.ClientMvc.Services
 {
     public interface IHomeAPIService
     {
-        Task<ApiResult<List<CategoryAndBrandsResponse>>> GetCategoryHomeAsync();
-        Task<ApiResult<List<ListProductHomeResponse>>> GetRandomProductAsync();
-        Task<ApiResult<List<ListProductHomeResponse>>> GetBestSellProductsAsync();
-        Task<ApiResult<List<ListProductHomeResponse>>> GetNewArrivedProductsAsync();
-        Task<ApiResult<List<ListProductHomeResponse>>> GetProductsTopViewdAsync();
-        Task<ApiResult<List<ListProductHomeResponse>>> GetProductsTopRatedAsync();
-        Task<ApiResult<List<ListProductHomeResponse>>> GetFeaturedProductsAsync();
+        Task<ApiResult<List<CategoriesHomePageDto>>> GetCategoryHomeAsync();
+        Task<ApiResult<List<ProductHomePageDto>>> GetRandomProductAsync();
+        Task<ApiResult<List<ProductHomePageDto>>> GetBestSellProductsAsync();
+        Task<ApiResult<List<ProductHomePageDto>>> GetNewArrivedProductsAsync();
+        Task<ApiResult<List<ProductHomePageDto>>> GetProductsTopViewdAsync();
+        Task<ApiResult<List<ProductHomePageDto>>> GetProductsTopRatedAsync();
+        Task<ApiResult<List<ProductHomePageDto>>> GetFeaturedProductsAsync();
     }
 }

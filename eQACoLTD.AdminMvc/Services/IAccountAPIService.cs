@@ -10,8 +10,8 @@ namespace eQACoLTD.AdminMvc.Services
 {
     public interface IAccountAPIService
     {
-        public Task<ApiResult<PagedResult<AccountResponse>>> GetAccountsPagingAsync(int pageIndex);
-        public Task<ApiResult<AccountDetailResponse>> GetAccountDetailAsync(Guid userId);
+        public Task<ApiResult<PagedResult<AccountsDto>>> GetAccountsPagingAsync(int pageIndex,int pageSize);
+        public Task<ApiResult<AccountDto>> GetAccountDetailAsync(Guid userId);
 
     }
 }

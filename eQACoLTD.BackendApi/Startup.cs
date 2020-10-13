@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using AutoMapper;
 using eQACoLTD.Application.Customer;
 using eQACoLTD.Application.Extensions;
-using eQACoLTD.Application.Other;
+using eQACoLTD.Application.Order;
+using eQACoLTD.Application.Others;
 using eQACoLTD.Application.Product.Category;
 using eQACoLTD.Application.Product.ListProduct;
 using eQACoLTD.Application.Product.Supplier;
 using eQACoLTD.Application.System.Account;
 using eQACoLTD.Application.System.Employee;
 using eQACoLTD.BackendApi.Configurations;
+using eQACoLTD.BackendApi.Extensions;
 using eQACoLTD.Data.DBContext;
 using eQACoLTD.Data.Entities;
+using eQACoLTD.Utilities.Extensions;
 using IdentityServer4.AccessTokenValidation;
+using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -92,31 +96,35 @@ namespace eQACoLTD.BackendApi
 
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
+            services.AddScoped<ILoggerManager, LoggerManager>();
+            services.AddScoped<IStorageService, FileStorageService>();
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<ISupplierService, SupplierService>();
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IListProductService, ListProductService>();
-            services.AddTransient<ICustomerService, CustomerService>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
-            services.AddTransient<IStorageService, FileStorageService>();
+            services.AddTransient<IEmployeeService,EmployeeService>();
+            services.AddTransient<ICategoryService,CategoryService>();
+            services.AddTransient<ISupplierService,SupplierService>();
+            services.AddTransient<IListProductService,ListProductService>();
+            services.AddTransient<ICustomerService,CustomerService>();
             services.AddTransient<IOtherService, OtherService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddScoped<AppIdentityDbContext,AppIdentityDbContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerManager loggerManager)
         {
             app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseStaticFiles();
+            //app.ConfigureExceptionHandler(loggerManager);
 
             app.UseHttpsRedirection();
-
-            app.UseRouting();
+            app.UseStaticFiles();
+                
             app.UseCors();
-
+            app.UseRouting();
             app.UseAuthentication();
 
             app.UseAuthorization();

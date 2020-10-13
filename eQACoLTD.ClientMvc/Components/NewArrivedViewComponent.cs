@@ -18,7 +18,7 @@ namespace eQACoLTD.ClientMvc.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var result = await _homeService.GetNewArrivedProductsAsync();
-            if (result.ResultObj==null || !result.IsSuccess) return View("Default", new List<ListProductHomeResponse>());
+            if (result.ResultObj==null || !result.IsSuccess) return View("Default", new List<ProductHomePageDto>());
             return View("Default", result.ResultObj);
         }
 

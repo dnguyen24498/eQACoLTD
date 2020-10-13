@@ -4,7 +4,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.Product.Supplier.Queries
 {
-    public class SupplierDetailResponse
+    public class SupplierDto
     {
         public string Id { get; set; }
         public string Name { get; set; }

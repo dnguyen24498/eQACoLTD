@@ -5,7 +5,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.System.Account.Queries
 {
-    public class ForgotPasswordRequest
+    public class ForgotPasswordDto
     {
         [Required]
         [EmailAddress]

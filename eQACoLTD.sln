@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eQACoLTD.ClientMvc", "eQACo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{98639C96-FEA4-4195-8765-7D4ABDDE7D27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{3845729C-ED9A-4177-BB8B-A80DD7791068}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{98639C96-FEA4-4195-8765-7D4ABDDE7D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98639C96-FEA4-4195-8765-7D4ABDDE7D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98639C96-FEA4-4195-8765-7D4ABDDE7D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3845729C-ED9A-4177-BB8B-A80DD7791068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3845729C-ED9A-4177-BB8B-A80DD7791068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3845729C-ED9A-4177-BB8B-A80DD7791068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3845729C-ED9A-4177-BB8B-A80DD7791068}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{6AE8519A-B9C8-415B-9662-65F4EAC9B611} = {50A2B605-5443-4CAF-A606-F8C12F2A662F}
 		{F9725045-49B0-4652-A084-BC662EA115AB} = {4B84B608-E443-4C22-B7AE-D4220DA77EB8}
 		{98639C96-FEA4-4195-8765-7D4ABDDE7D27} = {EEDA331A-06C9-4E19-854D-6CBFCD0FACC3}
+		{3845729C-ED9A-4177-BB8B-A80DD7791068} = {50A2B605-5443-4CAF-A606-F8C12F2A662F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0AFAF1D7-9BE9-4DC7-BE8D-484D2DC96AD8}

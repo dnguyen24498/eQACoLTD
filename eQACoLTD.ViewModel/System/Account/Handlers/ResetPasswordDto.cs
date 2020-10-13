@@ -5,7 +5,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.System.Account.Handlers
 {
-    public class ResetPasswordRequest
+    public class ResetPasswordDto
     {
         [Required]
         [DataType(DataType.Password)]

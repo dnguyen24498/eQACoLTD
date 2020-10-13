@@ -9,6 +9,6 @@ namespace eQACoLTD.Data.Entities
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public List<ShippingOrder> ShippingOrders { get; set; }
+        public List<Shipping> Shippings { get; set; }
     }
 }

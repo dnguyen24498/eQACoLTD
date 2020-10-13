@@ -1,7 +1,17 @@
-﻿namespace eQACoLTD.Application.System.Account
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using eQACoLTD.ViewModel.Common;
+using eQACoLTD.ViewModel.System.Account.Queries;
+
+namespace eQACoLTD.Application.System.Account
 {
     public interface IAccountService
     {
-        
+        Task<ApiResult<PagedResult<AccountsDto>>> GetAccountsPagingAsync(int pageIndex,int pageSize);
+        Task<ApiResult<AccountDto>> GetAccountAsync(Guid userId);
+        Task<ApiResult<Guid>> AddRoleAsync(Guid userId, Guid roleId);
+        Task<ApiResult<Guid>> RemoveRoleAsync(Guid userId, Guid roleId);
+        Task<ApiResult<IEnumerable<AccountRolesDto>>> NotInRolesAsync(Guid userId);
     }
 }

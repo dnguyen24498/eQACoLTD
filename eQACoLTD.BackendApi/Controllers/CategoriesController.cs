@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Product.Category;
 using eQACoLTD.ViewModel.Product.Category.Handlers;
@@ -15,45 +16,52 @@ namespace eQACoLTD.BackendApi.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+
         public CategoriesController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetCategoryPaging(int pageIndex=1)
+        public async Task<IActionResult> GetCategories(int pageIndex = 1, int pageSize = 15)
         {
-            var result = await _categoryService.GetCategoryPagingAsync(pageIndex);
-            return Ok(result);
+            var result = await _categoryService.GetCategoriesPagingAsync(pageIndex, pageSize);
+            if (result.Code == HttpStatusCode.NoContent)
+                return NoContent();
+            return Ok(result.ResultObj);
+        }
+        [HttpGet("{categoryId}")]
+        public async Task<IActionResult> GetCategory(string categoryId)
+        {
+            var result = await _categoryService.GetCategoryAsync(categoryId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+        [HttpGet("all")]
+        public async Task<IActionResult> GetCategoriesAndBrands()
+        {
+            var result = await _categoryService.GetCategoriesForHomePageAsync();
+            if (result.Code == HttpStatusCode.NoContent)
+                return NoContent();
+            return Ok(result.ResultObj);
         }
         [HttpPost]
-        public async Task<IActionResult> PostCategory([FromBody] CategoryRequest request)
+        public async Task<IActionResult> CreateCategory(CategoryForCreationDto categoryDto)
         {
-            var result = await _categoryService.PostCategoryAsync(request);
-            return Ok(result);
+            var result = await _categoryService.CreateCategoryAsync(categoryDto);
+            if (result.Code == HttpStatusCode.BadRequest)
+                return BadRequest(result.Message);
+            if (result.Code == HttpStatusCode.InternalServerError)
+                return StatusCode(500, result.Message);
+            return Ok(result.ResultObj);
         }
         [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategory(string categoryId)
         {
-            await _categoryService.DeleteCategoryAsync(categoryId);
-            return Ok();
-        }
-        [HttpPut("{categoryId}")]
-        public async Task<IActionResult> PutCategory(string categoryId,[FromBody] CategoryRequest request)
-        {
-            var result = await _categoryService.PutCategoryAsync(categoryId,request);
-            return Ok(result);
-        }
-        [HttpPost("image")]
-        public async Task<IActionResult> PostThumbnailImage([FromForm] CategoryImageRequest request)
-        {
-            var result = await _categoryService.PostCategoryImage(request);
-            return Ok(result);
-        }
-        [HttpGet("home")]
-        public async Task<IActionResult> GetCategoryHome()
-        {
-            var result = await _categoryService.GetCategoryAndBrandsAsync();
-            return Ok(result);
+            var result = await _categoryService.DeleteCategoryAysnc(categoryId);
+            if (result.Code == HttpStatusCode.NotFound)
+                return NotFound(result.Message);
+            return Ok(result.ResultObj);
         }
     }
 }

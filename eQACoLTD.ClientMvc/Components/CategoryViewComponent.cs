@@ -19,7 +19,7 @@ namespace eQACoLTD.ClientMvc.Components
         {
             var result = await _commonService.GetCategoryHomeAsync();
             if (result.IsSuccess) return View("Default", result.ResultObj);
-            return View("Default",new List<CategoryAndBrandsResponse>());
+            return View("Default",new List<CategoriesHomePageDto>());
         }
     }
 }

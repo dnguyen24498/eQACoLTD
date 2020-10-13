@@ -1,19 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Http
-@model AccountDetailResponse
+@model AccountDto
+@inject IConfiguration Configuration
 @section Scripts{
     <script>
         getAccountNotInRoles();
         function getAccountNotInRoles() {
         $.ajax({
-            url: 'https://localhost:5001/api/Accounts/@Model.Id/not-in-roles',
+            url: '@Configuration["APIServerHost"]api/Accounts/@Model.Id/roles/not-in',
             headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
             method: 'get',
             dataType: 'json',
             success: function (data) {
                 var rolesSelect = $('#roles-select');
                 rolesSelect.empty();
-                $(data.resultObj).each(function (index,empt) {
-                    rolesSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>')
+                $(data).each(function (index,empt) {
+                    rolesSelect.append('<option value=' + empt.id + '>' + empt.description+'</option>')
                 })
             },
             error: function () {
@@ -25,17 +26,17 @@
         }
         function deleteAccountRole(e, id) {
             $.ajax({
-                url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
+                url:'@Configuration["APIServerHost"]api/Accounts/@Model.Id/roles/'+id,
                 headers: {
                     "Authorization": 'Bearer @Context.Session.GetString("access_token")',
                 },
                 method: 'delete',
                 contentType: "application/json;charset=utf-8",
-                data:JSON.stringify(id),
                 success: function () {
                     var aElement = $(e).parents('a').first();
                     $(aElement).remove();
-                    showAlertMessage(true,"Xóa quyền tài khoản thành công.");
+                    showAlertMessage(true, "Xóa quyền tài khoản thành công.");
+                    getAccountNotInRoles();
                 },
                 error: function (ts) {
                     showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
@@ -45,8 +46,9 @@
         function addAccountRole() {
             var roleId = $("#roles-select option:selected").val();
             var roleName = $("#roles-select option:selected").text();
+            console.log(roleId);
             $.ajax({
-                url: 'https://localhost:5001/api/Accounts/@Model.Id/roles',
+                url: '@Configuration["APIServerHost"]api/Accounts/@Model.Id/roles',
                 headers: {
                     "Authorization": 'Bearer @Context.Session.GetString("access_token")',
                 },
@@ -65,7 +67,8 @@
                     $(anchorEl).append(roleName);
                     $(anchorEl).append(idiomaticEl);
                     $("#in-roles-el").append(anchorEl);
-                    showAlertMessage(true,"Thêm quyền tài khoản thành công.");
+                    showAlertMessage(true, "Thêm quyền tài khoản thành công.");
+                    getAccountNotInRoles();
 
                 },
                 error: function (ts) {
@@ -101,26 +104,26 @@
                     <div class="col-md-4 mg-t--1 mg-md-t-0">
                         <div class="form-group mg-md-l--1">
                             <label class="form-control-label">Người sở hữu: <span class="tx-danger">*</span></label>
-                            <a class="form-control text-dark">@Model.FullName</a>
+                            <a class="form-control text-dark">@Model.Name</a>
                         </div>
                     </div><!-- col-4 -->
-                    <div class="col-md-4 mg-t--1 mg-md-t-0">
-                        <div class="form-group mg-md-l--1">
-                            <label class="form-control-label text-dark">Giới tính: <span class="tx-danger">*</span></label>
-                            <a class="form-control">
-                                @{
-                                    if (1 == Model.Gender)
-                                    {
-                                        <p class="text-dark">Nam</p>;
-                                    }
-                                    else
-                                    {
-                                        <p class="text-dark">Nữ</p>;
-                                    }
-                                }
-                            </a>
-                        </div>
-                    </div><!-- col-4 -->
+@*                     <div class="col-md-4 mg-t--1 mg-md-t-0"> *@
+@*                         <div class="form-group mg-md-l--1"> *@
+@*                             <label class="form-control-label text-dark">Giới tính: <span class="tx-danger">*</span></label> *@
+@*                             <a class="form-control"> *@
+@*                                 @{ *@
+@*                                     if (1 == Model.Gender) *@
+@*                                     { *@
+@*                                         <p class="text-dark">Nam</p>; *@
+@*                                     } *@
+@*                                     else *@
+@*                                     { *@
+@*                                         <p class="text-dark">Nữ</p>; *@
+@*                                     } *@
+@*                                 } *@
+@*                             </a> *@
+@*                         </div> *@
+@*                     </div><!-- col-4 --> *@
                     <div class="col-md-4 mg-t--1">
                         <div class="form-group">
                             <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
@@ -149,17 +152,20 @@
                             </div>
                         </div>
                     </div><!-- col-4 -->
-                    <div class="col-md-8 mg-t--1 mg-b-1-force">
+                    <div class="col-md-12 mg-t--1 mg-b-1-force">
                         <div class="form-group mg-md-l--1">
                             <label class="form-control-label"> Các quyền trực thuộc: <span class="tx-danger">*</span></label>
                             <div id="in-roles-el" class="row pt-1 pl-3">
-                                @{ 
-                                    foreach(var r in Model.InRoles)
+                                @{
+                                    if (Model.InRoles != null && Model.InRoles.Count > 0)
                                     {
-                                        <a class="btn btn-info text-white ml-1">
-                                            @r.Name
-                                            <i class="fa fa-close" onclick="deleteAccountRole(this,'@r.Id')" style="cursor:pointer"></i>
-                                        </a>
+                                        foreach (var r in Model.InRoles)
+                                        {
+                                            <a class="btn btn-info text-white ml-1">
+                                                @r.Description
+                                                <i class="fa fa-close" onclick="deleteAccountRole(this,'@r.Id')" style="cursor:pointer"></i>
+                                            </a>
+                                        }
                                     }
                                 }
                             </div>

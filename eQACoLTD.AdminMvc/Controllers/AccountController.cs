@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.AdminMvc.Handlers;
 using eQACoLTD.AdminMvc.Services;
@@ -20,10 +21,10 @@ namespace eQACoLTD.AdminMvc.Controllers
         {
             _accountAPIService = accountAPIService;
         }
-        public async Task<IActionResult> Index(int page=1)
+        public async Task<IActionResult> Index(int page=1,int size=15)
         {
-            var result = await _accountAPIService.GetAccountsPagingAsync(page);
-            if (!result.IsSuccess) View("Index", new PagedResult<AccountResponse>());
+            var result = await _accountAPIService.GetAccountsPagingAsync(page,size);
+            if (result.Code!=HttpStatusCode.OK) View("Index", new PagedResult<AccountsDto>());
             return View(result.ResultObj);
         }
 
@@ -31,7 +32,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Detail(Guid id) 
         {
             var result = await _accountAPIService.GetAccountDetailAsync(id);
-            if (!result.IsSuccess) return View("404");
+            if (result.Code!=HttpStatusCode.OK) return View();
             return View(result.ResultObj);
         }
     }

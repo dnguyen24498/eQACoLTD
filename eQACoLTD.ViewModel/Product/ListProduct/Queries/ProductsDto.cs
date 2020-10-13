@@ -4,7 +4,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.Product.ListProduct.Queries
 {
-    public class ListProductResponse
+    public class ProductsDto
     {
         public string ThumbnailPath { get; set; }
         public string Id { get; set; }
@@ -12,5 +12,6 @@ namespace eQACoLTD.ViewModel.Product.ListProduct.Queries
         public string CategoryName { get; set; }
         public string BrandName { get; set; }
         public int AbleToSale { get; set; }
+        public int RealQuantity { get; set; }
     }
 }

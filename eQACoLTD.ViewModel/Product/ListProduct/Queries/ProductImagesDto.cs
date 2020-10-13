@@ -4,7 +4,7 @@ using System.Text;
 
 namespace eQACoLTD.ViewModel.Product.ListProduct.Queries
 {
-    public class ListProductImageResponse
+    public class ProductImagesDto
     {
         public string Id { get; set; }
         public string ImagePath { get; set; }

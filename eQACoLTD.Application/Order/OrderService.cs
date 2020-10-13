@@ -38,13 +38,18 @@ namespace eQACoLTD.Application.Order
                 order.TransactionStatusId = GlobalProperties.InventoryTransactionId;
                 order.PaymentStatusId = GlobalProperties.UnpaidPaymentId;
                 order.DateCreated = DateTime.Now;
-                if (string.IsNullOrEmpty(order.BranchId)) order.BranchId = employee.BranchId;
+                order.BranchId = employee.BranchId;
                 decimal totalAmount = 0;
                 foreach (var od in orderDetail)
                 {
                     od.Id = Guid.NewGuid().ToString("D");
                     od.OrderId = orderId;
                     totalAmount += od.Quantity * od.UnitPrice;
+                }
+                if (string.IsNullOrEmpty(order.DiscountType))
+                {
+                    order.DiscountType = "$";
+                    order.DiscountValue = 0;
                 }
                 order.TotalAmount = totalAmount - (order.DiscountType == "%" ? totalAmount * order.DiscountValue / 100 : order.DiscountValue);
                 order.OrderDetails = orderDetail.ToList();
@@ -102,8 +107,10 @@ namespace eQACoLTD.Application.Order
             return new ApiResult<OrderDto>(HttpStatusCode.OK, orderDetails);
         }
 
-        public async Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(string branchId,int pageIndex, int pageSize)
+        public async Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(string employeeId,int pageIndex, int pageSize)
         {
+            var checkEmployee = await _context.Employees.FindAsync(employeeId);
+            if (checkEmployee == null) return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.NotFound);
             var orders = await (from o in _context.Orders
                           join customer in _context.Customers on o.CustomerId equals customer.Id
                           into CustomersGroup
@@ -113,7 +120,7 @@ namespace eQACoLTD.Application.Order
                           from e in EmployeesGroup.DefaultIfEmpty()
                           join ps in _context.PaymentStatuses on o.PaymentStatusId equals ps.Id
                           join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
-                          where o.BranchId==branchId
+                          where o.BranchId==checkEmployee.BranchId
                           select new OrdersDto()
                           {
                               OrderId=o.Id,
@@ -124,107 +131,6 @@ namespace eQACoLTD.Application.Order
                               TransactionStatusName=ts.Name
                           }).GetPagedAsync(pageIndex, pageSize);
             return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.OK, orders);
-        }
-
-        public async Task<ApiResult<string>> ExportStockOrderAsync(string orderId, OrderGoodsDeliveryNoteForCreationDto creationDto)
-        {
-            try
-            {
-                var checkOrder = await _context.Orders.FindAsync(orderId);
-                if (checkOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound, ($"Không tìm thấy đơn hàng có mã: {orderId}"));
-                var goodsDeliveryNote = ObjectMapper.Mapper.Map<GoodsDeliveryNote>(creationDto);
-                var sequencyNumber = await _context.GoodsDeliveryNotes.CountAsync();
-                var goodsDeliveryNoteId = IdentifyGenerator.GenerateGoodsDeliveryNoteId(sequencyNumber + 1);
-                goodsDeliveryNote.Id = goodsDeliveryNoteId;
-                goodsDeliveryNote.OrderId = orderId;
-                var goodsDeliveryNoteDetails = await (from od in _context.OrderDetails
-                                                      where od.OrderId == checkOrder.Id
-                                                      select new GoodsDeliveryNoteDetail()
-                                                      {
-                                                          Id = Guid.NewGuid().ToString("D"),
-                                                          GoodsDeliveryNoteId = goodsDeliveryNoteId,
-                                                          ProductId = od.ProductId,
-                                                          Quantity = od.Quantity,
-                                                          UnitPrice = od.UnitPrice
-                                                      }).ToListAsync();
-                foreach (var g in goodsDeliveryNoteDetails)
-                {
-                    var prod = await _context.Stocks.Where(x => x.ProductId == g.ProductId && x.WarehouseId == creationDto.WarehouseId).
-                        SingleOrDefaultAsync();
-                    if (prod == null)
-                    {
-                        checkOrder.TransactionStatusId = GlobalProperties.CancelTransactionId;
-                        await _context.SaveChangesAsync();
-                        return new ApiResult<string>(HttpStatusCode.NotFound, $"Sản phẩm không có trong kho");
-                    }
-                    prod.RealQuantity -= g.Quantity;
-                    prod.AbleToSale -= g.Quantity;
-                    checkOrder.TransactionStatusId = GlobalProperties.TradingTransactionId;
-                }
-                goodsDeliveryNote.GoodsDeliveryNoteDetails = goodsDeliveryNoteDetails;
-                await _context.GoodsDeliveryNotes.AddAsync(goodsDeliveryNote);
-                await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = goodsDeliveryNoteId };
-            }
-            catch
-            {
-                return new ApiResult<string>(HttpStatusCode.InternalServerError, "Có lỗi khi tạo phiếu xuất kho");
-            }
-        }
-
-        public async Task<ApiResult<PagedResult<InventoryTransactionOrdersDto>>> GetExportOrdersPagingAsync(string branchId,int pageIndex, int pageSize)
-        {
-            var orders = await (from o in _context.Orders
-                                join e in _context.Employees on o.EmployeeId equals e.Id
-                                join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
-                                join b in _context.Branches on o.BranchId equals b.Id
-                                where o.TransactionStatusId == GlobalProperties.InventoryTransactionId && o.BranchId == branchId
-                                select new InventoryTransactionOrdersDto()
-                                {
-                                    BranchId = branchId,
-                                    DateCreated = o.DateCreated,
-                                    EmployeeName = e.Name,
-                                    OrderId = o.Id,
-                                    TransactionStatusName = ts.Name,
-                                    BranchName=b.Name
-                                }).GetPagedAsync(pageIndex, pageSize);
-            return new ApiResult<PagedResult<InventoryTransactionOrdersDto>>(HttpStatusCode.OK, orders);
-        }
-
-        public async Task<ApiResult<string>> AddOrderReceiptVoucherAsync(string orderId, OrderReceiptVoucherForCreationDto creationDto)
-        {
-            var checkOrder = await _context.Orders.FindAsync(orderId);
-            if (checkOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound, ($"Không tìm thấy đơn hàng có mã: {orderId}"));
-            if (checkOrder.TransactionStatusId == GlobalProperties.TradingTransactionId)
-            {
-                var receiptVoucher = ObjectMapper.Mapper.Map<ReceiptVoucher>(creationDto);
-                var sequenceNumber = await _context.ReceiptVouchers.CountAsync();
-                var receiptVoucherId = IdentifyGenerator.GenerateReceiptVoucherId(sequenceNumber + 1);
-                receiptVoucher.Id = receiptVoucherId;
-                receiptVoucher.OrderId = checkOrder.Id;
-                receiptVoucher.DateCreated = DateTime.Now;
-                receiptVoucher.CustomerId = checkOrder.CustomerId;
-                receiptVoucher.IsDelete = false;
-                await _context.ReceiptVouchers.AddAsync(receiptVoucher);
-                await _context.SaveChangesAsync();
-                var totalPaid = await (from rv in _context.ReceiptVouchers
-                                       where rv.OrderId == checkOrder.Id
-                                       select rv.Received).SumAsync();
-                if (totalPaid>=checkOrder.TotalAmount)
-                {
-                    checkOrder.TransactionStatusId = GlobalProperties.FinishedTransactionId;
-                    checkOrder.PaymentStatusId = GlobalProperties.PaidPaymentId;
-                }
-                else if (totalPaid < checkOrder.TotalAmount)
-                {
-                    checkOrder.TransactionStatusId = GlobalProperties.TradingTransactionId;
-                    checkOrder.PaymentStatusId = GlobalProperties.PartialPaymentId;
-                }
-                await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = receiptVoucherId };
-                
-            }
-            return new ApiResult<string>(HttpStatusCode.BadRequest, "Không thể tạo phiếu thu cho đơn hàng đã hoàn thành.");
         }
     }
 }

@@ -46,5 +46,20 @@ namespace eQACoLTD.Application.Extensions
             string id = string.Format("RVN{0}", sequenceNumber.ToString().PadLeft(4, '0'));
             return id;
         }
+        public static string GeneratePurchaseOrderId(int sequenceNumber)
+        {
+            string id = string.Format("PON{0}", sequenceNumber.ToString().PadLeft(4, '0'));
+            return id;
+        }
+        public static string GenerateGoodsReceivedNoteId(int sequenceNumber)
+        {
+            string id = string.Format("GRN{0}", sequenceNumber.ToString().PadLeft(4, '0'));
+            return id;
+        }
+        public static string GeneratePaymentVoucherId(int sequenceNumber)
+        {
+            string id = string.Format("PVN{0}", sequenceNumber.ToString().PadLeft(4, '0'));
+            return id;
+        }
     }
 }

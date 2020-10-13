@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace eQACoLTD.ViewModel.Order.Handlers
+namespace eQACoLTD.ViewModel.Product.PurchaseOrder.Handlers
 {
-    public class OrderForCreationDto
+    public class PurchaseOrderForCreationDto
     {
-        public string CustomerId { get; set; }
+        public string SupplierId { get; set; }
+        public DateTime DeliveryDate { get; set; }
         public string Description { get; set; }
-        public string EmployeeId { get; set; }
         public decimal DiscountValue { get; set; }
         public string DiscountDescription { get; set; }
         public string DiscountType { get; set; }
-        public IEnumerable<OrderDetailsForCreationDto> ListOrderDetail { get; set; }
+
+        public IEnumerable<PurchaseOrderDetailsForCreation> ListProduct { get; set; }
     }
 }

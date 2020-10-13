@@ -19,7 +19,8 @@ namespace eQACoLTD.Data.Entities
         public string TransactionStatusId { get; set; }
         public string Description { get; set; }
         public string EmployeeId { get; set; }
-        
+        public decimal TotalAmount { get; set; }
+
         public Supplier Supplier { get; set; }
         public Branch Branch { get; set; }
         public Employee Employee { get; set; }

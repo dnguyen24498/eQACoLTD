@@ -47,6 +47,15 @@ namespace eQACoLTD.Application.Product.Supplier
         {
             var checkSupplier = await _context.Suppliers.FindAsync(supplierId);
             if(checkSupplier==null) return new ApiResult<SupplierDto>(HttpStatusCode.NotFound,$"Không tìm thấy nhà cung cấp có mã: {supplierId}");
+            var totalPurchaseOrder = await (from po in _context.PurchaseOrders
+                                            where po.SupplierId == supplierId
+                                            select po.TotalAmount).SumAsync();
+            var totalReceiptVoucher = await (from rv in _context.ReceiptVouchers
+                                             where rv.SupplierId == supplierId
+                                             select rv.Received).SumAsync();
+            var totalPaymentVoucher = await (from pv in _context.PaymentVouchers
+                                             where pv.SupplierId == supplierId
+                                             select pv.Paid).SumAsync();
             var supplier=await (from s in _context.Suppliers
                 join employee in _context.Employees on s.EmployeeId equals employee.Id
                 into EmployeesGroup
@@ -71,7 +80,7 @@ namespace eQACoLTD.Application.Product.Supplier
                     Website = s.Website,
                     EmployeeName = e.Name,
                     PhoneNumber = s.PhoneNumber,
-                    TotalDebt = totalDebt
+                    TotalDebt = totalPurchaseOrder+totalReceiptVoucher-totalPaymentVoucher
                 }).SingleOrDefaultAsync();
             return new ApiResult<SupplierDto>(HttpStatusCode.OK,supplier);
 
@@ -111,7 +120,9 @@ namespace eQACoLTD.Application.Product.Supplier
             if(checkSupplier==null) 
                 return new ApiResult<PagedResult<SupplierImportHistoriesDto>>(HttpStatusCode.NotFound,$"Không tìm thấy nhà cung cấp có mã: {supplierId}");
             var supplierHistories = await (from po in _context.PurchaseOrders
-                join pv in _context.PaymentVouchers on po.Id equals pv.PurchaseOrderId
+                join paymentvoucher in _context.PaymentVouchers on po.Id equals paymentvoucher.PurchaseOrderId
+                into PaymentVoucherGroup
+                from pv in PaymentVoucherGroup.DefaultIfEmpty()
                 join ps in _context.PaymentStatuses on po.PaymentStatusId equals ps.Id
                 join ts in _context.TransactionStatuses on po.TransactionStatusId equals ts.Id
                 join b in _context.Branches on po.BrandId equals b.Id

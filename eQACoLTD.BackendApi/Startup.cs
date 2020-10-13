@@ -10,6 +10,9 @@ using eQACoLTD.Application.Order;
 using eQACoLTD.Application.Others;
 using eQACoLTD.Application.Product.Category;
 using eQACoLTD.Application.Product.ListProduct;
+using eQACoLTD.Application.Product.Payment;
+using eQACoLTD.Application.Product.PurchaseOrder;
+using eQACoLTD.Application.Product.Stock;
 using eQACoLTD.Application.Product.Supplier;
 using eQACoLTD.Application.System.Account;
 using eQACoLTD.Application.System.Employee;
@@ -106,6 +109,9 @@ namespace eQACoLTD.BackendApi
             services.AddTransient<ICustomerService,CustomerService>();
             services.AddTransient<IOtherService, OtherService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IStockService, StockService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IPurchaseOrderService, PurchaseOrderSerivce>();
             services.AddScoped<AppIdentityDbContext,AppIdentityDbContext>();
 
         }
@@ -118,7 +124,7 @@ namespace eQACoLTD.BackendApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.ConfigureExceptionHandler(loggerManager);
+            app.ConfigureExceptionHandler(loggerManager);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

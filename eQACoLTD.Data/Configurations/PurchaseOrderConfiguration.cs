@@ -21,6 +21,7 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.Description).HasColumnType("nvarchar(300)");
             builder.Property(x => x.DiscountType).HasColumnType("char(1)");
             builder.Property(x => x.DeliveryDate).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.TotalAmount).HasColumnType("decimal");
 
             builder.HasOne(s => s.Supplier)
                 .WithMany(p => p.PurchaseOrders)
@@ -49,7 +50,10 @@ namespace eQACoLTD.Data.Configurations
                     DateCreated = DateTime.Now,
                     BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
                     TransactionStatusId = "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8",
-                    EmployeeId = "EPN0001"
+                    EmployeeId = "EPN0001",
+                    DiscountType = "$",
+                    DiscountValue = 0,
+                    TotalAmount=720000000
                 });
 
         }

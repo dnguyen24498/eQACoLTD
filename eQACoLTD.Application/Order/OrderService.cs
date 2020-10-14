@@ -25,27 +25,42 @@ namespace eQACoLTD.Application.Order
             _context = context;
         }
 
-        public async Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto)
+        public async Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string employeeId)
         {
             try
             {
+                var checkEmployee = await _context.Employees.FindAsync(employeeId);
+                if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound);
                 var sequenceNumber = await _context.Orders.CountAsync();
                 var orderId = IdentifyGenerator.GenerateOrderId(sequenceNumber + 1);
                 var order = ObjectMapper.Mapper.Map<Data.Entities.Order>(creationDto);
                 var orderDetail = ObjectMapper.Mapper.Map<IEnumerable<OrderDetail>>(creationDto.ListOrderDetail);
-                var employee = await _context.Employees.Where(x => x.Id == creationDto.EmployeeId).SingleOrDefaultAsync();
-                order.Id = orderId;
-                order.TransactionStatusId = GlobalProperties.InventoryTransactionId;
-                order.PaymentStatusId = GlobalProperties.UnpaidPaymentId;
-                order.DateCreated = DateTime.Now;
-                order.BranchId = employee.BranchId;
                 decimal totalAmount = 0;
+                int checkIfAllService = 0;
                 foreach (var od in orderDetail)
                 {
                     od.Id = Guid.NewGuid().ToString("D");
                     od.OrderId = orderId;
                     totalAmount += od.Quantity * od.UnitPrice;
+                    if (string.IsNullOrEmpty(od.ProductId))
+                    {
+                        od.ProductId = null;
+                        checkIfAllService++;
+                    }
                 }
+                order.Id = orderId;
+                if (checkIfAllService == creationDto.ListOrderDetail.Count())
+                {
+                    order.TransactionStatusId = GlobalProperties.TradingTransactionId;
+                }
+                else
+                {
+                    order.TransactionStatusId = GlobalProperties.InventoryTransactionId;   
+                }
+                order.PaymentStatusId = GlobalProperties.UnpaidPaymentId;
+                order.DateCreated = DateTime.Now;
+                order.BranchId = checkEmployee.BranchId;
+                order.EmployeeId = checkEmployee.Id;
                 if (string.IsNullOrEmpty(order.DiscountType))
                 {
                     order.DiscountType = "$";
@@ -89,7 +104,9 @@ namespace eQACoLTD.Application.Order
                                    PaymentStatusName = ps.Name,
                                    TransactionStatusName = ts.Name,
                                    OrderDetailsDtos = (from od in _context.OrderDetails
-                                                       join p in _context.Products on od.ProductId equals p.Id
+                                                       join product in _context.Products on od.ProductId equals product.Id
+                                                       into ProductsGroup
+                                                       from p in ProductsGroup.DefaultIfEmpty()
                                                        where od.OrderId == o.Id
                                                        select new OrderDetailsDto()
                                                        {

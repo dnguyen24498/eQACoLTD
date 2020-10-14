@@ -12,6 +12,6 @@ namespace eQACoLTD.Application.Order
     {
         Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(string employeeId,int pageIndex, int pageSize);
         Task<ApiResult<OrderDto>> GetOrderAsync(string orderId);
-        Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto);
+        Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string employeeId);
     }
 }

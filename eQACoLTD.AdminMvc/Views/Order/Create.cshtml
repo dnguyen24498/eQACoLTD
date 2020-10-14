@@ -1,5 +1,6 @@
 ﻿@inject IConfiguration Configuration
 @using Microsoft.AspNetCore.Http
+
 @section Scripts
 {
     <script>
@@ -32,7 +33,7 @@
                  var liEl=document.createElement('li');
                  liEl.setAttribute('id',cus.id);
                  $(liEl).on('click',function() {
-                   console.log(cus);
+                   selectCustomer(cus);
                  })
                  liEl.setAttribute('class','list-group-item');
                  liEl.append(cus.name);
@@ -49,6 +50,16 @@
                })
              }
           });
+        }
+        function selectCustomer(cus){
+            $("#customer-search,#customers-panel").css('display','none');
+            $("#customer-info").css('display','block');
+            $("#customer-id").val(cus.id);
+            $("#customer-name").val(cus.name);
+            $("#customer-phone").val(cus.phoneNumber);
+            $("#customer-email").val(cus.email);
+            $("#customer-address").val(cus.address);
+            $("#customer-debt").val(cus.totalDebt);
         }
         function hideCustomerPanel() {
           $("#customers-panel").css('display','none');
@@ -125,7 +136,7 @@
                             tdPrice.setAttribute('class','align-middle');
                             var inputPrice=document.createElement('input');
                             inputPrice.setAttribute('type','text');
-                            inputPrice.setAttribute('class','form-control price_format');
+                            inputPrice.setAttribute('class','form-control');
                             inputPrice.setAttribute('value',accounting.format(prod.retailPrice));
                             tdPrice.append(inputPrice);
                             trProd.append(tdPrice);
@@ -133,6 +144,7 @@
                             tdTotal.setAttribute('class','text-right align-middle');
                             var aEl=document.createElement('a');
                             var spanEl=document.createElement('span');
+                            spanEl.setAttribute('class','price');
                             spanEl.append(accounting.formatNumber(prod.retailPrice));
                             aEl.append(spanEl);
                             var iEl=document.createElement('i');
@@ -140,17 +152,15 @@
                             iEl.setAttribute('style','cursor: pointer;padding-left: 3px');
                             $(iEl).on('click',function() {
                                 $(trProd).remove();
+                                updateTotalAmountOrder();
                             })
                             aEl.append(iEl);
                             tdTotal.append(aEl);
                             trProd.append(tdTotal);
-                            $(inputQuantity).on('input',function() {
-                              var newTotal=$(inputQuantity).val().replace(/,/g,'')*prod.retailPrice;
-                              $(spanEl).empty().append(accounting.formatNumber(newTotal));
-                            });
-                            $(inputPrice).on('input',function() {
+                            $(inputPrice).add(inputQuantity).on('input',function() {
                               var newTotal=$(inputPrice).val().replace(/,/g,'')*$(inputQuantity).val().replace(/,/g,'');
                               $(spanEl).empty().append(accounting.formatNumber(newTotal));
+                              updateTotalAmountOrder();
                             })
                             $(inputPrice).add(inputQuantity).on('keyup',function(event) {
                               if(event.which >= 37 && event.which <= 40) return;
@@ -162,6 +172,7 @@
                                      });
                             })
                             $("#order-table tbody").append(trProd);
+                            updateTotalAmountOrder();
                         }});
                     $("#products-ul").append(liEl);
                   })
@@ -206,14 +217,18 @@
           var totalAmount=$("#servicePrice").val().replace(/,/g,'')*$("#serviceQuantity").val().replace(/,/g,'');
           var spanEl=document.createElement('span');
           spanEl.append(accounting.formatNumber(totalAmount));
+          spanEl.setAttribute('class','price');
           aElTotalAmount.append(spanEl);
           iElTotalAmount.setAttribute('class','fa fa-close price_format');
           iElTotalAmount.setAttribute('style','cursor: pointer;padding-left:3px');
           $(iElTotalAmount).on('click',function() {
-            deleteService(iElTotalAmount);
+            $(tr).remove();
+            updateTotalAmountOrder();
           });
-          $(inputQuantity).on('input',function() {
-             
+          $(inputQuantity).add(inputPrice).on('input',function() {
+             var newTotal=$(inputPrice).val().replace(/,/g,'')*$(inputQuantity).val().replace(/,/g,'');
+             $(spanEl).empty().append(accounting.formatNumber(newTotal));
+             updateTotalAmountOrder();
           })
           aElTotalAmount.append(iElTotalAmount);
           tdTotalAmount.append(aElTotalAmount);
@@ -229,11 +244,55 @@
                    });
           })
           $('#serviceName, #serviceQuantity, #servicePrice').val('');
+          updateTotalAmountOrder();
         }
-        function deleteService(el) {
-          $(el).closest('tr').remove();
+        function createOrder(){
+            var listProducts=[];
+            $('tbody tr').each(function(){
+                if($(this).is("[id]")){
+                var productId=$(this).find('td').eq(0).html();
+                var productQuantity=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
+                var productPrice=$(this).find('td').eq(4).find('input').val().replace(/,/g,'');
+                listProducts.push({productId:productId,quantity:parseInt(productQuantity),unitPrice:parseFloat(productPrice),serviceName:''});
+                }
+                else{
+                    console.log($(this).find('td').eq(1).find('input').val());
+                    var serviceName=$(this).find('td').eq(1).find('input').val();
+                    var serviceQuantity=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
+                    var servicePrice=$(this).find('td').eq(4).find('input').val().replace(/,/g,'');
+                    listProducts.push({productId:'',quantity:parseInt(serviceQuantity),servicePrice:parseFloat(servicePrice),serviceName:serviceName});
+                }
+            })
+            var order={
+                "customerId": $("#customer-id").val(),
+                "description": $("#order-Description").val(),
+                "discountValue": parseFloat($("#total-Discount").val().replace(/,/g,'')),
+                "discountDescription": "",
+                "discountType": $("#discount-Type").html(),
+                "listOrderDetail": listProducts
+            }
+            console.log(order);
         }
-        $('#servicePrice,#serviceQuantity').keyup(function(event) {
+        function updateTotalAmountOrder(){
+            var totalAmount=0;
+            $(".price").each(function() {
+              totalAmount+= parseFloat($(this).html().replace(/,/g,''));
+            })
+            var totalDiscount=0;
+            if($("#discount-Type").html()==='$'){
+                totalDiscount=parseFloat($("#total-Discount").val().replace(/,/g,''));            
+            }else{
+                totalDiscount=totalAmount*parseFloat($("#total-Discount").val().replace(/,/g,''))/100; 
+            }
+            $("#total-Amount").text(accounting.formatNumber(totalAmount));
+            $("#total-Amount-Final").text(accounting.formatNumber(totalAmount-totalDiscount))
+        }
+        function changeDiscountType(){
+            if($("#discount-Type").html()==='$') $("#discount-Type").html('%');
+            else $("#discount-Type").html('$');
+            updateTotalAmountOrder();
+        }
+        $('#servicePrice,#serviceQuantity,#total-Discount').keyup(function(event) {
                if(event.which >= 37 && event.which <= 40) return;
                $(this).val(function(index, value) {
                  return value
@@ -263,7 +322,7 @@
                     <div id="customers-panel" style="display: none;position: absolute;z-index: 1"
                          class="col-md-11 panel">
                         <div class="panel-body row">
-                            <ul id="customers-ul" class="form-control" 
+                            <ul id="customers-ul" class="form-control"
                                 style="max-height: 350px;margin-bottom: 10px;overflow:scroll;-webkit-overflow-scrolling: touch;">
                                 <li class="list-group-item">
                                     Khách hàng:Nguyễn Dương Nguyên<br/>
@@ -272,10 +331,53 @@
                             </ul>
                         </div>
                     </div>
-                    <div id="customer-details" style="display: block;position: absolute" class="col-md-11 panel">
-                        <div class="card">
-                            
-                        </div>
+                    <div id="customer-info" style="display: none;position: relative;z-index: 1"
+                         class="col-md-12 panel">
+
+                        @* <div class="col-md-6"> *@
+                        @*     <p id="customer-name"></p> *@
+                        @*     <p id="customer-phone"></p> *@
+                        @* </div> *@
+                        @* <div class="col-md-6"> *@
+                        @*     <p id="customer-address"></p> *@
+                        @*     <p id="customer-debt"></p> *@
+                        @* </div> *@
+                        <div class="form-layout form-layout-3">
+                            <div class="row no-gutters">
+                            <input id="customer-id" class="form-control" type="hidden" disabled="disabled">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
+                                        <input id="customer-name" class="form-control" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                    <div class="form-group mg-md-l--1">
+                                        <label class="form-control-label">Điện thoại: <span class="tx-danger">*</span></label>
+                                        <input id="customer-phone" class="form-control" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                    <div class="form-group mg-md-l--1">
+                                        <label class="form-control-label">Hòm thư điện tử: <span class="tx-danger">*</span></label>
+                                        <input id="customer-email" class="form-control" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                                <div class="col-md-8">
+                                    <div class="form-group bd-t-0-force">
+                                        <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
+                                        <input id="customer-address" class="form-control" type="text"  disabled="disabled">
+                                    </div>
+                                </div><!-- col-8 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mg-md-l--1 bd-t-0-force">
+                                        <label class="form-control-label">Công nợ hiện tại: <span class="tx-danger">*</span></label>
+                                        <input id="customer-debt" class="form-control" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                            </div><!-- row -->
+                        </div><!-- form-layout -->
+
                     </div>
                 </div>
                 <div class="form-layout form-layout-1 bg-white mt-3">
@@ -284,7 +386,7 @@
                            placeholder="Tìm kiếm sản phẩm..." class="form-control" type="text">
                     <div id="product-panel" style="display: none;position: absolute;z-index: 1" class="col-md-11 panel">
                         <div class="panel-body row">
-                            <ul id="products-ul" class="form-control" 
+                            <ul id="products-ul" class="form-control"
                                 style="max-height: 350px;margin-bottom: 10px;overflow:scroll;-webkit-overflow-scrolling: touch;">
                                 <li class="list-group-item">
                                     <div class="row">
@@ -354,36 +456,42 @@
                         </tbody>
                     </table>
                     <div class="row">
-                        <a style="cursor: pointer;color: dodgerblue;font-weight: bold;margin: 15px" class="btn btn-primary m-1 text-light">
-                            <i class="fa fa-plus text-light" style="color: dodgerblue"></i>
+                        <a style="cursor: pointer;color: dodgerblue;font-weight: bold" class="btn m-1 text-blue">
+                            <i class="fa fa-plus text-blue" style="color: dodgerblue"></i>
                             Thêm dịch vụ khác
                         </a>
-                        <div class="row col-md-9">
+                        <div class="row col-md-10">
                             <input id="serviceName" type="text" placeholder="Tên dịch vụ" class="form-control col-md-5 m-1">
                             <input id="serviceQuantity" type="text" placeholder="Số lượng" value="1" class="form-control col-md-2 m-1 price_format">
                             <input id="servicePrice" type="text" placeholder="Đơn giá" class="form-control col-md-2 m-1 price_format">
                             <a class="btn btn-primary text-light m-1" style="cursor:pointer;" onclick="addService()">Thêm</a>
                         </div>
                         <div class="col-md-12" style="width: 35%">
-                            <p class="float-left">Tổng tiền</p>
-                            <p class="float-right">300,000,000</p>
+                            <p class="float-left mt-2 font-weight-bold">Tổng tiền</p>
+                            <p id="total-Amount" class="float-right mt-2">0</p>
                             <div class="clearfix"></div>
-                            <p class="float-left">Chiết khấu</p>
-                            <p class="float-right">60,000</p>
+                            <p class="float-left mt-2 font-weight-bold">Chiết khấu</p>
+                            <input type="text" id="total-Discount" value="0" oninput="updateTotalAmountOrder()"
+                                   class="float-right form-control" style="height: 40px;width: 80px;text-align: center"/>
+                            <a id="discount-Type" class="float-right btn text-danger" style="height: 40px;cursor: pointer" onclick="changeDiscountType()">$</a>
                             <div class="clearfix"></div>
-                            <p class="float-left" style="font-weight: bold">Số tiền khách phải trả</p>
-                            <p class="float-right">300,000,000</p>
+                            <p class="float-left mt-2" style="font-weight: bold">Số tiền khách phải trả</p>
+                            <p id="total-Amount-Final" class="float-right font-weight-bold mt-2">0</p>
                         </div>
                     </div>
 
                 </div>
             </div>
             <div class="col-md-4">
-
+                <div class="form-layout form-layout-1 bg-white">
+                    <h6 class="tx-gray-800 tx-bold">Thông tin khác</h6>
+                    <p>Ghi chú</p>
+                    <textarea class="form-control" id="order-Description" cols="30" rows="10"></textarea>
+                </div>
             </div>
         </div>
         <div class="row mt-md-2 ml-md-0">
-            <input class="btn btn-primary text-white" onclick="postOrder()" style="cursor: pointer" value="Thêm mới sản phẩm" type="submit"/>
+            <input class="btn btn-primary text-white" onclick="createOrder()" style="cursor: pointer" value="Thêm mới sản phẩm" type="submit"/>
             <a class="btn btn-secondary text-white ml-md-1" style="cursor: pointer">Trở lại</a>
         </div>
     </div>

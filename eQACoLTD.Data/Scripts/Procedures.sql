@@ -486,3 +486,18 @@ begin
 	left join AppUsers on AppUserRoles.UserId=AppUsers.Id
 	where AppUsers.Id=@userId
 end;
+
+select * from PurchaseOrders
+select * from  PurchaseOrderDetails
+select * from GoodReceivedNotes
+select * from GoodsReceivedNoteDetails
+select * from StockActions
+select * from Warehouses
+select * from TransactionStatuses
+select * from PaymentVouchers
+update Orders set Employ
+
+select * from PaymentMethods
+delete GoodReceivedNotes WHERE Id='GRN0002'
+
+update PurchaseOrders set TransactionStatusId='cc0c7f54-de94-481c-b662-36584002fe41' where Id='PON0002'

@@ -38,9 +38,11 @@ namespace eQACoLTD.BackendApi.Controllers
             return Ok(result.ResultObj);
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateOrder(OrderForCreationDto creationDto)
         {
-            var result = await _orderService.CreateOrderAsync(creationDto);
+            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _orderService.CreateOrderAsync(creationDto,employeeId);
             if (result.Code != HttpStatusCode.OK) return StatusCode(500, result.Message);
             return Ok(result.ResultObj);
         }

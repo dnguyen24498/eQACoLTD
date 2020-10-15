@@ -55,14 +55,13 @@ namespace eQACoLTD.Application.Product.Stock
                         var prod = await _context.Stocks.Where(x => x.ProductId == g.ProductId && x.WarehouseId == orderDto.WarehouseId).
                             SingleOrDefaultAsync();
                         if (prod == null)
-                        {
-                            checkOrder.TransactionStatusId = GlobalProperties.CancelTransactionId;
-                            await _context.SaveChangesAsync();
                             return new ApiResult<string>(HttpStatusCode.NotFound, $"Sản phẩm không có trong kho");
-                        }
                         prod.RealQuantity -= g.Quantity;
                         prod.AbleToSale -= g.Quantity;
-                        checkOrder.TransactionStatusId = GlobalProperties.TradingTransactionId;
+                        if (checkOrder.PaymentStatusId == GlobalProperties.PaidPaymentId)
+                            checkOrder.TransactionStatusId = GlobalProperties.FinishedTransactionId;
+                        else
+                            checkOrder.TransactionStatusId = GlobalProperties.TradingTransactionId;
                     }
                     goodsDeliveryNote.GoodsDeliveryNoteDetails = goodsDeliveryNoteDetails;
                     await _context.GoodsDeliveryNotes.AddAsync(goodsDeliveryNote);
@@ -174,6 +173,16 @@ namespace eQACoLTD.Application.Product.Stock
                 return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=goodsReceivedId };
             }
             return new ApiResult<string>(HttpStatusCode.BadRequest,$"Tài khoản hiện tại không được phép tạo phiếu nhập cho chi nhánh này");
+        }
+
+        public async Task<ApiResult<bool>> OrderIsExport(string orderId)
+        {
+            var checkOrder = await _context.Orders.FindAsync(orderId);
+            if(checkOrder==null) return new ApiResult<bool>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
+            var checkIsExport = await _context.GoodsDeliveryNotes.Where(x => x.OrderId == checkOrder.Id)
+                .SingleOrDefaultAsync();
+            if(checkIsExport!=null) return new ApiResult<bool>(HttpStatusCode.OK,true);
+            return new ApiResult<bool>(HttpStatusCode.OK,false);
         }
     }
 }

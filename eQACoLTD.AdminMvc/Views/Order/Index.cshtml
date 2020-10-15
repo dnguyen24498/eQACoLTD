@@ -1,1 +1,60 @@
-﻿
+﻿@model PagedResult<eQACoLTD.ViewModel.Order.Queries.OrdersDto>
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Order" asp-action="Index">Đơn hàng</a>
+                <span class="breadcrumb-item active" href="#">Danh sách đơn hàng</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Danh sách đơn hàng</h4>
+    <p class="mg-b-0">Quản lý danh sách đơn hàng có trong hệ thống</p>
+    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" asp-controller="Customer" asp-action="Create"
+       style="cursor: pointer">Tạo đơn</a>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <div class="row m-1">
+                <select class="form-control col-md-2 bd-r-0">
+                    <option selected="selected">Lọc</option>
+                    <option>Theo tên</option>
+                </select>
+                <input id="search-box" type="text" class="form-control col-md-10" placeholder="Tìm kiếm đơn hàng">
+            </div>
+            <table id="datatable2" class="table display responsive table-striped nowrap">
+                <thead>
+                    <tr>
+                        <th class="wd-10p">Mã</th>
+                        <th class="wd-15p">Ngày tạo</th>
+                        <th class="wd-20p">Tên khách hàng</th>
+                        <th class="wd-15p">Trạng thái</th>
+                        <th class="wd-15p">Thanh toán</th>
+                        <th class="wd-15p text-right">Khách phải trả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var c in Model.Results)
+                        {
+                            <tr id=@c.OrderId style="cursor: pointer" onclick="showOrderDetail(this)">
+                                <form asp-action="Detail" asp-route-orderId="@c.OrderId">
+                                    <td class="pt-md-4 pt-sm-4 text-primary">
+                                       <input type="submit" value="@c.OrderId">
+                                    </td>
+                                </form>
+                                <td class="pt-md-4 pt-sm-4">@c.DateCreated.ToString("hh:mm-dd/MM/yyyy")</td>
+                                <td class="pt-md-4 pt-sm-4">@c.CustomerName</td>
+                                <td class="pt-md-4 pt-sm-4">@c.TransactionStatusName</td>
+                                <td class="pt-md-4 pt-sm-4">@c.PaymentStatusName</td>
+                                <td class="pt-md-4 pt-sm-4 text-right">@c.CustomerHasPaid.ToString("#,##0")</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div><!-- table-wrapper -->
+    </div>
+    <div class="html mt-1">
+        @(await Component.InvokeAsync<PagerViewComponent>(Model))
+    </div>
+</div>

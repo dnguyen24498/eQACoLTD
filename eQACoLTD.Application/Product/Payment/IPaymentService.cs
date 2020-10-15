@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using eQACoLTD.ViewModel.Product.Payment.Queries;
 
 namespace eQACoLTD.Application.Product.Payment
 {
@@ -11,5 +12,7 @@ namespace eQACoLTD.Application.Product.Payment
     {
         Task<ApiResult<string>> OrderReceiveAsync(string employeeId,string orderId, OrderPaymenForCreationDto creationDto);
         Task<ApiResult<string>> PurchaseOrderPaymentAsync(string employeeId, string purchaseOrderId, PurchaseOrderPaymentForCreationDto creationDto);
+        Task<ApiResult<bool>> IsPaidOrder(string orderId);
+        Task<ApiResult<IEnumerable<OrderPaymentsDto>>> GetOrderPaymentHistory(string orderId);
     }
 }

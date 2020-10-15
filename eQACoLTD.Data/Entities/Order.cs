@@ -17,6 +17,9 @@ namespace eQACoLTD.Data.Entities
         public string DiscountType { get; set; }
         public string BranchId { get; set; }
         public decimal TotalAmount { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerAddress { get; set; }
+        public string CustomerPhone { get; set; }
 
         public Customer Customer { get; set; }
         public Employee Employee { get; set; }

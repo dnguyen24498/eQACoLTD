@@ -18,6 +18,9 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.DiscountDescription).HasColumnType("nvarchar(300)");
             builder.Property(x => x.DiscountType).HasColumnType("char(1)");
             builder.Property(x => x.TotalAmount).HasColumnType("decimal");
+            builder.Property(x => x.CustomerName).HasColumnType("nvarchar(150)");
+            builder.Property(x => x.CustomerAddress).HasColumnType("nvarchar(300)");
+            builder.Property(x => x.CustomerPhone).HasColumnType("nvarchar(30)");
             builder.HasOne(c => c.Customer)
                 .WithMany(s => s.Orders)
                 .HasForeignKey(s => s.CustomerId);

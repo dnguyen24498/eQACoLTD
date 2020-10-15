@@ -3,7 +3,6 @@ using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Order.Queries;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using eQACoLTD.Application.Extensions;
@@ -13,7 +12,7 @@ using eQACoLTD.ViewModel.Order.Handlers;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.Application.Common;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace eQACoLTD.Application.Order
 {
@@ -118,7 +117,8 @@ namespace eQACoLTD.Application.Order
                                                            ProductName = p.Name
                                                        }).ToList(),
                                    TotalAmount=o.TotalAmount,
-                                   RestAmount=o.TotalAmount-hasPaid
+                                   RestAmount=o.TotalAmount-hasPaid,
+                                   CustomerId = c.Id
                                }).SingleOrDefaultAsync();
             if (orderDetails == null) return new ApiResult<OrderDto>(HttpStatusCode.NotFound, $"Không tìm thấy đơn hàng có mã: {orderId}");
             return new ApiResult<OrderDto>(HttpStatusCode.OK, orderDetails);
@@ -137,7 +137,9 @@ namespace eQACoLTD.Application.Order
                           from e in EmployeesGroup.DefaultIfEmpty()
                           join ps in _context.PaymentStatuses on o.PaymentStatusId equals ps.Id
                           join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
+                          orderby o.DateCreated descending 
                           where o.BranchId==checkEmployee.BranchId
+                          let hasPaid=_context.ReceiptVouchers.Where(x => x.OrderId == o.Id).Sum(x => x.Received)
                           select new OrdersDto()
                           {
                               OrderId=o.Id,
@@ -145,7 +147,8 @@ namespace eQACoLTD.Application.Order
                               EmployeeName=e.Name,
                               DateCreated=o.DateCreated,
                               PaymentStatusName=ps.Name,
-                              TransactionStatusName=ts.Name
+                              TransactionStatusName=ts.Name,
+                              CustomerHasPaid = o.TotalAmount
                           }).GetPagedAsync(pageIndex, pageSize);
             return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.OK, orders);
         }

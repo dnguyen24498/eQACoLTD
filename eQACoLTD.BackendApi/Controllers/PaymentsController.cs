@@ -13,10 +13,10 @@ namespace eQACoLTD.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
         private readonly IPaymentService _paymentService;
-        public PaymentController(IPaymentService paymentService)
+        public PaymentsController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
@@ -39,6 +39,22 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _paymentService.PurchaseOrderPaymentAsync(employeeId, purchaseOrderId, creationDto);
             if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
             if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("orders/{orderId}/is-paid")]
+        public async Task<IActionResult> CheckPaidOrder(string orderId)
+        {
+            var result = await _paymentService.IsPaidOrder(orderId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("orders/{orderId}")]
+        public async Task<IActionResult> GetPaymentsOrder(string orderId)
+        {
+            var result = await _paymentService.GetOrderPaymentHistory(orderId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
             return Ok(result.ResultObj);
         }
     }

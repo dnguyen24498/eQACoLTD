@@ -11,7 +11,5 @@ namespace eQACoLTD.ViewModel.Product.Payment.Handlers
         public string PaymentMethodId { get; set; }
         public string Description { get; set; }
         public DateTime ReceivedDate { get; set; }
-
-        public IEnumerable<ImportPurchaseOrderDetailsDto> ListSubOrder { get; set; }
     }
 }

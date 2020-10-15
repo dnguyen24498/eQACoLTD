@@ -12,5 +12,6 @@ namespace eQACoLTD.ViewModel.Order.Queries
         public string PaymentStatusName { get; set; }
         public string CustomerName { get; set; }
         public string EmployeeName { get; set; }
+        public decimal CustomerHasPaid { get; set; }
     }
 }

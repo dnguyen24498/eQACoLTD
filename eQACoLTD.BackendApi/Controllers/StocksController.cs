@@ -57,5 +57,13 @@ namespace eQACoLTD.BackendApi.Controllers
             if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
             return Ok(result.ResultObj);
         }
+
+        [HttpGet("exports/{orderId}")]
+        public async Task<IActionResult> IsExportOrder(string orderId)
+        {
+            var result = await _stockService.OrderIsExport(orderId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
     }
 }

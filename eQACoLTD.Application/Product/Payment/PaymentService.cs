@@ -7,9 +7,11 @@ using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Product.Payment.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using eQACoLTD.ViewModel.Product.Payment.Queries;
 
 namespace eQACoLTD.Application.Product.Payment
 {
@@ -26,7 +28,9 @@ namespace eQACoLTD.Application.Product.Payment
             if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound);
             var checkOrder = await _context.Orders.FindAsync(orderId);
             if (checkOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound, ($"Không tìm thấy đơn hàng có mã: {orderId}"));
-            if (checkOrder.TransactionStatusId == GlobalProperties.TradingTransactionId)
+            if (checkOrder.TransactionStatusId != GlobalProperties.FinishedTransactionId 
+            && checkOrder.TransactionStatusId!=GlobalProperties.WaitingTransactionId
+            && checkOrder.TransactionStatusId!=GlobalProperties.CancelTransactionId)
             {
                 if (checkEmployee.BranchId == checkOrder.BranchId)
                 {
@@ -45,16 +49,21 @@ namespace eQACoLTD.Application.Product.Payment
                     var totalPaid = await (from rv in _context.ReceiptVouchers
                                            where rv.OrderId == checkOrder.Id
                                            select rv.Received).SumAsync();
-                    if (totalPaid >= checkOrder.TotalAmount)
+                    var checkExportStock = await _context.GoodsDeliveryNotes.Where(x => x.OrderId == checkOrder.Id)
+                        .SingleOrDefaultAsync();
+                    if (totalPaid == checkOrder.TotalAmount)
                     {
-                        checkOrder.TransactionStatusId = GlobalProperties.FinishedTransactionId;
+                        if (checkExportStock != null)
+                        {
+                            checkOrder.TransactionStatusId = GlobalProperties.FinishedTransactionId;   
+                        }
                         checkOrder.PaymentStatusId = GlobalProperties.PaidPaymentId;
                     }
                     else if (totalPaid < checkOrder.TotalAmount)
                     {
-                        checkOrder.TransactionStatusId = GlobalProperties.TradingTransactionId;
                         checkOrder.PaymentStatusId = GlobalProperties.PartialPaymentId;
                     }
+                    else return new ApiResult<string>(HttpStatusCode.BadRequest,$"Giá trị thanh toán lớn hơn giá trị đơn hàng");
                     await _context.SaveChangesAsync();
                     return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = receiptVoucherId };
                 }
@@ -101,6 +110,36 @@ namespace eQACoLTD.Application.Product.Payment
 
             }
             return new ApiResult<string>(HttpStatusCode.Forbidden, $"Tài khoản hiện tại không có quyền chỉnh sửa phiếu chi tại chi nhánh này");
+        }
+
+        public async Task<ApiResult<bool>> IsPaidOrder(string orderId)
+        {
+            var checkOrder = await _context.Orders.FindAsync(orderId);
+            if(checkOrder==null) return new ApiResult<bool>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
+            var totalPaid = await (from rv in _context.ReceiptVouchers
+                where rv.OrderId == checkOrder.Id
+                select rv.Received).SumAsync();
+            if (checkOrder.TotalAmount == totalPaid) return new ApiResult<bool>(HttpStatusCode.OK,true);
+            return new ApiResult<bool>(HttpStatusCode.OK,false);
+        }
+
+        public async Task<ApiResult<IEnumerable<OrderPaymentsDto>>> GetOrderPaymentHistory(string orderId)
+        {
+            var checkOrder = await _context.Orders.FindAsync(orderId);
+            if(checkOrder==null) return new ApiResult<IEnumerable<OrderPaymentsDto>>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
+            var orderPayments = await (from rv in _context.ReceiptVouchers
+                join pm in _context.PaymentMethods on rv.PaymentMethodId equals pm.Id
+                join e in _context.Employees on rv.EmployeeId equals e.Id
+                where rv.OrderId == checkOrder.Id
+                select new OrderPaymentsDto()
+                {
+                    Id = rv.Id,
+                    Received = rv.Received,
+                    PaymentDate = rv.ReceivedDate,
+                    PaymentMethodName = pm.Name,
+                    EmployeeName = e.Name
+                }).ToListAsync();
+            return new ApiResult<IEnumerable<OrderPaymentsDto>>(HttpStatusCode.OK,orderPayments);
         }
     }
 }

@@ -63,7 +63,10 @@ namespace eQACoLTD.Application.Product.ListProduct
             var product = await (from p in _context.Products
                 join b in _context.Brands on p.BrandId equals b.Id
                 join c in _context.Categories on p.CategoryId equals c.Id
-                where p.Id==productId && p.IsDelete==false
+                join productimages in _context.ProductImages on p.Id equals productimages.ProductId
+                    into ProductImageGroup
+                    from pi in ProductImageGroup.DefaultIfEmpty()
+                where p.Id==productId && p.IsDelete==false && pi.IsThumbnail==true
                 select new ProductDto()
                 {
                     Id = p.Id,
@@ -76,7 +79,15 @@ namespace eQACoLTD.Application.Product.ListProduct
                     RetailPrice = p.RetailPrice,
                     Stars = p.Stars,
                     WarrantyPeriod = p.WarrantyPeriod,
-                    WholesalePrices = p.WholesalePrices
+                    WholesalePrices = p.WholesalePrices,
+                    Path = pi.Path,
+                    ListImage = (from pi in _context.ProductImages where pi.ProductId==p.Id
+                        select new ProductImagesDto()
+                        {
+                            Id = pi.Id,
+                            ImagePath = pi.Path,
+                            IsThumbnail = pi.IsThumbnail
+                        })
                 }).SingleOrDefaultAsync();
             if(product==null) return new ApiResult<ProductDto>(HttpStatusCode.NotFound,$"Không tìm thấy sản phẩm có mã: {productId}");
             return new ApiResult<ProductDto>(HttpStatusCode.OK,product);
@@ -88,6 +99,8 @@ namespace eQACoLTD.Application.Product.ListProduct
             {
                 var checkProduct = await _context.Products.FindAsync(productId);
                 if(checkProduct==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy sản phẩm có mã: {productId}");
+                var checkThumbnailImg = await _context.ProductImages
+                    .Where(x => x.ProductId == checkProduct.Id && x.IsThumbnail == true).SingleOrDefaultAsync();
                 Guid imageId = Guid.Empty;
                 string imagePath = "";
                 for (int i = 0; i < files.Count; i++)
@@ -99,7 +112,7 @@ namespace eQACoLTD.Application.Product.ListProduct
                     {
                         Id = imageId.ToString("D"),
                         Path = imagePath,
-                        IsThumbnail = i==0?true:false,
+                        IsThumbnail = checkThumbnailImg!=null?false:(i==0?true:false),
                         ProductId = productId
                     });
                     await _context.SaveChangesAsync();

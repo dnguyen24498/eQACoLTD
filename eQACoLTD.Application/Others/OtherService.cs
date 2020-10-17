@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Net;
+using eQACoLTD.Data.Entities;
+using eQACoLTD.ViewModel.Common;
 
 namespace eQACoLTD.Application.Others
 {
@@ -26,7 +29,7 @@ namespace eQACoLTD.Application.Others
                          }).ToListAsync();
             return brands;
         }
-
+        
         public async Task<IEnumerable<CategoriesForSelectionDto>> GetCategoriesAsync()
         {
             var categories = await (from c in _context.Categories
@@ -59,6 +62,31 @@ namespace eQACoLTD.Application.Others
                                        Name = e.Name
                                    }).ToListAsync();
             return employees;
+        }
+        public async Task<ApiResult<IEnumerable<WarehousesDto>>> GetWarehousesAsync(string employeeId)
+        {
+            var checkEmployee = await _context.Employees.FindAsync(employeeId);
+            if(checkEmployee==null) return new ApiResult<IEnumerable<WarehousesDto>>(HttpStatusCode.NotFound);
+            var warehouses = await (from w in _context.Warehouses
+                where w.BranchId == checkEmployee.BranchId
+                select new WarehousesDto()
+                {
+                    Id = w.Id,
+                    Name = w.Name
+                }).ToListAsync();
+            return new ApiResult<IEnumerable<WarehousesDto>>(HttpStatusCode.OK,warehouses);
+
+        }
+
+        public async Task<IEnumerable<StockActionsDto>> GetStockActionsAsync()
+        {
+            var stockActions = await (from sa in _context.StockActions
+                select new StockActionsDto()
+                {
+                    Id = sa.Id,
+                    Name = sa.Name
+                }).ToListAsync();
+            return stockActions;
         }
     }
 }

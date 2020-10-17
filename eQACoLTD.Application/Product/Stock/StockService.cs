@@ -41,7 +41,7 @@ namespace eQACoLTD.Application.Product.Stock
                     goodsDeliveryNote.Id = goodsDeliveryNoteId;
                     goodsDeliveryNote.OrderId = orderId;
                     var goodsDeliveryNoteDetails = await (from od in _context.OrderDetails
-                                                          where od.OrderId == checkOrder.Id
+                                                          where od.OrderId == checkOrder.Id && !string.IsNullOrEmpty(od.ProductId)
                                                           select new GoodsDeliveryNoteDetail()
                                                           {
                                                               Id = Guid.NewGuid().ToString("D"),
@@ -183,6 +183,41 @@ namespace eQACoLTD.Application.Product.Stock
                 .SingleOrDefaultAsync();
             if(checkIsExport!=null) return new ApiResult<bool>(HttpStatusCode.OK,true);
             return new ApiResult<bool>(HttpStatusCode.OK,false);
+        }
+
+        public async Task<ApiResult<ExportOrderHistoriesDto>> GetExportOrderHistory(string employeeId,string orderId)
+        {
+            var checkOrder = await _context.Orders.FindAsync(orderId);
+            var checkEmployee = await _context.Employees.FindAsync(employeeId);
+            if(checkOrder==null||checkEmployee==null) 
+                return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.NotFound,$"Không tìm thấy dữ liệu");
+            if (checkOrder.BranchId == checkEmployee.BranchId)
+            {
+                var orderHistories = await (from gdn in _context.GoodsDeliveryNotes
+                    join w in _context.Warehouses on gdn.WarehouseId equals w.Id
+                    join sa in _context.StockActions on gdn.StockActionId equals sa.Id
+                    join e in _context.Employees on gdn.EmployeeId equals e.Id
+                    select new ExportOrderHistoriesDto()
+                    {
+                        Id = gdn.Id,
+                        Description = gdn.Description,
+                        EmployeeName = e.Name,
+                        ExportDate = gdn.ExportDate,
+                        WarehouseName = w.Name,
+                        StockActionName = sa.Name,
+                        ListProduct = (from gdnd in _context.GoodsDeliveryNoteDetails
+                            join p in _context.Products on gdnd.ProductId equals p.Id
+                            where gdnd.GoodsDeliveryNoteId == gdn.Id
+                            select new ExportOrderHistoryDetailsDto()
+                            {
+                                Quantity = gdnd.Quantity,
+                                ProductId = gdnd.ProductId,
+                                ProductName = p.Name
+                            }).ToList()
+                    }).SingleOrDefaultAsync();
+                return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.OK,orderHistories);
+            }
+            return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.BadRequest);
         }
     }
 }

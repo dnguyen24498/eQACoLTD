@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using eQACoLTD.ViewModel.Common;
 
 namespace eQACoLTD.Application.Others
 {
@@ -12,5 +13,7 @@ namespace eQACoLTD.Application.Others
         Task<IEnumerable<CategoriesForSelectionDto>> GetCategoriesAsync();
         Task<IEnumerable<CustomerTypesDto>> GetCustomertypesAsync();
         Task<IEnumerable<EmployeesForSelection>> GetEmployeesAsync();
+        Task<ApiResult<IEnumerable<WarehousesDto>>> GetWarehousesAsync(string employeeId);
+        Task<IEnumerable<StockActionsDto>> GetStockActionsAsync();
     }
 }

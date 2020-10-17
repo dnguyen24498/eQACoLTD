@@ -19,95 +19,109 @@ namespace eQACoLTD.ClientMvc.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ApiResult<List<ProductHomePageDto>>> GetBestSellProductsAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetBestSellProductsAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync($"api/products/best-sell").ConfigureAwait(false);
+            var response = await httpClient.GetAsync($"api/products/best-selling").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductHomePageDto>>>
-                    ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<CategoriesHomePageDto>>> GetCategoryHomeAsync()
+        public async Task<ApiResult<List<CategoriesDto>>> GetCategoryHomeAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync("api/categories/home").ConfigureAwait(false);
+            var response = await httpClient.GetAsync("api/categories/all").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<CategoriesHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<CategoriesDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<CategoriesDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<CategoriesHomePageDto>>>
-                    ("Có lỗi khi lấy danh mục");
+            return new ApiResult<List<CategoriesDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<ProductHomePageDto>>> GetFeaturedProductsAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetFeaturedProductsAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync("api/products/featured").ConfigureAwait(false);
+            var response = await httpClient.GetAsync("api/products/best-selling").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductHomePageDto>>>
-                    ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<ProductHomePageDto>>> GetNewArrivedProductsAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetNewArrivedProductsAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
             var response = await httpClient.GetAsync("api/products/new-arrived").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductHomePageDto>>>
-                    ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<ProductHomePageDto>>> GetProductsTopRatedAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetProductsTopRatedAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync("api/products/top-rated").ConfigureAwait(false);
+            var response = await httpClient.GetAsync("api/products/top-rate").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductHomePageDto>>>
-                    ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<ProductHomePageDto>>> GetProductsTopViewdAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetProductsTopViewdAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync("api/products/top-viewed").ConfigureAwait(false);
+            var response = await httpClient.GetAsync("api/products/top-view").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductHomePageDto>>>
-                    ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<ProductHomePageDto>>> GetRandomProductAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetRandomProductAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
-            var response = await httpClient.GetAsync($"api/products/suggestion").ConfigureAwait(false);
+            var response = await httpClient.GetAsync($"api/products/random").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductHomePageDto>>>
-                    (await response.Content.ReadAsStringAsync());
+                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductHomePageDto>>>
-                    ("Có lỗi khi lấy sản phẩm");
+            return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
     }
 }

@@ -8,7 +8,8 @@
         var totalPaid=0;
         checkOrderHasPaid();
         checkOrderHasExport();
-        getPaymentsOrderHisotry();
+        getPaymentsOrderHistory();
+        getCusomterDetail();
         function checkOrderHasPaid(){
             $.ajax({
                 url:'@Configuration["APIServerHost"]api/payments/orders/@Model.Id/is-paid',
@@ -20,6 +21,8 @@
                 success:function(data) {
                   if(data==false){
                       $("#payment-Order").css('display','block');
+                      var dateTime=new Date();
+                      $("#payment-Date").val(new Date().toJSON().slice(0,19));
                   }
                   else{
                       $("#payment-Order").css('display','none');
@@ -40,15 +43,23 @@
                 dataType:'json',
                 success:function(data) {
                   if(data==false){
-                      console.log("Chưa được nhập kho");
-                  }else  console.log("Đã nhập kho");
+                      $("#export-Order-div").css('display','block');
+                      $("#order-exports").css('display','none');
+                      $("#export-Date").val(new Date().toJSON().slice(0,19));
+                      getStockActions();
+                      getWarehouses();
+                  }else{
+                      $("#export-Order-div").css('display','none');
+                      $("#order-exports").css('display','block');
+                      getExportHistory();
+                  }
                 },
-                error:function() {
-                  console.log("Có lỗi");
+                error:function() {  
+                  $("#export-Order-div").css('display','none');
                 }
             })
         }
-        function getPaymentsOrderHisotry() {
+        function getPaymentsOrderHistory() {
            $("#table-Payment-History tbody").empty();
            $.ajax({
                 url:'@Configuration["APIServerHost"]api/payments/orders/@Model.Id',
@@ -71,14 +82,34 @@
                     tdEmployeeName.append(his.employeeName);
                     trEl.append(tdEmployeeName);
                     var tdPaymentDate=document.createElement('td');
-                    tdPaymentDate.append(new Date(his.paymentDate).toString('dd/MM/yyyy'))
+                    var date=new Date(his.paymentDate);
+                    tdPaymentDate.append(date.getUTCHours()+':'+date.getUTCMinutes()+'-'+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear());
                     trEl.append(tdPaymentDate);
                     var tdPaymentMethod=document.createElement('td');
                     tdPaymentMethod.append(his.paymentMethodName);
                     trEl.append(tdPaymentMethod);
                     $("#table-Payment-History tbody").append(trEl);
                   })
-                  $("#payment-Value").val(accounting.formatNumber(parseFloat($("#total-Amount-Final").html().replace(/,/g,''))-totalPaid));
+                  var restAmount=parseFloat($("#total-Amount-Final").html().replace(/,/g,''))-totalPaid;
+                  $("#payment-Value").val(accounting.formatNumber(restAmount));
+                  var trEl=document.createElement('tr');
+                  var tdPaymentStatus=document.createElement('td');
+                  tdPaymentStatus.setAttribute('colspan','2');
+                  tdPaymentStatus.setAttribute('class','text-center font-weight-bold');
+                  tdPaymentStatus.append('Trạng thái');
+                  trEl.append(tdPaymentStatus);
+                  var tdPaymentStatusValue=document.createElement('td');
+                  tdPaymentStatusValue.setAttribute('colspan','3');
+                  if(restAmount===0){
+                      tdPaymentStatusValue.setAttribute('class','text-right font-weight-bold text-success');
+                      tdPaymentStatusValue.append("Đã thanh toán hết");
+                  }
+                  else{
+                      tdPaymentStatusValue.setAttribute('class','text-right font-weight-bold text-danger');
+                      tdPaymentStatusValue.append("Còn thiếu: "+accounting.format(restAmount));
+                  }
+                  trEl.append(tdPaymentStatusValue);
+                  $("#table-Payment-History tbody").append(trEl);
                 },
                 error:function() {
                   console.log("Có lỗi");
@@ -102,13 +133,128 @@
                success:function() {
                    showAlertMessage(true,"Thanh toán đơn hàng thành công");
                    checkOrderHasPaid();
-                   getPaymentsOrderHisotry();
-                   
+                   getPaymentsOrderHistory();
+                   getCusomterDetail();
                    },
                error:function() {
                    showAlertMessage(false,"Có lỗi khi Thanh toán đơn hàng");
                }
             });
+        }
+        function getCusomterDetail(){
+             $.ajax({
+                url:'@Configuration["APIServerHost"]api/customers/@Model.CustomerId',
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'get',
+                dataType:'json',
+                success:function(data) {
+                  $("#customer-name").val(data.name);
+                  $("#customer-phone").val(data.phoneNumber);
+                  $("#customer-email").val(data.email);
+                  $("#customer-address").val(data.address);
+                  $("#customer-debt").val(accounting.formatNumber(data.totalDebt));
+                },
+                error:function() {
+                  console.log("Có lỗi");
+                }
+            })
+        }
+        function getStockActions(){
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/others/stock-actions',
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'get',
+                dataType:'json',
+                success:function(data) {
+                 $(data).each(function(index,item) {
+                   $("#stock-action-select").append('<option value=' + item.id + '>' + item.name+'</option>')
+                 })
+                },
+                error:function() {
+                  console.log("Có lỗi");
+                }
+            })
+        }
+        function getWarehouses(){
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/others/warehouses',
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'get',
+                dataType:'json',
+                success:function(data) {
+                 $(data).each(function(index,item) {
+                   $("#warehouses-select").append('<option value=' + item.id + '>' + item.name+'</option>')
+                 })
+                },
+                error:function() {
+                  console.log("Có lỗi");
+                }
+            })
+        }
+        function exportOrder(){
+            $.ajax({
+               url:'@Configuration["APIServerHost"]api/stocks/exports/@Model.Id',
+               headers: {
+                   "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                   },
+               method:'post',
+               contentType:"application/json",
+               data:JSON.stringify({
+                   "warehouseId": $("#warehouses-select").find(":selected").val(),
+                   "stockActionId": $("#stock-action-select").find(":selected").val(),
+                   "description": $("#payment-Description").val(),
+                   "exportDate": (new Date($("#export-Date").val())).toJSON()
+               }),
+               success:function() {
+                   showAlertMessage(true,'Đã xuất kho cho đơn hàng @Model.Id');
+                   checkOrderHasExport()
+                   },
+               error:function(xhr, status, error) {
+                   if(xhr.status===404) showAlertMessage(false,"Số lượng sản phẩm trong kho không đủ xuất cho đơn hàng này");
+               } 
+            })
+        }
+        function getExportHistory(){
+            $("#table-Export-History tbody").empty();
+            $.ajax({
+                 url:'@Configuration["APIServerHost"]api/stocks/exports/@Model.Id/export-histories',
+                 headers: {
+                     "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                     },
+                 method:'get',
+                 dataType:'json',
+                 success:function(data) {
+                 $("#delivery-notes-id").val(data.id);
+                 $("#export-Date").val(new Date(data.exportDate));
+                 $("#export-employee").val(data.employeeName);
+                 $("#export-description").val(data.description);
+                 $("#export-action").val(data.stockActionName);
+                 $("#export-warehouse").val(data.warehouseName);
+                 $(data.listProduct).each(function(index,his)
+                 {
+                    var trEl=document.createElement('tr');
+                    var tdProductId=document.createElement('td');
+                    tdProductId.append(his.productId);
+                    trEl.append(tdProductId);
+                    var tdProductName=document.createElement('td');
+                    tdProductName.append(his.productName);
+                    trEl.append(tdProductName);
+                    var tdProductQuantity=document.createElement('td');
+                    tdProductQuantity.append(his.quantity);
+                    trEl.append(tdProductQuantity);
+                    $("#table-Export-History tbody").append(trEl);
+                 })
+                 },
+                 error:function() {
+                   console.log("Có lỗi");
+                 }
+            })
         }
     </script>
 }
@@ -125,171 +271,232 @@
 <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thông tin đơn hàng: @Model.Id</h4>
 <div class="row">
 <div class="col-md-9">
-    <div class="form-layout form-layout-1 bg-white">
-        <h6 class="tx-gray-800 tx-bold">Thông tin khách hàng: @Model.CustomerName</h6>
-        <div id="customer-info" style="display: block;position: relative;z-index: 1"
-             class="col-md-12 panel">
-            <div class="form-layout form-layout-3">
-                <div class="row no-gutters">
-                    <input id="customer-id" class="form-control" type="hidden" disabled="disabled">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
-                            <input id="customer-name" class="form-control" type="text" disabled="disabled">
-                        </div>
-                    </div><!-- col-4 -->
-                    <div class="col-md-4 mg-t--1 mg-md-t-0">
-                        <div class="form-group mg-md-l--1">
-                            <label class="form-control-label">Điện thoại: <span class="tx-danger">*</span></label>
-                            <input id="customer-phone" class="form-control" type="text" disabled="disabled">
-                        </div>
-                    </div><!-- col-4 -->
-                    <div class="col-md-4 mg-t--1 mg-md-t-0">
-                        <div class="form-group mg-md-l--1">
-                            <label class="form-control-label">Hòm thư điện tử: <span class="tx-danger">*</span></label>
-                            <input id="customer-email" class="form-control" type="text" disabled="disabled">
-                        </div>
-                    </div><!-- col-4 -->
-                    <div class="col-md-8">
-                        <div class="form-group bd-t-0-force">
-                            <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
-                            <input id="customer-address" class="form-control" type="text" disabled="disabled">
-                        </div>
-                    </div><!-- col-8 -->
-                    <div class="col-md-4">
-                        <div class="form-group mg-md-l--1 bd-t-0-force">
-                            <label class="form-control-label">Công nợ hiện tại: <span class="tx-danger">*</span></label>
-                            <input id="customer-debt" class="form-control" type="text" disabled="disabled">
-                        </div>
-                    </div><!-- col-4 -->
-                </div><!-- row -->
-            </div><!-- form-layout -->
+<div class="form-layout form-layout-1 bg-white">
+    <h6 class="tx-gray-800 tx-bold">Thông tin khách hàng: @Model.CustomerName</h6>
+    <div id="customer-info" style="display: block;position: relative;z-index: 1"
+         class="col-md-12 panel">
+        <div class="form-layout form-layout-3">
+            <div class="row no-gutters">
+                <input id="customer-id" class="form-control" type="hidden" disabled="disabled">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
+                        <input id="customer-name" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group mg-md-l--1">
+                        <label class="form-control-label">Điện thoại: <span class="tx-danger">*</span></label>
+                        <input id="customer-phone" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group mg-md-l--1">
+                        <label class="form-control-label">Hòm thư điện tử: <span class="tx-danger">*</span></label>
+                        <input id="customer-email" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-8">
+                    <div class="form-group bd-t-0-force">
+                        <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
+                        <input id="customer-address" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-8 -->
+                <div class="col-md-4">
+                    <div class="form-group mg-md-l--1 bd-t-0-force">
+                        <label class="form-control-label">Công nợ hiện tại: <span class="tx-danger">*</span></label>
+                        <input id="customer-debt" class="form-control text-danger" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+        </div><!-- form-layout -->
 
-        </div>
     </div>
-    <div class="form-layout form-layout-1 bg-white mt-3">
-        <h6 class="tx-gray-800 tx-bold">Thông tin sản phẩm</h6>
-        <table id="order-table" class="table mt-1" style="border-collapse: collapse">
-            <thead style="background-color: #EEEEEE">
-            <tr>
-                <th scope="col" style="width: 8%">Mã</th>
-                <th scope="col" style="width: 45%">Tên sản phẩm</th>
-                <th scope="col" style="width: 10%">Đơn vị</th>
-                <th scope="col" style="width: 10%">Số lượng</th>
-                <th scope="col" style="width: 15%" class="text-right">Đơn giá</th>
-                <th scope="col" style="width: 12%" class="text-right">Thành tiền</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var od in @Model.OrderDetailsDtos)
+</div>
+<div class="form-layout form-layout-1 bg-white mt-3">
+    <h6 class="tx-gray-800 tx-bold">Thông tin sản phẩm</h6>
+    <table id="order-table" class="table mt-1" style="border-collapse: collapse">
+        <thead style="background-color: #EEEEEE">
+        <tr>
+            <th scope="col" style="width: 8%">Mã</th>
+            <th scope="col" style="width: 45%">Tên sản phẩm</th>
+            <th scope="col" style="width: 10%">Đơn vị</th>
+            <th scope="col" style="width: 10%">Số lượng</th>
+            <th scope="col" style="width: 15%" class="text-right">Đơn giá</th>
+            <th scope="col" style="width: 12%" class="text-right">Thành tiền</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var od in @Model.OrderDetailsDtos)
+        {
+            if (!string.IsNullOrEmpty(od.ProductId))
             {
-                if (!string.IsNullOrEmpty(od.ProductId))
+                <tr class="border">
+                    <td class="align-middle">@od.ProductId</td>
+                    <td class="align-middle">@od.ProductName</td>
+                    <td class="align-middle">
+                        <select class="form-control" disabled="disabled">
+                            <option>Cái</option>
+                        </select>
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" class="form-control price_format" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" class="form-control price_format" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
+                    </td>
+                    <td class="text-right align-middle">
+                        @{
+                            var total = od.UnitPrice * od.Quantity;
+                            <a>
+                                @total.ToString("#,##0")
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
+                    </td>
+                    <td></td>
+                    <td class="align-middle">
+                        <input type="text" class="form-control price_format" disabled="disabled"
+                               value='@od.Quantity.ToString("#,##0")'>
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" class="form-control price_format" disabled="disabled"
+                               value='@od.UnitPrice.ToString("#,##0")'>
+                    </td>
+                    <td class="text-right align-middle">
+                        @{
+                            var total = od.UnitPrice * od.Quantity;
+                            <a>
+                                @total.ToString(("#,##0"))
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-md-12" style="width: 35%">
+            <p class="float-left mt-2 font-weight-bold">Tổng tiền</p>
+            @{
+                decimal totalDiscount = Model.DiscountValue;
+                var totalAmount = Model.TotalAmount + totalDiscount;
+                if (Model.DiscountType == "%")
                 {
-                    <tr class="border">
-                        <td class="align-middle">@od.ProductId</td>
-                        <td class="align-middle">@od.ProductName</td>
-                        <td class="align-middle">
-                            <select class="form-control" disabled="disabled">
-                                <option>Cái</option>
-                            </select>
-                        </td>
-                        <td class="align-middle">
-                            <input type="text" class="form-control price_format" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
-                        </td>
-                        <td class="align-middle">
-                            <input type="text" class="form-control price_format" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
-                        </td>
-                        <td class="text-right align-middle">
-                            @{
-                                var total = od.UnitPrice * od.Quantity;
-                                <a>
-                                    @total.ToString("#,##0")
-                                </a>
-                            }
-                        </td>
-                    </tr>
+                    totalAmount = Model.TotalAmount / (1 - (Model.DiscountValue / 100));
                 }
                 else
                 {
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
-                        </td>
-                        <td></td>
-                        <td class="align-middle">
-                            <input type="text" class="form-control price_format" disabled="disabled"
-                                   value='@od.Quantity.ToString("#,##0")'>
-                        </td>
-                        <td class="align-middle">
-                            <input type="text" class="form-control price_format" disabled="disabled"
-                                   value='@od.UnitPrice.ToString("#,##0")'>
-                        </td>
-                        <td class="text-right align-middle">
-                            @{
-                                var total = od.UnitPrice * od.Quantity;
-                                <a>
-                                    @total.ToString(("#,##0"))
-                                </a>
-                            }
-                        </td>
-                    </tr>
+                    totalAmount = totalAmount + totalDiscount;
                 }
+                <p id="total-Amount" class="float-right mt-2">
+                    @totalAmount.ToString("#,##0")
+                </p>
             }
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-md-12" style="width: 35%">
-                <p class="float-left mt-2 font-weight-bold">Tổng tiền</p>
-                @{
-                    decimal totalDiscount = Model.DiscountValue;
-                    var totalAmount = Model.TotalAmount + totalDiscount;
-                    if (Model.DiscountType == "%")
-                    {
-                        totalAmount = Model.TotalAmount / (1 - (Model.DiscountValue / 100));
-                    }
-                    else
-                    {
-                        totalAmount = totalAmount + totalDiscount;
-                    }
-                    <p id="total-Amount" class="float-right mt-2">
-                        @totalAmount.ToString("#,##0")
-                    </p>
-                }
-                <div class="clearfix"></div>
-                <p class="float-left mt-2 font-weight-bold">Chiết khấu</p>
-                <input type="text" id="total-Discount" value=@Model.DiscountValue.ToString("#,##0") disabled="disabled"
-                       class="float-right form-control" style="height: 40px;width: 80px;text-align: center"/>
-                <a id="discount-Type" class="float-right btn text-danger" style="height: 40px;cursor: pointer">@Model.DiscountType</a>
-                <div class="clearfix"></div>
-                <p class="float-left mt-2" style="font-weight: bold">Số tiền khách phải trả</p>
-                <p id="total-Amount-Final" class="float-right font-weight-bold mt-2">@Model.TotalAmount.ToString("#,##0")</p>
-            </div>
+            <div class="clearfix"></div>
+            <p class="float-left mt-2 font-weight-bold">Chiết khấu</p>
+            <input type="text" id="total-Discount" value=@Model.DiscountValue.ToString("#,##0") disabled="disabled"
+                   class="float-right form-control" style="height: 40px;width: 80px;text-align: center"/>
+            <a id="discount-Type" class="float-right btn text-danger" style="height: 40px;cursor: pointer">@Model.DiscountType</a>
+            <div class="clearfix"></div>
+            <p class="float-left mt-2" style="font-weight: bold">Số tiền khách phải trả</p>
+            <p id="total-Amount-Final" class="float-right font-weight-bold mt-2">@Model.TotalAmount.ToString("#,##0")</p>
         </div>
     </div>
-    <div class="form-layout form-layout-1 bg-white mt-3">
-        <h6 class="tx-gray-800 tx-bold">Lịch sử thanh toán</h6>
-        <div id="customer-info" style="display: block;position: relative;z-index: 1"
-             class="col-md-12 panel">
-            <div class="form-layout form-layout-3">
-                <table id="table-Payment-History" class="table table-striped">
-                    <thead style="background-color: #EEEEEE">
-                    <tr>
-                        <th scope="col" style="width: 15%">Mã phiếu</th>
-                        <th scope="col">Số tiền thu</th>
-                        <th scope="col" style="width: 15%">Người thu</th>
-                        <th scope="col" style="width: 35%">Ngày thu</th>
-                        <th scope="col" style="width: 15%">Hình thức</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
-            </div><!-- form-layout -->
+</div>
+<div class="form-layout form-layout-1 bg-white mt-3">
+    <h6 class="tx-gray-800 tx-bold">Lịch sử thanh toán</h6>
+    <div id="order-payments" style="display: block;position: relative;z-index: 1"
+         class="col-md-12 panel mt-3">
+        <div class="form-layout form-layout-3">
+            <table id="table-Payment-History" class="table table-borderless">
+                <thead style="background-color: #EEEEEE">
+                <tr>
+                    <th scope="col" style="width: 15%">Mã phiếu</th>
+                    <th scope="col">Số tiền thu</th>
+                    <th scope="col" style="width: 15%">Người thu</th>
+                    <th scope="col" style="width: 35%">Ngày thu</th>
+                    <th scope="col" style="width: 15%">Hình thức</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div><!-- form-layout -->
 
-        </div>
     </div>
+</div>
+<div class="form-layout form-layout-1 bg-white mt-3">
+    <h6 class="tx-gray-800 tx-bold">Lịch sử xuất kho</h6>
+    <div id="order-exports" style="display: block;position: relative;z-index: 1"
+         class="col-md-12 panel mt-3">
+        <div class="form-layout form-layout-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Mã phiếu xuất: <span class="tx-danger">*</span></label>
+                        <input id="delivery-notes-id" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group mg-md-l--1">
+                        <label class="form-control-label">Ngày xuất: <span class="tx-danger">*</span></label>
+                        <input id="export-date" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                    <div class="form-group mg-md-l--1">
+                        <label class="form-control-label">Người xuất: <span class="tx-danger">*</span></label>
+                        <input id="export-employee" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4">
+                    <div class="form-group bd-t-0-force">
+                        <label class="form-control-label">Mô tả: <span class="tx-danger">*</span></label>
+                        <input id="export-description" class="form-control" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-8 -->
+                <div class="col-md-4">
+                    <div class="form-group mg-md-l--1 bd-t-0-force">
+                        <label class="form-control-label">Xuất tại kho: <span class="tx-danger">*</span></label>
+                        <input id="export-warehouse" class="form-control text-danger" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-md-4">
+                    <div class="form-group mg-md-l--1 bd-t-0-force">
+                        <label class="form-control-label">Lý do xuất: <span class="tx-danger">*</span></label>
+                        <input id="export-action" class="form-control text-danger" type="text" disabled="disabled">
+                    </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+        </div><!-- form-layout -->
+        <h6 class="mt-3">Chi tiết sản phẩm</h6>
+        <div class="form-layout form-layout-3">
+            <table id="table-Export-History" class="table table-borderless">
+                <thead style="background-color: #EEEEEE">
+                <tr>
+                    <th scope="col" style="width: 25%">Mã sản phẩm</th>
+                    <th scope="col" style="width: 55%">Tên sản phẩm</th>
+                    <th scope="col" style="width: 20%">Số lượng xuất</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div><!-- form-layout -->
+
+    </div>
+</div>
 </div>
 <div class="col-md-3">
     <div class="form-layout form-layout-1 bg-white">
@@ -328,6 +535,34 @@
         <a class="btn btn-primary form-control mt-3 text-white" onclick="paymentOrder()" style="cursor: pointer">
             <i class="fa fa-credit-card pr-2"></i>
             Thanh toán đơn hàng
+        </a>
+    </div>
+    <div class="form-layout form-layout-1 bg-white mt-3" id="export-Order-div" style="display: block">
+        <h6 class="tx-gray-800 tx-bold">Xác nhận xuất kho</h6>
+        <div>
+            <label for="payment-Value" class="col-form-label">Xuất tại kho</label>
+            <select class="form-control" id="warehouses-select">
+
+            </select>
+        </div>
+        <div>
+            <label for="payment-Value" class="col-form-label">Lý do xuất kho</label>
+            <select class="form-control" id="stock-action-select">
+
+            </select>
+        </div>
+        <div>
+            <label for="payment-Date" class="col-form-label">Ngày tạo phiếu</label>
+            <input class="form-control price_format" type="datetime-local" id="export-Date"
+                   style="text-align: right">
+        </div>
+        <div>
+            <label for="payment-Description" class="col-form-label">Ghi chú</label>
+            <textarea  id="stock-Description" cols="30" class="form-control" rows="5"></textarea>
+        </div>
+        <a class="btn btn-primary form-control mt-3 text-white" onclick="exportOrder()" style="cursor: pointer">
+            <i class="fa fa-arrow-right pr-2"></i>
+            Xuất kho
         </a>
     </div>
 </div>

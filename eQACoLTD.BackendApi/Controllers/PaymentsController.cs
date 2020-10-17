@@ -41,7 +41,6 @@ namespace eQACoLTD.BackendApi.Controllers
             if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
             return Ok(result.ResultObj);
         }
-
         [HttpGet("orders/{orderId}/is-paid")]
         public async Task<IActionResult> CheckPaidOrder(string orderId)
         {

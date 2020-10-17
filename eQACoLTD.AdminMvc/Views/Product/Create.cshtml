@@ -63,27 +63,30 @@
      })
      function getBrands(){
          $.ajax({
-            url:'https://localhost:5001/api/others/brands',
+            url:'@Configuration["APIServerHost"]api/others/brands',
             headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
             dataType:'json',
             method:'get',
             success:function(data){
                 var brandsSelect= $("#brands-select");
-                 $(data.resultObj).each(function (index,empt) {
+                 $(data).each(function (index,empt) {
                      brandsSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>');
                  })
+            },
+            error:function() {
+              console.log("Có lỗi khi lấy thương hiệu");
             }
          })
      }
      function getCategories(){
          $.ajax({
-         url:'https://localhost:5001/api/others/categories',
+         url:'@Configuration["APIServerHost"]api/others/categories',
          headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
          dataType:'json',
          method:'get',
          success:function(data){
              var brandsSelect= $("#categories-select");
-              $(data.resultObj).each(function (index,empt) {
+              $(data).each(function (index,empt) {
                   brandsSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>');
               })
             }
@@ -91,7 +94,7 @@
      }
      function postImage(productId){
          $.ajax({
-           url:'https://localhost:5001/api/products/'+productId+'/images',
+           url:'@Configuration["APIServerHost"]api/products/'+productId+'/images',
            headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
            data:formData,
            type:'POST',
@@ -108,7 +111,7 @@
      function postProduct(){
          var product={
              name:$("#productName").val(),
-             information:$("#productInformation").val(),
+             overView:$("#productInformation").val(),
              categoryid:$("#categories-select").find(':selected').val(),
              description:$('#summernote').summernote('code'),
              retailprice:$("#productRetailPrice").val(),
@@ -117,13 +120,13 @@
              brandid:$("#brands-select").find(':selected').val()
          };
          $.ajax({
-            url:'https://localhost:5001/api/products',
+            url:'@Configuration["APIServerHost"]api/products',
             headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
             contentType:'application/json',
             method:'POST',
             data:JSON.stringify(product),
             success:function(data){
-                postImage(data.resultObj);
+                postImage(data);
                 showAlertMessage(true,"Tạo mới sản phẩm thành công");
             },
             error:function() {
@@ -206,13 +209,11 @@
                     <div class="form-group">
                         <label class="form-control-label">Danh mục:</label>
                         <select id="categories-select" class="form-control">
-                            <option selected="selected">Chọn danh mục</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-control-label">Thương hiệu:</label>
                         <select id="brands-select" class="form-control">
-                            <option selected="selected">Chọn thương hiệu</option>
                         </select>
                     </div>
                 </div>

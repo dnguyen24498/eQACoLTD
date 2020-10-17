@@ -72,6 +72,7 @@ namespace eQACoLTD.ClientMvc
             services.AddControllersWithViews();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IHomeAPIService, HomeAPIService>();
+            services.AddTransient<IProductAPIService,ProductAPIService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace eQACoLTD.ClientMvc.Components
@@ -18,7 +19,7 @@ namespace eQACoLTD.ClientMvc.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var result = await _homeService.GetRandomProductAsync();
-            if (result == null || !result.IsSuccess) return View("Default", new List<ProductHomePageDto>());
+            if (result.Code!=HttpStatusCode.OK) return View("Default", new List<ProductCardDto>());
             return View("Default", result.ResultObj);
         }
     }

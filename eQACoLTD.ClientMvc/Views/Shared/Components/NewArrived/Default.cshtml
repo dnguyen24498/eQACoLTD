@@ -1,4 +1,6 @@
-﻿@model List<ProductHomePageDto>
+﻿@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@model List<ProductCardDto>
 
 @if (Model.Count > 0)
 {
@@ -7,10 +9,10 @@
         <div class="arrivals_slider_item">
             <div class="border_active"></div>
             <div class="product_item is_new d-flex flex-column align-items-center justify-content-center text-center">
-                <div class="product_image d-flex flex-column align-items-center justify-content-center"><img src=@p.ImagePath alt=""></div>
+                <div class="product_image d-flex flex-column align-items-center justify-content-center"><img src='@Configuration["APIServerHost"]app-content/@p.ImagePath'></div>
                 <div class="product_content">
                     <div class="product_price">@p.RetailPrice.ToString("#,##0") đ</div>
-                    <div class="product_name"><div><a href="product.html">@p.Name</a></div></div>
+                    <div class="product_name"><div><a asp-controller="Product" asp-action="Index" asp-route-productId=@p.Id>@p.Name</a></div></div>
                     <div class="product_extras">
                         <p>Thương hiệu: @p.BrandName</p>
                         <button class="product_cart_button">Thêm vào giỏ hàng</button>

@@ -37,7 +37,7 @@ namespace eQACoLTD.BackendApi.Controllers
             return Ok(result.ResultObj);
         }
         [HttpPost("exports/{orderId}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles = "WarehouseStaff")]
         public async Task<IActionResult> ExportOrder(string orderId,ExportOrderDto orderDto)
         {
             var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
@@ -59,10 +59,22 @@ namespace eQACoLTD.BackendApi.Controllers
         }
 
         [HttpGet("exports/{orderId}")]
+        [Authorize(AuthenticationSchemes = "Bearer",Roles = "WarehouseStaff")]
         public async Task<IActionResult> IsExportOrder(string orderId)
         {
             var result = await _stockService.OrderIsExport(orderId);
             if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("exports/{orderId}/export-histories")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetOrderExportHistories(string orderId)
+        {
+            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _stockService.GetExportOrderHistory(employeeId, orderId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
             return Ok(result.ResultObj);
         }
     }

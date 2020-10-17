@@ -15,5 +15,6 @@ namespace eQACoLTD.Application.Product.Stock
         Task<ApiResult<string>> ExportOrderAsync(string employeeId,string orderId, ExportOrderDto orderDto);
         Task<ApiResult<string>> ImportPurchaseOrderAsync(string employeeId, string purchaseOrderId, ImportPurchaseOrderDto orderDto);
         Task<ApiResult<bool>> OrderIsExport(string orderId);
+        Task<ApiResult<ExportOrderHistoriesDto>> GetExportOrderHistory(string employeeId,string orderId);
     }
 }

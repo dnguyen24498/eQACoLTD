@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace eQACoLTD.ClientMvc.Components
@@ -18,8 +19,8 @@ namespace eQACoLTD.ClientMvc.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var result = await _commonService.GetCategoryHomeAsync();
-            if (result.IsSuccess) return View("Default", result.ResultObj);
-            return View("Default",new List<CategoriesHomePageDto>());
+            if (result.Code!=HttpStatusCode.OK)  return View("Default",new List<CategoriesDto>());
+            return View("Default", result.ResultObj);
         }
     }
 }

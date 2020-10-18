@@ -143,5 +143,99 @@ namespace eQACoLTD.Application.System.Account
             return new ApiResult<IEnumerable<AccountRolesDto>>(HttpStatusCode.OK,
                 ObjectMapper.Mapper.Map<List<AppRole>,List<AccountRolesDto>>(notInRoles));
         }
+
+        public async Task<ApiResult<int>> AddProductToCart(string customerId, string productId)
+        {
+            var checkCustomer = await _context.Customers.FindAsync(customerId);
+            if(checkCustomer==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
+            var checkProduct = await _context.Products.FindAsync(productId);
+            if(checkProduct==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy sản phầm có mã: {productId}");
+            var checkCustomerAccount = await (from au in _context.AppUsers
+                join c in _context.Customers on au.Id equals c.AppUserId
+                where c.Id == customerId
+                select au).SingleOrDefaultAsync();
+            if(checkCustomerAccount==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản của khách hàng: {checkCustomer.Name}");
+            var checkCart = await _context.Carts
+                .Where(x => x.AppUserId == checkCustomerAccount.Id && x.ProductId == productId).SingleOrDefaultAsync();
+            if (checkCart != null)
+                checkCart.Quantity++;
+            else
+            {
+                var cart=new Cart()
+                {
+                    AppUserId = checkCustomerAccount.Id,
+                    ProductId = checkProduct.Id,
+                    Quantity = 1
+                };
+                await _context.Carts.AddAsync(cart);
+            }
+
+            await _context.SaveChangesAsync();
+            return new ApiResult<int>(HttpStatusCode.OK,await _context.Carts.Where(x=>x.AppUserId==checkCustomerAccount.Id).CountAsync());
+        }
+
+        public async Task<ApiResult<CartDto>> GetCart(string customerId)
+        {
+            var checkCustomer = await _context.Customers.FindAsync(customerId);
+            if(checkCustomer==null) return new ApiResult<CartDto>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
+            var checkAccountCustomer =
+                await _context.AppUsers.Where(x => x.Id == checkCustomer.AppUserId).SingleOrDefaultAsync();
+            if(checkAccountCustomer==null) return new ApiResult<CartDto>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản của khách hàng");
+            var cartDetails = await (from c in _context.Carts
+                join p in _context.Products on c.ProductId equals p.Id
+                where c.AppUserId == checkAccountCustomer.Id
+                select new CartDetailDto()
+                {
+                    Quantity = c.Quantity,
+                    ProductId = c.ProductId,
+                    ProductName = p.Name,
+                    UnitPrice = p.RetailPrice,
+                    ImagePath = p.ProductImages.Where(x=>x.IsThumbnail==true).SingleOrDefault().Path
+                }).ToListAsync();
+            var cart=new CartDto()
+            {
+                CustomerId = checkCustomer.Id,
+                ListProduct = cartDetails,
+                TotalAmount = cartDetails==null||cartDetails.Count==0?0:cartDetails.Sum(x => x.Quantity * x.UnitPrice)
+            };
+            return new ApiResult<CartDto>(HttpStatusCode.OK,cart);
+        }
+
+        public async Task<ApiResult<string>> DeleteProductFromCart(string customerId, string productId)
+        {
+            var checkCustomer = await _context.Customers.FindAsync(customerId);
+            if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {productId}");
+            var checkProduct = await _context.Products.FindAsync(productId);
+            if(checkProduct==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy sản phẩm có mã: {productId}");
+            var checkCustomerAccount = await _context.AppUsers.FindAsync(checkCustomer.AppUserId);
+            if(checkCustomerAccount==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Khong tìm thấy tài khoản của khách hàng");
+            var productInCart = await (from c in _context.Carts
+                where c.AppUserId == checkCustomerAccount.Id && c.ProductId == checkProduct.Id
+                select c).SingleOrDefaultAsync();
+            if(productInCart==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Trong giỏ hàng không có sản phẩm này");
+            if (productInCart.Quantity == 1) _context.Carts.Remove(productInCart);
+            else productInCart.Quantity -= 1;
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = checkProduct.Id
+            };
+        }
+
+        public async Task<ApiResult<CustomerInfo>> GetCurrentCustomerInfo(string customerId)
+        {
+            var checkCustomer = await _context.Customers.FindAsync(customerId);
+            if(checkCustomer==null) return new ApiResult<CustomerInfo>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
+            var customer = await (from c in _context.Customers
+                join au in _context.AppUsers on c.AppUserId equals au.Id
+                where c.Id==customerId && c.IsDelete==false    
+                select new CustomerInfo()
+                {
+                    Address = c.Address,
+                    Name = c.Name,
+                    PhoneNumber = c.PhoneNumber ?? au.PhoneNumber
+                }).SingleOrDefaultAsync();
+            return new ApiResult<CustomerInfo>(HttpStatusCode.OK,customer);
+        }
     }
 }

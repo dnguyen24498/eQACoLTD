@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using eQACoLTD.ClientMvc.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eQACoLTD.ClientMvc.Controllers
 {
@@ -27,6 +28,12 @@ namespace eQACoLTD.ClientMvc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        public IActionResult Login()
+        {
+            return View(nameof(Index));
         }
     }
 }

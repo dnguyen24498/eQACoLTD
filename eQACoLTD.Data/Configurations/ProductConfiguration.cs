@@ -18,8 +18,8 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.OverView).HasColumnType("nvarchar(600)");
             builder.Property(x => x.Description).HasColumnType("nvarchar(max)");
             builder.Property(x => x.Views).HasDefaultValue(0);
-            builder.Property(x => x.RetailPrice).HasDefaultValue(0);
-            builder.Property(x => x.WholesalePrices).HasDefaultValue(0);
+            builder.Property(x => x.RetailPrice).HasColumnType("decimal").HasDefaultValue(0);
+            builder.Property(x => x.WholesalePrices).HasColumnType("decimal").HasDefaultValue(0);
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
             builder.Property(x => x.CategoryId).IsRequired(false).HasDefaultValue();
             builder.Property(x => x.BrandId).IsRequired(false).HasDefaultValue();

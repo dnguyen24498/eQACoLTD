@@ -16,7 +16,7 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.CustomerName).HasColumnType("nvarchar(150)");
             builder.Property(x => x.PhoneNumber).HasColumnType("varchar(30)");
-            builder.Property(x => x.Fee).HasDefaultValue(0);
+            builder.Property(x => x.Fee).HasColumnType("decimal").HasDefaultValue(0);
             builder.Property(x => x.Address).HasColumnType("varchar(300)");
             builder.Property(x => x.DateCreated).HasDefaultValue(DateTime.Now);
             builder.Property(x => x.Description).HasColumnType("nvarchar(500)");

@@ -1,0 +1,97 @@
+﻿@model eQACoLTD.ViewModel.System.Account.Queries.CartDto
+@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@{
+    Layout = "_Layout";
+}
+@section Scripts
+{
+    <script>
+        getCustomerInfo();
+        function getCustomerInfo() {
+          $.ajax({
+            url:'@Configuration["APIServerHost"]api/accounts/info',
+             headers: {
+                 "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                 },
+             method:'GET',
+             dataType:'json',
+             success:function(data) {
+               $("#customer-Name").append(data.name);
+               $("#customer-Phone").append(data.phoneNumber);
+               $("#customer-Address").append(data.address);
+             }
+          })
+        }
+    </script>
+}
+<div class="container">
+    <div class="row">
+
+    </div>
+    <h3>Giỏ hàng của tôi</h3>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+            <tr class="bg-secondary text-white">
+                <td class="text-center">Sản phẩm</td>
+                <td class="text-center w-25">Tên</td>
+                <td class="text-center">Số lượng</td>
+                <td class="text-center w-25">Đơn giá</td>
+                <td class="text-right w-25">Tổng tiền</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var c in @Model.ListProduct)
+            {
+                var totalAmount = c.UnitPrice * c.Quantity;
+                <tr>
+                    <td class="text-center">
+                        <img src='@Configuration["APIServerHost"]app-content/@c.ImagePath' style="height: 115px;width: 115px">
+                    </td>
+                    <td class="align-middle text-center">@c.ProductName</td>
+                    <td class="align-middle text-center">
+                        <div class="row">
+                            <a class="btn mx-auto" style="cursor: pointer">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                            <input type="text" class="form-control text-center mx-auto" style="width: 60px"
+                                   value=@c.Quantity.ToString("#,##0")>
+                            <a class="btn mx-auto" style="cursor: pointer">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </td>
+                    <td class="align-middle text-center">@c.UnitPrice.ToString("#,##0")</td>
+                    <td class="align-middle text-right">@totalAmount.ToString("#,##0")</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4" class="text-right">Giá trị đơn hàng:</td>
+                <td class="text-right font-weight-bold">@Model.TotalAmount.ToString("#,##0")</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-center bg-secondary text-white">Thông tin khách hàng</td>
+            </tr>
+            <tr>
+                <td colspan="4">Tên khách hàng:</td>
+                <td id="customer-Name" class="text-left "></td>
+            </tr>
+            <tr>
+                <td colspan="4">Số điện thoại:</td>
+                <td id="customer-Phone" class="text-left"></td>
+            </tr>
+            <tr>
+                <td colspan="4">Địa chỉ giao hàng:</td>
+                <td id="customer-Address" class="text-left"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <a class="btn col-md-3 offset-md-9 span btn-primary text-white" style="cursor: pointer">
+            <i class="fa fa-credit-card pr-2"></i>
+            Tạo đơn và thanh toán
+        </a>
+    </div>
+</div>

@@ -1,4 +1,5 @@
-﻿@model ProductDto
+﻿@using Microsoft.AspNetCore.Http
+@model ProductDto
 @inject IConfiguration Configuration
 @{
     Layout = "_Layout";
@@ -11,10 +12,28 @@
 			console.log($(el).attr('src'));
 		  $(".image_selected").empty().append('<img style="height: 300px;width: 300px" src='+$(el).attr('src')+'>');
 		}
+        function addToCart(el){
+            var productId=$(el).attr('id');
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/accounts/carts',
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'post',
+                contentType:"application/json",
+                dataType:'json',
+                data:JSON.stringify(productId),
+                success:function() {
+                  showAlertMessage(true,"Đã thêm sản phẩm vào giỏ hàng");
+                },
+                error:function() {
+                  showAlertMessage(true,"Có lỗi khi thêm sản phẩm vào giỏ hàng");
+                }
+            })
+        }
 	</script>
 }
 
-<div class="single_product">
     <div class="container">
         <div class="row">
 
@@ -62,49 +81,11 @@
                         <form action="#">
                             <div class="clearfix" style="z-index: 1000;">
                                 <!-- Product Quantity -->
-                                <div class="product_quantity clearfix">
-                                    <span>Quantity: </span>
-                                    <input id="quantity_input" type="text" pattern="[0-9]*" value="1">
-                                    <div class="quantity_buttons">
-                                        <div id="quantity_inc_button" class="quantity_inc quantity_control">
-                                            <i class="fas fa-chevron-up"></i>
-                                        </div>
-                                        <div id="quantity_dec_button" class="quantity_dec quantity_control">
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Product Color -->
-                                <ul class="product_color">
-                                    <li>
-                                        <span>Color: </span>
-                                        <div class="color_mark_container">
-                                            <div id="selected_color" class="color_mark"></div>
-                                        </div>
-                                        <div class="color_dropdown_button">
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-
-                                        <ul class="color_list">
-                                            <li>
-                                                <div class="color_mark" style="background: #999999;"></div>
-                                            </li>
-                                            <li>
-                                                <div class="color_mark" style="background: #b19c83;"></div>
-                                            </li>
-                                            <li>
-                                                <div class="color_mark" style="background: #000000;"></div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-
                             </div>
 
                             <div class="product_price">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>
                             <div class="button_container">
-                                <button type="button" class="button cart_button">Thêm vào giỏ</button>
+                                <button type="button" id='@Model.Id' onclick="addToCart(this)" class="button cart_button">Thêm vào giỏ</button>
                                 <div class="product_fav">
                                     <i class="fas fa-heart"></i>
                                 </div>
@@ -116,5 +97,14 @@
             </div>
 
         </div>
+        <div class="row mt-3">
+           <div class="card text-center col-md-12">
+             <div class="card-header">
+               <h3>@Model.Name</h3>
+             </div>
+             <div class="card-body">
+               @Html.Raw(@Model.Description)
+             </div>
+           </div>
+        </div>
     </div>
-</div>

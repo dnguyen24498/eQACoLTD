@@ -66,5 +66,45 @@ namespace eQACoLTD.BackendApi.Controllers
                 return NotFound(result.Message);
             return Ok(result.ResultObj);
         }
+
+        [HttpPost("carts")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> AddProductToCart([FromBody]string productId)
+        {
+            var customerId=User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _accountService.AddProductToCart(customerId, productId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("carts")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetCart()
+        {
+            var customerId=User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _accountService.GetCart(customerId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpDelete("carts/{productId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> DeleteProductInCart(string productId)
+        {
+            var customerId=User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _accountService.DeleteProductFromCart(customerId, productId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("info")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetCustomerInfo()
+        {
+            var customerId=User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _accountService.GetCurrentCustomerInfo(customerId);
+            if(result.Code==HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
     }
 }

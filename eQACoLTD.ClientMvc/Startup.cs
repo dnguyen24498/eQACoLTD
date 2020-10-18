@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eQACoLTD.ClientMvc.Handlers;
 using eQACoLTD.ClientMvc.Services;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
@@ -60,12 +61,20 @@ namespace eQACoLTD.ClientMvc
                 };
                 config.Scope.Add("offline_access");
             });
-            //services.AddDistributedMemoryCache();
-            //services.AddSession(options => {
-            //    options.IdleTimeout = TimeSpan.FromHours(2);
-            //});
+            services.AddHttpContextAccessor();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+            });
+            services.AddTransient<BearerTokenHandler>();
             services.AddHttpClient("APIClient", client => {
                 client.BaseAddress = new Uri(Configuration["APIServerHost"]);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
+            }).AddHttpMessageHandler<BearerTokenHandler>();
+            services.AddHttpClient("IDPClient", client =>
+            {
+                client.BaseAddress = new Uri(Configuration["IdentityServerHost"]);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
@@ -73,6 +82,7 @@ namespace eQACoLTD.ClientMvc
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IHomeAPIService, HomeAPIService>();
             services.AddTransient<IProductAPIService,ProductAPIService>();
+            services.AddTransient<IAccountAPIService,AccountAPIService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -92,7 +102,7 @@ namespace eQACoLTD.ClientMvc
             app.UseStaticFiles();
             app.UseHttpsRedirection();
 
-            //app.UseSession();
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

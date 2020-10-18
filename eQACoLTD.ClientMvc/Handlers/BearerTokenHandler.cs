@@ -1,17 +1,17 @@
-﻿using IdentityModel.Client;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace eQACoLTD.AdminMvc.Handlers
+namespace eQACoLTD.ClientMvc.Handlers
 {
     public class BearerTokenHandler : DelegatingHandler
     {
@@ -37,24 +37,31 @@ namespace eQACoLTD.AdminMvc.Handlers
 
         private async Task<string> GetAccessTokenAsync()
         {
-            var expiresAtToken = await _httpContextAccessor
+            try
+            {
+                var expiresAtToken = await _httpContextAccessor
                     .HttpContext.GetTokenAsync("expires_at");
-            var expiresAtDateTimeOffset =
-            DateTimeOffset.Parse(expiresAtToken, CultureInfo.InvariantCulture);
-            if ((expiresAtDateTimeOffset.AddSeconds(-60)).ToUniversalTime() > DateTime.UtcNow)
-                return await _httpContextAccessor
-                .HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-            var refreshResponse = await GetRefreshResponseFromIDP();
-            var updatedTokens = GetUpdatedTokens(refreshResponse);
-            var currentAuthenticateResult = await _httpContextAccessor
-            .HttpContext
-            .AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            currentAuthenticateResult.Properties.StoreTokens(updatedTokens);
-            await _httpContextAccessor.HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            currentAuthenticateResult.Principal,
-            currentAuthenticateResult.Properties);
-            return refreshResponse.AccessToken;
+                var expiresAtDateTimeOffset =
+                    DateTimeOffset.Parse(expiresAtToken, CultureInfo.InvariantCulture);
+                if ((expiresAtDateTimeOffset.AddSeconds(-60)).ToUniversalTime() > DateTime.UtcNow)
+                    return await _httpContextAccessor
+                        .HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+                var refreshResponse = await GetRefreshResponseFromIDP();
+                var updatedTokens = GetUpdatedTokens(refreshResponse);
+                var currentAuthenticateResult = await _httpContextAccessor
+                    .HttpContext
+                    .AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                currentAuthenticateResult.Properties.StoreTokens(updatedTokens);
+                await _httpContextAccessor.HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    currentAuthenticateResult.Principal,
+                    currentAuthenticateResult.Properties);
+                return refreshResponse.AccessToken;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         private async Task<TokenResponse> GetRefreshResponseFromIDP()

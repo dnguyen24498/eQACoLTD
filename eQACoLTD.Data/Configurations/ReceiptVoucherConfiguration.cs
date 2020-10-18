@@ -14,7 +14,7 @@ namespace eQACoLTD.Data.Configurations
             builder.ToTable("ReceiptVouchers");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
-            builder.Property(x => x.Received).HasDefaultValue(0);
+            builder.Property(x => x.Received).HasColumnType("decimal").IsRequired().HasDefaultValue(0);
             builder.Property(x => x.ReceivedDate).HasDefaultValue(DateTime.Now);
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
             builder.Property(x => x.SupplierId).IsRequired(false);

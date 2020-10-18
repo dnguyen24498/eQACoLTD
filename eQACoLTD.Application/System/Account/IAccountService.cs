@@ -13,5 +13,9 @@ namespace eQACoLTD.Application.System.Account
         Task<ApiResult<Guid>> AddRoleAsync(Guid userId, Guid roleId);
         Task<ApiResult<Guid>> RemoveRoleAsync(Guid userId, Guid roleId);
         Task<ApiResult<IEnumerable<AccountRolesDto>>> NotInRolesAsync(Guid userId);
+        Task<ApiResult<int>> AddProductToCart(string customerId, string productId);
+        Task<ApiResult<CartDto>> GetCart(string customerId);
+        Task<ApiResult<string>> DeleteProductFromCart(string customerId, string productId);
+        Task<ApiResult<CustomerInfo>> GetCurrentCustomerInfo(string customerId);
     }
 }

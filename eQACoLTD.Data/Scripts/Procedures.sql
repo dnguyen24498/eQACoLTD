@@ -366,7 +366,7 @@ begin
 	inner join PurchaseOrders on PurchaseOrders.Id=PurchaseOrderDetails.PurchaseOrderId
 	left join Products on Products.Id=PurchaseOrderDetails.ProductId
 	left join Brands on Brands.Id=Products.BrandId
-	where MONTH(PurchaseOrders.DateCreated)=MONTH(GETDATE()) and YEAR(PurchaseOrders.DateCreated)=YEAR(GETDATE()) and Products.IsDelete=0
+	where MONTH(PurchaseOrders.DateCreated)=MONTH(GETDATE()) and YEAR(PurchaseOrders.DateCreated)=YEAR(GETDATE()) and Products.IsDelete=0 and PurchaseOrderDetails.ProductId is not null
 	group by PurchaseOrderDetails.ProductId,Products.Name,Products.RetailPrice,Products.Stars,
 	Brands.Name,Products.Views,Products.Id
 end;
@@ -414,9 +414,11 @@ begin
 	from OrderDetails
 	left join Products on Products.Id=OrderDetails.ProductId
 	left join Brands on Brands.Id=Products.BrandId
+	where OrderDetails.ProductId is not NULL
 	group by OrderDetails.ProductId,Products.Id,Products.Name,Products.RetailPrice,Products.Stars,Products.Views,Brands.Name
 	order by SUM(OrderDetails.Quantity) desc
 end;
+exec prGetFeaturedProducts
 --Lấy danh sách tài khoản trong hệ thống phân trang
 go
 drop procedure if exists prGetAccountsPaging
@@ -501,3 +503,7 @@ select * from PaymentMethods
 delete GoodReceivedNotes WHERE Id='GRN0002'
 
 update PurchaseOrders set TransactionStatusId='cc0c7f54-de94-481c-b662-36584002fe41' where Id='PON0002'
+
+
+select * from Products where Id='PRN0020'
+update Products set Views=5000 where Id='PRN0020'

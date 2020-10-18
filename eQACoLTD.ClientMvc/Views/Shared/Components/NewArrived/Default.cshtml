@@ -1,7 +1,6 @@
 ﻿@inject IConfiguration Configuration
 @using Microsoft.AspNetCore.Http
 @model List<ProductCardDto>
-
 @if (Model.Count > 0)
 {
     foreach (var p in Model)
@@ -12,10 +11,11 @@
                 <div class="product_image d-flex flex-column align-items-center justify-content-center"><img src='@Configuration["APIServerHost"]app-content/@p.ImagePath'></div>
                 <div class="product_content">
                     <div class="product_price">@p.RetailPrice.ToString("#,##0") đ</div>
-                    <div class="product_name"><div><a asp-controller="Product" asp-action="Index" asp-route-productId=@p.Id>@p.Name</a></div></div>
+                    <div class="product_name"><div><a>@p.Name</a></div></div>
                     <div class="product_extras">
                         <p>Thương hiệu: @p.BrandName</p>
-                        <button class="product_cart_button">Thêm vào giỏ hàng</button>
+                        <a asp-controller="Product" asp-action="Index" asp-route-productId=@p.Id
+                                class="product_cart_button btn">Xem chi tiết</a>
                     </div>
                 </div>
                 <div class="product_fav"><i class="fas fa-heart"></i></div>
@@ -26,5 +26,4 @@
             </div>
         </div>
     }
-
 }

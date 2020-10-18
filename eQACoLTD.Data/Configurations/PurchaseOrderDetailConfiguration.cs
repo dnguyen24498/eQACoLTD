@@ -15,7 +15,7 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.Id).HasColumnType("char(36)");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Quantity).HasDefaultValue(1);
-            builder.Property(x => x.UnitPrice).IsRequired();
+            builder.Property(x => x.UnitPrice).HasColumnType("decimal").IsRequired();
             builder.Property(x => x.CostName).HasColumnType("nvarchar(400)");
 
             builder.HasOne(po => po.PurchaseOrder)

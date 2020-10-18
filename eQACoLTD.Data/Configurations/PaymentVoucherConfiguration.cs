@@ -14,7 +14,7 @@ namespace eQACoLTD.Data.Configurations
             builder.ToTable("PaymentVouchers");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
-            builder.Property(x => x.Paid).IsRequired();
+            builder.Property(x => x.Paid).HasColumnType("decimal").IsRequired();
             builder.Property(x => x.PaymentDate).HasDefaultValue(DateTime.Now);
             builder.Property(x => x.IsDelete).HasDefaultValue(false);
             builder.Property(x => x.Description).HasColumnType("nvarchar(250)");

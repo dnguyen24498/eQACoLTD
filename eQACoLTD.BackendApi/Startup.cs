@@ -57,7 +57,7 @@ namespace eQACoLTD.BackendApi
                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod()
                .AllowAnyHeader()
-               .WithOrigins("https://localhost:5002").AllowCredentials()));
+               .WithOrigins("https://localhost:5002","https://localhost:5003").AllowCredentials()));
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();

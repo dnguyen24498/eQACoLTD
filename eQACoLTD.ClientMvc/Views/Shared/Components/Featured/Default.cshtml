@@ -27,7 +27,8 @@
                                 }
                             }
                         </div>
-                        <button class="product_cart_button">Thêm vào giỏ hàng</button>
+                        <a asp-controller="Product" asp-action="Index" asp-route-productId="@p.Id" 
+                           class="product_cart_button btn" style="padding-top: 10px">Xem chi tiết</a>
                     </div>
                 </div>
                 <div class="product_fav"><i class="fas fa-heart"></i></div>

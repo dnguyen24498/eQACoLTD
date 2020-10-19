@@ -12,8 +12,6 @@ using eQACoLTD.ViewModel.Order.Handlers;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.Application.Common;
-
-
 namespace eQACoLTD.Application.Order
 {
     public class OrderService : IOrderService
@@ -75,6 +73,63 @@ namespace eQACoLTD.Application.Order
             {
                 return new ApiResult<string>(HttpStatusCode.InternalServerError, "Có lỗi khi tạo đơn hàng");
             }
+        }
+
+        public async Task<ApiResult<PagedResult<OrdersDto>>> GetWaitingOrderAsync(int pageIndex, int pageSize)
+        {
+            var orders = await (from o in _context.Orders
+                join customer in _context.Customers on o.CustomerId equals customer.Id
+                    into CustomersGroup
+                from c in CustomersGroup.DefaultIfEmpty()
+                join employee in _context.Employees on o.EmployeeId equals employee.Id
+                    into EmployeesGroup
+                from e in EmployeesGroup.DefaultIfEmpty()
+                join ps in _context.PaymentStatuses on o.PaymentStatusId equals ps.Id
+                join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
+                orderby o.DateCreated descending
+                where o.TransactionStatusId==GlobalProperties.WaitingTransactionId
+                let hasPaid=_context.ReceiptVouchers.Where(x => x.OrderId == o.Id).Sum(x => x.Received)
+                select new OrdersDto()
+                {
+                    OrderId=o.Id,
+                    CustomerName=c.Name,
+                    EmployeeName=e.Name,
+                    DateCreated=o.DateCreated,
+                    PaymentStatusName=ps.Name,
+                    TransactionStatusName=ts.Name,
+                    CustomerHasPaid = o.TotalAmount
+                }).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.OK,orders);
+        }
+
+        public async Task<ApiResult<string>> AcceptWaitingOrderAsync(string employeeId, string waitingOrderId,AcceptOrderDto orderDto)
+        {
+            var checkEmployee = await _context.Employees.FindAsync(employeeId);
+            if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy nhân viên có mã: {employeeId}");
+            var checkOrder = await _context.Orders.FindAsync(waitingOrderId);
+            if(checkOrder==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {waitingOrderId}");
+            if (checkOrder.TransactionStatusId == GlobalProperties.WaitingTransactionId)
+            {
+                var totalAmount = await (from od in _context.OrderDetails
+                    where od.OrderId == checkOrder.Id
+                    select od.UnitPrice * od.Quantity).SumAsync();
+                checkOrder.EmployeeId = checkEmployee.Id;
+                checkOrder.BranchId = checkEmployee.BranchId;
+                checkOrder.Description = orderDto.Description;
+                checkOrder.TransactionStatusId = GlobalProperties.InventoryTransactionId;
+                checkOrder.DiscountDescription = orderDto.DiscountDescription;
+                checkOrder.DiscountValue = orderDto.DiscountValue;
+                checkOrder.DiscountType = orderDto.DiscountType;
+                checkOrder.TotalAmount = checkOrder.DiscountType == "%"
+                    ? totalAmount - (totalAmount * checkOrder.DiscountValue / 100)
+                    : totalAmount - checkOrder.DiscountValue;
+                await _context.SaveChangesAsync();
+                return new ApiResult<string>(HttpStatusCode.OK)
+                {
+                    ResultObj = checkOrder.Id
+                };
+            }
+            return new ApiResult<string>(HttpStatusCode.BadRequest,$"Đơn hàng phải trong trạng thái chờ");
         }
 
         public async Task<ApiResult<OrderDto>> GetOrderAsync(string orderId)

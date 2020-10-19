@@ -46,5 +46,24 @@ namespace eQACoLTD.BackendApi.Controllers
             if (result.Code != HttpStatusCode.OK) return StatusCode(500, result.Message);
             return Ok(result.ResultObj);
         }
+
+        [HttpGet("waiting")]
+        public async Task<IActionResult> GetWaitingOrder(int pageIndex = 1, int pageSize = 15)
+        {
+            var result = await _orderService.GetWaitingOrderAsync(pageIndex, pageSize);
+            if (result.Code != HttpStatusCode.OK) return StatusCode(500);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpPost("waiting/{orderId}/accept")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> AcceptWaitingOrder(string orderId,AcceptOrderDto orderDto)
+        {
+            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _orderService.AcceptWaitingOrderAsync(employeeId, orderId, orderDto);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
+            return Ok(result.ResultObj);
+        }
     }
 }

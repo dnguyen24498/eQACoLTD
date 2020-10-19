@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using eQACoLTD.Application.Common;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.DBContext;
+using eQACoLTD.Data.Entities;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Customer.Handlers;
 using eQACoLTD.ViewModel.Customer.Queries;
@@ -181,5 +183,6 @@ namespace eQACoLTD.Application.Customer
                 ResultObj = customers
             };
         }
+
     }
 }

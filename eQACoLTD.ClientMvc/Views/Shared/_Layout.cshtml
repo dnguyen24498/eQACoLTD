@@ -11,8 +11,7 @@
     <link rel="stylesheet" type="text/css" href="~/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="~/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="~/plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
-    <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+    @RenderSection("Styles", required: false)
 </head>
 <body>
 <div class="super_container">
@@ -52,7 +51,7 @@
                                      <a><i class="fa fa-user-circle"></i></a>
                                      Xin chào,
                                      <a href="">@userName</a>
-                                     <a href="#"><i class="fa fa-sign-out-alt ml-2"></i></a>
+                                     <a asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out-alt ml-2"></i></a>
                                  </div>
                             }
                             catch
@@ -86,7 +85,7 @@
             <div class="col-lg-2 col-sm-3 col-3 order-1">
                 <div class="logo_container">
                     <div class="logo">
-                        <a href="#">OneTech</a>
+                        <a asp-controller="Home" asp-action="Index">OneTech</a>
                     </div>
                 </div>
             </div>
@@ -449,7 +448,6 @@
 
 </header>
 <!-- Single Product -->
-<div class="single_product">
     @RenderBody()
 </div>
 <!-- Recently Viewed -->
@@ -761,7 +759,6 @@
         </div>
     </div>
 </div>
-</div>
 <script src="~/js/jquery-3.3.1.min.js"></script>
 <script src="~/js/accounting.js"></script>
 <script src="~/styles/bootstrap4/popper.js"></script>
@@ -791,5 +788,4 @@
          }
 </script>
 </body>
-
 </html>

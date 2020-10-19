@@ -64,6 +64,22 @@ namespace eQACoLTD.ClientMvc.Services
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> GetProductsByCategoryPagingAsync(string categoryId, int pageIndex, int pageSize)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.
+                GetAsync($"api/categories/{categoryId}/products?pageIndex={pageIndex}&pageSize={pageSize}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK)
+                {
+                    ResultObj = JsonConvert.DeserializeObject<PagedResult<ProductCardDto>>
+                        (await response.Content.ReadAsStringAsync())
+                };
+            }
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound);
+        }
+
         public async Task<ApiResult<List<ProductCardDto>>> GetNewArrivedProductsAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
@@ -94,7 +110,7 @@ namespace eQACoLTD.ClientMvc.Services
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
 
-        public async Task<ApiResult<List<ProductCardDto>>> GetProductsTopViewdAsync()
+        public async Task<ApiResult<List<ProductCardDto>>> GetProductsTopViewAsync()
         {
             var httpClient = _httpClientFactory.CreateClient("APIClient");
             var response = await httpClient.GetAsync("api/products/top-view").ConfigureAwait(false);

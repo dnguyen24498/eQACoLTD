@@ -70,5 +70,6 @@ namespace eQACoLTD.BackendApi.Controllers
             var customers = await _customerService.SearchCustomerAsync(customerName);
             return Ok(customers.ResultObj);
         }
+        
     }
 }

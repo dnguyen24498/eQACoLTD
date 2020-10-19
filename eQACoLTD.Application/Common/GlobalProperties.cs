@@ -17,6 +17,8 @@ namespace eQACoLTD.Application.Common
         public static string ShippingTransactionId = "138193dc-86b4-4c9d-a961-b7c1b1f7bed1";
         public static string InventoryTransactionId = "cc0c7f54-de94-481c-b662-36584002fe41";
 
+        public static string MainWarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5";
+
 
     }
 }

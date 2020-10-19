@@ -29,7 +29,7 @@ namespace eQACoLTD.ClientMvc.Components
             }
             else if (featuredTabs == ProductTabs.TopView)
             {
-                var result = await _homeService.GetProductsTopViewdAsync();
+                var result = await _homeService.GetProductsTopViewAsync();
                 return View("Default", result.ResultObj);
             }
             return View();

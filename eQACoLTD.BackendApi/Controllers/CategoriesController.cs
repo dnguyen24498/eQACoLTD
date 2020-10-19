@@ -58,9 +58,17 @@ namespace eQACoLTD.BackendApi.Controllers
         [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategory(string categoryId)
         {
-            var result = await _categoryService.DeleteCategoryAysnc(categoryId);
+            var result = await _categoryService.DeleteCategoryAsync(categoryId);
             if (result.Code == HttpStatusCode.NotFound)
                 return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpGet("{categoryId}/products")]
+        public async Task<IActionResult> GetProductsInCategory(string categoryId,int pageIndex=1,int pageSize=15)
+        {
+            var result = await _categoryService.GetProductsByCategoryPagingAsync(categoryId, pageIndex, pageSize);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
             return Ok(result.ResultObj);
         }
     }

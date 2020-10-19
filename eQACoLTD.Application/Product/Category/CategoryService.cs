@@ -10,6 +10,7 @@ using eQACoLTD.Utilities.Extensions;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Product.Category.Handlers;
 using eQACoLTD.ViewModel.Product.Category.Queries;
+using eQACoLTD.ViewModel.Product.ListProduct.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace eQACoLTD.Application.Product.Category
@@ -46,13 +47,41 @@ namespace eQACoLTD.Application.Product.Category
             }
         }
 
-        public async Task<ApiResult<string>> DeleteCategoryAysnc(string categoryId)
+        public async Task<ApiResult<string>> DeleteCategoryAsync(string categoryId)
         {
             var checkCategory = await _context.Categories.FindAsync(categoryId);
             if (checkCategory == null) return new ApiResult<string>(HttpStatusCode.BadRequest, $"Không tìm thấy danh mục có mã: {categoryId}");
             _context.Categories.Remove(checkCategory);
             await _context.SaveChangesAsync();
             return new ApiResult<string>(HttpStatusCode.OK) {ResultObj=categoryId};
+        }
+
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> GetProductsByCategoryPagingAsync(string categoryId,int pageIndex,int pageSize)
+        {
+            var checkCategory = await _context.Categories.FindAsync(categoryId);
+            if(checkCategory==null) return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound,$"Không tìm thấy danh mục có mã: {categoryId}");
+            var products = await (from p in _context.Products
+                join c in _context.Categories on p.CategoryId equals c.Id
+                join brand in _context.Brands on p.BrandId equals brand.Id
+                    into BrandGroup
+                from b in BrandGroup.DefaultIfEmpty()
+                join productImage in _context.ProductImages on p.Id equals productImage.ProductId
+                    into ProductImageGroup
+                from pi in ProductImageGroup.DefaultIfEmpty()
+                orderby p.Id
+                where c.Id == categoryId && pi.IsThumbnail == true
+                select new ProductCardDto()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Stars = p.Stars,
+                    Views = p.Views,
+                    BrandName = b.Name,
+                    CategoryName = c.Name,
+                    ImagePath = pi.Path,
+                    RetailPrice = p.RetailPrice
+                }).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
 
         public async Task<ApiResult<IEnumerable<CategoryDto>>> GetCategoriesForHomePageAsync()

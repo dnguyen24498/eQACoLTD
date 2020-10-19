@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using eQACoLTD.Data.DBContext;
 using System.Linq;
 using System.Net;
+using eQACoLTD.Application.Common;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.Entities;
@@ -236,6 +237,45 @@ namespace eQACoLTD.Application.System.Account
                     PhoneNumber = c.PhoneNumber ?? au.PhoneNumber
                 }).SingleOrDefaultAsync();
             return new ApiResult<CustomerInfo>(HttpStatusCode.OK,customer);
+        }
+        public async Task<ApiResult<string>> CreateOrderFromCartAsync(string customerId)
+        {
+            var checkCustomer = await _context.Customers.FindAsync(customerId);
+            if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
+            var checkCustomerAccount = await _context.AppUsers.Where(x => x.Id == checkCustomer.AppUserId).SingleOrDefaultAsync();
+            if(checkCustomerAccount==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản của khách hàng: {customerId}");
+            var carts = await _context.Carts.Where(x => x.AppUserId == checkCustomerAccount.Id).ToListAsync();
+            if(carts==null||carts.Count==0) return new ApiResult<string>(HttpStatusCode.NotFound,$"Giỏ hàng của khách hàng: {customerId} đang trống");
+            var sequenceNumber = await _context.Orders.CountAsync();
+            var orderId = IdentifyGenerator.GenerateOrderId(sequenceNumber + 1);
+            var orderDetails=new List<OrderDetail>();
+            foreach (var cart in carts)
+            {
+                orderDetails.Add(new OrderDetail()
+                {
+                    Id = Guid.NewGuid().ToString("D"),
+                    OrderId = orderId,
+                    ProductId = cart.ProductId,
+                    Quantity = cart.Quantity,
+                    UnitPrice =  await (from p in _context.Products where p.Id==cart.ProductId select p.RetailPrice).SingleOrDefaultAsync()
+                });
+            }
+            var order=new Data.Entities.Order()
+            {
+                Id = orderId,
+                CustomerId = checkCustomer.Id,
+                TransactionStatusId = GlobalProperties.WaitingTransactionId,
+                PaymentStatusId = GlobalProperties.UnpaidPaymentId,
+                DateCreated = DateTime.Now,
+                OrderDetails = orderDetails
+            };
+            await _context.Orders.AddAsync(order);
+            _context.RemoveRange(carts);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = orderId
+            };
         }
     }
 }

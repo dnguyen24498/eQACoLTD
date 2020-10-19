@@ -41,6 +41,7 @@ namespace eQACoLTD.ClientMvc
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
             {
                 config.AccessDeniedPath = "/Auth/AccessDenied";
+                config.LogoutPath = "/Home/Index";
             }).AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, config =>
             {
                 config.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;

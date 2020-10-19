@@ -1,0 +1,128 @@
+﻿@using eQACoLTD.ClientMvc.Components
+@model eQACoLTD.ViewModel.Common.PagedResult<ProductCardDto>
+@inject IConfiguration Configuration
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/styles/shop_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/styles/shop_responsive.css">
+}
+
+@section Scripts
+{
+    <script src="~/js/shop_custom.js"></script>
+}
+
+<div class="shop">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+
+                <!-- Shop Sidebar -->
+                <div class="shop_sidebar">
+                    <div class="sidebar_section">
+                        <div class="sidebar_title">Categories</div>
+                        <ul class="sidebar_categories">
+                            <li>
+                                <a href="#">Computers & Laptops</a>
+                            </li>
+                            <li>
+                                <a href="#">Cameras & Photos</a>
+                            </li>
+                            <li>
+                                <a href="#">Hardware</a>
+                            </li>
+                            <li>
+                                <a href="#">Smartphones & Tablets</a>
+                            </li>
+                            <li>
+                                <a href="#">TV & Audio</a>
+                            </li>
+                            <li>
+                                <a href="#">Gadgets</a>
+                            </li>
+                            <li>
+                                <a href="#">Car Electronics</a>
+                            </li>
+                            <li>
+                                <a href="#">Video Games & Consoles</a>
+                            </li>
+                            <li>
+                                <a href="#">Accessories</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sidebar_section">
+                        <div class="sidebar_subtitle brands_subtitle">Brands</div>
+                        <ul class="brands_list">
+                            <li class="brand">
+                                <a href="#">Apple</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">Beoplay</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">Google</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">Meizu</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">OnePlus</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">Samsung</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">Sony</a>
+                            </li>
+                            <li class="brand">
+                                <a href="#">Xiaomi</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="shop_bar clearfix">
+                    <div class="shop_sorting">
+                        <span>Xếp theo:</span>
+                        <ul>
+                            <li>
+                                <span class="sorting_text">xem nhiều<i class="fas fa-chevron-down"></i></span>
+                                <ul>
+                                    <li class="shop_sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>xem nhiều</li>
+                                    <li class="shop_sorting_button" data-isotope-option='{ "sortBy": "name" }'>bình chọn</li>
+                                    <li class="shop_sorting_button"data-isotope-option='{ "sortBy": "price" }'>bán chạy</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var p in Model.Results)
+                    {
+                        <div class="product_item col-md-3">
+                            <div class="product_border"></div>
+                            <div class="product_image d-flex flex-column align-items-center justify-content-center">
+                                <img style="height: 115px;width: 115px" src='@Configuration["APIServerHost"]app-content/@p.ImagePath' alt="">
+                            </div>
+                            <div class="product_content">
+                                <div class="product_price">@p.RetailPrice.ToString("#,##0")</div>
+                                <div class="product_name">
+                                    <div>
+                                        <a asp-controller="Product" asp-action="Index" asp-route-productId="@p.Id" tabindex="0">@p.Name</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product_fav">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @(await Component.InvokeAsync<PagerViewComponent>(Model))
+            </div>
+        </div>
+    </div>
+</div>

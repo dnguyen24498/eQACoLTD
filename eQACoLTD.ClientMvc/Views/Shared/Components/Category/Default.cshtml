@@ -10,7 +10,9 @@
         {
             foreach (var c in Model)
             {
-                <li><a href="#">@c.Name <i class="fas fa-chevron-right ml-auto"></i></a></li>
+                <li><a asp-controller="Home" asp-action="Products" asp-route-categoryId="@c.Id" asp-route-page="1"
+                       asp-route-size="16"
+                       >@c.Name <i class="fas fa-chevron-right ml-auto"></i></a></li>
             }
         }
     </ul>

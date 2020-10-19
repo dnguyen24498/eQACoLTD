@@ -1,6 +1,9 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.ClientMvc.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,5 +23,11 @@ namespace eQACoLTD.ClientMvc.Controllers
             var result = await _apiService.GetCart();
             return View(result.ResultObj);
         }
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        }
+        
     }
 }

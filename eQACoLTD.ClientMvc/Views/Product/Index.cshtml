@@ -4,7 +4,11 @@
 @{
     Layout = "_Layout";
 }
-
+@section Styles
+{
+     <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
+     <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+}
 @section Scripts
 {
     <script>
@@ -33,7 +37,7 @@
         }
 	</script>
 }
-
+<div class="single_product">
     <div class="container">
         <div class="row">
 
@@ -62,6 +66,7 @@
                 <div class="product_description">
                     <div class="product_category">@Model.CategoryName</div>
                     <div class="product_name">@Model.Name</div>
+                    <div><p>Còn lại: @Model.AbleToSale phiên bản</p></div>
                     <div class="bestsellers_rating">
                         <p>Số sao đánh giá: </p>
                         @{
@@ -85,7 +90,14 @@
 
                             <div class="product_price">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>
                             <div class="button_container">
-                                <button type="button" id='@Model.Id' onclick="addToCart(this)" class="button cart_button">Thêm vào giỏ</button>
+                                @if (Model.AbleToSale == 0)
+                                {
+                                    <button type="button" class="button bg-danger cart_button">Đã hết hàng</button>
+                                }
+                                else
+                                {
+                                    <button type="button" id='@Model.Id' onclick="addToCart(this)" class="button cart_button">Thêm vào giỏ</button>
+                                }
                                 <div class="product_fav">
                                     <i class="fas fa-heart"></i>
                                 </div>
@@ -108,3 +120,4 @@
            </div>
         </div>
     </div>
+</div>

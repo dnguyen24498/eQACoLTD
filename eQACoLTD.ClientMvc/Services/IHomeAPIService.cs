@@ -14,8 +14,9 @@ namespace eQACoLTD.ClientMvc.Services
         Task<ApiResult<List<ProductCardDto>>> GetRandomProductAsync();
         Task<ApiResult<List<ProductCardDto>>> GetBestSellProductsAsync();
         Task<ApiResult<List<ProductCardDto>>> GetNewArrivedProductsAsync();
-        Task<ApiResult<List<ProductCardDto>>> GetProductsTopViewdAsync();
+        Task<ApiResult<List<ProductCardDto>>> GetProductsTopViewAsync();
         Task<ApiResult<List<ProductCardDto>>> GetProductsTopRatedAsync();
         Task<ApiResult<List<ProductCardDto>>> GetFeaturedProductsAsync();
+        Task<ApiResult<PagedResult<ProductCardDto>>> GetProductsByCategoryPagingAsync(string categoryId,int pageIndex,int pageSize);
     }
 }

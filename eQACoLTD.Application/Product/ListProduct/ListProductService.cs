@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Dapper;
+using eQACoLTD.Application.Common;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.DBContext;
@@ -81,6 +82,9 @@ namespace eQACoLTD.Application.Product.ListProduct
                     WarrantyPeriod = p.WarrantyPeriod,
                     WholesalePrices = p.WholesalePrices,
                     Path = pi.Path,
+                    AbleToSale = (from s in _context.Stocks 
+                        where s.ProductId==p.Id && s.WarehouseId==GlobalProperties.MainWarehouseId 
+                        select s.AbleToSale).SingleOrDefault(),
                     ListImage = (from pi in _context.ProductImages where pi.ProductId==p.Id
                         select new ProductImagesDto()
                         {

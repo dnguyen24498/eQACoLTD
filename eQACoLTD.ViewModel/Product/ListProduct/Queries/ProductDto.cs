@@ -19,6 +19,7 @@ namespace eQACoLTD.ViewModel.Product.ListProduct.Queries
         public int WarrantyPeriod { get; set; }
         public string BrandName { get; set; }
         public string Path { get; set; }
+        public int AbleToSale { get; set; }
         public IEnumerable<ProductImagesDto> ListImage { get; set; }
     }
 }

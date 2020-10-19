@@ -106,5 +106,15 @@ namespace eQACoLTD.BackendApi.Controllers
             if(result.Code==HttpStatusCode.NotFound) return NotFound(result.Message);
             return Ok(result.ResultObj);
         }
+
+        [HttpPost("carts/create-order")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> CreateOrderFromCart()
+        {
+            var customerId=User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+            var result = await _accountService.CreateOrderFromCartAsync(customerId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace eQACoLTD.Application.Customer
         Task<ApiResult<string>> CreateCustomerAsync(CustomerForCreationDto creationDto);
         Task<ApiResult<string>> DeleteCustomerAsync(string customerId);
         Task<ApiResult<IEnumerable<CustomerDto>>> SearchCustomerAsync(string customerName);
+
     }
 }

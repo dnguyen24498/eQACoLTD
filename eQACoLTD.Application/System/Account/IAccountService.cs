@@ -17,5 +17,6 @@ namespace eQACoLTD.Application.System.Account
         Task<ApiResult<CartDto>> GetCart(string customerId);
         Task<ApiResult<string>> DeleteProductFromCart(string customerId, string productId);
         Task<ApiResult<CustomerInfo>> GetCurrentCustomerInfo(string customerId);
+        Task<ApiResult<string>> CreateOrderFromCartAsync(string customerId);
     }
 }

@@ -31,5 +31,19 @@ namespace eQACoLTD.AdminMvc.Controllers
             if (result.Code != HttpStatusCode.OK) return View(new OrderDto());
             return View(result.ResultObj);
         }
+
+        public async Task<IActionResult> Waiting(int page = 1,int size=15)
+        {
+            var result = await _apiService.GetWaitingOrderAsync(page, size);
+            if(result.Code!=HttpStatusCode.OK) return View(new PagedResult<OrdersDto>());
+            return View(result.ResultObj);
+        }
+
+        public async Task<IActionResult> WaitingOrderDetail(string orderId)
+        {
+            var result = await _apiService.GetWaitingOrderDetailAsync(orderId);
+            if(result.Code!=HttpStatusCode.OK) return View(new WaitingOrderDto());
+            return View(result.ResultObj);
+        }
     }
 }

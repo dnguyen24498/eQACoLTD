@@ -14,6 +14,7 @@ using eQACoLTD.Application.Product.Payment;
 using eQACoLTD.Application.Product.PurchaseOrder;
 using eQACoLTD.Application.Product.Stock;
 using eQACoLTD.Application.Product.Supplier;
+using eQACoLTD.Application.Report;
 using eQACoLTD.Application.System.Account;
 using eQACoLTD.Application.System.Employee;
 using eQACoLTD.BackendApi.Configurations;
@@ -111,6 +112,7 @@ namespace eQACoLTD.BackendApi
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IStockService, StockService>();
             services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IReportService,ReportService>();
             services.AddTransient<IPurchaseOrderService, PurchaseOrderSerivce>();
             services.AddScoped<AppIdentityDbContext,AppIdentityDbContext>();
 

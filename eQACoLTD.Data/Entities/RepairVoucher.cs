@@ -20,7 +20,7 @@ namespace eQACoLTD.Data.Entities
         public Branch Branch { get; set; }
         public Employee Employee { get; set; }
         
-        public GoodsReceivedNote GoodsReceivedNote { get; set; }
+        public List<GoodsReceivedNote> GoodsReceivedNote { get; set; }
         public List<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
         public List<ReceiptVoucher> ReceiptVouchers { get; set; }
         public List<RepairVoucherDetail> RepairVoucherDetails { get; set; }

@@ -28,10 +28,10 @@
                 dataType:'json',
                 data:JSON.stringify(productId),
                 success:function() {
-                  showAlertMessage(true,"Đã thêm sản phẩm vào giỏ hàng");
+                  showAlertMessage(true,"Đã thêm sản phẩm vào giỏ hàng.");
                 },
                 error:function() {
-                  showAlertMessage(true,"Có lỗi khi thêm sản phẩm vào giỏ hàng");
+                  showAlertMessage(false,"Bạn phải đăng nhập hệ thống mới có thể mua hàng.");
                 }
             })
         }

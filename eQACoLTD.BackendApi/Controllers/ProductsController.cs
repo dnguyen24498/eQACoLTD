@@ -104,10 +104,21 @@ namespace eQACoLTD.BackendApi.Controllers
             return Ok(result.ResultObj);
         }
 
-        [HttpGet("search/{productName}")]
-        public async Task<IActionResult> SearchProduct(string productName)
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProductByCategory(string categoryId, string searchValue,
+            int pageNumber = 1, int pageSize = 15)
         {
-            var result = await _productService.SearchProductAsync(productName);
+            var result = await _productService.SearchProductsByCategory(categoryId, searchValue, pageNumber, pageSize);
+            return Ok(result);
+        }
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterProductByCategory(string categoryId, string brandId, int pageNumber = 1, int pageSize = 15,
+            decimal minimumPrice=0m,decimal maximumPrice=999999999m)
+        {
+            var result = await _productService.FilterProductsByCategoryAsync(categoryId, brandId, minimumPrice,
+                maximumPrice, pageNumber, pageSize);
+            if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
             return Ok(result.ResultObj);
         }
     }

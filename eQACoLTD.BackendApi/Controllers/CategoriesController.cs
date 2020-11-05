@@ -59,7 +59,7 @@ namespace eQACoLTD.BackendApi.Controllers
         public async Task<IActionResult> DeleteCategory(string categoryId)
         {
             var result = await _categoryService.DeleteCategoryAsync(categoryId);
-            if (result.Code == HttpStatusCode.NotFound)
+            if (result.Code == HttpStatusCode.BadRequest)
                 return NotFound(result.Message);
             return Ok(result.ResultObj);
         }

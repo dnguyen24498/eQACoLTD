@@ -9,7 +9,7 @@ namespace eQACoLTD.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<GoodsReceivedNote> builder)
         {
-            builder.ToTable("GoodReceivedNotes");
+            builder.ToTable("GoodsReceivedNotes");
             builder.Property(x => x.Id).HasColumnType("varchar(12)");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.ImportDate).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
@@ -17,8 +17,8 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.PlacedLocation).HasColumnType("nvarchar(300)");
 
             builder.HasOne(p => p.PurchaseOrder)
-                .WithOne(g => g.GoodsReceivedNote)
-                .HasForeignKey<GoodsReceivedNote>(g => g.PurchaseOrderId);
+                .WithMany(g => g.GoodsReceivedNote)
+                .HasForeignKey(g => g.PurchaseOrderId);
 
             builder.HasOne(e => e.Employee)
                 .WithMany(g => g.GoodsReceivedNotes)
@@ -30,11 +30,11 @@ namespace eQACoLTD.Data.Configurations
                 .WithMany(g => g.GoodsReceivedNotes)
                 .HasForeignKey(g => g.WarehouseId);
             builder.HasOne(r => r.RepairVoucher)
-                .WithOne(g => g.GoodsReceivedNote)
-                .HasForeignKey<GoodsReceivedNote>(g => g.RepairVoucherId);
+                .WithMany(g => g.GoodsReceivedNote)
+                .HasForeignKey(g => g.RepairVoucherId);
             builder.HasOne(r => r.Return)
-                .WithOne(g => g.GoodsReceivedNote)
-                .HasForeignKey<GoodsReceivedNote>(g => g.ReturnId);
+                .WithMany(g => g.GoodsReceivedNote)
+                .HasForeignKey(g => g.ReturnId);
 
             builder.HasData(
                 new GoodsReceivedNote()

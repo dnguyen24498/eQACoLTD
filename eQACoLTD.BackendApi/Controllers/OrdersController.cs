@@ -55,6 +55,21 @@ namespace eQACoLTD.BackendApi.Controllers
             return Ok(result.ResultObj);
         }
 
+        [HttpGet("waiting/{orderId}")]
+        public async Task<IActionResult> GetWaitingOrderDetail(string orderId)
+        {
+            var result = await _orderService.GetWaitingOrderDetailAsync(orderId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
+
+        [HttpPost("waiting/{orderId}/cancel")]
+        public async Task<IActionResult> CancelWaitingOrder(string orderId)
+        {
+            var result = await _orderService.CancelWaitingOrderAsync(orderId);
+            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
+            return Ok(result.ResultObj);
+        }
         [HttpPost("waiting/{orderId}/accept")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> AcceptWaitingOrder(string orderId,AcceptOrderDto orderDto)

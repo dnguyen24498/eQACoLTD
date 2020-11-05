@@ -23,6 +23,18 @@ namespace eQACoLTD.ClientMvc.Controllers
             var result = await _apiService.GetCart();
             return View(result.ResultObj);
         }
+
+        [Authorize]
+        public async Task<IActionResult> CreateOrder()
+        {
+            var result = await _apiService.CreateOrderFromCartAsync();
+            return RedirectToAction("OrderSuccess");
+        }
+
+        public IActionResult OrderSuccess()
+        {
+            return View();
+        }
         public async Task Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

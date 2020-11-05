@@ -15,5 +15,7 @@ namespace eQACoLTD.Application.Order
         Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string employeeId);
         Task<ApiResult<PagedResult<OrdersDto>>> GetWaitingOrderAsync(int pageIndex, int pageSize);
         Task<ApiResult<string>> AcceptWaitingOrderAsync(string employeeId, string waitingOrderId,AcceptOrderDto orderDto);
+        Task<ApiResult<WaitingOrderDto>> GetWaitingOrderDetailAsync(string orderId);
+        Task<ApiResult<string>> CancelWaitingOrderAsync(string orderId);
     }
 }

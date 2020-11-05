@@ -10,7 +10,7 @@ using eQACoLTD.Data.DBContext;
 namespace eQACoLTD.Data.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20201015140248_InitialDatabase")]
+    [Migration("20201029075435_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,7 +159,7 @@ namespace eQACoLTD.Data.Migrations
                         new
                         {
                             Id = new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9"),
-                            ConcurrencyStamp = "ba7c592b-cfa5-4420-bd9d-53e22818e07d",
+                            ConcurrencyStamp = "2a7b579d-22fb-42a1-98b3-dcd1834b4c54",
                             Description = "Quyền quản trị viên",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
@@ -167,7 +167,7 @@ namespace eQACoLTD.Data.Migrations
                         new
                         {
                             Id = new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6"),
-                            ConcurrencyStamp = "b73f96d2-90a2-4fbd-b637-06ce0545a60a",
+                            ConcurrencyStamp = "707b21ed-9207-459f-a400-dcd313b6994d",
                             Description = "Quyền nhân viên kho",
                             Name = "WarehouseStaff",
                             NormalizedName = "WAREHOUSESTAFF"
@@ -175,7 +175,7 @@ namespace eQACoLTD.Data.Migrations
                         new
                         {
                             Id = new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a"),
-                            ConcurrencyStamp = "8800cc42-ed31-427b-866d-148779cc2a89",
+                            ConcurrencyStamp = "6f033eba-56ea-4f46-b130-e0eb80de88a0",
                             Description = "Quyền nhân viên lễ tân",
                             Name = "Receptionist",
                             NormalizedName = "RECEPTIONIST"
@@ -183,7 +183,7 @@ namespace eQACoLTD.Data.Migrations
                         new
                         {
                             Id = new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692"),
-                            ConcurrencyStamp = "4a284583-e780-4b0b-ba78-e83a499c6cfc",
+                            ConcurrencyStamp = "76856447-cd61-4eff-8d89-3e3316f82a39",
                             Description = "Quyền nhân viên thu ngân",
                             Name = "Cashier",
                             NormalizedName = "CASHIER"
@@ -247,13 +247,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2194bf5-9cf6-4f8f-9ea6-647a2e6a99bc",
+                            ConcurrencyStamp = "0ae96e26-977f-4004-b487-7293e80827d7",
                             Email = "dnguyen24498@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DNGUYEN24498@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGBBXR53cvflM8BBP2ngT5rko1gJH//gT71JJePYVvhWw4jt9ABx33UCLd75HFAT4A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIQFL2taOeHmX8oqlXHzq9tor6fGAQxh7h9hvCxXNMpTnlieI+GsaSax7BtZUiaYAQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -263,13 +263,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ba398724-888f-43a0-9748-d7f6cc1fd4e6",
+                            ConcurrencyStamp = "7ad91801-8cc3-426c-8826-d8be4b83639f",
                             Email = "duongnguyenadhp@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DUONGNGUYENADHP@GMAIL.COM",
                             NormalizedUserName = "EPN0001",
-                            PasswordHash = "AQAAAAEAACcQAAAAENvBRGiy6L89zk+UirHa/pIfnyq7oJ/lfk+snp1cooBZGbN7rPiIJLIcTkidQKgnfw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMq1W9HWoOi9Kd+cKvELnI3NnSDFAB8UwWF/jxeF5gdlCkC/GOkT8xqxsNET3Row4w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -279,13 +279,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88bb3118-03fb-4535-a864-48053d117018",
+                            ConcurrencyStamp = "9b046921-8f0f-4eeb-a772-39c67a7ed29f",
                             Email = "nguyen68973@st.vimaru.edu.vn",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "NGUYEN68973@ST.VIMARU.EDU.VN",
                             NormalizedUserName = "EPN0002",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJYoAIelXyZCDbsEu4tQ1W9I8LmcaNusqIOPKljONhi8zoib7kqz0Ll6DXfA2tXE2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDDHdpXdWKN4SEBayS4L6YvspsGl7Xrj77cRHtqlE2hYz/5Zs0KedHmenDD0Vfv6nA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -295,13 +295,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("80efff0f-48cc-4e7a-8803-6782ce66960a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3011c2d0-7c9f-4ba4-b6ff-acb1951165df",
+                            ConcurrencyStamp = "e1c50b3a-397d-407f-a302-1328b2951610",
                             Email = "duongnguyenadhp1@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DUONGNGUYENADHP1@GMAIL.COM",
                             NormalizedUserName = "CUS0001",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDiHV66Up2jIYPjOXnVvoYtjN+iKx2ZSxc57DfShBH0/0Q9jl7IN4J/DebPuWRS64w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDhT3p86o/MDQkt6786rRA/h6lMM5TyHdn8wzBJZ8iwZkYB9yrUPmPcJqX7vPXRW9g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -311,13 +311,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("f502066f-7adc-4a5c-9d89-bb1015964cd9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b1417e21-36c6-46af-9d11-68c9addd3e99",
+                            ConcurrencyStamp = "83dc1213-df72-4f45-9e2e-d8dbb38f9cab",
                             Email = "duongnguyenadhp2@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DUONGNGUYENADHP2@GMAIL.COM",
                             NormalizedUserName = "CUS0002",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKJgEXNlyFsT/1VB1AUN0/p5YaEwOCbuOpm+FNJHRyIFfv0SN11w31sH/YfvF5kGQg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOrhj2ULEE1ziYrvYf6SwT3byZA8rAKmITDkGFD/ufZLn3qmeoDLfDzpLDjYuKN7Gg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -759,7 +759,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("ExportDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 598, DateTimeKind.Local).AddTicks(3230));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 911, DateTimeKind.Local).AddTicks(5386));
 
                     b.Property<string>("LiquidationVoucherId")
                         .HasColumnType("varchar(12)");
@@ -802,7 +802,7 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "GDN0001",
                             EmployeeId = "EPN0001",
-                            ExportDate = new DateTime(2020, 10, 15, 21, 2, 47, 600, DateTimeKind.Local).AddTicks(4341),
+                            ExportDate = new DateTime(2020, 10, 29, 14, 54, 33, 915, DateTimeKind.Local).AddTicks(9310),
                             OrderId = "SRN0001",
                             StockActionId = "e27503bd-12c6-4d8e-a68e-6296892134e2",
                             WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
@@ -859,7 +859,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("ImportDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 605, DateTimeKind.Local).AddTicks(1798));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 921, DateTimeKind.Local).AddTicks(6990));
 
                     b.Property<string>("PlacedLocation")
                         .HasColumnType("nvarchar(300)");
@@ -883,30 +883,24 @@ namespace eQACoLTD.Data.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("PurchaseOrderId")
-                        .IsUnique()
-                        .HasFilter("[PurchaseOrderId] IS NOT NULL");
+                    b.HasIndex("PurchaseOrderId");
 
-                    b.HasIndex("RepairVoucherId")
-                        .IsUnique()
-                        .HasFilter("[RepairVoucherId] IS NOT NULL");
+                    b.HasIndex("RepairVoucherId");
 
-                    b.HasIndex("ReturnId")
-                        .IsUnique()
-                        .HasFilter("[ReturnId] IS NOT NULL");
+                    b.HasIndex("ReturnId");
 
                     b.HasIndex("StockActionId");
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("GoodReceivedNotes");
+                    b.ToTable("GoodsReceivedNotes");
 
                     b.HasData(
                         new
                         {
                             Id = "GRN0001",
                             EmployeeId = "EPN0001",
-                            ImportDate = new DateTime(2020, 10, 15, 21, 2, 47, 607, DateTimeKind.Local).AddTicks(1382),
+                            ImportDate = new DateTime(2020, 10, 29, 14, 54, 33, 923, DateTimeKind.Local).AddTicks(6304),
                             PurchaseOrderId = "PON0001",
                             StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
                             WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
@@ -972,7 +966,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("InventoryDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 586, DateTimeKind.Local).AddTicks(3673));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 897, DateTimeKind.Local).AddTicks(3863));
 
                     b.Property<bool>("IsConfirm")
                         .ValueGeneratedOnAdd()
@@ -1043,7 +1037,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 590, DateTimeKind.Local).AddTicks(7398));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 903, DateTimeKind.Local).AddTicks(5210));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -1057,7 +1051,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("LiquidationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 590, DateTimeKind.Local).AddTicks(7858));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 903, DateTimeKind.Local).AddTicks(5827));
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("varchar(30)");
@@ -1123,7 +1117,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 570, DateTimeKind.Local).AddTicks(4530));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 873, DateTimeKind.Local).AddTicks(8201));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -1345,7 +1339,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 542, DateTimeKind.Local).AddTicks(6322));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 842, DateTimeKind.Local).AddTicks(2553));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(250)");
@@ -1359,12 +1353,12 @@ namespace eQACoLTD.Data.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<decimal>("Paid")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.Property<DateTime>("PaymentDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 542, DateTimeKind.Local).AddTicks(4774));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 842, DateTimeKind.Local).AddTicks(542));
 
                     b.Property<string>("PaymentMethodId")
                         .HasColumnType("char(36)");
@@ -1406,10 +1400,10 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "PVN0001",
                             BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
-                            DateCreated = new DateTime(2020, 10, 15, 21, 2, 47, 544, DateTimeKind.Local).AddTicks(9690),
+                            DateCreated = new DateTime(2020, 10, 29, 14, 54, 33, 845, DateTimeKind.Local).AddTicks(9497),
                             IsDelete = false,
                             Paid = 320000000m,
-                            PaymentDate = new DateTime(2020, 10, 15, 21, 2, 47, 545, DateTimeKind.Local).AddTicks(25),
+                            PaymentDate = new DateTime(2020, 10, 29, 14, 54, 33, 846, DateTimeKind.Local).AddTicks(408),
                             PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
                             PurchaseOrderId = "PON0001"
                         });
@@ -1457,7 +1451,7 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<decimal>("RetailPrice")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.Property<byte>("Stars")
@@ -1477,7 +1471,7 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<decimal>("WholesalePrices")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.HasKey("Id");
@@ -2071,12 +2065,12 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 533, DateTimeKind.Local).AddTicks(5881));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 830, DateTimeKind.Local).AddTicks(7110));
 
                     b.Property<DateTime>("DeliveryDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 535, DateTimeKind.Local).AddTicks(646));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 832, DateTimeKind.Local).AddTicks(4973));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -2131,8 +2125,8 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "PON0001",
                             BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
-                            DateCreated = new DateTime(2020, 10, 15, 21, 2, 47, 536, DateTimeKind.Local).AddTicks(9033),
-                            DeliveryDate = new DateTime(2020, 10, 15, 21, 2, 47, 536, DateTimeKind.Local).AddTicks(8420),
+                            DateCreated = new DateTime(2020, 10, 29, 14, 54, 33, 834, DateTimeKind.Local).AddTicks(7143),
+                            DeliveryDate = new DateTime(2020, 10, 29, 14, 54, 33, 834, DateTimeKind.Local).AddTicks(6712),
                             DiscountType = "$",
                             DiscountValue = 0m,
                             EmployeeId = "EPN0001",
@@ -2164,7 +2158,7 @@ namespace eQACoLTD.Data.Migrations
                         .HasDefaultValue(1);
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.HasKey("Id");
 
@@ -2207,7 +2201,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 551, DateTimeKind.Local).AddTicks(4664));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 854, DateTimeKind.Local).AddTicks(6262));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(250)");
@@ -2231,13 +2225,13 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<decimal>("Received")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.Property<DateTime>("ReceivedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 551, DateTimeKind.Local).AddTicks(3116));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 854, DateTimeKind.Local).AddTicks(4390));
 
                     b.Property<string>("RepairVoucherId")
                         .HasColumnType("varchar(12)");
@@ -2311,7 +2305,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 581, DateTimeKind.Local).AddTicks(7294));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 889, DateTimeKind.Local).AddTicks(253));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -2386,7 +2380,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 576, DateTimeKind.Local).AddTicks(5179));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 881, DateTimeKind.Local).AddTicks(3685));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -2464,14 +2458,14 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 557, DateTimeKind.Local).AddTicks(1686));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 860, DateTimeKind.Local).AddTicks(3743));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<decimal>("Fee")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.Property<string>("LiquidationVoucherId")
@@ -2893,7 +2887,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 563, DateTimeKind.Local).AddTicks(7258));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 868, DateTimeKind.Local).AddTicks(4924));
 
                     b.Property<string>("Description")
                         .ValueGeneratedOnAdd()
@@ -2909,7 +2903,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("PurchaseDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 563, DateTimeKind.Local).AddTicks(7676));
+                        .HasDefaultValue(new DateTime(2020, 10, 29, 14, 54, 33, 868, DateTimeKind.Local).AddTicks(5317));
 
                     b.HasKey("Id");
 
@@ -3056,16 +3050,16 @@ namespace eQACoLTD.Data.Migrations
                         .HasForeignKey("EmployeeId");
 
                     b.HasOne("eQACoLTD.Data.Entities.PurchaseOrder", "PurchaseOrder")
-                        .WithOne("GoodsReceivedNote")
-                        .HasForeignKey("eQACoLTD.Data.Entities.GoodsReceivedNote", "PurchaseOrderId");
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("PurchaseOrderId");
 
                     b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
-                        .WithOne("GoodsReceivedNote")
-                        .HasForeignKey("eQACoLTD.Data.Entities.GoodsReceivedNote", "RepairVoucherId");
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("RepairVoucherId");
 
                     b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
-                        .WithOne("GoodsReceivedNote")
-                        .HasForeignKey("eQACoLTD.Data.Entities.GoodsReceivedNote", "ReturnId");
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("ReturnId");
 
                     b.HasOne("eQACoLTD.Data.Entities.StockAction", "StockAction")
                         .WithMany("GoodsReceivedNotes")

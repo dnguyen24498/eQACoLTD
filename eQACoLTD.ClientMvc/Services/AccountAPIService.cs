@@ -25,7 +25,7 @@ namespace eQACoLTD.ClientMvc.Services
             {
                 return new ApiResult<int>(HttpStatusCode.OK)
                 {
-                    ResultObj = JsonConvert.DeserializeObject<int>
+                    ResultObj = JsonConvert.DeserializeObject<int>    
                         (await response.Content.ReadAsStringAsync())
                 };
             }
@@ -45,6 +45,17 @@ namespace eQACoLTD.ClientMvc.Services
                 };
             }
             return new ApiResult<CartDto>(response.StatusCode);
+        }
+
+        public async Task<ApiResult<string>> CreateOrderFromCartAsync()
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.PostAsync("api/accounts/carts/create-order",new StringContent(""));
+            if (response.IsSuccessStatusCode)
+            {
+                return new ApiResult<string>(HttpStatusCode.OK,$"Đã tạo đơn hàng");
+            }
+            return new ApiResult<string>(HttpStatusCode.InternalServerError,$"Có lỗi khi tạo đơn hàng");
         }
     }
 }

@@ -219,29 +219,65 @@ namespace eQACoLTD.Application.Product.ListProduct
             }
         }
 
-        public async Task<ApiResult<IEnumerable<ProductDto>>> SearchProductAsync(string productName)
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> SearchProductsByCategory(string categoryId, string searchValue,int pageNumber,int pageSize)
         {
             var products = await (from p in _context.Products
-                join b in _context.Brands on p.BrandId equals b.Id
-                join c in _context.Categories on p.CategoryId equals c.Id
-                join pi in _context.ProductImages on p.Id equals pi.ProductId
-                where p.Name.ToLower().Contains(productName.ToLower()) && p.IsDelete == false && pi.IsThumbnail==true
-                select new ProductDto()
+                join category in _context.Categories on p.CategoryId equals category.Id
+                    into CategoryGroup
+                from c in CategoryGroup.DefaultIfEmpty()
+                join brand in _context.Brands on p.BrandId equals brand.Id
+                    into BrandGroup
+                from b in BrandGroup.DefaultIfEmpty()
+                join productImage in _context.ProductImages on p.Id equals productImage.ProductId
+                    into ProductImageGroup
+                from pi in ProductImageGroup.DefaultIfEmpty()
+                where p.CategoryId.Contains(!string.IsNullOrEmpty(categoryId)? categoryId:"") && p.IsDelete == false && pi.IsThumbnail == true && p.Name.ToLower().Contains(
+                    !string.IsNullOrEmpty(searchValue)? searchValue.ToLower():"")
+                select new ProductCardDto()
                 {
                     Id = p.Id,
-                    Description = p.Description,
-                    OverView = p.OverView,
                     Name = p.Name,
+                    Stars = p.Stars,
                     Views = p.Views,
                     BrandName = b.Name,
                     CategoryName = c.Name,
-                    RetailPrice = p.RetailPrice,
-                    Stars = p.Stars,
-                    WarrantyPeriod = p.WarrantyPeriod,
-                    WholesalePrices = p.WholesalePrices,
-                    Path = pi.Path
-                }).ToListAsync();
-            return new ApiResult<IEnumerable<ProductDto>>(HttpStatusCode.OK,products);
+                    ImagePath = pi.Path,
+                    RetailPrice = p.RetailPrice
+                }).GetPagedAsync(pageNumber, pageSize);
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
+        }
+
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, decimal minimumPrice, 
+            decimal maximumPrice,int pageNumber, int pageSize)
+        {
+            if(minimumPrice>maximumPrice) return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.BadRequest,"Giá tối thiểu không được lớn hơn giá tối đa.");
+            var products = await (from p in _context.Products
+                    join brand in _context.Brands on p.BrandId equals brand.Id
+                        into BrandGroup
+                    from b in BrandGroup.DefaultIfEmpty()
+                    join category in _context.Categories on p.CategoryId equals category.Id
+                        into CategoryGroup
+                    from c in CategoryGroup.DefaultIfEmpty()
+                    join productImage in _context.ProductImages on p.Id equals productImage.ProductId
+                        into ProductImageGroup
+                    from pi in ProductImageGroup.DefaultIfEmpty()
+                    where p.CategoryId.ToLower().Contains(!string.IsNullOrEmpty(categoryId) ? categoryId : "")
+                          && p.RetailPrice >= minimumPrice && p.RetailPrice <= maximumPrice && b.Id.ToLower()
+                              .Contains(!string.IsNullOrEmpty(brandId) ? brandId : "")
+                          && pi.IsThumbnail == true
+                    select new ProductCardDto()
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Stars = p.Stars,
+                        Views = p.Views,
+                        BrandName = b.Name,
+                        CategoryName = c.Name,
+                        ImagePath = pi.Path,
+                        RetailPrice = p.RetailPrice
+                    }
+                ).GetPagedAsync(pageNumber, pageSize);
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
 
         private async Task<string> SaveFile(IFormFile file,Guid guid)

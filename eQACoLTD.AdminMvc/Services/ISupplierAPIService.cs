@@ -7,5 +7,6 @@ namespace eQACoLTD.AdminMvc.Services
     public interface ISupplierAPIService
     {
         Task<ApiResult<PagedResult<SuppliersDto>>> GetSupplierPagingAsync(int pageIndex,int pageSize);
+        
     }
 }

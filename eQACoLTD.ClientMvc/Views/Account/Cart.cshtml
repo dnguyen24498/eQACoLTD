@@ -28,6 +28,65 @@
              }
           })
         }
+        function xoaSanPham(el){
+            var productId=$(el).closest("tr").attr("id");
+            $.ajax({
+              url:'@Configuration["APIServerHost"]api/accounts/carts/'+productId,
+               headers: {
+                   "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                   },
+               method:'delete',
+               success:function() {
+                   var divElement=$(el).closest('div');
+                   var soLuongHienCo=parseInt($(divElement).find('input').val());
+                   if(soLuongHienCo-1===0){
+                          $(el).closest("tr").remove();
+                   }
+                   $(divElement).find('input').val(parseInt(soLuongHienCo-1));
+                   var tdElTongTien=$(el).closest('td').next().next();
+                   var tdDonGia=$(el).closest('td').next().text().replace(/,/g,'');
+                   $(tdElTongTien).text(accounting.formatNumber(parseFloat(tdDonGia)*parseInt(soLuongHienCo-1)));
+                   capNhapTongTien();
+                   showAlertMessage(true,"Sản phẩm đã được xóa khỏi giỏ hàng");
+               },   
+               error:function() {
+                 showAlertMessage(false,"Có lỗi khi xóa sản phẩm khỏi giỏ hàng");
+               }
+            })
+        }
+        function themSanPham(el) {
+          var productId=$(el).closest("tr").attr("id");
+            $.ajax({
+              url:'@Configuration["APIServerHost"]api/accounts/carts',
+               headers: {
+                   "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                   },
+               method:'post',  
+               contentType:"application/json",
+               dataType:"json",
+               data: JSON.stringify(productId),
+               success:function() {
+                 var divElement=$(el).closest('div');
+                 var soLuongHienCo=parseInt($(divElement).find('input').val());
+                 $(divElement).find('input').val(parseInt(soLuongHienCo+1));
+                 var tdElTongTien=$(el).closest('td').next().next();
+                 var tdDonGia=$(el).closest('td').next().text().replace(/,/g,'');
+                 $(tdElTongTien).text(accounting.formatNumber(parseFloat(tdDonGia)*parseInt(soLuongHienCo+1)));
+                 capNhapTongTien();   
+                 showAlertMessage(true,"Sản phẩm đã được thêm vào giỏ hàng");
+               },
+               error:function() {
+                 showAlertMessage(false,"Có lỗi khi thêm sản phẩm khỏi giỏ hàng");
+               }
+            })
+        }
+        function capNhapTongTien() {
+          var tongTienDonHang=0;
+          $(".TongTienSanPham").each(function(index,element) {
+              tongTienDonHang+=parseInt($(element).html().replace(/,/g,''));
+          })
+          $("#td-TongTienDonHang").text(accounting.formatNumber(tongTienDonHang));
+        }
     </script>
 }
 <div class="container">
@@ -50,30 +109,30 @@
             @foreach (var c in @Model.ListProduct)
             {
                 var totalAmount = c.UnitPrice * c.Quantity;
-                <tr>
+                <tr id="@c.ProductId">
                     <td class="text-center">
                         <img src='@Configuration["APIServerHost"]app-content/@c.ImagePath' style="height: 115px;width: 115px">
                     </td>
                     <td class="align-middle text-center">@c.ProductName</td>
                     <td class="align-middle text-center">
                         <div class="row">
-                            <a class="btn mx-auto" style="cursor: pointer">
+                            <a onclick="xoaSanPham(this)" class="btn mx-auto" style="cursor: pointer">
                                 <i class="fa fa-minus"></i>
                             </a>
-                            <input type="text" class="form-control text-center mx-auto" style="width: 60px"
+                            <input id="input-soLuong" type="text" class="form-control text-center mx-auto" style="width: 60px"
                                    value=@c.Quantity.ToString("#,##0")>
-                            <a class="btn mx-auto" style="cursor: pointer">
+                            <a onclick="themSanPham(this)" class="btn mx-auto" style="cursor: pointer">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </div>
                     </td>
                     <td class="align-middle text-center">@c.UnitPrice.ToString("#,##0")</td>
-                    <td class="align-middle text-right">@totalAmount.ToString("#,##0")</td>
+                    <td class="align-middle text-right TongTienSanPham">@totalAmount.ToString("#,##0")</td>
                 </tr>
             }
             <tr>
                 <td colspan="4" class="text-right">Giá trị đơn hàng:</td>
-                <td class="text-right font-weight-bold">@Model.TotalAmount.ToString("#,##0")</td>
+                <td id="td-TongTienDonHang" class="text-right font-weight-bold">@Model.TotalAmount.ToString("#,##0")</td>
             </tr>
             <tr>
                 <td colspan="5" class="text-center bg-secondary text-white">Thông tin khách hàng</td>
@@ -94,7 +153,7 @@
         </table>
     </div>
     <div class="row">
-        <a class="btn col-md-3 offset-md-9 span btn-primary text-white" style="cursor: pointer">
+        <a asp-controller="Account" asp-action="CreateOrder" class="btn col-md-3 offset-md-9 span btn-primary text-white" style="cursor: pointer">
             <i class="fa fa-credit-card pr-2"></i>
             Tạo đơn và thanh toán
         </a>

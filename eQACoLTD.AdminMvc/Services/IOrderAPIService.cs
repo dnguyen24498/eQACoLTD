@@ -8,5 +8,7 @@ namespace eQACoLTD.AdminMvc.Services
     {
         Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(int pageIndex, int pageSize);
         Task<ApiResult<OrderDto>> GetOrderAsync(string orderId);
+        Task<ApiResult<PagedResult<OrdersDto>>> GetWaitingOrderAsync(int pageIndex, int pageSize);
+        Task<ApiResult<WaitingOrderDto>> GetWaitingOrderDetailAsync(string orderId);
     }
 }

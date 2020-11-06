@@ -58,7 +58,7 @@ namespace eQACoLTD.BackendApi
                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod()
                .AllowAnyHeader()
-               .WithOrigins("https://localhost:5002","https://localhost:5003").AllowCredentials()));
+               .WithOrigins(Configuration["AdminMvc"], Configuration["ClientMvc"]).AllowCredentials()));
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
@@ -88,8 +88,8 @@ namespace eQACoLTD.BackendApi
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
-                            TokenUrl = new Uri("https://localhost:5000/connect/token"),
+                            AuthorizationUrl = new Uri(Configuration["IdentityServerHost"]+"/connect/authorize"),
+                            TokenUrl = new Uri(Configuration["IdentityServerHost"]+"/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
                                 {"backend_api", "Backend API - full access"}

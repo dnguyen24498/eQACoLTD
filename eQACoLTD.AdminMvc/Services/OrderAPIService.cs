@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Order.Queries;
@@ -69,6 +70,38 @@ namespace eQACoLTD.AdminMvc.Services
                 };
             }
             return new ApiResult<WaitingOrderDto>(response.StatusCode, await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<ApiResult<string>> AcceptWaitingOrderAsync(string waitingOrderId)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var json = JsonConvert.SerializeObject("");
+            var httpContent=new StringContent(json,Encoding.UTF8,"application/json");
+            var response = await httpClient.PostAsync($"api/Orders/waiting/{waitingOrderId}/accept",httpContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return new ApiResult<string>(System.Net.HttpStatusCode.OK) { 
+                    ResultObj= JsonConvert.DeserializeObject<string>
+                        (await response.Content.ReadAsStringAsync())
+                };
+            }
+            return new ApiResult<string>(response.StatusCode, await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<ApiResult<string>> CancelWaitingOrderAsync(string waitingOrderId)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var json = JsonConvert.SerializeObject("");
+            var httpContent=new StringContent(json,Encoding.UTF8,"application/json");
+            var response = await httpClient.PostAsync($"api/Orders/waiting/{waitingOrderId}/cancel",httpContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return new ApiResult<string>(System.Net.HttpStatusCode.OK) { 
+                    ResultObj= JsonConvert.DeserializeObject<string>
+                        (await response.Content.ReadAsStringAsync())
+                };
+            }
+            return new ApiResult<string>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
     }
 }

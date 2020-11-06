@@ -109,7 +109,7 @@ namespace eQACoLTD.BackendApi.Controllers
             int pageNumber = 1, int pageSize = 15)
         {
             var result = await _productService.SearchProductsByCategory(categoryId, searchValue, pageNumber, pageSize);
-            return Ok(result);
+            return Ok(result.ResultObj);
         }
 
         [HttpGet("filter")]

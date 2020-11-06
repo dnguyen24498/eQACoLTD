@@ -12,6 +12,7 @@ namespace eQACoLTD.ViewModel.Order.Queries
         public string CustomerPhone { get; set; }
         public DateTime DateCreated { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal CustomerDebt { get; set; }
         
         public IEnumerable<OrderDetailsDto> OrderDetails { get; set; }
     }

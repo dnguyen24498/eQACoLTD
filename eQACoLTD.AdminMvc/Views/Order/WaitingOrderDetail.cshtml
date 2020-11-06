@@ -132,8 +132,10 @@
                     </div>
                 </div>
                 <div class="mt-3 float-right">
-                    <a class="btn text-white btn-success" style="cursor: pointer">Xác nhận đơn</a>
-                    <a class="btn text-white btn-danger" style="cursor: pointer">Hủy đơn</a>                     
+                    <a asp-controller="Order" asp-action="AcceptWaitingOrder" asp-route-orderId="@Model.Id"
+                       class="btn text-white btn-success" style="cursor: pointer">Xác nhận đơn</a>
+                    <a asp-controller="Order" asp-action="CancelWaitingOrder" asp-route-orderId="@Model.Id"
+                       class="btn text-white btn-danger" style="cursor: pointer">Hủy đơn</a>                     
                 </div>
             </div>
             @* <div class="col-md-3"> *@

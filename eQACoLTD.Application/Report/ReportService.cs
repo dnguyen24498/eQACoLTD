@@ -2,6 +2,7 @@
 using eQACoLTD.Data.DBContext;
 using System.Linq;
 using System.Net;
+using eQACoLTD.Application.Common;
 using eQACoLTD.Application.Extensions;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Customer.Queries;
@@ -28,7 +29,8 @@ namespace eQACoLTD.Application.Report
                 into AppUserGroup
                 from au in AppUserGroup.DefaultIfEmpty()
                 join ct in _context.CustomerTypes on c.CustomerTypeId equals ct.Id
-                let customerDebt = (_context.Orders.Where(x => x.CustomerId == c.Id).Sum(x => (decimal?)x.TotalAmount)??0)
+                let customerDebt = (_context.Orders.Where(x => x.CustomerId == c.Id && x.TransactionStatusId!=GlobalProperties.CancelTransactionId
+                                   && x.TransactionStatusId!=GlobalProperties.WaitingTransactionId).Sum(x => (decimal?)x.TotalAmount)??0)
                                    + (_context.PaymentVouchers.Where(x => x.CustomerId == c.Id).Sum(x => (decimal?)x.Paid)??0) -
                                    (_context.ReceiptVouchers.Where(x => x.CustomerId == c.Id).Sum(x => (decimal?)x.Received)??0)
                 where (int)customerDebt!=0
@@ -56,7 +58,8 @@ namespace eQACoLTD.Application.Report
         {
             var suppliers = await (from s in _context.Suppliers
                 join e in _context.Employees on s.EmployeeId equals e.Id
-                let totalDebt = (_context.PurchaseOrders.Where(x => x.SupplierId == s.Id)
+                let totalDebt = (_context.PurchaseOrders.Where(x => x.SupplierId == s.Id 
+                                    && x.TransactionStatusId!=GlobalProperties.CancelTransactionId)
                                     .Sum(x => (decimal?) x.TotalAmount) ?? 0)
                                 - (_context.PaymentVouchers.Where(x => x.SupplierId == s.Id)
                                     .Sum(x => (decimal?) x.Paid) ?? 0) +

@@ -48,7 +48,8 @@ namespace eQACoLTD.Application.Customer
 
         public async Task<ApiResult<CustomerDto>> GetCustomerAsync(string customerId)
         {
-            var totalAmountOrders = await _context.Orders.Where(x => x.CustomerId == customerId).SumAsync(x=>x.TotalAmount);
+            var totalAmountOrders = await _context.Orders.Where(x => x.CustomerId == customerId && x.TransactionStatusId!=GlobalProperties.CancelTransactionId
+                && x.TransactionStatusId!=GlobalProperties.WaitingTransactionId).SumAsync(x=>x.TotalAmount);
             var totalPaymentVouchers = await _context.PaymentVouchers.Where(x => x.CustomerId == customerId).SumAsync(x => x.Paid);
             var totalReceiptVouchers = await _context.ReceiptVouchers.Where(x => x.CustomerId == customerId).SumAsync(x => x.Received);
             var customer = await (from c in _context.Customers

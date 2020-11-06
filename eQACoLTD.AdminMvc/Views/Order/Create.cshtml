@@ -68,13 +68,13 @@
             $("#product-panel").css('display','block');
             var productName=$("#product-search").val();
             $.ajax({
-                url:'@Configuration["APIServerHost"]api/products/search/'+productName,
+                url:'@Configuration["APIServerHost"]api/products/search?searchValue='+productName,
                 headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
                 method:'GET',
                 dataType:'json',
                 success:function(data) {
                   $("#products-ul").empty();
-                  $(data).each(function(index,prod) {
+                  $(data.results).each(function(index,prod) {
                     var liEl=document.createElement('li');
                     liEl.setAttribute('class','list-group-item');
                     liEl.setAttribute('style','cursor:pointer');
@@ -86,7 +86,7 @@
                     var img=document.createElement('img');
                     img.setAttribute('width','50px');
                     img.setAttribute('height','50px');
-                    img.setAttribute('src','@Configuration["APIServerHost"]app-content/'+prod.path);
+                    img.setAttribute('src','@Configuration["APIServerHost"]app-content/'+prod.imagePath);
                     imgDiv.append(img);
                     rowDiv.append(imgDiv);
                     var infoDiv=document.createElement('div');

@@ -10,5 +10,7 @@ namespace eQACoLTD.AdminMvc.Services
         Task<ApiResult<OrderDto>> GetOrderAsync(string orderId);
         Task<ApiResult<PagedResult<OrdersDto>>> GetWaitingOrderAsync(int pageIndex, int pageSize);
         Task<ApiResult<WaitingOrderDto>> GetWaitingOrderDetailAsync(string orderId);
+        Task<ApiResult<string>> AcceptWaitingOrderAsync(string waitingOrderId);
+        Task<ApiResult<string>> CancelWaitingOrderAsync(string waitingOrderId);
     }
 }

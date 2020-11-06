@@ -102,7 +102,7 @@ namespace eQACoLTD.Application.Order
             return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.OK,orders);
         }
 
-        public async Task<ApiResult<string>> AcceptWaitingOrderAsync(string employeeId, string waitingOrderId,AcceptOrderDto orderDto)
+        public async Task<ApiResult<string>> AcceptWaitingOrderAsync(string employeeId, string waitingOrderId)
         {
             var checkEmployee = await _context.Employees.FindAsync(employeeId);
             if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy nhân viên có mã: {employeeId}");
@@ -115,11 +115,11 @@ namespace eQACoLTD.Application.Order
                     select od.UnitPrice * od.Quantity).SumAsync();
                 checkOrder.EmployeeId = checkEmployee.Id;
                 checkOrder.BranchId = checkEmployee.BranchId;
-                checkOrder.Description = orderDto.Description;
+                checkOrder.Description = "";
                 checkOrder.TransactionStatusId = GlobalProperties.InventoryTransactionId;
-                checkOrder.DiscountDescription = orderDto.DiscountDescription;
-                checkOrder.DiscountValue = orderDto.DiscountValue;
-                checkOrder.DiscountType = orderDto.DiscountType;
+                checkOrder.DiscountDescription ="";
+                checkOrder.DiscountValue = 0;
+                checkOrder.DiscountType = "$";
                 checkOrder.TotalAmount = checkOrder.DiscountType == "%"
                     ? totalAmount - (totalAmount * checkOrder.DiscountValue / 100)
                     : totalAmount - checkOrder.DiscountValue;
@@ -140,7 +140,11 @@ namespace eQACoLTD.Application.Order
             var totalAmount = await (from od in _context.OrderDetails
                 where od.OrderId == order.Id
                 select od.UnitPrice * od.Quantity).SumAsync();
-            var resultOrder = await (from o in _context.Orders
+            var customerDebt=await _context.Orders.Where(x => x.CustomerId == order.CustomerId && x.TransactionStatusId!=GlobalProperties.CancelTransactionId
+                             && x.TransactionStatusId!=GlobalProperties.WaitingTransactionId).SumAsync(x=>x.TotalAmount)+
+                             await _context.PaymentVouchers.Where(x => x.CustomerId == order.CustomerId).SumAsync(x => x.Paid)-
+                             await _context.ReceiptVouchers.Where(x => x.CustomerId == order.CustomerId).SumAsync(x => x.Received);
+                             var resultOrder = await (from o in _context.Orders
                 join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
                 join pm in _context.PaymentStatuses on o.PaymentStatusId equals pm.Id
                 join customer in _context.Customers on o.CustomerId equals customer.Id
@@ -171,7 +175,8 @@ namespace eQACoLTD.Application.Order
                                     UnitPrice = od.UnitPrice,
                                     ServiceName = od.ServiceName
                                 }).ToList(),
-                    TotalAmount = totalAmount
+                    TotalAmount = totalAmount,
+                    CustomerDebt = customerDebt
                 }).SingleOrDefaultAsync();
             return new ApiResult<WaitingOrderDto>(HttpStatusCode.OK,resultOrder);
         }

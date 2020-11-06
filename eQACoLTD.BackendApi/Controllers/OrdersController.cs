@@ -72,10 +72,10 @@ namespace eQACoLTD.BackendApi.Controllers
         }
         [HttpPost("waiting/{orderId}/accept")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> AcceptWaitingOrder(string orderId,AcceptOrderDto orderDto)
+        public async Task<IActionResult> AcceptWaitingOrder(string orderId)
         {
             var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _orderService.AcceptWaitingOrderAsync(employeeId, orderId, orderDto);
+            var result = await _orderService.AcceptWaitingOrderAsync(employeeId, orderId);
             if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
             if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
             return Ok(result.ResultObj);

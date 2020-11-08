@@ -86,22 +86,26 @@ namespace eQACoLTD.Application.Product.Supplier
 
         }
 
-        public async Task<ApiResult<string>> CreateSupplierAsync(SupplierForCreationDto creationDto)
+        public async Task<ApiResult<string>> CreateSupplierAsync(SupplierForCreationDto creationDto,string accountId)
         {
             try
             {
+                var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                    .SingleOrDefaultAsync();
+                if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
                 var sequenceNumber = await _context.Suppliers.CountAsync();
                 var generateId = IdentifyGenerator.GenerateSupplierId(sequenceNumber + 1);
                 var supplier = ObjectMapper.Mapper.Map<SupplierForCreationDto, Data.Entities.Supplier>(creationDto);
                 supplier.Id = generateId;
+                supplier.EmployeeId = checkEmployee.Id;
                 await _context.Suppliers.AddAsync(supplier);
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK){ResultObj = generateId};
+                return new ApiResult<string>(HttpStatusCode.OK){ResultObj = generateId,Message = "Tạo mới nhà cung cấp thành công"};
             }
-            catch (Exception e)
+            catch
             {
                 _logger.LogInfo("Có lỗi khi thêm nhà cung cấp");
-                return new ApiResult<string>(HttpStatusCode.InternalServerError,$"Có lỗi khi thêm nhà cung cấp");
+                return new ApiResult<string>(HttpStatusCode.InternalServerError,$"Có lỗi khi tạo mới nhà cung cấp");
             }
         }
 
@@ -111,7 +115,7 @@ namespace eQACoLTD.Application.Product.Supplier
             if(checkSupplier==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy nhà cung cấp có mã: {supplierId}");
             checkSupplier.IsDelete = true;
             await _context.SaveChangesAsync();
-            return new ApiResult<string>(HttpStatusCode.OK){ResultObj = supplierId};
+            return new ApiResult<string>(HttpStatusCode.OK){ResultObj = supplierId,Message = "Xóa nhà cung cấp thành công"};
         }
 
         public async Task<ApiResult<PagedResult<SupplierImportHistoriesDto>>> GetSupplierImportHistoriesPagingAsync(string supplierId,int pageIndex,int pageSize)

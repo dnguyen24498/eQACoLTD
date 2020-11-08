@@ -4,7 +4,6 @@
 {
     <script>
         getCustomerTypes();
-        getEmployees();
         function getCustomerTypes(){
             $.ajax({
                 url:'@Configuration["APIServerHost"]api/others/customer-types',
@@ -16,25 +15,7 @@
                   $(data).each(function (index,empt) {
                     customerTypesEL.append('<option selected="selected" value=' + empt.id + '>' + empt.name+'</option>');
                    })
-                }
-            })
-        }
-        function getEmployees() {
-            $.ajax({
-                url: '@Configuration["APIServerHost"]api/others/employees',
-                headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
-                method:'GET',
-                dataType:'json',
-                success:function(data) {
-                    var employeesEL = $("#employees-select");
-                  $(data).each(function (index,empt) {
-                    employeesEL.append('<option selected="selected" value=' + empt.id + '>' + empt.name+'</option>');
-                   })
-                },
-                error: function () {
-                    var customerTypesEL = $("#employees-select");
-                    customerTypesEL.append('<option selected="selected">Chọn nhân viên</option>');
-                    showAlertMessage(false, "Có lỗi khi lấy danh sách nhân viên");
+                   console.log("Test");
                 }
             })
         }
@@ -147,11 +128,6 @@
                         <label class="form-control-label">Loại khách hàng:</label>
                         <select id="customer-types-select" class="form-control">
                             
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label">Nhân viên phụ trách:</label>
-                        <select id="employees-select" class="form-control">
                         </select>
                     </div>
                 </div>

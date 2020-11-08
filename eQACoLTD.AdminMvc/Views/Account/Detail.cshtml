@@ -13,7 +13,7 @@
             success: function (data) {
                 var rolesSelect = $('#roles-select');
                 rolesSelect.empty();
-                $(data).each(function (index,empt) {
+                $(data.resultObj).each(function (index,empt) {
                     rolesSelect.append('<option value=' + empt.id + '>' + empt.description+'</option>')
                 })
             },
@@ -32,14 +32,14 @@
                 },
                 method: 'delete',
                 contentType: "application/json;charset=utf-8",
-                success: function () {
+                success: function (data) {
                     var aElement = $(e).parents('a').first();
                     $(aElement).remove();
-                    showAlertMessage(true, "Xóa quyền tài khoản thành công.");
+                    showAlertMessage(true, data.message);
                     getAccountNotInRoles();
                 },
-                error: function (ts) {
-                    showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
+                error: function (data) {
+                    showAlertMessage(false,data.message);
                 }
             })
         }
@@ -55,7 +55,7 @@
                 method: 'post',
                 contentType: "application/json;charset=utf-8",
                 data: JSON.stringify(roleId),
-                success: function () {
+                success: function (data) {
                     var anchorEl = document.createElement("a");
                     $(anchorEl).attr("class", "btn btn-info text-white ml-1");
                     var idiomaticEl = document.createElement("i");
@@ -67,12 +67,12 @@
                     $(anchorEl).append(roleName);
                     $(anchorEl).append(idiomaticEl);
                     $("#in-roles-el").append(anchorEl);
-                    showAlertMessage(true, "Thêm quyền tài khoản thành công.");
+                    showAlertMessage(true, data.message);
                     getAccountNotInRoles();
 
                 },
-                error: function (ts) {
-                    showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
+                error: function (data) {
+                    showAlertMessage(false,data.message);
                 }
             })
         }

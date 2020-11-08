@@ -25,14 +25,15 @@ namespace eQACoLTD.Application.Product.Stock
             _context = context;
         }
 
-        public async Task<ApiResult<string>> ExportOrderAsync(string employeeId,string orderId, ExportOrderDto orderDto)
+        public async Task<ApiResult<string>> ExportOrderAsync(string accountId,string orderId, ExportOrderDto orderDto)
         {
             try
             {
                 var checkOrder = await _context.Orders.FindAsync(orderId);
                 if (checkOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound, ($"Không tìm thấy đơn hàng có mã: {orderId}"));
-                var checkEmployee = await _context.Employees.FindAsync(employeeId);
-                if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound);
+                var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                    .SingleOrDefaultAsync();
+                if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
                 if (checkOrder.BranchId == checkEmployee.BranchId)
                 {
                     var goodsDeliveryNote = ObjectMapper.Mapper.Map<GoodsDeliveryNote>(orderDto);
@@ -66,7 +67,7 @@ namespace eQACoLTD.Application.Product.Stock
                     goodsDeliveryNote.GoodsDeliveryNoteDetails = goodsDeliveryNoteDetails;
                     await _context.GoodsDeliveryNotes.AddAsync(goodsDeliveryNote);
                     await _context.SaveChangesAsync();
-                    return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = goodsDeliveryNoteId };
+                    return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = goodsDeliveryNoteId,Message = "Xuất kho cho đơn hàng thành công"};
                 }
                 return new ApiResult<string>(HttpStatusCode.Forbidden,($"Tài khoản hiện tại không được phép tạo phiếu xuất kho cho chi nhánh này"));
             }
@@ -76,18 +77,16 @@ namespace eQACoLTD.Application.Product.Stock
             }
         }
 
-        public async Task<ApiResult<PagedResult<ExportsQueueDto>>> GetExportQueuePagingAsync(string employeeId, int pageIndex, int pageSize)
+        public async Task<ApiResult<PagedResult<ExportsQueueDto>>> GetExportQueuePagingAsync(int pageIndex, int pageSize)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<PagedResult<ExportsQueueDto>>(HttpStatusCode.NotFound);
             var orders = await (from o in _context.Orders
                                 join e in _context.Employees on o.EmployeeId equals e.Id
                                 join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
                                 join b in _context.Branches on o.BranchId equals b.Id
-                                where o.TransactionStatusId == GlobalProperties.InventoryTransactionId && o.BranchId == checkEmployee.BranchId
+                                where o.TransactionStatusId == GlobalProperties.InventoryTransactionId
                                 select new ExportsQueueDto()
                                 {
-                                    BranchId = checkEmployee.BranchId,
+                                    BranchId = o.BranchId,
                                     DateCreated = o.DateCreated,
                                     EmployeeName = e.Name,
                                     Description=o.Description,
@@ -98,18 +97,15 @@ namespace eQACoLTD.Application.Product.Stock
             return new ApiResult<PagedResult<ExportsQueueDto>>(HttpStatusCode.OK, orders);
         }
 
-        public async Task<ApiResult<PagedResult<ImportsQueueDto>>> GetImportQueuePagingAsync(string employeeId, int pageIndex, int pageSize)
+        public async Task<ApiResult<PagedResult<ImportsQueueDto>>> GetImportQueuePagingAsync(int pageIndex, int pageSize)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<PagedResult<ImportsQueueDto>>(HttpStatusCode.NotFound);
             var orders = await (from po in _context.PurchaseOrders
                          join e in _context.Employees on po.EmployeeId equals e.Id
                          join ts in _context.TransactionStatuses on po.TransactionStatusId equals ts.Id
                          join b in _context.Branches on po.BrandId equals b.Id
-                         where po.BrandId == checkEmployee.BranchId && po.TransactionStatusId == GlobalProperties.InventoryTransactionId
+                         where po.TransactionStatusId == GlobalProperties.InventoryTransactionId
                          select new ImportsQueueDto()
                          {
-                             BranchId = checkEmployee.BranchId,
                              Description = po.Description,
                              EmployeeName = e.Name,
                              ImportDate = po.DateCreated,
@@ -120,12 +116,13 @@ namespace eQACoLTD.Application.Product.Stock
             return new ApiResult<PagedResult<ImportsQueueDto>>(HttpStatusCode.OK, orders);
         }
 
-        public async Task<ApiResult<string>> ImportPurchaseOrderAsync(string employeeId, string purchaseOrderId, ImportPurchaseOrderDto orderDto)
+        public async Task<ApiResult<string>> ImportPurchaseOrderAsync(string accountId, string purchaseOrderId, ImportPurchaseOrderDto orderDto)
         {
             var checkPurchaseOrder = await _context.PurchaseOrders.FindAsync(purchaseOrderId);
             if (checkPurchaseOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound);
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound);
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
             if (checkEmployee.BranchId == checkPurchaseOrder.BrandId)
             {
                 var sequencyNumber = await _context.GoodReceivedNotes.CountAsync();
@@ -170,7 +167,7 @@ namespace eQACoLTD.Application.Product.Stock
                 await _context.GoodReceivedNotes.AddAsync(goodsReceivedNote);
                 checkPurchaseOrder.TransactionStatusId = GlobalProperties.TradingTransactionId;
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=goodsReceivedId };
+                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=goodsReceivedId,Message = "Nhập kho cho phiếu nhập hàng thành công"};
             }
             return new ApiResult<string>(HttpStatusCode.BadRequest,$"Tài khoản hiện tại không được phép tạo phiếu nhập cho chi nhánh này");
         }
@@ -185,15 +182,12 @@ namespace eQACoLTD.Application.Product.Stock
             return new ApiResult<bool>(HttpStatusCode.OK,false);
         }
 
-        public async Task<ApiResult<ExportOrderHistoriesDto>> GetExportOrderHistory(string employeeId,string orderId)
+        public async Task<ApiResult<ExportOrderHistoriesDto>> GetExportOrderHistory(string orderId)
         {
             var checkOrder = await _context.Orders.FindAsync(orderId);
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if(checkOrder==null||checkEmployee==null) 
-                return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.NotFound,$"Không tìm thấy dữ liệu");
-            if (checkOrder.BranchId == checkEmployee.BranchId)
-            {
-                var orderHistories = await (from gdn in _context.GoodsDeliveryNotes
+            if(checkOrder==null) 
+                return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
+            var orderHistories = await (from gdn in _context.GoodsDeliveryNotes
                     join w in _context.Warehouses on gdn.WarehouseId equals w.Id
                     join sa in _context.StockActions on gdn.StockActionId equals sa.Id
                     join e in _context.Employees on gdn.EmployeeId equals e.Id
@@ -217,7 +211,6 @@ namespace eQACoLTD.Application.Product.Stock
                     }).SingleOrDefaultAsync();
                 return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.OK,orderHistories);
             }
-            return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.BadRequest);
-        }
+
     }
 }

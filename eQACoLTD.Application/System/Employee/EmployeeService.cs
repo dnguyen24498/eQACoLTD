@@ -33,7 +33,7 @@ namespace eQACoLTD.Application.System.Employee
             _configuration = configuration;
             _roleManager = roleManager;
         }
-        public async Task<ApiResult<PagedResult<EmployeesDto>>> GetEmployeeesPagingAsync(int pageIndex,int pageSize)
+        public async Task<ApiResult<PagedResult<EmployeesDto>>> GetEmployeesPagingAsync(int pageIndex,int pageSize)
         {
             var employees = await (from employee in _context.Employees
                 join branch in _context.Branches on employee.BranchId equals branch.Id
@@ -132,7 +132,8 @@ namespace eQACoLTD.Application.System.Employee
                         return new ApiResult<string>()
                         {
                             Code = HttpStatusCode.OK,
-                            ResultObj = generateId
+                            ResultObj = generateId,
+                            Message = "Tạo mới nhân viên thành công"
                         };
                     }
                     _logger.LogError($"Nhân viên có mã {generateId} chưa được tạo.");
@@ -163,7 +164,11 @@ namespace eQACoLTD.Application.System.Employee
                 await _userManager.SetLockoutEnabledAsync(employeeAccount, true);
                 await _userManager.SetLockoutEndDateAsync(employeeAccount, new DateTimeOffset(new DateTime(9999, 1, 1)));
             }
-            return new ApiResult<string>(HttpStatusCode.OK,employeeId);
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = employeeId,
+                Message = "Xóa nhân viên thành công"
+            };
         }
     }
 }

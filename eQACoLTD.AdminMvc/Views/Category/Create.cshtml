@@ -15,11 +15,11 @@
                 method:'post',
                 contentType:"application/json",
                 data:JSON.stringify(data),
-                success:function() {
-                  showAlertMessage(true,"Tạo mới danh mục thành công");
+                success:function(data) {
+                  showAlertMessage(true,data.message);
                 },
-                error:function() {
-                  showAlertMessage(false,"Có lỗi khi tạo mới danh mục");
+                error:function(data) {
+                  showAlertMessage(false,data.message);
                 }
             });
             $("#categoryName #categoryDescription").attr('value','');

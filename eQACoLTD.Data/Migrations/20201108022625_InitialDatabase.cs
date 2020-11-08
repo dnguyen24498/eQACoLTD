@@ -96,7 +96,8 @@ namespace eQACoLTD.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Adrress = table.Column<string>(type: "nvarchar(300)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -624,7 +625,7 @@ namespace eQACoLTD.Data.Migrations
                     CustomerId = table.Column<string>(nullable: true),
                     TransactionStatusId = table.Column<string>(nullable: true),
                     PaymentStatusId = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 873, DateTimeKind.Local).AddTicks(8201)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 266, DateTimeKind.Local).AddTicks(3920)),
                     Description = table.Column<string>(type: "nvarchar(300)", nullable: true),
                     EmployeeId = table.Column<string>(nullable: true),
                     DiscountValue = table.Column<decimal>(type: "decimal", nullable: false),
@@ -694,7 +695,7 @@ namespace eQACoLTD.Data.Migrations
                     CustomerName = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "varchar(30)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(300)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 889, DateTimeKind.Local).AddTicks(253)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 279, DateTimeKind.Local).AddTicks(3361)),
                     AppointmentDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     BranchId = table.Column<string>(nullable: true),
                     EmployeeId = table.Column<string>(nullable: true),
@@ -729,8 +730,8 @@ namespace eQACoLTD.Data.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     SupplierId = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 830, DateTimeKind.Local).AddTicks(7110)),
-                    DeliveryDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 832, DateTimeKind.Local).AddTicks(4973)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 227, DateTimeKind.Local).AddTicks(1005)),
+                    DeliveryDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 228, DateTimeKind.Local).AddTicks(9893)),
                     PaymentStatusId = table.Column<string>(nullable: true),
                     IsDelete = table.Column<bool>(nullable: false, defaultValue: false),
                     DiscountValue = table.Column<decimal>(type: "decimal", nullable: false, defaultValue: 0m),
@@ -782,7 +783,7 @@ namespace eQACoLTD.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
-                    InventoryDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 897, DateTimeKind.Local).AddTicks(3863)),
+                    InventoryDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 284, DateTimeKind.Local).AddTicks(3385)),
                     EmployeeId = table.Column<string>(nullable: true),
                     WarehouseId = table.Column<string>(nullable: true),
                     IsConfirm = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
@@ -810,9 +811,9 @@ namespace eQACoLTD.Data.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     CustomerId = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 903, DateTimeKind.Local).AddTicks(5210)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 289, DateTimeKind.Local).AddTicks(821)),
                     Description = table.Column<string>(type: "nvarchar(300)", nullable: true),
-                    LiquidationDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 903, DateTimeKind.Local).AddTicks(5827)),
+                    LiquidationDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 289, DateTimeKind.Local).AddTicks(1301)),
                     WarehouseId = table.Column<string>(nullable: true),
                     DiscountType = table.Column<string>(type: "char(1)", nullable: true),
                     DiscountValue = table.Column<decimal>(type: "decimal", nullable: false),
@@ -897,8 +898,8 @@ namespace eQACoLTD.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 868, DateTimeKind.Local).AddTicks(4924)),
-                    PurchaseDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 868, DateTimeKind.Local).AddTicks(5317)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 261, DateTimeKind.Local).AddTicks(930)),
+                    PurchaseDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 261, DateTimeKind.Local).AddTicks(1291)),
                     OrderId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true, defaultValue: "nvarchar(300)"),
                     CustomerId = table.Column<string>(nullable: true),
@@ -992,7 +993,7 @@ namespace eQACoLTD.Data.Migrations
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     OrderId = table.Column<string>(nullable: true),
                     BranchId = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 881, DateTimeKind.Local).AddTicks(3685)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 272, DateTimeKind.Local).AddTicks(5734)),
                     IsImport = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     Description = table.Column<string>(type: "nvarchar(300)", nullable: true),
                     PurchaseOrderId = table.Column<string>(nullable: true),
@@ -1098,7 +1099,7 @@ namespace eQACoLTD.Data.Migrations
                     TransporterId = table.Column<string>(nullable: true),
                     Address = table.Column<string>(type: "varchar(300)", nullable: true),
                     ShippingStatusId = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 860, DateTimeKind.Local).AddTicks(3743)),
+                    DateCreated = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 254, DateTimeKind.Local).AddTicks(8859)),
                     LiquidationVoucherId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -1168,7 +1169,7 @@ namespace eQACoLTD.Data.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     OrderId = table.Column<string>(nullable: true),
-                    ExportDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 911, DateTimeKind.Local).AddTicks(5386)),
+                    ExportDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 296, DateTimeKind.Local).AddTicks(6788)),
                     EmployeeId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(type: "nvarchar(300)", nullable: true),
                     StockActionId = table.Column<string>(nullable: true),
@@ -1230,7 +1231,7 @@ namespace eQACoLTD.Data.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     PurchaseOrderId = table.Column<string>(nullable: true),
-                    ImportDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 921, DateTimeKind.Local).AddTicks(6990)),
+                    ImportDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 304, DateTimeKind.Local).AddTicks(7567)),
                     EmployeeId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(type: "nvarchar(300)", nullable: true),
                     StockActionId = table.Column<string>(nullable: true),
@@ -1315,8 +1316,8 @@ namespace eQACoLTD.Data.Migrations
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     PurchaseOrderId = table.Column<string>(nullable: true),
                     Paid = table.Column<decimal>(type: "decimal", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 842, DateTimeKind.Local).AddTicks(2553)),
-                    PaymentDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 842, DateTimeKind.Local).AddTicks(542)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 238, DateTimeKind.Local).AddTicks(5558)),
+                    PaymentDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 238, DateTimeKind.Local).AddTicks(3950)),
                     IsDelete = table.Column<bool>(nullable: false, defaultValue: false),
                     PaymentMethodId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(type: "nvarchar(250)", nullable: true),
@@ -1387,13 +1388,13 @@ namespace eQACoLTD.Data.Migrations
                     Id = table.Column<string>(type: "varchar(12)", nullable: false),
                     OrderId = table.Column<string>(nullable: true),
                     Received = table.Column<decimal>(type: "decimal", nullable: false, defaultValue: 0m),
-                    ReceivedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 854, DateTimeKind.Local).AddTicks(4390)),
+                    ReceivedDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 248, DateTimeKind.Local).AddTicks(8781)),
                     PaymentMethodId = table.Column<string>(nullable: true),
                     IsDelete = table.Column<bool>(nullable: false, defaultValue: false),
                     Description = table.Column<string>(type: "nvarchar(250)", nullable: true),
                     SupplierId = table.Column<string>(nullable: true),
                     CustomerId = table.Column<string>(nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 10, 29, 14, 54, 33, 854, DateTimeKind.Local).AddTicks(6262)),
+                    DateCreated = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2020, 11, 8, 9, 26, 24, 249, DateTimeKind.Local).AddTicks(402)),
                     EmployeeId = table.Column<string>(nullable: true),
                     BranchId = table.Column<string>(nullable: true),
                     RepairVoucherId = table.Column<string>(nullable: true),
@@ -1557,10 +1558,17 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9"), "2a7b579d-22fb-42a1-98b3-dcd1834b4c54", "Quyền quản trị viên", "Administrator", "ADMINISTRATOR" },
-                    { new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6"), "707b21ed-9207-459f-a400-dcd313b6994d", "Quyền nhân viên kho", "WarehouseStaff", "WAREHOUSESTAFF" },
-                    { new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a"), "6f033eba-56ea-4f46-b130-e0eb80de88a0", "Quyền nhân viên lễ tân", "Receptionist", "RECEPTIONIST" },
-                    { new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692"), "76856447-cd61-4eff-8d89-3e3316f82a39", "Quyền nhân viên thu ngân", "Cashier", "CASHIER" }
+                    { new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692"), "1addfa84-d35f-4f83-9d9f-5854e66c9a6f", "Nhân viên thu ngân", "Cashier", "CASHIER" },
+                    { new Guid("2c3047ca-da34-4a37-a640-d8b20bf0f21c"), "5ec7aba4-3d31-4f9f-a45f-d855b49c7bdc", "Quản lý chi nhánh", "Manager", "MANAGER" },
+                    { new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459"), "8dec27f5-7b95-486e-830d-fb08d2b5c99e", "Giám đốc", "SuperAdministrator", "SUPERADMINISTRATOR" },
+                    { new Guid("0ae13bb5-43f5-404e-9100-046e7ff0bfc7"), "277edace-f69a-44fb-81d9-b058b610091c", "Kế toán", "Accountant", "ACCOUNTANT" },
+                    { new Guid("68113af4-39b0-4926-b0fb-091d827fc6d9"), "bb473151-96fc-424d-86f1-bbb577ff9c6a", "Nhân viên kỹ thuật", "Technician", "TECHNICIAN" },
+                    { new Guid("c4702302-748c-4b01-b0ad-8299d86896a4"), "2efaaaf0-6fee-409a-9705-76092a9fcaa9", "Nhân viên kinh doanh", "BusinessStaff", "BUSINESSSTAFF" },
+                    { new Guid("e70b5bc1-102a-4ba5-a4e1-dd75b1fe5b1b"), "eea2b3c1-9b7b-4856-b330-63dd9210f6cf", "Thủ quỹ", "CashManager", "CASHMANAGER" },
+                    { new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9"), "39fa16ef-bed5-49dc-8598-20e2813baa66", "Quản trị viên", "Administrator", "ADMINISTRATOR" },
+                    { new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6"), "4b8927cc-5e96-43d7-8256-d4095d06e84a", "Nhân viên kho", "WarehouseStaff", "WAREHOUSESTAFF" },
+                    { new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a"), "89ed0c1b-ee49-4bfe-838d-5997572ce662", "Nhân viên bán hàng", "Salesman", "SALESMAN" },
+                    { new Guid("ae9c2256-44e4-4d46-a297-4da29c7e1637"), "b51fc005-76d4-470b-ba99-b67a190395e8", "Thủ kho", "WarehouseManager", "WAREHOUSEMANAGER" }
                 });
 
             migrationBuilder.InsertData(
@@ -1568,21 +1576,29 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "UserId", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"), new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9") },
-                    { new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"), new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6") },
-                    { new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"), new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a") }
+                    { new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"), new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459") },
+                    { new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"), new Guid("c4702302-748c-4b01-b0ad-8299d86896a4") },
+                    { new Guid("408e3e40-3191-451c-a606-a1f565310e8a"), new Guid("e70b5bc1-102a-4ba5-a4e1-dd75b1fe5b1b") },
+                    { new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"), new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692") },
+                    { new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"), new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6") },
+                    { new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"), new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a") },
+                    { new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"), new Guid("ae9c2256-44e4-4d46-a297-4da29c7e1637") }
                 });
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Adrress", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("f502066f-7adc-4a5c-9d89-bb1015964cd9"), 0, "83dc1213-df72-4f45-9e2e-d8dbb38f9cab", "duongnguyenadhp2@gmail.com", true, false, null, "DUONGNGUYENADHP2@GMAIL.COM", "CUS0002", "AQAAAAEAACcQAAAAEOrhj2ULEE1ziYrvYf6SwT3byZA8rAKmITDkGFD/ufZLn3qmeoDLfDzpLDjYuKN7Gg==", null, false, "", false, "cus0002" },
-                    { new Guid("80efff0f-48cc-4e7a-8803-6782ce66960a"), 0, "e1c50b3a-397d-407f-a302-1328b2951610", "duongnguyenadhp1@gmail.com", true, false, null, "DUONGNGUYENADHP1@GMAIL.COM", "CUS0001", "AQAAAAEAACcQAAAAEDhT3p86o/MDQkt6786rRA/h6lMM5TyHdn8wzBJZ8iwZkYB9yrUPmPcJqX7vPXRW9g==", null, false, "", false, "cus0001" },
-                    { new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"), 0, "7ad91801-8cc3-426c-8826-d8be4b83639f", "duongnguyenadhp@gmail.com", true, false, null, "DUONGNGUYENADHP@GMAIL.COM", "EPN0001", "AQAAAAEAACcQAAAAEMq1W9HWoOi9Kd+cKvELnI3NnSDFAB8UwWF/jxeF5gdlCkC/GOkT8xqxsNET3Row4w==", null, false, "", false, "epn0001" },
-                    { new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"), 0, "0ae96e26-977f-4004-b487-7293e80827d7", "dnguyen24498@gmail.com", true, false, null, "DNGUYEN24498@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEIQFL2taOeHmX8oqlXHzq9tor6fGAQxh7h9hvCxXNMpTnlieI+GsaSax7BtZUiaYAQ==", null, false, "", false, "admin" },
-                    { new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"), 0, "9b046921-8f0f-4eeb-a772-39c67a7ed29f", "nguyen68973@st.vimaru.edu.vn", true, false, null, "NGUYEN68973@ST.VIMARU.EDU.VN", "EPN0002", "AQAAAAEAACcQAAAAEDDHdpXdWKN4SEBayS4L6YvspsGl7Xrj77cRHtqlE2hYz/5Zs0KedHmenDD0Vfv6nA==", null, false, "", false, "epn0002" }
+                    { new Guid("f502066f-7adc-4a5c-9d89-bb1015964cd9"), 0, null, "e2c65cc5-744e-4a17-afb6-8dc0428815f2", "duongnguyenadhp2@gmail.com", true, false, null, "DUONGNGUYENADHP2@GMAIL.COM", "CUS0002", "AQAAAAEAACcQAAAAENynIK+4txEe8z/8eU1O+Xrj7N67mYdM1d5HsoXycKxcMZSICGcObn0rq/jbi4ZWiw==", null, false, "", false, "cus0002" },
+                    { new Guid("80efff0f-48cc-4e7a-8803-6782ce66960a"), 0, null, "c8d25d86-2812-426b-8a9e-ca1a86625f3f", "duongnguyenadhp1@gmail.com", true, false, null, "DUONGNGUYENADHP1@GMAIL.COM", "CUS0001", "AQAAAAEAACcQAAAAEIhhVUuJqVS4n8rD7b40JmQ2U58NjCpjciHn3f/KDjroL6Xbs5+XljzBtSxd1O8QRw==", null, false, "", false, "cus0001" },
+                    { new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"), 0, null, "08ea539f-8df7-4311-886c-2164920cbb11", "duongnguyenadhp6@gmail.com", true, false, null, "DUONGNGUYENADHP6@GMAIL.COM", "EPN0006", "AQAAAAEAACcQAAAAEJsfkfZ8tDYSgu4avMOm6VaNkszhuz56CW7Y0qvoN6FNeXY4muE6/dmor3S36CIvYA==", null, false, "", false, "epn0006" },
+                    { new Guid("408e3e40-3191-451c-a606-a1f565310e8a"), 0, null, "dd5a0d91-b4d7-4ed1-94fb-309d15665827", "duongnguyenadhp5@gmail.com", true, false, null, "DUONGNGUYENADHP5@GMAIL.COM", "EPN0005", "AQAAAAEAACcQAAAAECDN8KtgAgV2sv29VhuK2zy4SYU+TuAc/3GD5bFTIn+wzs4ZvQGsINrnLpBTJg4XCw==", null, false, "", false, "epn0005" },
+                    { new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"), 0, null, "70a2ae39-0dcc-4fe4-9247-eb9e1e355d5f", "nguyen68973@st.vimaru.edu.vn", true, false, null, "NGUYEN68973@ST.VIMARU.EDU.VN", "EPN0002", "AQAAAAEAACcQAAAAENIg9UrvU/isU5sbkgrOqR52CZkFeo3rSQyTxnPMsLxp0YttTcOXaFmWWQqsrGwSUA==", null, false, "", false, "epn0002" },
+                    { new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"), 0, null, "a5792d5e-c82f-472f-8369-9252aec9b2fc", "duongnguyenadhp3@gmail.com", true, false, null, "DUONGNGUYENADHP3@GMAIL.COM", "EPN0003", "AQAAAAEAACcQAAAAELWtEmlidl2Jgjb5N/XL3UgeQUNdbAuFKaqac1ZOKfyVDPPr7ZjJQaukM9wT9aJ0SQ==", null, false, "", false, "epn0003" },
+                    { new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"), 0, null, "59b15fe1-0e71-48ca-8e35-b09c829b0446", "duongnguyenadhp@gmail.com", true, false, null, "DUONGNGUYENADHP@GMAIL.COM", "EPN0001", "AQAAAAEAACcQAAAAEI40apReaqhEx/cifKTYd5xJscirPqsJaoOKndLPMiW4xFOc6DvuZsCYPveLMtt8gQ==", null, false, "", false, "epn0001" },
+                    { new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"), 0, null, "ce49c0fa-47c9-43ab-9b20-4037036fe732", "dnguyen24498@gmail.com", true, false, null, "DNGUYEN24498@GMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEAa9w4+bnHKJSTUq95EpxXBwpwvfue3sovz0+bUac5Ihoy51mIJeQq6CAfsqCKRd3Q==", null, false, "", false, "admin" },
+                    { new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"), 0, null, "cab79376-e982-4693-8179-14ee1ae1a44c", "duongnguyenadhp4@gmail.com", true, false, null, "DUONGNGUYENADHP4@GMAIL.COM", "EPN0004", "AQAAAAEAACcQAAAAEDWFzR/b1SR6gnnENn73W0bSCE/vylh2aNcsDWnp2cCDMpfz69nB6lQzDn9E3RnABQ==", null, false, "", false, "epn0004" }
                 });
 
             migrationBuilder.InsertData(
@@ -1595,14 +1611,14 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { "6c0d47b5-5b62-4c53-bd6e-680a3f08c1f0", "Canon" },
                     { "fb5f1a2e-796a-4a38-9fb3-db9f4924c201", "Logitech" },
                     { "3d3db375-7436-4783-93d4-3f1777538b4e", "Samsung" },
                     { "ce382131-49b5-49ea-9732-9d33e49874de", "ThinkView" },
+                    { "6c0d47b5-5b62-4c53-bd6e-680a3f08c1f0", "Canon" },
                     { "25a44ea6-ca33-494c-90d7-933e38ec3fb5", "Razer" },
-                    { "0f3d454d-a999-44de-af81-e918e117f5e5", "HP" },
                     { "82fab56a-dc26-4179-9624-d4eac7f43923", "Asus" },
                     { "bc240879-0f96-4752-9632-82141e4f23b3", "Lenovo" },
+                    { "0f3d454d-a999-44de-af81-e918e117f5e5", "HP" },
                     { "df574e84-8df9-4da9-9686-52446cbd9a69", "Dell" },
                     { "85000231-9235-48a6-b852-c64bdcc3376b", "Apple" },
                     { "41f4bb29-5373-459a-8f6d-def64f15f747", "Acer" }
@@ -1613,12 +1629,12 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
                 {
+                    { "f09b42c7-79f6-406e-8b32-d1bd714f93cf", null, "Chuột" },
                     { "610491a0-1824-4dd6-a8af-1f22f2a840a4", null, "Máy in" },
-                    { "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, "Máy tính xách tay" },
-                    { "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525", null, "Máy tính để bàn" },
-                    { "a749d9d1-7621-4596-89f8-a6395778809b", null, "Tai nghe" },
                     { "5f1d0891-37db-4d20-92e9-0a9da180ee62", null, "Bàn phím" },
-                    { "f09b42c7-79f6-406e-8b32-d1bd714f93cf", null, "Chuột" }
+                    { "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525", null, "Máy tính để bàn" },
+                    { "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, "Máy tính xách tay" },
+                    { "a749d9d1-7621-4596-89f8-a6395778809b", null, "Tai nghe" }
                 });
 
             migrationBuilder.InsertData(
@@ -1626,8 +1642,8 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Description", "Name" },
                 values: new object[,]
                 {
-                    { "a3bc8a51-9264-4590-af51-5fd20812695a", null, "Bán lẻ" },
-                    { "c876bee4-019b-4b42-acbd-e728e9f545b6", null, "Bán buôn" }
+                    { "c876bee4-019b-4b42-acbd-e728e9f545b6", null, "Bán buôn" },
+                    { "a3bc8a51-9264-4590-af51-5fd20812695a", null, "Bán lẻ" }
                 });
 
             migrationBuilder.InsertData(
@@ -1637,7 +1653,11 @@ namespace eQACoLTD.Data.Migrations
                 {
                     { "023536ea-f6c4-40a1-a610-2e95dd0e4f2a", "Bộ phận kho" },
                     { "2c33ac5e-c033-4eeb-b185-7f79007bbec3", "Bộ phận kinh doanh" },
-                    { "15d805f8-32fb-43f3-8c95-31e87c05d3e7", "Bộ phận bán hàng" }
+                    { "15d805f8-32fb-43f3-8c95-31e87c05d3e7", "Bộ phận bán hàng" },
+                    { "896571ab-344a-4258-b144-3f5c39b286e1", "Bộ phận thu ngân" },
+                    { "fd730f29-f41c-4d7f-a4a7-66bb8b2ac6b0", "Bộ phận kế toán" },
+                    { "aedb9def-b1ef-484a-ace0-d95471cf9421", "Bộ phận kỹ thuật" },
+                    { "8567cb14-668c-45f9-9c9a-182ee3b99981", "Bộ phận quản lý cấp cao" }
                 });
 
             migrationBuilder.InsertData(
@@ -1656,10 +1676,10 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63", "Tiền mặt" },
-                    { "a196f0c3-c36a-4cb1-892c-3c72e1dd8b02", "Quẹt thẻ" },
+                    { "93f58e8a-7b32-4f80-a128-1c3dc5b50eda", "Chuyển khoản" },
                     { "f178a9b0-13fa-4221-90cc-7cede6995026", "Điểm tích lũy" },
-                    { "93f58e8a-7b32-4f80-a128-1c3dc5b50eda", "Chuyển khoản" }
+                    { "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63", "Tiền mặt" },
+                    { "a196f0c3-c36a-4cb1-892c-3c72e1dd8b02", "Quẹt thẻ" }
                 });
 
             migrationBuilder.InsertData(
@@ -1677,9 +1697,9 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { "220966a7-8489-46dc-b621-97e834925554", "Đã giao hàng/Nhận tiền từ nhà vận chuyển" },
                     { "cf4ff408-bdbc-4692-9b70-0e141269cfdb", "Đã đóng gói/Đợi giao hàng" },
-                    { "e1bf07a3-4576-463d-940d-ecf284b80534", "Đang giao hàng" }
+                    { "e1bf07a3-4576-463d-940d-ecf284b80534", "Đang giao hàng" },
+                    { "220966a7-8489-46dc-b621-97e834925554", "Đã giao hàng/Nhận tiền từ nhà vận chuyển" }
                 });
 
             migrationBuilder.InsertData(
@@ -1698,11 +1718,11 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
+                    { "38ed81d4-7606-458e-add1-bf4c03d035cb", "Hủy" },
+                    { "4226c92d-694f-4948-afd4-04c636fd77a6", "Hoàn thành" },
+                    { "7c2da6fd-28ab-496b-aa1b-bb343ec49d3a", "Đang chờ" },
                     { "cc0c7f54-de94-481c-b662-36584002fe41", "Đang kiểm kho" },
                     { "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8", "Đang giao dịch" },
-                    { "4226c92d-694f-4948-afd4-04c636fd77a6", "Hoàn thành" },
-                    { "38ed81d4-7606-458e-add1-bf4c03d035cb", "Hủy" },
-                    { "7c2da6fd-28ab-496b-aa1b-bb343ec49d3a", "Đang chờ" },
                     { "138193dc-86b4-4c9d-a961-b7c1b1f7bed1", "Đang giao hàng" }
                 });
 
@@ -1730,8 +1750,13 @@ namespace eQACoLTD.Data.Migrations
                 columns: new[] { "Id", "Address", "AppuserId", "BranchId", "DepartmentId", "Description", "Dob", "Gender", "Name", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { "EPN0002", "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "023536ea-f6c4-40a1-a610-2e95dd0e4f2a", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Thanh Tú", "0934347618" },
-                    { "EPN0001", "Số 88, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "023536ea-f6c4-40a1-a610-2e95dd0e4f2a", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Thanh Tùng", "0934349618" }
+                    { "EPN0007", "Số 88-Hải Triều-Quán Toan-Hồng Bàng-Hải Phòng", new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "8567cb14-668c-45f9-9c9a-182ee3b99981", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Dương Nguyên", "0934347618" },
+                    { "EPN0004", "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "896571ab-344a-4258-b144-3f5c39b286e1", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Thành Nam", "0934347618" },
+                    { "EPN0002", "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "15d805f8-32fb-43f3-8c95-31e87c05d3e7", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Thanh Tú", "0934347618" },
+                    { "EPN0006", "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "2c33ac5e-c033-4eeb-b185-7f79007bbec3", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Trần Thị Thủy", "0934347618" },
+                    { "EPN0003", "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "023536ea-f6c4-40a1-a610-2e95dd0e4f2a", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Văn An", "0934347618" },
+                    { "EPN0001", "Số 88, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "023536ea-f6c4-40a1-a610-2e95dd0e4f2a", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Nguyễn Thanh Tùng", "0934349618" },
+                    { "EPN0005", "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng", new Guid("408e3e40-3191-451c-a606-a1f565310e8a"), "ec4c314e-90b1-464c-aa52-2d34e555875e", "896571ab-344a-4258-b144-3f5c39b286e1", null, new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Nguyễn Khánh Ly", "0934347618" }
                 });
 
             migrationBuilder.InsertData(
@@ -1746,9 +1771,9 @@ namespace eQACoLTD.Data.Migrations
                     { "PRN0011", "fb5f1a2e-796a-4a38-9fb3-db9f4924c201", "f09b42c7-79f6-406e-8b32-d1bd714f93cf", null, 100, 5, "Logitech G102 White", "8000 DPI, LED RGB 16,8 triệu màu tùy chỉnh, Phù hợp với Gaming", 290000m, (byte)1, 2232, (byte)12, 270000m },
                     { "PRN0010", "fb5f1a2e-796a-4a38-9fb3-db9f4924c201", "f09b42c7-79f6-406e-8b32-d1bd714f93cf", null, 100, 5, "Logitech G102 Black", "8000 DPI, LED RGB 16,8 triệu màu tùy chỉnh, Phù hợp với Gaming", 290000m, (byte)1, 2232, (byte)12, 270000m },
                     { "PRN0004", "85000231-9235-48a6-b852-c64bdcc3376b", "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525", null, 100, 5, "Mac Mini (2020)", "I5-3.0GHz/8GB/512TB/Intel UHD Graphics 630/New-Fullbox", 27590000m, (byte)1, 2930, (byte)36, 27500000m },
-                    { "PRN0003", "85000231-9235-48a6-b852-c64bdcc3376b", "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525", null, 100, 5, "iMac 27\" (2020)", "I7-3.8GHz/8GB/1TB/Radeon Pro 5500 XT 8GB/New-Fullbox", 66800000m, (byte)1, 2930, (byte)36, 66500000m },
                     { "PRN0019", "bc240879-0f96-4752-9632-82141e4f23b3", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Thinkpad X260", "I5-3.1GHz/8GB/128GB/New-Fullbox", 10990000m, (byte)1, 2100, (byte)36, 10900000m },
                     { "PRN0018", "bc240879-0f96-4752-9632-82141e4f23b3", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Thinkpad X250", "I5-2.6GHz/8GB/128GB/New-Fullbox", 9990000m, (byte)1, 2100, (byte)36, 9900000m },
+                    { "PRN0017", "82fab56a-dc26-4179-9624-d4eac7f43923", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Asus Zenbook", "I5-3.6GHz/8GB/128GB/New-Fullbox", 13990000m, (byte)1, 2100, (byte)36, 13900000m },
                     { "PRN0016", "82fab56a-dc26-4179-9624-d4eac7f43923", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Asus ROG Strix", "I7-3.6GHz/8GB/512GB/New-Fullbox", 22990000m, (byte)1, 2100, (byte)36, 22900000m },
                     { "PRN0015", "82fab56a-dc26-4179-9624-d4eac7f43923", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Asus Predator", "I9-3.6GHz/16GB/1TB/New-Fullbox", 52990000m, (byte)1, 2100, (byte)36, 52900000m },
                     { "PRN0014", "82fab56a-dc26-4179-9624-d4eac7f43923", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Asus Nitro 5", "I5-2.6GHz/8GB/256GB/New-Fullbox", 12990000m, (byte)1, 2100, (byte)36, 12900000m },
@@ -1757,7 +1782,7 @@ namespace eQACoLTD.Data.Migrations
                     { "PRN0005", "85000231-9235-48a6-b852-c64bdcc3376b", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Macbook Air 13.3\" (2020)", "Gray/I5-1.1GHz/8GB/256GB/New-Fullbox", 31990000m, (byte)1, 2100, (byte)36, 31500000m },
                     { "PRN0002", "85000231-9235-48a6-b852-c64bdcc3376b", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Macbook Pro 13.3\" (2019)", "Gray/I5-1.4GHz/8GB/256GB/TouchBar/New-Fullbox", 32000000m, (byte)1, 2500, (byte)36, 31500000m },
                     { "PRN0001", "85000231-9235-48a6-b852-c64bdcc3376b", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Macbook Pro 13.3\" (2020)", "Gray/I5-2.0GHz/16GB/512GB/TouchBar/New-Fullbox", 45000000m, (byte)1, 2100, (byte)36, 44500000m },
-                    { "PRN0017", "82fab56a-dc26-4179-9624-d4eac7f43923", "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2", null, 100, 5, "Asus Zenbook", "I5-3.6GHz/8GB/128GB/New-Fullbox", 13990000m, (byte)1, 2100, (byte)36, 13900000m }
+                    { "PRN0003", "85000231-9235-48a6-b852-c64bdcc3376b", "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525", null, 100, 5, "iMac 27\" (2020)", "I7-3.8GHz/8GB/1TB/Radeon Pro 5500 XT 8GB/New-Fullbox", 66800000m, (byte)1, 2930, (byte)36, 66500000m }
                 });
 
             migrationBuilder.InsertData(
@@ -1824,7 +1849,7 @@ namespace eQACoLTD.Data.Migrations
             migrationBuilder.InsertData(
                 table: "GoodsDeliveryNotes",
                 columns: new[] { "Id", "Description", "EmployeeId", "ExportDate", "LiquidationVoucherId", "OrderId", "RepairVoucherId", "ReturnId", "StockActionId", "WarehouseId" },
-                values: new object[] { "GDN0001", null, "EPN0001", new DateTime(2020, 10, 29, 14, 54, 33, 915, DateTimeKind.Local).AddTicks(9310), null, "SRN0001", null, null, "e27503bd-12c6-4d8e-a68e-6296892134e2", "d6bbee65-fe3d-4765-b569-202d9f3aa4f5" });
+                values: new object[] { "GDN0001", null, "EPN0001", new DateTime(2020, 11, 8, 9, 26, 24, 298, DateTimeKind.Local).AddTicks(9862), null, "SRN0001", null, null, "e27503bd-12c6-4d8e-a68e-6296892134e2", "d6bbee65-fe3d-4765-b569-202d9f3aa4f5" });
 
             migrationBuilder.InsertData(
                 table: "OrderDetails",
@@ -1834,7 +1859,7 @@ namespace eQACoLTD.Data.Migrations
             migrationBuilder.InsertData(
                 table: "PurchaseOrders",
                 columns: new[] { "Id", "BrandId", "DateCreated", "DeliveryDate", "Description", "DiscountDescription", "DiscountType", "EmployeeId", "PaymentStatusId", "SupplierId", "TotalAmount", "TransactionStatusId" },
-                values: new object[] { "PON0001", "ec4c314e-90b1-464c-aa52-2d34e555875e", new DateTime(2020, 10, 29, 14, 54, 33, 834, DateTimeKind.Local).AddTicks(7143), new DateTime(2020, 10, 29, 14, 54, 33, 834, DateTimeKind.Local).AddTicks(6712), null, null, "$", "EPN0001", "4cc5fe42-6e47-4d47-a205-96039474bdac", "SUN0001", 720000000m, "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8" });
+                values: new object[] { "PON0001", "ec4c314e-90b1-464c-aa52-2d34e555875e", new DateTime(2020, 11, 8, 9, 26, 24, 231, DateTimeKind.Local).AddTicks(4963), new DateTime(2020, 11, 8, 9, 26, 24, 231, DateTimeKind.Local).AddTicks(4517), null, null, "$", "EPN0001", "4cc5fe42-6e47-4d47-a205-96039474bdac", "SUN0001", 720000000m, "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8" });
 
             migrationBuilder.InsertData(
                 table: "ReceiptVouchers",
@@ -1849,12 +1874,12 @@ namespace eQACoLTD.Data.Migrations
             migrationBuilder.InsertData(
                 table: "GoodsReceivedNotes",
                 columns: new[] { "Id", "Description", "EmployeeId", "ImportDate", "PlacedLocation", "PurchaseOrderId", "RepairVoucherId", "ReturnId", "StockActionId", "WarehouseId" },
-                values: new object[] { "GRN0001", null, "EPN0001", new DateTime(2020, 10, 29, 14, 54, 33, 923, DateTimeKind.Local).AddTicks(6304), null, "PON0001", null, null, "ec40371a-cd21-44f3-85a2-618ceb92a16f", "d6bbee65-fe3d-4765-b569-202d9f3aa4f5" });
+                values: new object[] { "GRN0001", null, "EPN0001", new DateTime(2020, 11, 8, 9, 26, 24, 307, DateTimeKind.Local).AddTicks(3803), null, "PON0001", null, null, "ec40371a-cd21-44f3-85a2-618ceb92a16f", "d6bbee65-fe3d-4765-b569-202d9f3aa4f5" });
 
             migrationBuilder.InsertData(
                 table: "PaymentVouchers",
                 columns: new[] { "Id", "BranchId", "CustomerId", "DateCreated", "Description", "EmployeeId", "Paid", "PaymentDate", "PaymentMethodId", "PurchaseOrderId", "ReturnId", "ShippingId", "SupplierId" },
-                values: new object[] { "PVN0001", "ec4c314e-90b1-464c-aa52-2d34e555875e", null, new DateTime(2020, 10, 29, 14, 54, 33, 845, DateTimeKind.Local).AddTicks(9497), null, null, 320000000m, new DateTime(2020, 10, 29, 14, 54, 33, 846, DateTimeKind.Local).AddTicks(408), "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63", "PON0001", null, null, null });
+                values: new object[] { "PVN0001", "ec4c314e-90b1-464c-aa52-2d34e555875e", null, new DateTime(2020, 11, 8, 9, 26, 24, 241, DateTimeKind.Local).AddTicks(699), null, null, 320000000m, new DateTime(2020, 11, 8, 9, 26, 24, 241, DateTimeKind.Local).AddTicks(1077), "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63", "PON0001", null, null, null });
 
             migrationBuilder.InsertData(
                 table: "PurchaseOrderDetails",

@@ -22,10 +22,11 @@ namespace eQACoLTD.Application.Product.Payment
         {
             _context = context;
         }
-        public async Task<ApiResult<string>> OrderReceiveAsync(string employeeId,string orderId, OrderPaymenForCreationDto creationDto)
+        public async Task<ApiResult<string>> OrderReceiveAsync(string accountId,string orderId, OrderPaymenForCreationDto creationDto)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound);
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
             var checkOrder = await _context.Orders.FindAsync(orderId);
             if (checkOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound, ($"Không tìm thấy đơn hàng có mã: {orderId}"));
             if (checkOrder.TransactionStatusId != GlobalProperties.FinishedTransactionId 
@@ -65,7 +66,7 @@ namespace eQACoLTD.Application.Product.Payment
                     }
                     else return new ApiResult<string>(HttpStatusCode.BadRequest,$"Giá trị thanh toán lớn hơn giá trị đơn hàng");
                     await _context.SaveChangesAsync();
-                    return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = receiptVoucherId };
+                    return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = receiptVoucherId,Message = "Đã tạo phiếu thu cho đơn hàng"};
                 }
                 return new ApiResult<string>(HttpStatusCode.Forbidden, $"Tài khoản đăng nhập hiện tại không có quyền chỉnh sửa phiếu thu tại chi nhánh này");
 
@@ -73,11 +74,12 @@ namespace eQACoLTD.Application.Product.Payment
             return new ApiResult<string>(HttpStatusCode.BadRequest, "Chỉ được tạo phiếu thu cho đơn hàng đang trọng trạng thái giao dịch.");
         }
 
-        public async Task<ApiResult<string>> PurchaseOrderPaymentAsync(string employeeId, string purchaseOrderId, 
+        public async Task<ApiResult<string>> PurchaseOrderPaymentAsync(string accountId, string purchaseOrderId, 
             PurchaseOrderPaymentForCreationDto creationDto)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound);
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
             var checkPurchaseOrder = await _context.PurchaseOrders.FindAsync(purchaseOrderId);
             if (checkPurchaseOrder == null) return new ApiResult<string>(HttpStatusCode.NotFound);
             if (checkEmployee.BranchId == checkPurchaseOrder.BrandId)
@@ -106,7 +108,7 @@ namespace eQACoLTD.Application.Product.Payment
                     checkPurchaseOrder.PaymentStatusId = GlobalProperties.PartialPaymentId;
                 }
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = paymentVoucherId };
+                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = paymentVoucherId,Message = "Tạo phiếu chi cho đơn hàng thành công"};
 
             }
             return new ApiResult<string>(HttpStatusCode.Forbidden, $"Tài khoản hiện tại không có quyền chỉnh sửa phiếu chi tại chi nhánh này");

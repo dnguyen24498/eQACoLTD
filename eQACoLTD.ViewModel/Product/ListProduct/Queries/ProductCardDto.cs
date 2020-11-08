@@ -10,5 +10,6 @@
         public string BrandName { get; set; }
         public int Views { get; set; }
         public string ImagePath { get; set; }
+        public int AbleToSale { get; set; }
     }
 }

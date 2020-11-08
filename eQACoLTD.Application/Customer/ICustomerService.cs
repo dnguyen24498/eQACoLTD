@@ -11,7 +11,7 @@ namespace eQACoLTD.Application.Customer
         Task<ApiResult<PagedResult<CustomersDto>>> GetCustomersPagingAsync(int pageIndex, int pageSize);
         Task<ApiResult<CustomerDto>> GetCustomerAsync(string customerId);
         Task<ApiResult<PagedResult<CustomerHistoriesDto>>> GetCustomerHistoriesAsync(string customerId, int pageIndex, int pageSize);
-        Task<ApiResult<string>> CreateCustomerAsync(CustomerForCreationDto creationDto);
+        Task<ApiResult<string>> CreateCustomerAsync(CustomerForCreationDto creationDto,string accountId);
         Task<ApiResult<string>> DeleteCustomerAsync(string customerId);
         Task<ApiResult<IEnumerable<CustomerDto>>> SearchCustomerAsync(string customerName);
 

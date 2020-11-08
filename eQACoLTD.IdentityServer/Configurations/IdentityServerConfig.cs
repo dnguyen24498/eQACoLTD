@@ -37,6 +37,7 @@ namespace eQACoLTD.IdentityServer.Configurations
                 {
                     IdentityServer4.IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServer4.IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
                     "backend_api",
                     "roles"
                 },

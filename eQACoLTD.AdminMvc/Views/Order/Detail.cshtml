@@ -19,7 +19,7 @@
                 method:'get',
                 dataType:'json',
                 success:function(data) {
-                  if(data==false){
+                  if(data.resultObj==false){
                       $("#payment-Order").css('display','block');
                       var dateTime=new Date();
                       $("#payment-Date").val(new Date().toJSON().slice(0,19));
@@ -42,7 +42,7 @@
                 method:'get',
                 dataType:'json',
                 success:function(data) {
-                  if(data==false){
+                  if(data.resultObj==false){
                       $("#export-Order-div").css('display','block');
                       $("#order-exports").css('display','none');
                       $("#export-Date").val(new Date().toJSON().slice(0,19));
@@ -56,6 +56,7 @@
                 },
                 error:function() {  
                   $("#export-Order-div").css('display','none');
+                  showAlertMessage(false,data.message);
                 }
             })
         }
@@ -69,7 +70,7 @@
                 method:'get',
                 dataType:'json',
                 success:function(data) {
-                  $(data).each(function(index,his) {
+                  $(data.resultObj).each(function(index,his) {
                     totalPaid+=parseFloat(his.received);
                     var trEl=document.createElement('tr');
                     var tdId=document.createElement('td');
@@ -111,8 +112,8 @@
                   trEl.append(tdPaymentStatusValue);
                   $("#table-Payment-History tbody").append(trEl);
                 },
-                error:function() {
-                  console.log("Có lỗi");
+                error:function(data) {
+                  showAlertMessage(false,data.message);
                 }
             })
         }
@@ -130,14 +131,14 @@
                    "description": $("#payment-Description").val(),
                    "receivedDate": (new Date($("#payment-Date").val())).toJSON()
                }),
-               success:function() {
-                   showAlertMessage(true,"Thanh toán đơn hàng thành công");
+               success:function(data) {
+                   showAlertMessage(true,data.message);
                    checkOrderHasPaid();
                    getPaymentsOrderHistory();
                    getCusomterDetail();
                    },
                error:function() {
-                   showAlertMessage(false,"Có lỗi khi Thanh toán đơn hàng");
+                   showAlertMessage(false,data.message);
                }
             });
         }
@@ -150,11 +151,11 @@
                 method:'get',
                 dataType:'json',
                 success:function(data) {
-                  $("#customer-name").val(data.name);
-                  $("#customer-phone").val(data.phoneNumber);
-                  $("#customer-email").val(data.email);
-                  $("#customer-address").val(data.address);
-                  $("#customer-debt").val(accounting.formatNumber(data.totalDebt));
+                  $("#customer-name").val(data.resultObj.name);
+                  $("#customer-phone").val(data.resultObj.phoneNumber);
+                  $("#customer-email").val(data.resultObj.email);
+                  $("#customer-address").val(data.resultObj.address);
+                  $("#customer-debt").val(accounting.formatNumber(data.resultObj.totalDebt));
                 },
                 error:function() {
                   console.log("Có lỗi");
@@ -211,12 +212,12 @@
                    "description": $("#payment-Description").val(),
                    "exportDate": (new Date($("#export-Date").val())).toJSON()
                }),
-               success:function() {
-                   showAlertMessage(true,'Đã xuất kho cho đơn hàng @Model.Id');
+               success:function(data) {
+                   showAlertMessage(true,data.message);
                    checkOrderHasExport()
                    },
-               error:function(xhr, status, error) {
-                   if(xhr.status===404) showAlertMessage(false,"Số lượng sản phẩm trong kho không đủ xuất cho đơn hàng này");
+               error:function(data) {
+                   showAlertMessage(false,data.message);
                } 
             })
         }
@@ -230,13 +231,13 @@
                  method:'get',
                  dataType:'json',
                  success:function(data) {
-                 $("#delivery-notes-id").val(data.id);
-                 $("#export-Date").val(new Date(data.exportDate));
-                 $("#export-employee").val(data.employeeName);
-                 $("#export-description").val(data.description);
-                 $("#export-action").val(data.stockActionName);
-                 $("#export-warehouse").val(data.warehouseName);
-                 $(data.listProduct).each(function(index,his)
+                 $("#delivery-notes-id").val(data.resultObj.id);
+                 $("#export-Date").val(new Date(data.resultObj.exportDate));
+                 $("#export-employee").val(data.resultObj.employeeName);
+                 $("#export-description").val(data.resultObj.description);
+                 $("#export-action").val(data.resultObj.stockActionName);
+                 $("#export-warehouse").val(data.resultObj.warehouseName);
+                 $(data.resultObj.listProduct).each(function(index,his)
                  {
                     var trEl=document.createElement('tr');
                     var tdProductId=document.createElement('td');
@@ -251,8 +252,8 @@
                     $("#table-Export-History tbody").append(trEl);
                  })
                  },
-                 error:function() {
-                   console.log("Có lỗi");
+                 error:function(data) {
+                   showAlertMessage(false,data.message);
                  }
             })
         }

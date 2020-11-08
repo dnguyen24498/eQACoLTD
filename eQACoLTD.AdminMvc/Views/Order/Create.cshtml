@@ -29,7 +29,7 @@
              dataType:'json',
              success:function(data) {
                $("#customers-ul").empty();
-               $(data).each(function(index,cus) {
+               $(data.resultObj).each(function(index,cus) {
                  var liEl=document.createElement('li');
                  liEl.setAttribute('id',cus.id);
                  $(liEl).on('click',function() {
@@ -74,7 +74,7 @@
                 dataType:'json',
                 success:function(data) {
                   $("#products-ul").empty();
-                  $(data.results).each(function(index,prod) {
+                  $(data.resultObj.results).each(function(index,prod) {
                     var liEl=document.createElement('li');
                     liEl.setAttribute('class','list-group-item');
                     liEl.setAttribute('style','cursor:pointer');
@@ -280,13 +280,13 @@
                 contentType:"application/json",
                 data:JSON.stringify(order),
                 success:function(data) {
-                    showAlertMessage(true,"Tạo đơn hàng thành công");
-                    orderId=data;
+                    showAlertMessage(true,data.message);
+                    orderId=data.resultObj;
                     $("#payment-Order").css('display','block');
                     $("#payment-Value").val(parseFloat($("#total-Amount-Final").text().replace(/,/g,'')));
                     },
-                error:function() {
-                    showAlertMessage(false,"Có lỗi khi tạo đơn hàng");
+                error:function(data) {
+                    showAlertMessage(false,data.message);
                 }
             });
         }

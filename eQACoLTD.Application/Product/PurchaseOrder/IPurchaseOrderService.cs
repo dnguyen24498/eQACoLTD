@@ -10,8 +10,8 @@ namespace eQACoLTD.Application.Product.PurchaseOrder
 {
     public interface IPurchaseOrderService
     {
-        Task<ApiResult<PagedResult<PurchaseOrdersDto>>> GetPurchaseOrderPagingAsync(string employeeId, int pageIndex, int pageSize);
-        Task<ApiResult<PurchaseOrderDto>> GetPurchaseOrderAsync(string purchaseOrderId,string employeeId);
-        Task<ApiResult<string>> CreatePurchaseOrderAsync(string employeeId, PurchaseOrderForCreationDto creationDto);
+        Task<ApiResult<PagedResult<PurchaseOrdersDto>>> GetPurchaseOrderPagingAsync(int pageIndex, int pageSize);
+        Task<ApiResult<PurchaseOrderDto>> GetPurchaseOrderAsync(string purchaseOrderId);
+        Task<ApiResult<string>> CreatePurchaseOrderAsync(string accountId, PurchaseOrderForCreationDto creationDto);
     }
 }

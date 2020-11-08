@@ -123,7 +123,7 @@ namespace eQACoLTD.Application.Product.ListProduct
                 }
                 return new ApiResult<string>(HttpStatusCode.OK){ResultObj = productId};
             }
-            catch (Exception e)
+            catch
             {
                 return new ApiResult<string>(HttpStatusCode.InternalServerError,$"Có lỗi khi thêm ảnh sản phẩm");
             }
@@ -139,9 +139,9 @@ namespace eQACoLTD.Application.Product.ListProduct
                 product.Id = productId;
                 await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK){ResultObj = productId};
+                return new ApiResult<string>(HttpStatusCode.OK){ResultObj = productId,Message = "Tạo mới sản phẩm thành công"};
             }
-            catch (Exception e)
+            catch
             {
                 return new ApiResult<string>(HttpStatusCode.InternalServerError,$"Có lỗi khi thêm sản phẩm");
             }
@@ -219,7 +219,8 @@ namespace eQACoLTD.Application.Product.ListProduct
             }
         }
 
-        public async Task<ApiResult<PagedResult<ProductCardDto>>> SearchProductsByCategory(string categoryId, string searchValue,int pageNumber,int pageSize)
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> SearchProductsByCategory(string categoryId, string searchValue,
+            int pageNumber,int pageSize)
         {
             var products = await (from p in _context.Products
                 join category in _context.Categories on p.CategoryId equals category.Id
@@ -231,7 +232,8 @@ namespace eQACoLTD.Application.Product.ListProduct
                 join productImage in _context.ProductImages on p.Id equals productImage.ProductId
                     into ProductImageGroup
                 from pi in ProductImageGroup.DefaultIfEmpty()
-                where p.CategoryId.Contains(!string.IsNullOrEmpty(categoryId)? categoryId:"") && p.IsDelete == false && pi.IsThumbnail == true && p.Name.ToLower().Contains(
+                where p.CategoryId.Contains(!string.IsNullOrEmpty(categoryId)? categoryId:"") 
+                    && p.IsDelete == false && pi.IsThumbnail == true && p.Name.ToLower().Contains(
                     !string.IsNullOrEmpty(searchValue)? searchValue.ToLower():"")
                 select new ProductCardDto()
                 {
@@ -242,7 +244,9 @@ namespace eQACoLTD.Application.Product.ListProduct
                     BrandName = b.Name,
                     CategoryName = c.Name,
                     ImagePath = pi.Path,
-                    RetailPrice = p.RetailPrice
+                    RetailPrice = p.RetailPrice,
+                    AbleToSale=_context.Stocks.Where(x=>x.ProductId==p.Id && 
+                        x.WarehouseId==GlobalProperties.MainWarehouseId).SingleOrDefault().AbleToSale
                 }).GetPagedAsync(pageNumber, pageSize);
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
@@ -250,7 +254,8 @@ namespace eQACoLTD.Application.Product.ListProduct
         public async Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, decimal minimumPrice, 
             decimal maximumPrice,int pageNumber, int pageSize)
         {
-            if(minimumPrice>maximumPrice) return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.BadRequest,"Giá tối thiểu không được lớn hơn giá tối đa.");
+            if(minimumPrice>maximumPrice) return new ApiResult<PagedResult<ProductCardDto>>
+                    (HttpStatusCode.BadRequest,"Giá tối thiểu không được lớn hơn giá tối đa.");
             var products = await (from p in _context.Products
                     join brand in _context.Brands on p.BrandId equals brand.Id
                         into BrandGroup
@@ -274,7 +279,9 @@ namespace eQACoLTD.Application.Product.ListProduct
                         BrandName = b.Name,
                         CategoryName = c.Name,
                         ImagePath = pi.Path,
-                        RetailPrice = p.RetailPrice
+                        RetailPrice = p.RetailPrice,
+                        AbleToSale = _context.Stocks.Where(x => x.ProductId == p.Id &&
+                          x.WarehouseId == GlobalProperties.MainWarehouseId).SingleOrDefault().AbleToSale
                     }
                 ).GetPagedAsync(pageNumber, pageSize);
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);

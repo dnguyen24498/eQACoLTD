@@ -13,7 +13,7 @@ namespace eQACoLTD.Data.Configurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable("AppUsers");
-            
+            builder.Property(x => x.Adrress).HasColumnType("nvarchar(300)");
             var hasher=new PasswordHasher<AppUser>();
             builder.HasData(
                 new AppUser()
@@ -47,6 +47,50 @@ namespace eQACoLTD.Data.Configurations
                     NormalizedEmail = "NGUYEN68973@ST.VIMARU.EDU.VN",
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null,"Bonghoatrang1@!"),
+                    SecurityStamp = string.Empty
+                },
+                new AppUser()
+                {
+                    Id = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                    UserName = "epn0003",
+                    NormalizedUserName = "EPN0003",
+                    Email = "duongnguyenadhp3@gmail.com",
+                    NormalizedEmail = "DUONGNGUYENADHP3@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Bonghoatrang1@!"),
+                    SecurityStamp = string.Empty
+                },
+                new AppUser()
+                {
+                    Id = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                    UserName = "epn0004",
+                    NormalizedUserName = "EPN0004",
+                    Email = "duongnguyenadhp4@gmail.com",
+                    NormalizedEmail = "DUONGNGUYENADHP4@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Bonghoatrang1@!"),
+                    SecurityStamp = string.Empty
+                },
+                new AppUser()
+                {
+                    Id = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                    UserName = "epn0005",
+                    NormalizedUserName = "EPN0005",
+                    Email = "duongnguyenadhp5@gmail.com",
+                    NormalizedEmail = "DUONGNGUYENADHP5@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Bonghoatrang1@!"),
+                    SecurityStamp = string.Empty
+                },
+                new AppUser()
+                {
+                    Id = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                    UserName = "epn0006",
+                    NormalizedUserName = "EPN0006",
+                    Email = "duongnguyenadhp6@gmail.com",
+                    NormalizedEmail = "DUONGNGUYENADHP6@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Bonghoatrang1@!"),
                     SecurityStamp = string.Empty
                 },
                 new AppUser()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Product.PurchaseOrder;
 using eQACoLTD.ViewModel.Product.PurchaseOrder.Handlers;
@@ -21,31 +22,26 @@ namespace eQACoLTD.BackendApi.Controllers
             _purchaseOrderService = purchaseOrderService;
         }
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,CashManager,BusinessStaff,Accountant")]
         public async Task<IActionResult> GetPurchaseOrders(int pageIndex=1,int pageSize = 15)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _purchaseOrderService.GetPurchaseOrderPagingAsync(employeeId, pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            var result = await _purchaseOrderService.GetPurchaseOrderPagingAsync(pageIndex, pageSize);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("{purchaseOrderId}")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,CashManager,BusinessStaff,Accountant")]
         public async Task<IActionResult> GetPurchaseOrder(string purchaseOrderId)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _purchaseOrderService.GetPurchaseOrderAsync(purchaseOrderId, employeeId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            var result = await _purchaseOrderService.GetPurchaseOrderAsync(purchaseOrderId);
+            return StatusCode((int)result.Code, result);
         }
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
         public async Task<IActionResult> CreatePurchaseOrder(PurchaseOrderForCreationDto creationDto)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _purchaseOrderService.CreatePurchaseOrderAsync(employeeId, creationDto);
-            if (result.Code == HttpStatusCode.InternalServerError) return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _purchaseOrderService.CreatePurchaseOrderAsync(accountId, creationDto);
+            return StatusCode((int)result.Code, result);
         }
     }
 }

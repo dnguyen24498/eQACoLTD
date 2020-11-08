@@ -23,11 +23,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.PostAsync("api/accounts/carts",httpContent);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<int>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<int>    
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<int>>
+                    (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<int>(response.StatusCode);
         }
@@ -38,11 +35,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync("api/accounts/carts");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<CartDto>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<CartDto>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<CartDto>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<CartDto>(response.StatusCode);
         }
@@ -53,9 +47,10 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.PostAsync("api/accounts/carts/create-order",new StringContent(""));
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<string>(HttpStatusCode.OK,$"Đã tạo đơn hàng");
+                return JsonConvert.DeserializeObject<ApiResult<string>>
+                    (await response.Content.ReadAsStringAsync());
             }
-            return new ApiResult<string>(HttpStatusCode.InternalServerError,$"Có lỗi khi tạo đơn hàng");
+            return new ApiResult<string>(response.StatusCode);
         }
     }
 }

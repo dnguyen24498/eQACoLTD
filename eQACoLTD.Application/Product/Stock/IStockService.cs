@@ -10,11 +10,11 @@ namespace eQACoLTD.Application.Product.Stock
 {
     public interface IStockService
     {
-        Task<ApiResult<PagedResult<ImportsQueueDto>>> GetImportQueuePagingAsync(string employeeId, int pageIndex, int pageSize);
-        Task<ApiResult<PagedResult<ExportsQueueDto>>> GetExportQueuePagingAsync(string employeeId, int pageIndex, int pageSize);
-        Task<ApiResult<string>> ExportOrderAsync(string employeeId,string orderId, ExportOrderDto orderDto);
-        Task<ApiResult<string>> ImportPurchaseOrderAsync(string employeeId, string purchaseOrderId, ImportPurchaseOrderDto orderDto);
+        Task<ApiResult<PagedResult<ImportsQueueDto>>> GetImportQueuePagingAsync(int pageIndex, int pageSize);
+        Task<ApiResult<PagedResult<ExportsQueueDto>>> GetExportQueuePagingAsync(int pageIndex, int pageSize);
+        Task<ApiResult<string>> ExportOrderAsync(string accountId,string orderId, ExportOrderDto orderDto);
+        Task<ApiResult<string>> ImportPurchaseOrderAsync(string accountId, string purchaseOrderId, ImportPurchaseOrderDto orderDto);
         Task<ApiResult<bool>> OrderIsExport(string orderId);
-        Task<ApiResult<ExportOrderHistoriesDto>> GetExportOrderHistory(string employeeId,string orderId);
+        Task<ApiResult<ExportOrderHistoriesDto>> GetExportOrderHistory(string orderId);
     }
 }

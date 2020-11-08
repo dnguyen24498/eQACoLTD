@@ -3,6 +3,7 @@ using IdentityServer4.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace eQACoLTD.IdentityServer.Configurations
@@ -11,7 +12,7 @@ namespace eQACoLTD.IdentityServer.Configurations
     {
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            context.IssuedClaims.AddRange(context.Subject.Claims.Where(x => x.Type == "role"||x.Type=="name"));
+            context.IssuedClaims.AddRange(context.Subject.Claims.Where(x => x.Type=="name"||x.Type=="role"));
             return Task.FromResult(0);
         }
 

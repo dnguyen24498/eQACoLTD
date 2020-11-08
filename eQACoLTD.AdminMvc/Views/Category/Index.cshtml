@@ -10,12 +10,12 @@
                 headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
                 method:'delete',
                 contentType: "application/json",
-                success:function() {
-                  showAlertMessage(true ,"Xóa danh mục thành công.");
+                success:function(data) {
+                  showAlertMessage(true ,data.message);
                   $(el).parent().parent().parent().fadeOut(1000);
                 },
-                error:function() {
-                  showAlertMessage(false,"Có lỗi khi xóa danh mục.");
+                error:function(data) {
+                  showAlertMessage(false,data.message);
                 }
             })
         }

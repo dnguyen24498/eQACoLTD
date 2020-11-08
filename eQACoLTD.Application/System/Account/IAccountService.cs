@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using eQACoLTD.Data.Entities;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Account.Queries;
 

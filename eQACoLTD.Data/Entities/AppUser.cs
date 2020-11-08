@@ -12,7 +12,7 @@ namespace eQACoLTD.Data.Entities
         {
             this.UserName = userName;
         }
-
+        public string Adrress { get; set; }
         public Employee Employee { get; set; }
         public Customer Customer { get; set; }
         public Supplier Supplier { get; set; }

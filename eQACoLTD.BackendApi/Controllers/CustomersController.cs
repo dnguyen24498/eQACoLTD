@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Customer;
 using eQACoLTD.ViewModel.Customer.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
@@ -23,52 +25,51 @@ namespace eQACoLTD.BackendApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> GetCustomers(int pageIndex = 1, int pageSize = 15)
         {
             var result = await _customerService.GetCustomersPagingAsync(pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NoContent)
-                return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{customerId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> GetCustomer(string customerId)
         {
             var result = await _customerService.GetCustomerAsync(customerId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{customerId}/histories")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> GetCustomerHistories(string customerId, int pageIndex=1, int pageSize=15)
         {
             var result = await _customerService.GetCustomerHistoriesAsync(customerId, pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> CreateCustomer(CustomerForCreationDto creationDto)
         {
-            var result = await _customerService.CreateCustomerAsync(creationDto);
-            if (result.Code == HttpStatusCode.InternalServerError)
-                return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _customerService.CreateCustomerAsync(creationDto,accountId);
+            return StatusCode((int)result.Code, result);
         }
         [HttpDelete("{customerId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> DeleteCustomer(string customerId)
         {
             var result = await _customerService.DeleteCustomerAsync(customerId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("search/{customerName}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman,Cashier,WarehouseManager,CashManager,BusinessStaff,Technician,Accountant,Manager")]
         public async Task<IActionResult> SearchCustomer(string customerName)
         {
-            var customers = await _customerService.SearchCustomerAsync(customerName);
-            return Ok(customers.ResultObj);
+            var result = await _customerService.SearchCustomerAsync(customerName);
+            return StatusCode((int)result.Code, result);
         }
         
     }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.System.Employee;
 using eQACoLTD.ViewModel.System.Employee.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,41 +22,35 @@ namespace eQACoLTD.BackendApi.Controllers
             _employeeService = employeeService;
         }
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator")]
         public async Task<IActionResult> GetEmployeesPaging(int pageIndex = 1, int pageSize = 15)
         {
-            var result = await _employeeService.GetEmployeeesPagingAsync(pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.OK)
-                return Ok(result.ResultObj);
-            return BadRequest();
+            var result = await _employeeService.GetEmployeesPagingAsync(pageIndex, pageSize);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{employeeId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator")]
         public async Task<IActionResult> GetEmployee(string employeeId)
         {
             var result = await _employeeService.GetEmployeeAsync(employeeId);
-            if (result.Code == HttpStatusCode.NotFound)
-                return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator")]
         public async Task<IActionResult> CreateEmployee(EmployeeForCreationDto creationDto)
         {
             var result = await _employeeService.CreateEmployeeAsync(creationDto);
-            if (result.Code == HttpStatusCode.BadRequest)
-                return BadRequest(result.Message);
-            if (result.Code == HttpStatusCode.InternalServerError)
-                return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpDelete("{employeeId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator")]
         public async Task<IActionResult> DeleteEmployee(string employeeId)
         {
             var result = await _employeeService.DeleteEmployeeAsync(employeeId);
-            if (result.Code == HttpStatusCode.NotFound)
-                return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
     }
 }

@@ -28,6 +28,26 @@ namespace eQACoLTD.Data.Configurations
                 {
                     Id = "15d805f8-32fb-43f3-8c95-31e87c05d3e7",
                     Name = "Bộ phận bán hàng"
+                },
+                new Department()
+                {
+                    Id = "896571ab-344a-4258-b144-3f5c39b286e1",
+                    Name = "Bộ phận thu ngân"
+                },
+                new Department()
+                {
+                    Id = "fd730f29-f41c-4d7f-a4a7-66bb8b2ac6b0",
+                    Name = "Bộ phận kế toán"
+                },
+                new Department()
+                {
+                    Id = "aedb9def-b1ef-484a-ace0-d95471cf9421",
+                    Name = "Bộ phận kỹ thuật"
+                },
+                new Department()
+                {
+                    Id = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                    Name = "Bộ phận quản lý cấp cao"
                 }
             );
         }

@@ -37,7 +37,7 @@ namespace eQACoLTD.Application.Product.Category
                     newCategory.Id = newId;
                     await _context.Categories.AddAsync(newCategory);
                     await _context.SaveChangesAsync();
-                    return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=newId };
+                    return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=newId,Message = "Tạo danh mục thành công"};
                 }
                 return new ApiResult<string>(HttpStatusCode.BadRequest);
             }
@@ -53,7 +53,7 @@ namespace eQACoLTD.Application.Product.Category
             if (checkCategory == null) return new ApiResult<string>(HttpStatusCode.BadRequest, $"Không tìm thấy danh mục có mã: {categoryId}");
             _context.Categories.Remove(checkCategory);
             await _context.SaveChangesAsync();
-            return new ApiResult<string>(HttpStatusCode.OK) {ResultObj=categoryId};
+            return new ApiResult<string>(HttpStatusCode.OK) {ResultObj=categoryId,Message = "Đã xóa danh mục"};
         }
 
         public async Task<ApiResult<PagedResult<ProductCardDto>>> GetProductsByCategoryPagingAsync(string categoryId,int pageIndex,int pageSize)

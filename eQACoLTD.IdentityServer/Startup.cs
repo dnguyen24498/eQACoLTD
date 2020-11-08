@@ -72,12 +72,21 @@ namespace eQACoLTD.IdentityServer
                 .AddProfileService<ProfileService>()
                 .AddDeveloperSigningCredential();
 
-
+        
             services.AddControllersWithViews();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.Configure<DataProtectionTokenProviderOptions>(opt => 
                 opt.TokenLifespan = TimeSpan.FromHours(2));
-            
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "1006379685493-ujqe2ae3k3jbsn2k8pckphb561cfh5in.apps.googleusercontent.com";
+                options.ClientSecret = "mnPUnxRHKwrTQ0_j43fgANza";
+            }).AddFacebook(options=> {
+                options.ClientId = "368626310922622";
+                options.ClientSecret = "9d646344a5b894c6e81fa7f1387275f3";
+            });
+            services.AddTransient<AppIdentityDbContext, AppIdentityDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

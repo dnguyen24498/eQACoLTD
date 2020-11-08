@@ -22,9 +22,9 @@
              method:'GET',
              dataType:'json',
              success:function(data) {
-               $("#customer-Name").append(data.name);
-               $("#customer-Phone").append(data.phoneNumber);
-               $("#customer-Address").append(data.address);
+               $("#customer-Name").append(data.resultObj.name);
+               $("#customer-Phone").append(data.resultObj.phoneNumber);
+               $("#customer-Address").append(data.resultObj.address);
              }
           })
         }
@@ -36,7 +36,7 @@
                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                    },
                method:'delete',
-               success:function() {
+               success:function(data) {
                    var divElement=$(el).closest('div');
                    var soLuongHienCo=parseInt($(divElement).find('input').val());
                    if(soLuongHienCo-1===0){
@@ -47,10 +47,10 @@
                    var tdDonGia=$(el).closest('td').next().text().replace(/,/g,'');
                    $(tdElTongTien).text(accounting.formatNumber(parseFloat(tdDonGia)*parseInt(soLuongHienCo-1)));
                    capNhapTongTien();
-                   showAlertMessage(true,"Sản phẩm đã được xóa khỏi giỏ hàng");
+                   showAlertMessage(true,data.message);
                },   
-               error:function() {
-                 showAlertMessage(false,"Có lỗi khi xóa sản phẩm khỏi giỏ hàng");
+               error:function(data) {
+                 showAlertMessage(false,data.message);
                }
             })
         }
@@ -65,7 +65,7 @@
                contentType:"application/json",
                dataType:"json",
                data: JSON.stringify(productId),
-               success:function() {
+               success:function(data) {
                  var divElement=$(el).closest('div');
                  var soLuongHienCo=parseInt($(divElement).find('input').val());
                  $(divElement).find('input').val(parseInt(soLuongHienCo+1));
@@ -73,10 +73,10 @@
                  var tdDonGia=$(el).closest('td').next().text().replace(/,/g,'');
                  $(tdElTongTien).text(accounting.formatNumber(parseFloat(tdDonGia)*parseInt(soLuongHienCo+1)));
                  capNhapTongTien();   
-                 showAlertMessage(true,"Sản phẩm đã được thêm vào giỏ hàng");
+                 showAlertMessage(true,data.message);
                },
                error:function() {
-                 showAlertMessage(false,"Có lỗi khi thêm sản phẩm khỏi giỏ hàng");
+                 showAlertMessage(false,data.message);
                }
             })
         }

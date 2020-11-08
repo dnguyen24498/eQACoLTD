@@ -22,10 +22,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/orders?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<PagedResult<OrdersDto>>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj= JsonConvert.DeserializeObject<PagedResult<OrdersDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<OrdersDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<PagedResult<OrdersDto>>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
@@ -36,10 +34,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/orders/"+orderId);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<OrderDto>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj= JsonConvert.DeserializeObject<OrderDto>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<OrderDto>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<OrderDto>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
@@ -50,10 +46,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/Orders/waiting?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<PagedResult<OrdersDto>>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj= JsonConvert.DeserializeObject<PagedResult<OrdersDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<OrdersDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<PagedResult<OrdersDto>>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
@@ -64,10 +58,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/Orders/waiting/{orderId}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<WaitingOrderDto>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj= JsonConvert.DeserializeObject<WaitingOrderDto>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<WaitingOrderDto>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<WaitingOrderDto>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
@@ -80,10 +72,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.PostAsync($"api/Orders/waiting/{waitingOrderId}/accept",httpContent);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<string>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj= JsonConvert.DeserializeObject<string>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<string>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<string>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
@@ -96,10 +86,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.PostAsync($"api/Orders/waiting/{waitingOrderId}/cancel",httpContent);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<string>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj= JsonConvert.DeserializeObject<string>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<string>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<string>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }

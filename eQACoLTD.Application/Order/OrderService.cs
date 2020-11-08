@@ -22,12 +22,15 @@ namespace eQACoLTD.Application.Order
             _context = context;
         }
 
-        public async Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string employeeId)
+        public async Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string accountId)
         {
             try
             {
-                var checkEmployee = await _context.Employees.FindAsync(employeeId);
-                if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound);
+                var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId).SingleOrDefaultAsync();
+                if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,
+                    "Lỗi tài khoản đăng nhập.");
+                if (string.IsNullOrEmpty(checkEmployee.BranchId)) return new ApiResult<string>(HttpStatusCode.BadRequest,
+                     $"Tài khoản hiện tại không thuộc chi nhánh nào");
                 var sequenceNumber = await _context.Orders.CountAsync();
                 var orderId = IdentifyGenerator.GenerateOrderId(sequenceNumber + 1);
                 var order = ObjectMapper.Mapper.Map<Data.Entities.Order>(creationDto);
@@ -67,7 +70,7 @@ namespace eQACoLTD.Application.Order
                 order.OrderDetails = orderDetail.ToList();
                 await _context.Orders.AddAsync(order);
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=orderId };
+                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj=orderId,Message="Tạo mới đơn hàng thành công" };
             }
             catch
             {
@@ -102,10 +105,11 @@ namespace eQACoLTD.Application.Order
             return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.OK,orders);
         }
 
-        public async Task<ApiResult<string>> AcceptWaitingOrderAsync(string employeeId, string waitingOrderId)
+        public async Task<ApiResult<string>> AcceptWaitingOrderAsync(string accountId, string waitingOrderId)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy nhân viên có mã: {employeeId}");
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
             var checkOrder = await _context.Orders.FindAsync(waitingOrderId);
             if(checkOrder==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {waitingOrderId}");
             if (checkOrder.TransactionStatusId == GlobalProperties.WaitingTransactionId)
@@ -126,7 +130,8 @@ namespace eQACoLTD.Application.Order
                 await _context.SaveChangesAsync();
                 return new ApiResult<string>(HttpStatusCode.OK)
                 {
-                    ResultObj = checkOrder.Id
+                    ResultObj = checkOrder.Id,
+                    Message = "Đã chấp nhận đơn hàng"
                 };
             }
             return new ApiResult<string>(HttpStatusCode.BadRequest,$"Đơn hàng phải trong trạng thái chờ");
@@ -137,48 +142,52 @@ namespace eQACoLTD.Application.Order
             var order = await _context.Orders.FindAsync(orderId);
             if(order==null || order.TransactionStatusId!=GlobalProperties.WaitingTransactionId)
                 return new ApiResult<WaitingOrderDto>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng chờ có mã: {orderId}");
-            var totalAmount = await (from od in _context.OrderDetails
-                where od.OrderId == order.Id
-                select od.UnitPrice * od.Quantity).SumAsync();
-            var customerDebt=await _context.Orders.Where(x => x.CustomerId == order.CustomerId && x.TransactionStatusId!=GlobalProperties.CancelTransactionId
-                             && x.TransactionStatusId!=GlobalProperties.WaitingTransactionId).SumAsync(x=>x.TotalAmount)+
-                             await _context.PaymentVouchers.Where(x => x.CustomerId == order.CustomerId).SumAsync(x => x.Paid)-
-                             await _context.ReceiptVouchers.Where(x => x.CustomerId == order.CustomerId).SumAsync(x => x.Received);
-                             var resultOrder = await (from o in _context.Orders
-                join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
-                join pm in _context.PaymentStatuses on o.PaymentStatusId equals pm.Id
-                join customer in _context.Customers on o.CustomerId equals customer.Id
-                    into CustomerGroup
-                from c in CustomerGroup.DefaultIfEmpty()
-                where o.Id==orderId && o.TransactionStatusId == GlobalProperties.WaitingTransactionId
-                select new WaitingOrderDto()
-                {
-                    Id = o.Id,
-                    CustomerAddress = c.Address,
-                    CustomerId = c.Id,
-                    CustomerName = c.Name,
-                    CustomerPhone = !string.IsNullOrEmpty(c.PhoneNumber)
-                        ? c.PhoneNumber
-                        : (_context.AppUsers.Where(x => x.Id == c.AppUserId).SingleOrDefault().PhoneNumber),
-                    DateCreated = o.DateCreated,
-                    OrderDetails = (from od in _context.OrderDetails
-                            join product in _context.Products on od.ProductId equals product.Id
-                            into ProductGroup
-                            from p in ProductGroup.DefaultIfEmpty()
-                            where od.OrderId == o.Id
-                                select new OrderDetailsDto()
-                                {
-                                    Id = od.Id,
-                                    Quantity = od.Quantity,
-                                    ProductId = od.ProductId,
-                                    ProductName = p.Name,
-                                    UnitPrice = od.UnitPrice,
-                                    ServiceName = od.ServiceName
-                                }).ToList(),
-                    TotalAmount = totalAmount,
-                    CustomerDebt = customerDebt
-                }).SingleOrDefaultAsync();
-            return new ApiResult<WaitingOrderDto>(HttpStatusCode.OK,resultOrder);
+            if (order.TransactionStatusId == GlobalProperties.WaitingTransactionId)
+            {
+                var totalAmount = await (from od in _context.OrderDetails
+                                         where od.OrderId == order.Id
+                                         select od.UnitPrice * od.Quantity).SumAsync();
+                var customerDebt = await _context.Orders.Where(x => x.CustomerId == order.CustomerId && x.TransactionStatusId != GlobalProperties.CancelTransactionId
+                                   && x.TransactionStatusId != GlobalProperties.WaitingTransactionId).SumAsync(x => x.TotalAmount) +
+                                 await _context.PaymentVouchers.Where(x => x.CustomerId == order.CustomerId).SumAsync(x => x.Paid) -
+                                 await _context.ReceiptVouchers.Where(x => x.CustomerId == order.CustomerId).SumAsync(x => x.Received);
+                var resultOrder = await (from o in _context.Orders
+                                         join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
+                                         join pm in _context.PaymentStatuses on o.PaymentStatusId equals pm.Id
+                                         join customer in _context.Customers on o.CustomerId equals customer.Id
+                                             into CustomerGroup
+                                         from c in CustomerGroup.DefaultIfEmpty()
+                                         where o.Id == orderId && o.TransactionStatusId == GlobalProperties.WaitingTransactionId
+                                         select new WaitingOrderDto()
+                                         {
+                                             Id = o.Id,
+                                             CustomerAddress = c.Address,
+                                             CustomerId = c.Id,
+                                             CustomerName = c.Name,
+                                             CustomerPhone = !string.IsNullOrEmpty(c.PhoneNumber)
+                                                 ? c.PhoneNumber
+                                                 : (_context.AppUsers.Where(x => x.Id == c.AppUserId).SingleOrDefault().PhoneNumber),
+                                             DateCreated = o.DateCreated,
+                                             OrderDetails = (from od in _context.OrderDetails
+                                                             join product in _context.Products on od.ProductId equals product.Id
+                                                             into ProductGroup
+                                                             from p in ProductGroup.DefaultIfEmpty()
+                                                             where od.OrderId == o.Id
+                                                             select new OrderDetailsDto()
+                                                             {
+                                                                 Id = od.Id,
+                                                                 Quantity = od.Quantity,
+                                                                 ProductId = od.ProductId,
+                                                                 ProductName = p.Name,
+                                                                 UnitPrice = od.UnitPrice,
+                                                                 ServiceName = od.ServiceName
+                                                             }).ToList(),
+                                             TotalAmount = totalAmount,
+                                             CustomerDebt = customerDebt
+                                         }).SingleOrDefaultAsync();
+                return new ApiResult<WaitingOrderDto>(HttpStatusCode.OK, resultOrder);
+            }
+            return new ApiResult<WaitingOrderDto>(HttpStatusCode.NotFound, $"Không tìm thấy đơn hàng chờ có mã: {orderId}");
         }
 
         public async Task<ApiResult<string>> CancelWaitingOrderAsync(string orderId)
@@ -190,7 +199,8 @@ namespace eQACoLTD.Application.Order
             await _context.SaveChangesAsync();
             return new ApiResult<string>(HttpStatusCode.OK)
             {
-                ResultObj = order.Id
+                ResultObj = order.Id,
+                Message = "Hủy đơn hàng thành công"
             };
         }
 
@@ -241,10 +251,8 @@ namespace eQACoLTD.Application.Order
             return new ApiResult<OrderDto>(HttpStatusCode.OK, orderDetails);
         }
 
-        public async Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(string employeeId,int pageIndex, int pageSize)
+        public async Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(int pageIndex, int pageSize)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<PagedResult<OrdersDto>>(HttpStatusCode.NotFound);
             var orders = await (from o in _context.Orders
                           join customer in _context.Customers on o.CustomerId equals customer.Id
                           into CustomersGroup
@@ -254,8 +262,8 @@ namespace eQACoLTD.Application.Order
                           from e in EmployeesGroup.DefaultIfEmpty()
                           join ps in _context.PaymentStatuses on o.PaymentStatusId equals ps.Id
                           join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
-                          orderby o.DateCreated descending 
-                          where o.BranchId==checkEmployee.BranchId
+                          orderby o.DateCreated descending
+                          where o.TransactionStatusId!=GlobalProperties.WaitingTransactionId
                           let hasPaid=_context.ReceiptVouchers.Where(x => x.OrderId == o.Id).Sum(x => x.Received)
                           select new OrdersDto()
                           {

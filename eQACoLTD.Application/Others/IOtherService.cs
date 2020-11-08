@@ -11,9 +11,8 @@ namespace eQACoLTD.Application.Others
     {
         Task<IEnumerable<BrandsForSelectionDto>> GetBrandsAsync();
         Task<IEnumerable<CategoriesForSelectionDto>> GetCategoriesAsync();
-        Task<IEnumerable<CustomerTypesDto>> GetCustomertypesAsync();
-        Task<IEnumerable<EmployeesForSelection>> GetEmployeesAsync();
-        Task<ApiResult<IEnumerable<WarehousesDto>>> GetWarehousesAsync(string employeeId);
+        Task<IEnumerable<CustomerTypesDto>> GetCustomerTypesAsync();
+        Task<ApiResult<IEnumerable<WarehousesDto>>> GetWarehousesAsync();
         Task<IEnumerable<StockActionsDto>> GetStockActionsAsync();
     }
 }

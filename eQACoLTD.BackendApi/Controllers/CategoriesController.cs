@@ -26,50 +26,40 @@ namespace eQACoLTD.BackendApi.Controllers
         public async Task<IActionResult> GetCategories(int pageIndex = 1, int pageSize = 15)
         {
             var result = await _categoryService.GetCategoriesPagingAsync(pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NoContent)
-                return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("{categoryId}")]
         public async Task<IActionResult> GetCategory(string categoryId)
         {
             var result = await _categoryService.GetCategoryAsync(categoryId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("all")]
         public async Task<IActionResult> GetCategoriesAndBrands()
         {
             var result = await _categoryService.GetCategoriesForHomePageAsync();
-            if (result.Code == HttpStatusCode.NoContent)
-                return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseStaff")]
         public async Task<IActionResult> CreateCategory(CategoryForCreationDto categoryDto)
         {
             var result = await _categoryService.CreateCategoryAsync(categoryDto);
-            if (result.Code == HttpStatusCode.BadRequest)
-                return BadRequest(result.Message);
-            if (result.Code == HttpStatusCode.InternalServerError)
-                return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpDelete("{categoryId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseStaff")]
         public async Task<IActionResult> DeleteCategory(string categoryId)
         {
             var result = await _categoryService.DeleteCategoryAsync(categoryId);
-            if (result.Code == HttpStatusCode.BadRequest)
-                return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{categoryId}/products")]
         public async Task<IActionResult> GetProductsInCategory(string categoryId,int pageIndex=1,int pageSize=15)
         {
             var result = await _categoryService.GetProductsByCategoryPagingAsync(categoryId, pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
     }
 }

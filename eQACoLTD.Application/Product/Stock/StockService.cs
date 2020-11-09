@@ -212,5 +212,27 @@ namespace eQACoLTD.Application.Product.Stock
                 return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.OK,orderHistories);
             }
 
+        public async Task<ApiResult<PagedResult<ProductInStock>>> GetProductsInStockPagingAsync(int pageIndex, int pageSize,string accountId)
+        {
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(checkEmployee==null) return new ApiResult<PagedResult<ProductInStock>>(HttpStatusCode.NotFound,$"Tài khoản không thuộc chi nhánh nào.");
+            var products = await (from s in _context.Stocks
+                join p in _context.Products on s.ProductId equals p.Id
+                join w in _context.Warehouses on s.WarehouseId equals w.Id
+                join b in _context.Branches on w.BranchId equals b.Id
+                where b.Id==checkEmployee.BranchId
+                select new ProductInStock()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    BranchName = b.Name,
+                    ImagePath = _context.ProductImages.Where(x=>x.ProductId==p.Id&&x.IsThumbnail==true).SingleOrDefault().Path,
+                    RealQuantity = s.RealQuantity,
+                    WarehouseName = w.Name,
+                    AbleToSale = s.AbleToSale
+                }).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<ProductInStock>>(HttpStatusCode.OK,products);
+        }
     }
 }

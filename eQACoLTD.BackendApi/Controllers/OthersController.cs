@@ -52,5 +52,13 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _otherService.GetStockActionsAsync();
             return Ok(result);
         }
+
+        [HttpGet("payment-methods")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetPaymentMethods()
+        {
+            var result = await _otherService.GetPaymentMethod();
+            return Ok(result);
+        }
     }
 }

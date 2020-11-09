@@ -47,8 +47,8 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager")]
         public async Task<IActionResult> ImportPurchaseOrder(string purchaseOrderId,ImportPurchaseOrderDto orderDto)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _stockService.ImportPurchaseOrderAsync(employeeId, purchaseOrderId, orderDto);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _stockService.ImportPurchaseOrderAsync(accountId, purchaseOrderId, orderDto);
             return StatusCode((int)result.Code, result);
         }
 
@@ -67,5 +67,15 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _stockService.GetExportOrderHistory(orderId);
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpGet("products")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,Accountant,Salesman")]
+        public async Task<IActionResult> GetProductsInStock(int pageIndex=1, int pageSize=15)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _stockService.GetProductsInStockPagingAsync(pageIndex, pageSize, accountId);
+            return StatusCode((int)result.Code, result);
+        }
     }
 }
+    

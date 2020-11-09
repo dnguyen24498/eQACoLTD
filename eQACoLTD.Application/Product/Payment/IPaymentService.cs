@@ -14,5 +14,11 @@ namespace eQACoLTD.Application.Product.Payment
         Task<ApiResult<string>> PurchaseOrderPaymentAsync(string accountId, string purchaseOrderId, PurchaseOrderPaymentForCreationDto creationDto);
         Task<ApiResult<bool>> IsPaidOrder(string orderId);
         Task<ApiResult<IEnumerable<OrderPaymentsDto>>> GetOrderPaymentHistory(string orderId);
+        Task<ApiResult<string>> CreatePaymentVoucherAsync(PaymentVoucherForCreationDto creationDto,string accountId);
+        Task<ApiResult<string>> CreateReceiptVoucherAsync(ReceiptVoucherForCreationDto creationDto, string accountId);
+        Task<ApiResult<PagedResult<PaymentVouchersDto>>> GetPaymentVouchersPagingAsync(int pageIndex, int pageSize, string accountId);
+
+        Task<ApiResult<PagedResult<ReceiptVouchersDto>>> GetReceiptVoucherPagingAsync(int pageIndex, int pageSize,
+            string accountId);
     }
 }

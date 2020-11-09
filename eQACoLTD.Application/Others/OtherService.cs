@@ -73,5 +73,11 @@ namespace eQACoLTD.Application.Others
                 }).ToListAsync();
             return stockActions;
         }
+
+        public async Task<IEnumerable<PaymentMethod>> GetPaymentMethod()
+        {
+            var paymentMethod = await _context.PaymentMethods.ToListAsync();
+            return paymentMethod;
+        }
     }
 }

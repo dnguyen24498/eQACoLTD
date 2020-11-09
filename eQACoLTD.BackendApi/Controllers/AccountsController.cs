@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using eQACoLTD.Application.System.Account;
 using eQACoLTD.BackendApi.Extensions;
 using eQACoLTD.Utilities.Extensions;
+using eQACoLTD.ViewModel.System.Account.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -69,8 +70,8 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> AddProductToCart([FromBody]string productId)
         {
-            var customerId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _accountService.AddProductToCart(customerId, productId);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.AddProductToCart(accountId, productId);
             return StatusCode((int)result.Code, result);
         }
 
@@ -78,8 +79,8 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetCart()
         {
-            var customerId=User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _accountService.GetCart(customerId);
+            var accountId=User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.GetCart(accountId);
             return StatusCode((int)result.Code, result);
         }
 
@@ -87,17 +88,17 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteProductInCart(string productId)
         {
-            var customerId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _accountService.DeleteProductFromCart(customerId, productId);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.DeleteProductFromCart(accountId, productId);
             return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("info")]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> GetCustomerInfo()
+        public async Task<IActionResult> GetAccountInfo()
         {
-            var customerId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _accountService.GetCurrentCustomerInfo(customerId);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.GetCurrentAccountInfo(accountId);
             return StatusCode((int)result.Code, result);
         }
 
@@ -105,8 +106,17 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateOrderFromCart()
         {
-            var customerId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _accountService.CreateOrderFromCartAsync(customerId);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.CreateOrderFromCartAsync(accountId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpPut("info")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> UpdateAccountInfo([FromBody] AccountForUpdateDto updateDto)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.UpdateAccountInfo(updateDto, accountId);
             return StatusCode((int)result.Code, result);
         }
     }

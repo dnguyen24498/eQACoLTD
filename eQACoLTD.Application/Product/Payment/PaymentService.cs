@@ -143,5 +143,167 @@ namespace eQACoLTD.Application.Product.Payment
                 }).ToListAsync();
             return new ApiResult<IEnumerable<OrderPaymentsDto>>(HttpStatusCode.OK,orderPayments);
         }
+
+        public async Task<ApiResult<string>> CreatePaymentVoucherAsync(PaymentVoucherForCreationDto creationDto, string accountId)
+        {
+            var employee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(employee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
+            if(!string.IsNullOrEmpty(creationDto.CustomerId)&&!string.IsNullOrEmpty(creationDto.SupplierId)) 
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Một phiếu chi chỉ thuộc về một đối tượng.");
+            if(string.IsNullOrEmpty(creationDto.CustomerId)&&string.IsNullOrEmpty(creationDto.SupplierId))
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Phiếu chi phải thuộc về một đối tượng");
+            if (!string.IsNullOrEmpty(creationDto.CustomerId))
+            {
+                var checkCustomer = await _context.Customers.Where(x => x.Id == creationDto.CustomerId)
+                    .SingleOrDefaultAsync();
+                if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {creationDto.CustomerId}");
+            }
+            else
+            {
+                var checkSupplier = await _context.Suppliers.Where(x => x.Id == creationDto.SupplierId)
+                    .SingleOrDefaultAsync();
+                if(checkSupplier==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy nhà cung cấp có mã: {creationDto.SupplierId}");
+            }
+            if(creationDto.Paid<=0) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Số tiền chi phải là một số dương");
+            var sequenceNumber = await _context.PaymentVouchers.CountAsync();
+            var paymentVoucherId = IdentifyGenerator.GeneratePaymentVoucherId(sequenceNumber + 1);
+            var paymentVoucher=new PaymentVoucher()
+            {
+                Description = creationDto.Description,
+                Id = paymentVoucherId,
+                Paid = creationDto.Paid,
+                BranchId = employee.BranchId,
+                CustomerId = string.IsNullOrEmpty(creationDto.CustomerId)?null:creationDto.CustomerId,
+                SupplierId = string.IsNullOrEmpty(creationDto.SupplierId)?null:creationDto.SupplierId,
+                EmployeeId = employee.Id,
+                DateCreated = DateTime.Now,
+                IsDelete = false,
+                PaymentDate = creationDto.PaymentDate,
+                PaymentMethodId = creationDto.PaymentMethodId
+            };
+            await _context.PaymentVouchers.AddAsync(paymentVoucher);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = paymentVoucherId,
+                Message = "Tạo phiếu chi thành công"
+            };
+        }
+
+        public async Task<ApiResult<string>> CreateReceiptVoucherAsync(ReceiptVoucherForCreationDto creationDto, string accountId)
+        {
+            var employee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(employee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
+            if(!string.IsNullOrEmpty(creationDto.CustomerId)&&!string.IsNullOrEmpty(creationDto.SupplierId)) 
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Một phiếu thu chỉ thuộc về một đối tượng.");
+            if(string.IsNullOrEmpty(creationDto.CustomerId)&&string.IsNullOrEmpty(creationDto.SupplierId))
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Phiếu thu phải thuộc về một đối tượng");
+            if (!string.IsNullOrEmpty(creationDto.CustomerId))
+            {
+                var checkCustomer = await _context.Customers.Where(x => x.Id == creationDto.CustomerId)
+                    .SingleOrDefaultAsync();
+                if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {creationDto.CustomerId}");
+            }
+            else
+            {
+                var checkSupplier = await _context.Suppliers.Where(x => x.Id == creationDto.SupplierId)
+                    .SingleOrDefaultAsync();
+                if(checkSupplier==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy nhà cung cấp có mã: {creationDto.SupplierId}");
+            }
+            if(creationDto.Received<=0) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Số tiền thu phải là một số dương");
+            var sequenceNumber = await _context.ReceiptVouchers.CountAsync();
+            var receiptVoucherId = IdentifyGenerator.GenerateReceiptVoucherId(sequenceNumber + 1);
+            var receiptVoucher=new ReceiptVoucher()
+            {
+                Description = creationDto.Description,
+                Id = receiptVoucherId,
+                Received = creationDto.Received,
+                BranchId = employee.BranchId,
+                CustomerId = string.IsNullOrEmpty(creationDto.CustomerId)?null:creationDto.CustomerId,
+                DateCreated = DateTime.Now,
+                EmployeeId = employee.Id,
+                IsDelete = false,
+                PaymentMethodId = creationDto.PaymentMethodId,
+                ReceivedDate = creationDto.ReceivedDate,
+                SupplierId = string.IsNullOrEmpty(creationDto.SupplierId)?null:creationDto.SupplierId
+            };
+            await _context.ReceiptVouchers.AddAsync(receiptVoucher);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = receiptVoucherId,
+                Message = "Tạo phiếu thu thành công"
+            };
+        }
+
+        public async Task<ApiResult<PagedResult<PaymentVouchersDto>>> GetPaymentVouchersPagingAsync(int pageIndex, int pageSize, string accountId)
+        {
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(checkEmployee==null) return new ApiResult<PagedResult<PaymentVouchersDto>>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
+            var paymentVouchers = await (from pv in _context.PaymentVouchers
+                    join employee in _context.Employees on pv.EmployeeId equals employee.Id
+                        into EmployeeGroup
+                    from e in EmployeeGroup.DefaultIfEmpty()
+                    join customer in _context.Customers on pv.CustomerId equals customer.Id
+                        into CustomerGroup
+                    from c in CustomerGroup.DefaultIfEmpty()
+                    join supplier in _context.Suppliers on pv.SupplierId equals supplier.Id
+                        into SupplierGroup
+                    from s in SupplierGroup.DefaultIfEmpty()
+                    join b in _context.Branches on pv.BranchId equals b.Id
+                    join pm in _context.PaymentMethods on pv.PaymentMethodId equals pm.Id
+                    where pv.BranchId == checkEmployee.BranchId
+                    select new PaymentVouchersDto()
+                    {
+                        Id = pv.Id,
+                        Paid = pv.Paid,
+                        BranchName = b.Name,
+                        PaymentDate = pv.PaymentDate,
+                        PaymentMethodName = pm.Name,
+                        PersonName = string.IsNullOrEmpty(pv.SupplierId)
+                            ? $"Khách hàng {c.Name}"
+                            : $"Nhà cung cấp {s.Name}",
+                        EmployeeName = e.Name
+                    }
+                ).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<PaymentVouchersDto>>(HttpStatusCode.OK,paymentVouchers);
+        }
+
+        public async Task<ApiResult<PagedResult<ReceiptVouchersDto>>> GetReceiptVoucherPagingAsync(int pageIndex, int pageSize, string accountId)
+        {
+            var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(checkEmployee==null) return new ApiResult<PagedResult<ReceiptVouchersDto>>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
+            var receiptVouchers = await (from rv in _context.ReceiptVouchers
+                    join employee in _context.Employees on rv.EmployeeId equals employee.Id
+                        into EmployeeGroup
+                    from e in EmployeeGroup.DefaultIfEmpty()
+                    join customer in _context.Customers on rv.CustomerId equals customer.Id
+                        into CustomerGroup
+                    from c in CustomerGroup.DefaultIfEmpty()
+                    join supplier in _context.Suppliers on rv.SupplierId equals supplier.Id
+                        into SupplierGroup
+                    from s in SupplierGroup.DefaultIfEmpty()
+                    join b in _context.Branches on rv.BranchId equals b.Id
+                    join pm in _context.PaymentMethods on rv.PaymentMethodId equals pm.Id
+                    where rv.BranchId == checkEmployee.BranchId
+                    select new ReceiptVouchersDto()
+                    {
+                        Id = rv.Id,
+                        Received = rv.Received,
+                        BranchName = b.Name,
+                        PaymentMethodName = pm.Name,
+                        ReceivedDate = rv.ReceivedDate,
+                        PersonName = string.IsNullOrEmpty(rv.CustomerId)
+                            ? $"Nhà cung cấp {s.Name}"
+                            : $"Khách hàng {c.Name}",
+                        EmployeeName = e.Name
+                    }
+                ).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<ReceiptVouchersDto>>(HttpStatusCode.OK,receiptVouchers);
+        }
     }
 }

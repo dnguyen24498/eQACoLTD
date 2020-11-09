@@ -9,6 +9,7 @@ using eQACoLTD.ViewModel.Product.Payment.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 
 namespace eQACoLTD.BackendApi.Controllers
 {
@@ -50,6 +51,42 @@ namespace eQACoLTD.BackendApi.Controllers
         public async Task<IActionResult> GetPaymentsOrder(string orderId)
         {
             var result = await _paymentService.GetOrderPaymentHistory(orderId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpPost("payment-vouchers")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,CashManager")]
+        public async Task<IActionResult> CreatePaymentVoucher([FromBody]PaymentVoucherForCreationDto creationDto)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _paymentService.CreatePaymentVoucherAsync(creationDto,accountId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("payment-vouchers")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,CashManager,Accountant")]
+        public async Task<IActionResult> GetPaymentVouchers(int pageIndex = 1, int pageSize = 15)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _paymentService.GetPaymentVouchersPagingAsync(pageIndex, pageSize, accountId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpPost("receipt-vouchers")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Cashier,CashManager")]
+        public async Task<IActionResult> CreateReceiptVoucher([FromBody] ReceiptVoucherForCreationDto creationDto)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _paymentService.CreateReceiptVoucherAsync(creationDto, accountId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("receipt-vouchers")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Cashier,CashManager,Accountant")]
+        public async Task<IActionResult> GetReceiptVouchers(int pageIndex = 1, int pageSize = 15)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _paymentService.GetReceiptVoucherPagingAsync(pageIndex, pageSize, accountId);
             return StatusCode((int)result.Code, result);
         }
     }

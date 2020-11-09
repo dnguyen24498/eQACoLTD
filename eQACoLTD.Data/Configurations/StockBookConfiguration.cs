@@ -14,11 +14,11 @@ namespace eQACoLTD.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.DateCreated).HasColumnType("datetime").HasDefaultValue(DateTime.Now);
             builder.Property(x => x.ImportQuantity).HasColumnType("int");
-            builder.Property(x => x.ImportUnitPrice).HasColumnType("decimal");
+            builder.Property(x => x.ImportUnitPrice).HasColumnType("decimal").HasDefaultValue(0);
             builder.Property(x => x.ExportQuantity).HasColumnType("int");
-            builder.Property(x => x.ExportUnitPrice).HasColumnType("decimal");
+            builder.Property(x => x.ExportUnitPrice).HasColumnType("decimal").HasDefaultValue(0);
             builder.Property(x => x.InventoryQuantity).HasColumnType("int");
-            builder.Property(x => x.InventoryUnitPrice).HasColumnType("decimal");
+            builder.Property(x => x.InventoryUnitPrice).HasColumnType("decimal").HasDefaultValue(0);
 
             builder.HasOne(g => g.GoodsReceivedNote)
                 .WithOne(s => s.StockBook)

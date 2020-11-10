@@ -18,7 +18,7 @@ namespace eQACoLTD.Data.Entities
         public Employee Employee { get; set; }
         public Branch Branch { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
-        public GoodsReceivedNote GoodsReceivedNote { get; set; }
+        public List<GoodsReceivedNote> GoodsReceivedNote { get; set; }
         public List<PaymentVoucher> PaymentVouchers { get; set; }
         public List<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
         public List<ReceiptVoucher> ReceiptVouchers { get; set; }

@@ -25,14 +25,15 @@ namespace eQACoLTD.Application.Product.PurchaseOrder
             _context = context;
         }
 
-        public async Task<ApiResult<string>> CreatePurchaseOrderAsync(string employeeId, PurchaseOrderForCreationDto creationDto)
+        public async Task<ApiResult<string>> CreatePurchaseOrderAsync(string accountId, PurchaseOrderForCreationDto creationDto)
         {
             try
             {
-                var checkEmployee = await _context.Employees.FindAsync(employeeId);
-                if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound);
-                var sequencyNumber = await _context.PurchaseOrders.CountAsync();
-                var purchaseOrderId = IdentifyGenerator.GeneratePurchaseOrderId(sequencyNumber + 1);
+                var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                    .SingleOrDefaultAsync();
+                if (checkEmployee == null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
+                var sequenceNumber = await _context.PurchaseOrders.CountAsync();
+                var purchaseOrderId = IdentifyGenerator.GeneratePurchaseOrderId(sequenceNumber + 1);
                 var purchaseOrder = ObjectMapper.Mapper.Map<eQACoLTD.Data.Entities.PurchaseOrder>(creationDto);
                 purchaseOrder.Id = purchaseOrderId;
                 purchaseOrder.TransactionStatusId = GlobalProperties.InventoryTransactionId;
@@ -59,18 +60,16 @@ namespace eQACoLTD.Application.Product.PurchaseOrder
                     : (totalAmount * creationDto.DiscountValue) / 100);
                 await _context.PurchaseOrders.AddAsync(purchaseOrder);
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = purchaseOrderId };
+                return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = purchaseOrderId,Message = "Tạo mới phiếu nhập hàng thành công"};
             }
             catch
             {
-                return new ApiResult<string>(HttpStatusCode.InternalServerError);
+                return new ApiResult<string>(HttpStatusCode.InternalServerError){Message = "Có lỗi khi tạo phiếu nhập hàng"};
             }
         }
 
-        public async Task<ApiResult<PurchaseOrderDto>> GetPurchaseOrderAsync(string purchaseOrderId, string employeeId)
+        public async Task<ApiResult<PurchaseOrderDto>> GetPurchaseOrderAsync(string purchaseOrderId)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<PurchaseOrderDto>(HttpStatusCode.NotFound);
             var restAmount = await (from pm in _context.PaymentVouchers
                                     where pm.PurchaseOrderId == purchaseOrderId select pm.Paid).SumAsync();
             var subOrders = await (from pod in _context.PurchaseOrderDetails
@@ -89,7 +88,7 @@ namespace eQACoLTD.Application.Product.PurchaseOrder
                                        join e in _context.Employees on po.EmployeeId equals e.Id
                                        join ts in _context.TransactionStatuses on po.TransactionStatusId equals ts.Id
                                        join ps in _context.PaymentStatuses on po.PaymentStatusId equals ps.Id
-                                       where po.Id == purchaseOrderId && po.BrandId == checkEmployee.BranchId
+                                       where po.Id == purchaseOrderId 
                                        select new PurchaseOrderDto()
                                        {
                                            Id = po.Id,
@@ -111,16 +110,13 @@ namespace eQACoLTD.Application.Product.PurchaseOrder
             return new ApiResult<PurchaseOrderDto>(HttpStatusCode.OK, purchaseOrder);
         }
 
-        public async Task<ApiResult<PagedResult<PurchaseOrdersDto>>> GetPurchaseOrderPagingAsync(string employeeId, int pageIndex, int pageSize)
+        public async Task<ApiResult<PagedResult<PurchaseOrdersDto>>> GetPurchaseOrderPagingAsync(int pageIndex, int pageSize)
         {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if (checkEmployee == null) return new ApiResult<PagedResult<PurchaseOrdersDto>>(HttpStatusCode.NotFound);
             var purchaseOrders = await (from po in _context.PurchaseOrders
                                         join s in _context.Suppliers on po.SupplierId equals s.Id
                                         join e in _context.Employees on po.EmployeeId equals e.Id
                                         join ts in _context.TransactionStatuses on po.TransactionStatusId equals ts.Id
                                         join ps in _context.PaymentStatuses on po.PaymentStatusId equals ps.Id
-                                        where po.BrandId == checkEmployee.BranchId
                                         select new PurchaseOrdersDto()
                                         {
                                             DateCreated = po.DateCreated,

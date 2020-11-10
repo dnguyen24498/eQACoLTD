@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using eQACoLTD.Data.Entities;
 using eQACoLTD.ViewModel.Common;
+using eQACoLTD.ViewModel.System.Account.Handlers;
 using eQACoLTD.ViewModel.System.Account.Queries;
 
 namespace eQACoLTD.Application.System.Account
@@ -16,7 +18,8 @@ namespace eQACoLTD.Application.System.Account
         Task<ApiResult<int>> AddProductToCart(string customerId, string productId);
         Task<ApiResult<CartDto>> GetCart(string customerId);
         Task<ApiResult<string>> DeleteProductFromCart(string customerId, string productId);
-        Task<ApiResult<CustomerInfo>> GetCurrentCustomerInfo(string customerId);
+        Task<ApiResult<AccountInfo>> GetCurrentAccountInfo(string accountId);
         Task<ApiResult<string>> CreateOrderFromCartAsync(string customerId);
+        Task<ApiResult<string>> UpdateAccountInfo(AccountForUpdateDto updateDto,string accountId);
     }
 }

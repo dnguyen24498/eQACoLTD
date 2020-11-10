@@ -10,7 +10,7 @@ using eQACoLTD.Data.DBContext;
 namespace eQACoLTD.Data.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20201015140248_InitialDatabase")]
+    [Migration("20201109030800_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,17 +99,37 @@ namespace eQACoLTD.Data.Migrations
                         new
                         {
                             UserId = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
-                            RoleId = new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9")
+                            RoleId = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459")
                         },
                         new
                         {
                             UserId = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
-                            RoleId = new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6")
+                            RoleId = new Guid("ae9c2256-44e4-4d46-a297-4da29c7e1637")
                         },
                         new
                         {
                             UserId = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
                             RoleId = new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                            RoleId = new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6")
+                        },
+                        new
+                        {
+                            UserId = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                            RoleId = new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692")
+                        },
+                        new
+                        {
+                            UserId = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                            RoleId = new Guid("e70b5bc1-102a-4ba5-a4e1-dd75b1fe5b1b")
+                        },
+                        new
+                        {
+                            UserId = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                            RoleId = new Guid("c4702302-748c-4b01-b0ad-8299d86896a4")
                         });
                 });
 
@@ -159,34 +179,90 @@ namespace eQACoLTD.Data.Migrations
                         new
                         {
                             Id = new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9"),
-                            ConcurrencyStamp = "ba7c592b-cfa5-4420-bd9d-53e22818e07d",
-                            Description = "Quyền quản trị viên",
+                            ConcurrencyStamp = "7da80423-4d31-4f3e-bc87-3ddd378070bf",
+                            Description = "Quản trị viên",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6"),
-                            ConcurrencyStamp = "b73f96d2-90a2-4fbd-b637-06ce0545a60a",
-                            Description = "Quyền nhân viên kho",
+                            ConcurrencyStamp = "514e455a-6e8f-41d5-91d3-4909d3ea1881",
+                            Description = "Nhân viên kho",
                             Name = "WarehouseStaff",
                             NormalizedName = "WAREHOUSESTAFF"
                         },
                         new
                         {
                             Id = new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a"),
-                            ConcurrencyStamp = "8800cc42-ed31-427b-866d-148779cc2a89",
-                            Description = "Quyền nhân viên lễ tân",
-                            Name = "Receptionist",
-                            NormalizedName = "RECEPTIONIST"
+                            ConcurrencyStamp = "1441d8ea-90c4-4210-9b6b-14b28526a57e",
+                            Description = "Nhân viên bán hàng",
+                            Name = "Salesman",
+                            NormalizedName = "SALESMAN"
                         },
                         new
                         {
                             Id = new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692"),
-                            ConcurrencyStamp = "4a284583-e780-4b0b-ba78-e83a499c6cfc",
-                            Description = "Quyền nhân viên thu ngân",
+                            ConcurrencyStamp = "05f922e8-b276-4f38-af44-6816bf480be4",
+                            Description = "Nhân viên thu ngân",
                             Name = "Cashier",
                             NormalizedName = "CASHIER"
+                        },
+                        new
+                        {
+                            Id = new Guid("ae9c2256-44e4-4d46-a297-4da29c7e1637"),
+                            ConcurrencyStamp = "d271d828-d7e8-49d8-b452-b81291d58708",
+                            Description = "Thủ kho",
+                            Name = "WarehouseManager",
+                            NormalizedName = "WAREHOUSEMANAGER"
+                        },
+                        new
+                        {
+                            Id = new Guid("e70b5bc1-102a-4ba5-a4e1-dd75b1fe5b1b"),
+                            ConcurrencyStamp = "559054dc-c09e-461f-93de-3e4576dbcff0",
+                            Description = "Thủ quỹ",
+                            Name = "CashManager",
+                            NormalizedName = "CASHMANAGER"
+                        },
+                        new
+                        {
+                            Id = new Guid("c4702302-748c-4b01-b0ad-8299d86896a4"),
+                            ConcurrencyStamp = "954df66d-f3a5-44cc-8ac4-63f7c6587df9",
+                            Description = "Nhân viên kinh doanh",
+                            Name = "BusinessStaff",
+                            NormalizedName = "BUSINESSSTAFF"
+                        },
+                        new
+                        {
+                            Id = new Guid("68113af4-39b0-4926-b0fb-091d827fc6d9"),
+                            ConcurrencyStamp = "2e6a36ed-b3f2-4375-ad9b-f4a6d1debdd7",
+                            Description = "Nhân viên kỹ thuật",
+                            Name = "Technician",
+                            NormalizedName = "TECHNICIAN"
+                        },
+                        new
+                        {
+                            Id = new Guid("0ae13bb5-43f5-404e-9100-046e7ff0bfc7"),
+                            ConcurrencyStamp = "032689ae-4238-48dc-b006-86c159b74fbe",
+                            Description = "Kế toán",
+                            Name = "Accountant",
+                            NormalizedName = "ACCOUNTANT"
+                        },
+                        new
+                        {
+                            Id = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459"),
+                            ConcurrencyStamp = "fc66bf0a-7ed7-45dc-8413-9cd818ebab74",
+                            Description = "Giám đốc",
+                            Name = "SuperAdministrator",
+                            NormalizedName = "SUPERADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = new Guid("2c3047ca-da34-4a37-a640-d8b20bf0f21c"),
+                            ConcurrencyStamp = "c9de6343-9c9c-4ca7-abef-7833301040c6",
+                            Description = "Quản lý chi nhánh",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
                         });
                 });
 
@@ -198,6 +274,9 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Adrress")
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
@@ -247,13 +326,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b2194bf5-9cf6-4f8f-9ea6-647a2e6a99bc",
+                            ConcurrencyStamp = "6c31fd43-9ea6-4701-880e-d2eeb0d85d6b",
                             Email = "dnguyen24498@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DNGUYEN24498@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGBBXR53cvflM8BBP2ngT5rko1gJH//gT71JJePYVvhWw4jt9ABx33UCLd75HFAT4A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIhtQblnQw8M9jGgTuptRcpa/lIdHelIMWp3zdr1KCReGBVQEHRDv3s8XNayd9NdCw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -263,13 +342,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ba398724-888f-43a0-9748-d7f6cc1fd4e6",
+                            ConcurrencyStamp = "95b01cc2-a17e-4e72-ad95-adbdb21c984b",
                             Email = "duongnguyenadhp@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DUONGNGUYENADHP@GMAIL.COM",
                             NormalizedUserName = "EPN0001",
-                            PasswordHash = "AQAAAAEAACcQAAAAENvBRGiy6L89zk+UirHa/pIfnyq7oJ/lfk+snp1cooBZGbN7rPiIJLIcTkidQKgnfw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJlKiqZODeVZwoZYhTCfwMdZYePn+svL0TcIXNNwGftpz6xuRxiOE65xvMG6LGPG2A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -279,13 +358,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88bb3118-03fb-4535-a864-48053d117018",
+                            ConcurrencyStamp = "93325d7f-2bb2-4189-92b3-a34d04b7c736",
                             Email = "nguyen68973@st.vimaru.edu.vn",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "NGUYEN68973@ST.VIMARU.EDU.VN",
                             NormalizedUserName = "EPN0002",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJYoAIelXyZCDbsEu4tQ1W9I8LmcaNusqIOPKljONhi8zoib7kqz0Ll6DXfA2tXE2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBQyxr5WbeVZk2hqMF2HuPAKuEFgsR2w7FgRMWMWVKW6ENT3FS7YRotGqs/YBnMB7A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -293,15 +372,79 @@ namespace eQACoLTD.Data.Migrations
                         },
                         new
                         {
+                            Id = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "619acb70-3968-46d1-8de5-dc4522a1adb6",
+                            Email = "duongnguyenadhp3@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP3@GMAIL.COM",
+                            NormalizedUserName = "EPN0003",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOa6nIBmSdWvsmI+YuyeP4joc6hS4ffEQSSvZncwqC40anLNIuYqoOCuf2G7wptPXg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0003"
+                        },
+                        new
+                        {
+                            Id = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "efe691de-8bef-46db-8299-d860e6312711",
+                            Email = "duongnguyenadhp4@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP4@GMAIL.COM",
+                            NormalizedUserName = "EPN0004",
+                            PasswordHash = "AQAAAAEAACcQAAAAED/GMDXNV9toOsjyIiCa0fb6Qh9V6FyYnxJEr2N7KfXjWcMoFB1ANkO2gkjS5mfp4A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0004"
+                        },
+                        new
+                        {
+                            Id = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cf8bd27f-0f79-43f0-80b5-9fde79309764",
+                            Email = "duongnguyenadhp5@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP5@GMAIL.COM",
+                            NormalizedUserName = "EPN0005",
+                            PasswordHash = "AQAAAAEAACcQAAAAECv7e40Z2CVaf88dlnhGuKo/PgFjHg+JWtCPrXtP5QAxdLsaF3nrmLsaC8pBQRNLcg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0005"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f4feb8ce-9c98-4cd8-a690-03f34414de33",
+                            Email = "duongnguyenadhp6@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP6@GMAIL.COM",
+                            NormalizedUserName = "EPN0006",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJk2mb3aqV2F6bCfqLtXhcGyqWFa+xJ9VEutm1m4D5n9yjPnaXT9+5z55iBCwlSLSw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0006"
+                        },
+                        new
+                        {
                             Id = new Guid("80efff0f-48cc-4e7a-8803-6782ce66960a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3011c2d0-7c9f-4ba4-b6ff-acb1951165df",
+                            ConcurrencyStamp = "dcb7a14c-3cb5-46a5-b518-87ef2cb4ab1e",
                             Email = "duongnguyenadhp1@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DUONGNGUYENADHP1@GMAIL.COM",
                             NormalizedUserName = "CUS0001",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDiHV66Up2jIYPjOXnVvoYtjN+iKx2ZSxc57DfShBH0/0Q9jl7IN4J/DebPuWRS64w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDberqAUN3/4TixdRKef72+gJ3NI2G8KKxlVvUzVg45mLhHq1ByTQ/6z+2gDeB5mGw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -311,13 +454,13 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = new Guid("f502066f-7adc-4a5c-9d89-bb1015964cd9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b1417e21-36c6-46af-9d11-68c9addd3e99",
+                            ConcurrencyStamp = "f0a93c2f-58bb-4256-9c9c-0dd36d33c326",
                             Email = "duongnguyenadhp2@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DUONGNGUYENADHP2@GMAIL.COM",
                             NormalizedUserName = "CUS0002",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKJgEXNlyFsT/1VB1AUN0/p5YaEwOCbuOpm+FNJHRyIFfv0SN11w31sH/YfvF5kGQg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJXFFV52M5BPQZsEuvK0sDFbyk6gCe/SJURHqr/6hLYozhWTq3++dnbbMxjxFwaIDg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -659,6 +802,26 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "15d805f8-32fb-43f3-8c95-31e87c05d3e7",
                             Name = "Bộ phận bán hàng"
+                        },
+                        new
+                        {
+                            Id = "896571ab-344a-4258-b144-3f5c39b286e1",
+                            Name = "Bộ phận thu ngân"
+                        },
+                        new
+                        {
+                            Id = "fd730f29-f41c-4d7f-a4a7-66bb8b2ac6b0",
+                            Name = "Bộ phận kế toán"
+                        },
+                        new
+                        {
+                            Id = "aedb9def-b1ef-484a-ace0-d95471cf9421",
+                            Name = "Bộ phận kỹ thuật"
+                        },
+                        new
+                        {
+                            Id = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                            Name = "Bộ phận quản lý cấp cao"
                         });
                 });
 
@@ -736,11 +899,76 @@ namespace eQACoLTD.Data.Migrations
                             Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
                             AppuserId = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
                             BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
-                            DepartmentId = "023536ea-f6c4-40a1-a610-2e95dd0e4f2a",
+                            DepartmentId = "15d805f8-32fb-43f3-8c95-31e87c05d3e7",
                             Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Gender = true,
                             IsDelete = false,
                             Name = "Nguyễn Thanh Tú",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0003",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "023536ea-f6c4-40a1-a610-2e95dd0e4f2a",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Văn An",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0004",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "896571ab-344a-4258-b144-3f5c39b286e1",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thành Nam",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0005",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "896571ab-344a-4258-b144-3f5c39b286e1",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = false,
+                            IsDelete = false,
+                            Name = "Nguyễn Khánh Ly",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0006",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "2c33ac5e-c033-4eeb-b185-7f79007bbec3",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = false,
+                            IsDelete = false,
+                            Name = "Trần Thị Thủy",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0007",
+                            Address = "Số 88-Hải Triều-Quán Toan-Hồng Bàng-Hải Phòng",
+                            AppuserId = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Dương Nguyên",
                             PhoneNumber = "0934347618"
                         });
                 });
@@ -759,7 +987,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("ExportDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 598, DateTimeKind.Local).AddTicks(3230));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 956, DateTimeKind.Local).AddTicks(6490));
 
                     b.Property<string>("LiquidationVoucherId")
                         .HasColumnType("varchar(12)");
@@ -802,7 +1030,7 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "GDN0001",
                             EmployeeId = "EPN0001",
-                            ExportDate = new DateTime(2020, 10, 15, 21, 2, 47, 600, DateTimeKind.Local).AddTicks(4341),
+                            ExportDate = new DateTime(2020, 11, 9, 10, 7, 58, 958, DateTimeKind.Local).AddTicks(7959),
                             OrderId = "SRN0001",
                             StockActionId = "e27503bd-12c6-4d8e-a68e-6296892134e2",
                             WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
@@ -859,7 +1087,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("ImportDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 605, DateTimeKind.Local).AddTicks(1798));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 963, DateTimeKind.Local).AddTicks(5725));
 
                     b.Property<string>("PlacedLocation")
                         .HasColumnType("nvarchar(300)");
@@ -883,30 +1111,24 @@ namespace eQACoLTD.Data.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("PurchaseOrderId")
-                        .IsUnique()
-                        .HasFilter("[PurchaseOrderId] IS NOT NULL");
+                    b.HasIndex("PurchaseOrderId");
 
-                    b.HasIndex("RepairVoucherId")
-                        .IsUnique()
-                        .HasFilter("[RepairVoucherId] IS NOT NULL");
+                    b.HasIndex("RepairVoucherId");
 
-                    b.HasIndex("ReturnId")
-                        .IsUnique()
-                        .HasFilter("[ReturnId] IS NOT NULL");
+                    b.HasIndex("ReturnId");
 
                     b.HasIndex("StockActionId");
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("GoodReceivedNotes");
+                    b.ToTable("GoodsReceivedNotes");
 
                     b.HasData(
                         new
                         {
                             Id = "GRN0001",
                             EmployeeId = "EPN0001",
-                            ImportDate = new DateTime(2020, 10, 15, 21, 2, 47, 607, DateTimeKind.Local).AddTicks(1382),
+                            ImportDate = new DateTime(2020, 11, 9, 10, 7, 58, 965, DateTimeKind.Local).AddTicks(4010),
                             PurchaseOrderId = "PON0001",
                             StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
                             WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
@@ -972,7 +1194,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("InventoryDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 586, DateTimeKind.Local).AddTicks(3673));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 942, DateTimeKind.Local).AddTicks(8332));
 
                     b.Property<bool>("IsConfirm")
                         .ValueGeneratedOnAdd()
@@ -1043,7 +1265,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 590, DateTimeKind.Local).AddTicks(7398));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 947, DateTimeKind.Local).AddTicks(5040));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -1057,7 +1279,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("LiquidationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 590, DateTimeKind.Local).AddTicks(7858));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 947, DateTimeKind.Local).AddTicks(5528));
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("varchar(30)");
@@ -1123,7 +1345,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 570, DateTimeKind.Local).AddTicks(4530));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 921, DateTimeKind.Local).AddTicks(7277));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -1345,7 +1567,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 542, DateTimeKind.Local).AddTicks(6322));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 888, DateTimeKind.Local).AddTicks(3945));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(250)");
@@ -1359,12 +1581,12 @@ namespace eQACoLTD.Data.Migrations
                         .HasDefaultValue(false);
 
                     b.Property<decimal>("Paid")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.Property<DateTime>("PaymentDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 542, DateTimeKind.Local).AddTicks(4774));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 888, DateTimeKind.Local).AddTicks(1681));
 
                     b.Property<string>("PaymentMethodId")
                         .HasColumnType("char(36)");
@@ -1406,12 +1628,14 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "PVN0001",
                             BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
-                            DateCreated = new DateTime(2020, 10, 15, 21, 2, 47, 544, DateTimeKind.Local).AddTicks(9690),
+                            DateCreated = new DateTime(2020, 11, 9, 10, 7, 58, 891, DateTimeKind.Local).AddTicks(3364),
+                            EmployeeId = "EPN0005",
                             IsDelete = false,
                             Paid = 320000000m,
-                            PaymentDate = new DateTime(2020, 10, 15, 21, 2, 47, 545, DateTimeKind.Local).AddTicks(25),
+                            PaymentDate = new DateTime(2020, 11, 9, 10, 7, 58, 891, DateTimeKind.Local).AddTicks(3800),
                             PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
-                            PurchaseOrderId = "PON0001"
+                            PurchaseOrderId = "PON0001",
+                            SupplierId = "SUN0001"
                         });
                 });
 
@@ -1457,7 +1681,7 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<decimal>("RetailPrice")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.Property<byte>("Stars")
@@ -1477,7 +1701,7 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<decimal>("WholesalePrices")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.HasKey("Id");
@@ -2071,12 +2295,12 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 533, DateTimeKind.Local).AddTicks(5881));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 878, DateTimeKind.Local).AddTicks(4921));
 
                     b.Property<DateTime>("DeliveryDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 535, DateTimeKind.Local).AddTicks(646));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 879, DateTimeKind.Local).AddTicks(8123));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -2131,8 +2355,8 @@ namespace eQACoLTD.Data.Migrations
                         {
                             Id = "PON0001",
                             BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
-                            DateCreated = new DateTime(2020, 10, 15, 21, 2, 47, 536, DateTimeKind.Local).AddTicks(9033),
-                            DeliveryDate = new DateTime(2020, 10, 15, 21, 2, 47, 536, DateTimeKind.Local).AddTicks(8420),
+                            DateCreated = new DateTime(2020, 11, 9, 10, 7, 58, 881, DateTimeKind.Local).AddTicks(7582),
+                            DeliveryDate = new DateTime(2020, 11, 9, 10, 7, 58, 881, DateTimeKind.Local).AddTicks(7100),
                             DiscountType = "$",
                             DiscountValue = 0m,
                             EmployeeId = "EPN0001",
@@ -2164,7 +2388,7 @@ namespace eQACoLTD.Data.Migrations
                         .HasDefaultValue(1);
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal");
 
                     b.HasKey("Id");
 
@@ -2207,7 +2431,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 551, DateTimeKind.Local).AddTicks(4664));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 899, DateTimeKind.Local).AddTicks(4984));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(250)");
@@ -2231,13 +2455,13 @@ namespace eQACoLTD.Data.Migrations
 
                     b.Property<decimal>("Received")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.Property<DateTime>("ReceivedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 551, DateTimeKind.Local).AddTicks(3116));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 899, DateTimeKind.Local).AddTicks(2917));
 
                     b.Property<string>("RepairVoucherId")
                         .HasColumnType("varchar(12)");
@@ -2311,7 +2535,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 581, DateTimeKind.Local).AddTicks(7294));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 934, DateTimeKind.Local).AddTicks(5647));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -2386,7 +2610,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 576, DateTimeKind.Local).AddTicks(5179));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 929, DateTimeKind.Local).AddTicks(1303));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)");
@@ -2464,14 +2688,14 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 557, DateTimeKind.Local).AddTicks(1686));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 906, DateTimeKind.Local).AddTicks(6644));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<decimal>("Fee")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("decimal")
                         .HasDefaultValue(0m);
 
                     b.Property<string>("LiquidationVoucherId")
@@ -2893,7 +3117,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 563, DateTimeKind.Local).AddTicks(7258));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 915, DateTimeKind.Local).AddTicks(6883));
 
                     b.Property<string>("Description")
                         .ValueGeneratedOnAdd()
@@ -2909,7 +3133,7 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<DateTime>("PurchaseDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2020, 10, 15, 21, 2, 47, 563, DateTimeKind.Local).AddTicks(7676));
+                        .HasDefaultValue(new DateTime(2020, 11, 9, 10, 7, 58, 915, DateTimeKind.Local).AddTicks(7427));
 
                     b.HasKey("Id");
 
@@ -3056,16 +3280,16 @@ namespace eQACoLTD.Data.Migrations
                         .HasForeignKey("EmployeeId");
 
                     b.HasOne("eQACoLTD.Data.Entities.PurchaseOrder", "PurchaseOrder")
-                        .WithOne("GoodsReceivedNote")
-                        .HasForeignKey("eQACoLTD.Data.Entities.GoodsReceivedNote", "PurchaseOrderId");
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("PurchaseOrderId");
 
                     b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
-                        .WithOne("GoodsReceivedNote")
-                        .HasForeignKey("eQACoLTD.Data.Entities.GoodsReceivedNote", "RepairVoucherId");
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("RepairVoucherId");
 
                     b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
-                        .WithOne("GoodsReceivedNote")
-                        .HasForeignKey("eQACoLTD.Data.Entities.GoodsReceivedNote", "ReturnId");
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("ReturnId");
 
                     b.HasOne("eQACoLTD.Data.Entities.StockAction", "StockAction")
                         .WithMany("GoodsReceivedNotes")

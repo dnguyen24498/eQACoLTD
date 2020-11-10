@@ -27,11 +27,11 @@
                 contentType:"application/json",
                 dataType:'json',
                 data:JSON.stringify(productId),
-                success:function() {
-                  showAlertMessage(true,"Đã thêm sản phẩm vào giỏ hàng");
+                success:function(data) {
+                  showAlertMessage(true,data.message);
                 },
-                error:function() {
-                  showAlertMessage(true,"Có lỗi khi thêm sản phẩm vào giỏ hàng");
+                error:function(data) {
+                  showAlertMessage(false,data.message);
                 }
             })
         }

@@ -25,11 +25,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync($"api/products/best-selling").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
@@ -40,11 +37,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync("api/categories/all").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<CategoriesDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<CategoriesDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<CategoriesDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<CategoriesDto>>(HttpStatusCode.NotFound);
         }
@@ -55,11 +49,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync("api/products/best-selling").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
@@ -71,11 +62,8 @@ namespace eQACoLTD.ClientMvc.Services
                 GetAsync($"api/categories/{categoryId}/products?pageIndex={pageIndex}&pageSize={pageSize}").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<PagedResult<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound);
         }
@@ -86,11 +74,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync("api/products/new-arrived").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
@@ -101,11 +86,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync("api/products/top-rate").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
@@ -116,11 +98,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync("api/products/top-view").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
@@ -131,13 +110,36 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync($"api/products/random").ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<List<ProductCardDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<List<ProductCardDto>>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<List<ProductCardDto>>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
+        }
+
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> SearchProductsByCategory(string categoryId, string searchValue,
+            int pageNumber, int pageSize)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/products/search?categoryId={categoryId}&searchValue={searchValue}&pageNumber={pageNumber}&pageSize={pageSize}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<ProductCardDto>>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound);
+        }
+
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, bool order, decimal minimumPrice,
+            decimal maximumPrice, int pageNumber, int pageSize)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/products/filter?categoryId={categoryId}&brandId={brandId}&order={order}&pageNumber={pageNumber}&pageSize={pageSize}&minimumPrice={minimumPrice}&maximumPrice={maximumPrice}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<ProductCardDto>>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound);
         }
     }
 }

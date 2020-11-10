@@ -14,6 +14,7 @@ using eQACoLTD.Application.Product.Payment;
 using eQACoLTD.Application.Product.PurchaseOrder;
 using eQACoLTD.Application.Product.Stock;
 using eQACoLTD.Application.Product.Supplier;
+using eQACoLTD.Application.Report;
 using eQACoLTD.Application.System.Account;
 using eQACoLTD.Application.System.Employee;
 using eQACoLTD.BackendApi.Configurations;
@@ -36,6 +37,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -57,7 +59,7 @@ namespace eQACoLTD.BackendApi
                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod()
                .AllowAnyHeader()
-               .WithOrigins("https://localhost:5002","https://localhost:5003").AllowCredentials()));
+               .WithOrigins(Configuration["AdminMvc"], Configuration["ClientMvc"]).AllowCredentials()));
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
@@ -87,8 +89,8 @@ namespace eQACoLTD.BackendApi
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
-                            TokenUrl = new Uri("https://localhost:5000/connect/token"),
+                            AuthorizationUrl = new Uri(Configuration["IdentityServerHost"]+"/connect/authorize"),
+                            TokenUrl = new Uri(Configuration["IdentityServerHost"]+"/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
                                 {"backend_api", "Backend API - full access"}
@@ -111,6 +113,7 @@ namespace eQACoLTD.BackendApi
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IStockService, StockService>();
             services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<IReportService,ReportService>();
             services.AddTransient<IPurchaseOrderService, PurchaseOrderSerivce>();
             services.AddScoped<AppIdentityDbContext,AppIdentityDbContext>();
 

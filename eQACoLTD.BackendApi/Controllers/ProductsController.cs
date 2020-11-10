@@ -23,92 +23,92 @@ namespace eQACoLTD.BackendApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetListProducts(int pageIndex = 1, int pageSize = 15)
         {
             var result = await _productService.GetProductsPagingAsync(pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{productId}")]
         public async Task<IActionResult> GetProducts(string productId)
         {
             var result = await _productService.GetProductAsync(productId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseStaff,WarehouseManager")]
         public async Task<IActionResult> CreateProduct(ProductForCreationDto creationDto)
         {
             var result = await _productService.CreateProductAsync(creationDto);
-            if (result.Code == HttpStatusCode.InternalServerError)
-                return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpPost("{productId}/images")]
         [Consumes("multipart/form-data")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseStaff,WarehouseManager")]
         public async Task<IActionResult> AddImages(string productId, [FromForm] IList<IFormFile> files)
         {
             var result = await _productService.AddImageToProductAsync(productId, files);
-            if (result.Code == HttpStatusCode.InternalServerError)
-                return StatusCode(500, result.Message);
-            if (result.Code == HttpStatusCode.NotFound)
-                return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("best-selling-in-month")]
         public async Task<IActionResult> GetBestSellingInMonth()
         {
             var result = await _productService.GetBestSellingInMonth();
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("random")]
         public async Task<IActionResult> GetRandom()
         {
             var result = await _productService.GetRandom();
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("new-arrived")]
         public async Task<IActionResult> NewArrived()
         {
             var result = await _productService.GetNewArrived();
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("top-view")]
         public async Task<IActionResult> TopView()
         {
             var result = await _productService.TopView();
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("top-rate")]
         public async Task<IActionResult> TopRate()
         {
             var result = await _productService.TopRate();
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("best-selling")]
         public async Task<IActionResult> BestSelling()
         {
             var result = await _productService.GetBestSelling();
-            if (result.Code == HttpStatusCode.NoContent) return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
-        [HttpGet("search/{productName}")]
-        public async Task<IActionResult> SearchProduct(string productName)
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProductByCategory(string categoryId, string searchValue,
+            int pageNumber = 1, int pageSize = 15)
         {
-            var result = await _productService.SearchProductAsync(productName);
-            return Ok(result.ResultObj);
+            var result = await _productService.SearchProductsByCategory(categoryId, searchValue, pageNumber, pageSize);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> FilterProductByCategory(string categoryId, string brandId,bool order=true, int pageNumber = 1, int pageSize = 15,
+            decimal minimumPrice=0m,decimal maximumPrice=999999999m)
+        {
+            var result = await _productService.FilterProductsByCategoryAsync(categoryId, brandId, order, minimumPrice,
+                maximumPrice, pageNumber, pageSize);
+            if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
+            return StatusCode((int)result.Code, result);
         }
     }
 }

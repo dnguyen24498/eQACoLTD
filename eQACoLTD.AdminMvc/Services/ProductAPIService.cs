@@ -24,9 +24,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/products");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<string>(System.Net.HttpStatusCode.OK) { 
-                    ResultObj=await response.Content.ReadAsStringAsync()
-                };
+                return JsonConvert.DeserializeObject<ApiResult<string>>(await response.Content.ReadAsStringAsync()
+                );
             }
             return new ApiResult<string>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
@@ -36,11 +35,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/products?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<PagedResult<ProductsDto>>(System.Net.HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<PagedResult<ProductsDto>>
-                    (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<ProductsDto>>>
+                    (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<PagedResult<ProductsDto>>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }

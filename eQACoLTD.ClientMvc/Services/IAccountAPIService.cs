@@ -8,5 +8,7 @@ namespace eQACoLTD.ClientMvc.Services
     {
         Task<ApiResult<int>> AddProductToCart(string productId);
         Task<ApiResult<CartDto>> GetCart();
+        Task<ApiResult<string>> CreateOrderFromCartAsync();
+        Task<ApiResult<CustomerInfo>> GetCurrentAccountInfo();
     }
 }

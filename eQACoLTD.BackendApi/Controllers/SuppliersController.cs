@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Product.Supplier;
 using eQACoLTD.ViewModel.Product.Supplier.Handlers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,45 +24,44 @@ namespace eQACoLTD.BackendApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Accountant,BusinessStaff")]
         public async Task<IActionResult> GetSuppliers(int pageIndex = 1, int pageSize = 15)
         {
             var result = await _supplierService.GetSuppliersPagingAsync(pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NoContent)
-                return NoContent();
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{supplierId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Accountant,BusinessStaff")]
         public async Task<IActionResult> GetSupplier(string supplierId)
         {
             var result = await _supplierService.GetSupplierAsync(supplierId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
         public async Task<IActionResult> CreateSupplier(SupplierForCreationDto creationDto)
         {
-            var result = await _supplierService.CreateSupplierAsync(creationDto);
-            if (result.Code == HttpStatusCode.InternalServerError)
-                return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _supplierService.CreateSupplierAsync(creationDto,accountId);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpDelete("{supplierId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
         public async Task<IActionResult> DeleteSupplier(string supplierId)
         {
             var result = await _supplierService.DeleteSupplierAsync(supplierId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("{supplierId}/import-histories")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Accountant,BusinessStaff")]
         public async Task<IActionResult> ImportHistories(string supplierId, int pageIndex = 1, int pageSize = 15)
         {
             var result = await _supplierService.GetSupplierImportHistoriesPagingAsync(supplierId, pageIndex, pageSize);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
     }
 }

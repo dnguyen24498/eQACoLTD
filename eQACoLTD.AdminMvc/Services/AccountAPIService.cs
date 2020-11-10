@@ -26,12 +26,22 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/accounts/{userId}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<AccountDto>(HttpStatusCode.OK){
-                    ResultObj= JsonConvert.DeserializeObject<AccountDto>(await response.Content.ReadAsStringAsync()) };
+                return JsonConvert.DeserializeObject<ApiResult<AccountDto>>(await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<AccountDto>(response.StatusCode,await response.Content.ReadAsStringAsync()); 
         }
-        
+
+        public async Task<ApiResult<EmployeeInfo>> GetCurrentAccountInfo()
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/accounts/info");
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<EmployeeInfo>>(await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<EmployeeInfo>(response.StatusCode,await response.Content.ReadAsStringAsync()); 
+        }
+
 
         public async Task<ApiResult<PagedResult<AccountsDto>>> GetAccountsPagingAsync(int pageIndex,int pageSize)
         {
@@ -39,11 +49,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/accounts?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<PagedResult<AccountsDto>>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<PagedResult<AccountsDto>>
-                    (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<AccountsDto>>>
+                    (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<PagedResult<AccountsDto>>(response.StatusCode,await response.Content.ReadAsStringAsync());
         }

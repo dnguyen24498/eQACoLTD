@@ -48,7 +48,8 @@ namespace eQACoLTD.Application.Customer
 
         public async Task<ApiResult<CustomerDto>> GetCustomerAsync(string customerId)
         {
-            var totalAmountOrders = await _context.Orders.Where(x => x.CustomerId == customerId).SumAsync(x=>x.TotalAmount);
+            var totalAmountOrders = await _context.Orders.Where(x => x.CustomerId == customerId && x.TransactionStatusId!=GlobalProperties.CancelTransactionId
+                && x.TransactionStatusId!=GlobalProperties.WaitingTransactionId).SumAsync(x=>x.TotalAmount);
             var totalPaymentVouchers = await _context.PaymentVouchers.Where(x => x.CustomerId == customerId).SumAsync(x => x.Paid);
             var totalReceiptVouchers = await _context.ReceiptVouchers.Where(x => x.CustomerId == customerId).SumAsync(x => x.Received);
             var customer = await (from c in _context.Customers
@@ -109,31 +110,35 @@ namespace eQACoLTD.Application.Customer
             return new ApiResult<PagedResult<CustomerHistoriesDto>>(HttpStatusCode.OK,customerHistories);
         }
 
-        public async Task<ApiResult<string>> CreateCustomerAsync(CustomerForCreationDto creationDto)
+        public async Task<ApiResult<string>> CreateCustomerAsync(CustomerForCreationDto creationDto,string accountId)
         {
             try
             {
+                var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
+                    .SingleOrDefaultAsync();
+                if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,"Lỗi tài khoản đăng nhập");
                 var sequenceNumber = await _context.Customers.CountAsync();
                 var customerId = IdentifyGenerator.GenerateCustomerId(sequenceNumber + 1);
                 var customer = ObjectMapper.Mapper.Map<Data.Entities.Customer>(creationDto);
                 customer.Id = customerId;
+                customer.EmployeeId = checkEmployee.Id;
                 await _context.Customers.AddAsync(customer);
                 await _context.SaveChangesAsync();
-                return new ApiResult<string>(HttpStatusCode.OK){ResultObj = customerId};
+                return new ApiResult<string>(HttpStatusCode.OK){ResultObj = customerId,Message = "Tạo mới khách hàng thành công"};
             }
-            catch (Exception e)
+            catch
             {
-                return new ApiResult<string>(HttpStatusCode.InternalServerError);
+                return new ApiResult<string>(HttpStatusCode.InternalServerError,"Có lỗi khi tạo khách hàng");
             }
         }
 
         public async Task<ApiResult<string>> DeleteCustomerAsync(string customerId)
         {
             var checkCustomer = await _context.Customers.FindAsync(customerId);
-            if (checkCustomer == null) return new ApiResult<string>(HttpStatusCode.NotFound) { ResultObj = customerId };
+            if (checkCustomer == null) return new ApiResult<string>(HttpStatusCode.NotFound) { ResultObj = customerId,Message = $"Không tìm thấy khách hàng có mã: {customerId}"};
             checkCustomer.IsDelete = true;
             await _context.SaveChangesAsync();
-            return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = customerId };
+            return new ApiResult<string>(HttpStatusCode.OK) { ResultObj = customerId,Message = "Xóa khách hàng thành công"};
         }
 
         public async Task<ApiResult<IEnumerable<CustomerDto>>> SearchCustomerAsync(string customerName)

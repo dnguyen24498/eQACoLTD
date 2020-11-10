@@ -12,6 +12,7 @@ namespace eQACoLTD.AdminMvc.Services
     {
         public Task<ApiResult<PagedResult<AccountsDto>>> GetAccountsPagingAsync(int pageIndex,int pageSize);
         public Task<ApiResult<AccountDto>> GetAccountDetailAsync(Guid userId);
+        Task<ApiResult<EmployeeInfo>> GetCurrentAccountInfo();
 
     }
 }

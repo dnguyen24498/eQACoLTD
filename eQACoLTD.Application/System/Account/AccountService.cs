@@ -10,6 +10,7 @@ using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.Utilities.Extensions;
 using eQACoLTD.ViewModel.Common;
+using eQACoLTD.ViewModel.System.Account.Handlers;
 using eQACoLTD.ViewModel.System.Account.Queries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace eQACoLTD.Application.System.Account
         private readonly RoleManager<AppRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
 
-        public AccountService(AppIdentityDbContext context,ILoggerManager loggerManager,
+        public AccountService(AppIdentityDbContext context,
             RoleManager<AppRole> roleManager,UserManager<AppUser> userManager)
         {
             _context = context;
@@ -109,7 +110,10 @@ namespace eQACoLTD.Application.System.Account
             if(isInRole) return new ApiResult<Guid>(HttpStatusCode.NotModified,"Tài khoản đã có quyền này");
             var result=await _userManager.AddToRoleAsync(user, role.Name);
             if(result.Succeeded)
-                return new ApiResult<Guid>(HttpStatusCode.OK,roleId);
+                return new ApiResult<Guid>(HttpStatusCode.OK,roleId)
+                {
+                    Message = "Đã thêm quyền"
+                };
             return new ApiResult<Guid>(HttpStatusCode.NotModified,$"Có lỗi khi thêm quyền");
         }
 
@@ -123,7 +127,10 @@ namespace eQACoLTD.Application.System.Account
             if(!isInRole)  return new ApiResult<Guid>(HttpStatusCode.NotFound,$"Tài khoản không có quyền này");
             var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
             if(result.Succeeded)
-                return new ApiResult<Guid>(HttpStatusCode.OK,roleId);
+                return new ApiResult<Guid>(HttpStatusCode.OK,roleId)
+                {
+                    Message = "Đã xóa quyền"
+                };
             return new ApiResult<Guid>(HttpStatusCode.NotModified,$"Có lỗi khi xóa quyền");
         }
 
@@ -147,15 +154,12 @@ namespace eQACoLTD.Application.System.Account
 
         public async Task<ApiResult<int>> AddProductToCart(string customerId, string productId)
         {
-            var checkCustomer = await _context.Customers.FindAsync(customerId);
-            if(checkCustomer==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
+            var checkCustomerAccount = await _context.AppUsers.Where(x => x.Id.ToString() == customerId).SingleOrDefaultAsync();
+            if (checkCustomerAccount == null) return new ApiResult<int>(HttpStatusCode.NotFound, $"Không tìm thấy tài khoản");
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId == checkCustomerAccount.Id).SingleOrDefaultAsync();
+            if(checkCustomer==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng");
             var checkProduct = await _context.Products.FindAsync(productId);
-            if(checkProduct==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy sản phầm có mã: {productId}");
-            var checkCustomerAccount = await (from au in _context.AppUsers
-                join c in _context.Customers on au.Id equals c.AppUserId
-                where c.Id == customerId
-                select au).SingleOrDefaultAsync();
-            if(checkCustomerAccount==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản của khách hàng: {checkCustomer.Name}");
+            if(checkProduct==null) return new ApiResult<int>(HttpStatusCode.NotFound,$"Không tìm thấy sản phẩm");
             var checkCart = await _context.Carts
                 .Where(x => x.AppUserId == checkCustomerAccount.Id && x.ProductId == productId).SingleOrDefaultAsync();
             if (checkCart != null)
@@ -172,19 +176,21 @@ namespace eQACoLTD.Application.System.Account
             }
 
             await _context.SaveChangesAsync();
-            return new ApiResult<int>(HttpStatusCode.OK,await _context.Carts.Where(x=>x.AppUserId==checkCustomerAccount.Id).CountAsync());
+            return new ApiResult<int>(HttpStatusCode.OK,await _context.Carts.Where(x=>x.AppUserId==checkCustomerAccount.Id).CountAsync())
+            {
+                Message = "Đã thêm sản phẩm vào giỏ hàng"
+            };
         }
 
         public async Task<ApiResult<CartDto>> GetCart(string customerId)
         {
-            var checkCustomer = await _context.Customers.FindAsync(customerId);
-            if(checkCustomer==null) return new ApiResult<CartDto>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
-            var checkAccountCustomer =
-                await _context.AppUsers.Where(x => x.Id == checkCustomer.AppUserId).SingleOrDefaultAsync();
-            if(checkAccountCustomer==null) return new ApiResult<CartDto>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản của khách hàng");
+            var checkCustomerAccount = await _context.AppUsers.Where(x => x.Id.ToString() == customerId).SingleOrDefaultAsync();
+            if (checkCustomerAccount == null) return new ApiResult<CartDto>(HttpStatusCode.NotFound, $"Không tìm thấy tài khoản");
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId == checkCustomerAccount.Id).SingleOrDefaultAsync();
+            if (checkCustomer==null) return new ApiResult<CartDto>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng");
             var cartDetails = await (from c in _context.Carts
                 join p in _context.Products on c.ProductId equals p.Id
-                where c.AppUserId == checkAccountCustomer.Id
+                where c.AppUserId == checkCustomerAccount.Id
                 select new CartDetailDto()
                 {
                     Quantity = c.Quantity,
@@ -204,12 +210,12 @@ namespace eQACoLTD.Application.System.Account
 
         public async Task<ApiResult<string>> DeleteProductFromCart(string customerId, string productId)
         {
-            var checkCustomer = await _context.Customers.FindAsync(customerId);
-            if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {productId}");
+            var checkCustomerAccount = await _context.AppUsers.Where(x => x.Id.ToString() == customerId).SingleOrDefaultAsync();
+            if (checkCustomerAccount == null) return new ApiResult<string>(HttpStatusCode.NotFound, $"Không tìm thấy tài khoản");
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId == checkCustomerAccount.Id).SingleOrDefaultAsync();
+            if (checkCustomer == null) return new ApiResult<string>(HttpStatusCode.NotFound, $"Không tìm thấy khách hàng");
             var checkProduct = await _context.Products.FindAsync(productId);
             if(checkProduct==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy sản phẩm có mã: {productId}");
-            var checkCustomerAccount = await _context.AppUsers.FindAsync(checkCustomer.AppUserId);
-            if(checkCustomerAccount==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Khong tìm thấy tài khoản của khách hàng");
             var productInCart = await (from c in _context.Carts
                 where c.AppUserId == checkCustomerAccount.Id && c.ProductId == checkProduct.Id
                 select c).SingleOrDefaultAsync();
@@ -219,33 +225,92 @@ namespace eQACoLTD.Application.System.Account
             await _context.SaveChangesAsync();
             return new ApiResult<string>(HttpStatusCode.OK)
             {
-                ResultObj = checkProduct.Id
+                ResultObj = checkProduct.Id,
+                Message = "Đã xóa sản phẩm khỏi giỏ hàng"
             };
         }
 
-        public async Task<ApiResult<CustomerInfo>> GetCurrentCustomerInfo(string customerId)
+        public async Task<ApiResult<AccountInfo>> GetCurrentAccountInfo(string accountId)
         {
-            var checkCustomer = await _context.Customers.FindAsync(customerId);
-            if(checkCustomer==null) return new ApiResult<CustomerInfo>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
-            var customer = await (from c in _context.Customers
-                join au in _context.AppUsers on c.AppUserId equals au.Id
-                where c.Id==customerId && c.IsDelete==false    
-                select new CustomerInfo()
-                {
-                    Address = c.Address,
-                    Name = c.Name,
-                    PhoneNumber = c.PhoneNumber ?? au.PhoneNumber
-                }).SingleOrDefaultAsync();
-            return new ApiResult<CustomerInfo>(HttpStatusCode.OK,customer);
+            var checkAccount = await _context.AppUsers.Where(x => x.Id.ToString() == accountId).SingleOrDefaultAsync();
+            if (checkAccount == null) return new ApiResult<AccountInfo>(HttpStatusCode.NotFound, $"Không tìm thấy tài khoản");
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId == checkAccount.Id).SingleOrDefaultAsync();
+            if (checkCustomer != null)
+            {
+                var customer = await (from c in _context.Customers
+                    join au in _context.AppUsers on c.AppUserId equals au.Id
+                    where c.Id==checkCustomer.Id && c.IsDelete==false    
+                    select new CustomerInfo()
+                    {
+                        Address = c.Address,
+                        Name = c.Name,
+                        PhoneNumber = c.PhoneNumber ?? au.PhoneNumber,
+                        Dob = c.Dob,
+                        Email = string.IsNullOrEmpty(c.Email)? checkAccount.Email:c.Email,
+                        Fax = c.Fax,
+                        Gender = c.Gender,
+                        Id = checkAccount.Id.ToString("D"),
+                        Website = c.Website
+                    }).SingleOrDefaultAsync();
+                return new ApiResult<AccountInfo>(HttpStatusCode.OK,customer);   
+            }
+
+            var checkEmployee =
+                await _context.Employees.Where(x => x.AppuserId == checkAccount.Id).SingleOrDefaultAsync();
+            if (checkEmployee != null)
+            {
+                var employee = await (from e in _context.Employees
+                    join au in _context.AppUsers on e.AppuserId equals au.Id
+                    join b in _context.Branches on e.BranchId equals b.Id
+                    join d in _context.Departments on e.DepartmentId equals d.Id
+                    where e.Id == checkEmployee.Id && e.IsDelete == false
+                    select new EmployeeInfo()
+                    {
+                        Address = e.Address,
+                        Dob = e.Dob,
+                        Email = checkAccount.Email,
+                        Gender = e.Gender,
+                        Id = checkAccount.Id.ToString("D"),
+                        Name = e.Name,
+                        BranchName = b.Name,
+                        DepartmentName = d.Name,
+                        PhoneNumber = string.IsNullOrEmpty(e.PhoneNumber) ? checkAccount.PhoneNumber : e.PhoneNumber
+                    }).SingleOrDefaultAsync();
+                return new ApiResult<AccountInfo>(HttpStatusCode.OK,employee);
+            }
+
+            var checkSupplier =
+                await _context.Suppliers.Where(x => x.AppUserId == checkAccount.Id).SingleOrDefaultAsync();
+            if (checkSupplier != null)
+            {
+                var supplier = await (from s in _context.Suppliers
+                    join au in _context.AppUsers on s.AppUserId equals au.Id
+                    where s.Id == checkSupplier.Id && s.IsDelete == false
+                    select new SupplierInfo()
+                    {
+                        Address = s.Address,
+                        Email = string.IsNullOrEmpty(s.Email) ? checkAccount.Email : s.Email,
+                        Fax = s.Fax,
+                        Id = checkAccount.Id.ToString("D"),
+                        Name = s.Name,
+                        Website = s.Website,
+                        PhoneNumber = string.IsNullOrEmpty(s.PhoneNumber) ? checkAccount.PhoneNumber : s.PhoneNumber
+                    }).SingleOrDefaultAsync();
+                return new ApiResult<AccountInfo>(HttpStatusCode.OK,supplier);
+            }
+            return new ApiResult<AccountInfo>(HttpStatusCode.NotFound,$"Không tìm thấy người dùng liên kết với tài khoản");
         }
         public async Task<ApiResult<string>> CreateOrderFromCartAsync(string customerId)
         {
-            var checkCustomer = await _context.Customers.FindAsync(customerId);
-            if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng có mã: {customerId}");
-            var checkCustomerAccount = await _context.AppUsers.Where(x => x.Id == checkCustomer.AppUserId).SingleOrDefaultAsync();
-            if(checkCustomerAccount==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản của khách hàng: {customerId}");
+            var checkCustomerAccount = await _context.AppUsers.Where(x => x.Id.ToString() == customerId).SingleOrDefaultAsync();
+            if (checkCustomerAccount == null) return new ApiResult<string>(HttpStatusCode.NotFound, $"Không tìm thấy tài khoản");
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId == checkCustomerAccount.Id).SingleOrDefaultAsync();
+            if (checkCustomer == null) return new ApiResult<string>(HttpStatusCode.NotFound, $"Không tìm thấy khách hàng");
             var carts = await _context.Carts.Where(x => x.AppUserId == checkCustomerAccount.Id).ToListAsync();
-            if(carts==null||carts.Count==0) return new ApiResult<string>(HttpStatusCode.NotFound,$"Giỏ hàng của khách hàng: {customerId} đang trống");
+            if(carts==null||carts.Count==0) return new ApiResult<string>(HttpStatusCode.NotFound,$"Giỏ hàng của khách hàng đang trống");
+            if(string.IsNullOrEmpty(checkCustomer.Name)||string.IsNullOrEmpty(checkCustomer.PhoneNumber)||
+               string.IsNullOrEmpty(checkCustomer.Address)) 
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Hãy cập nhập thông tin cá nhân trước khi đặt hàng");
             var sequenceNumber = await _context.Orders.CountAsync();
             var orderId = IdentifyGenerator.GenerateOrderId(sequenceNumber + 1);
             var orderDetails=new List<OrderDetail>();
@@ -274,8 +339,35 @@ namespace eQACoLTD.Application.System.Account
             await _context.SaveChangesAsync();
             return new ApiResult<string>(HttpStatusCode.OK)
             {
-                ResultObj = orderId
+                ResultObj = orderId,
+                Message = "Đã tạo đơn hàng"
             };
+        }
+
+        public async Task<ApiResult<string>> UpdateAccountInfo(AccountForUpdateDto updateDto,string accountId)
+        {
+            var checkAccount = await _context.AppUsers.Where(x => x.Id.ToString() == accountId).SingleOrDefaultAsync();
+            if(checkAccount==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản");
+            var checkCustomer =
+                await _context.Customers.Where(x => x.AppUserId == checkAccount.Id).SingleOrDefaultAsync();
+            if (checkCustomer != null)
+            {
+                checkCustomer.Name = updateDto.Name;
+                checkCustomer.Gender = updateDto.Gender;
+                checkCustomer.Dob = updateDto.Dob;
+                checkCustomer.Address = updateDto.Address;
+                checkCustomer.PhoneNumber = updateDto.PhoneNumber;
+                checkAccount.PhoneNumber = updateDto.PhoneNumber;
+                checkCustomer.Website = updateDto.Website;
+                checkCustomer.Fax = updateDto.Fax;
+                await _context.SaveChangesAsync();
+                return new ApiResult<string>(HttpStatusCode.OK)
+                {
+                    ResultObj = accountId,
+                    Message = "Cập nhập thông tin tài khoản thành công"
+                };
+            }
+            return new ApiResult<string>(HttpStatusCode.BadRequest,"Người dùng liên kết với tài khoản không được phép chỉnh sửa thông tin, hãy liên hệ với quản trị viên để cập nhập thông tin cá nhân");
         }
     }
 }

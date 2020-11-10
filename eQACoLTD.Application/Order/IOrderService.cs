@@ -10,10 +10,12 @@ namespace eQACoLTD.Application.Order
 {
     public interface IOrderService
     {
-        Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(string employeeId,int pageIndex, int pageSize);
+        Task<ApiResult<PagedResult<OrdersDto>>> GetOrdersPagingAsync(int pageIndex, int pageSize);
         Task<ApiResult<OrderDto>> GetOrderAsync(string orderId);
-        Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string employeeId);
+        Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string accountId);
         Task<ApiResult<PagedResult<OrdersDto>>> GetWaitingOrderAsync(int pageIndex, int pageSize);
-        Task<ApiResult<string>> AcceptWaitingOrderAsync(string employeeId, string waitingOrderId,AcceptOrderDto orderDto);
+        Task<ApiResult<string>> AcceptWaitingOrderAsync(string accountId,string waitingOrderId);
+        Task<ApiResult<WaitingOrderDto>> GetWaitingOrderDetailAsync(string orderId);
+        Task<ApiResult<string>> CancelWaitingOrderAsync(string orderId);
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace eQACoLTD.ViewModel.System.Account.Queries
+﻿using System;
+
+namespace eQACoLTD.ViewModel.System.Account.Queries
 {
-    public class CustomerInfo
+    public class CustomerInfo:AccountInfo    
     {
-        public string Name { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Address { get; set; }
+        public bool? Gender { get; set; }
+        public DateTime Dob { get; set; }
+        public string Fax { get; set; }
+        public string Website { get; set; }
     }
 }

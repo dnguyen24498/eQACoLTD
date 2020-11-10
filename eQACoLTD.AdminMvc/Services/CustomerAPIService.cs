@@ -21,11 +21,8 @@ namespace eQACoLTD.AdminMvc.Services
             var response = await httpClient.GetAsync($"api/customers?pageIndex={pageIndex}&pageSize={pageSize}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<PagedResult<CustomersDto>>(System.Net.HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<PagedResult<CustomersDto>>
-                    (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<CustomersDto>>>
+                    (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<PagedResult<CustomersDto>>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }

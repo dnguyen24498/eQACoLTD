@@ -10,7 +10,6 @@ namespace eQACoLTD.ViewModel.Product.Stock.Queries
         public DateTime ImportDate { get; set; }
         public string EmployeeName { get; set; }
         public string Description { get; set; }
-        public string BranchId { get; set; }
         public string RepairVoucherId { get; set; }
         public string ReturnId { get; set; }
         public string TransactionStatusName { get; set; }

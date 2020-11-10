@@ -14,7 +14,9 @@ using Microsoft.CodeAnalysis;
 
 namespace eQACoLTD.AdminMvc.Controllers
 {
-    [CustomAuthorize(Permissions = "Administrator,Receptionist,Cashier,WarehouseStaff")]
+    //[CustomAuthorize(Permissions = "SuperAdministrator,Accountant,Technician,Cashier,WarehouseManager,WarehouseStaff,BusinessStaff," +
+    //    "Administrator,Salesman,Manager,CashManager")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -22,7 +24,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();   
         }

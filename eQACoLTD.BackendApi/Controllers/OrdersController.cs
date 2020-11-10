@@ -22,48 +22,58 @@ namespace eQACoLTD.BackendApi.Controllers
             _orderService = orderService;
         }
         [HttpGet]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman,Cashier,WarehouseManager,CashManager,Technician,Accountant")]
         public async Task<IActionResult> GetOrders(int pageIndex = 1, int pageSize = 15)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _orderService.GetOrdersPagingAsync(employeeId,pageIndex, pageSize);
-            if (result.Code != HttpStatusCode.OK) return StatusCode(500);
-            return Ok(result.ResultObj);
+            var result = await _orderService.GetOrdersPagingAsync(pageIndex, pageSize);
+            return StatusCode((int)result.Code, result);
         }
         [HttpGet("{orderId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman,Cashier,WarehouseManager,CashManager,Technician,Accountant")]
         public async Task<IActionResult> GetOrder(string orderId)
         {
             var result = await _orderService.GetOrderAsync(orderId);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
         [HttpPost]
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> CreateOrder(OrderForCreationDto creationDto)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _orderService.CreateOrderAsync(creationDto,employeeId);
-            if (result.Code != HttpStatusCode.OK) return StatusCode(500, result.Message);
-            return Ok(result.ResultObj);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _orderService.CreateOrderAsync(creationDto,accountId);
+            return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("waiting")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
         public async Task<IActionResult> GetWaitingOrder(int pageIndex = 1, int pageSize = 15)
         {
             var result = await _orderService.GetWaitingOrderAsync(pageIndex, pageSize);
-            if (result.Code != HttpStatusCode.OK) return StatusCode(500);
-            return Ok(result.ResultObj);
+            return StatusCode((int)result.Code, result);
         }
 
-        [HttpPost("waiting/{orderId}/accept")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> AcceptWaitingOrder(string orderId,AcceptOrderDto orderDto)
+        [HttpGet("waiting/{orderId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
+        public async Task<IActionResult> GetWaitingOrderDetail(string orderId)
         {
-            var employeeId = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-            var result = await _orderService.AcceptWaitingOrderAsync(employeeId, orderId, orderDto);
-            if (result.Code == HttpStatusCode.NotFound) return NotFound(result.Message);
-            if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
-            return Ok(result.ResultObj);
+            var result = await _orderService.GetWaitingOrderDetailAsync(orderId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpPost("waiting/{orderId}/cancel")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
+        public async Task<IActionResult> CancelWaitingOrder(string orderId)
+        {
+            var result = await _orderService.CancelWaitingOrderAsync(orderId);
+            return StatusCode((int)result.Code, result);
+        }
+        [HttpPost("waiting/{orderId}/accept")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman")]
+        public async Task<IActionResult> AcceptWaitingOrder(string orderId)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _orderService.AcceptWaitingOrderAsync(accountId, orderId);
+            return StatusCode((int)result.Code, result);
         }
     }
 }

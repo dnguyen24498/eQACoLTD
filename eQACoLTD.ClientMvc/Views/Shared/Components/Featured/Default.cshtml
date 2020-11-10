@@ -1,7 +1,7 @@
 ﻿@inject IConfiguration Configuration
 @using Microsoft.AspNetCore.Http
 @model List<ProductCardDto>
-@if (Model.Count > 0)
+@if (Model!=null && Model.Count > 0)
 {
     foreach (var p in Model)
     {

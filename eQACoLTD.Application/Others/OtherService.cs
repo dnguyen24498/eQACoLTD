@@ -41,7 +41,7 @@ namespace eQACoLTD.Application.Others
             return categories;
         }
 
-        public async Task<IEnumerable<CustomerTypesDto>> GetCustomertypesAsync()
+        public async Task<IEnumerable<CustomerTypesDto>> GetCustomerTypesAsync()
         {
             var customerTypes = await (from ct in _context.CustomerTypes
                                  select new CustomerTypesDto()
@@ -51,24 +51,9 @@ namespace eQACoLTD.Application.Others
                                  }).ToListAsync();
             return customerTypes;
         }
-
-        public async Task<IEnumerable<EmployeesForSelection>> GetEmployeesAsync()
+        public async Task<ApiResult<IEnumerable<WarehousesDto>>> GetWarehousesAsync()
         {
-            var employees = await (from e in _context.Employees
-                                   where e.IsDelete==false
-                                   select new EmployeesForSelection()
-                                   {
-                                       Id = e.Id,
-                                       Name = e.Name
-                                   }).ToListAsync();
-            return employees;
-        }
-        public async Task<ApiResult<IEnumerable<WarehousesDto>>> GetWarehousesAsync(string employeeId)
-        {
-            var checkEmployee = await _context.Employees.FindAsync(employeeId);
-            if(checkEmployee==null) return new ApiResult<IEnumerable<WarehousesDto>>(HttpStatusCode.NotFound);
             var warehouses = await (from w in _context.Warehouses
-                where w.BranchId == checkEmployee.BranchId
                 select new WarehousesDto()
                 {
                     Id = w.Id,
@@ -87,6 +72,12 @@ namespace eQACoLTD.Application.Others
                     Name = sa.Name
                 }).ToListAsync();
             return stockActions;
+        }
+
+        public async Task<IEnumerable<PaymentMethod>> GetPaymentMethod()
+        {
+            var paymentMethod = await _context.PaymentMethods.ToListAsync();
+            return paymentMethod;
         }
     }
 }

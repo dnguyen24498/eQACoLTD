@@ -100,11 +100,11 @@
            type:'POST',
            contentType: false,
            processData: false,
-           success:function() {
+           success:function(data) {
              console.log("Thành công");
            },
-           error:function() {
-             console.log("Thất bại");
+           error:function(data) {
+             showAlertMessage(false,data.message);
            }
          })
      }
@@ -126,11 +126,11 @@
             method:'POST',
             data:JSON.stringify(product),
             success:function(data){
-                postImage(data);
-                showAlertMessage(true,"Tạo mới sản phẩm thành công");
+                postImage(data.resultObj);
+                showAlertMessage(true,data.message);
             },
-            error:function() {
-               showAlertMessage(false,"Tạo mới sản phẩm thất bại");
+            error:function(data) {
+               showAlertMessage(false,data.message);
             }
          })
      }

@@ -28,7 +28,7 @@ namespace eQACoLTD.Data.Entities
         public PaymentStatus PaymentStatus { get; set; }
         public List<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public List<PaymentVoucher> PaymentVouchers { get; set; }
-        public GoodsReceivedNote GoodsReceivedNote { get; set; }
+        public List<GoodsReceivedNote> GoodsReceivedNote { get; set; }
         public List<Return> Returns { get; set; }
     }
 }

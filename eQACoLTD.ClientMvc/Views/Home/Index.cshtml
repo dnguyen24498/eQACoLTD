@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<CategoriesDto>
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -31,7 +32,7 @@
                 <div class="top_bar_contact_item">
                     <div class="top_bar_icon">
                         <img src="~/images/phone.png" alt="">
-                    </div>+38 068 005 3570
+                    </div>0123456789
                 </div>
                 <div class="top_bar_contact_item">
                     <div class="top_bar_icon">
@@ -49,8 +50,8 @@
                                         <i class="fa fa-user-circle"></i>
                                     </a>
                                     Xin chào,
-                                    <a href="">@userName</a>
-                                    <a href="#">
+                                    <a asp-controller="Account" asp-action="Info">@userName</a>
+                                    <a asp-controller="Account" asp-action="Logout">
                                         <i class="fa fa-sign-out-alt ml-2"></i>
                                     </a>
                                 </div>
@@ -97,31 +98,13 @@
                 <div class="header_search">
                     <div class="header_search_content">
                         <div class="header_search_form_container">
-                            <form action="#" class="header_search_form clearfix">
-                                <input type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
+                            <form asp-controller="Home" asp-action="Search" asp-route-categoryId="" class="header_search_form clearfix">
+                                <input name="searchValue" type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
                                 <div class="custom_dropdown">
                                     <div class="custom_dropdown_list">
                                         <span class="custom_dropdown_placeholder clc">Toàn bộ danh mục</span>
                                         <i class="fas fa-chevron-down"></i>
                                         <ul class="custom_list clc">
-                                            <li>
-                                                <a class="clc" href="#">All Categories</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Computers</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Laptops</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Cameras</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Hardware</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Smartphones</a>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -1409,7 +1392,7 @@
                         </div>
                     </div>
                     <div class="footer_title">Got Question? Call Us 24/7</div>
-                    <div class="footer_phone">+38 068 005 3570</div>
+                    <div class="footer_phone">0123456789</div>
                     <div class="footer_contact_text">
                         <p>17 Princess Road, London</p>
                         <p>Grester London NW18JR, UK</p>

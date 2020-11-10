@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.ClientMvc.Services;
+using eQACoLTD.ViewModel.System.Account.Queries;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -23,10 +24,28 @@ namespace eQACoLTD.ClientMvc.Controllers
             var result = await _apiService.GetCart();
             return View(result.ResultObj);
         }
+
+        [Authorize]
+        public async Task<IActionResult> CreateOrder()
+        {
+            var result = await _apiService.CreateOrderFromCartAsync();
+            return RedirectToAction("OrderSuccess");
+        }
+
+        public IActionResult OrderSuccess()
+        {
+            return View();
+        }
         public async Task Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        }
+        public async Task<IActionResult> Info()
+        {
+            var result = await _apiService.GetCurrentAccountInfo();
+            if (result.Code != HttpStatusCode.OK) return View(new CustomerInfo());
+            return View(result.ResultObj);
         }
         
     }

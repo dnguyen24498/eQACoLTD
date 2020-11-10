@@ -21,11 +21,8 @@ namespace eQACoLTD.ClientMvc.Services
             var response = await httpClient.GetAsync($"api/products/{productId}");
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResult<ProductDto>(HttpStatusCode.OK)
-                {
-                    ResultObj = JsonConvert.DeserializeObject<ProductDto>
-                        (await response.Content.ReadAsStringAsync())
-                };
+                return JsonConvert.DeserializeObject<ApiResult<ProductDto>>
+                        (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<ProductDto>(HttpStatusCode.NotFound);
         }

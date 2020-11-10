@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.System.Account.Queries;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace eQACoLTD.ClientMvc.Services
@@ -51,6 +52,18 @@ namespace eQACoLTD.ClientMvc.Services
                     (await response.Content.ReadAsStringAsync());
             }
             return new ApiResult<string>(response.StatusCode);
+        }
+
+        public async Task<ApiResult<CustomerInfo>> GetCurrentAccountInfo()
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync("api/accounts/info");
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<CustomerInfo>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<CustomerInfo>(response.StatusCode);
         }
     }
 }

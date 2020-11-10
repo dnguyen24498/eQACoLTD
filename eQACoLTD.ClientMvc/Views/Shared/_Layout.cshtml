@@ -39,7 +39,7 @@
                 <div class="top_bar_content ml-auto">
                     <div class="top_bar_menu">
                         <div id="msg-Alert" role="alert">
-                            
+
                         </div>
                     </div>
                     <div class="top_bar_user">
@@ -47,12 +47,16 @@
                             try
                             {
                                 var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
-                                 <div>
-                                     <a><i class="fa fa-user-circle"></i></a>
-                                     Xin chào,
-                                     <a href="">@userName</a>
-                                     <a asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out-alt ml-2"></i></a>
-                                 </div>
+                                <div>
+                                    <a>
+                                        <i class="fa fa-user-circle"></i>
+                                    </a>
+                                    Xin chào,
+                                    <a asp-controller="Account" asp-action="Info">@userName</a>
+                                    <a asp-controller="Account" asp-action="Logout">
+                                        <i class="fa fa-sign-out-alt ml-2"></i>
+                                    </a>
+                                </div>
                             }
                             catch
                             {
@@ -95,32 +99,11 @@
                 <div class="header_search">
                     <div class="header_search_content">
                         <div class="header_search_form_container">
-                            <form action="#" class="header_search_form clearfix">
-                                <input type="search" required="required" class="header_search_input" placeholder="Search for products...">
+                            <form asp-controller="Home" asp-action="Search" asp-route-categoryId="" class="header_search_form clearfix">
+                                <input name="searchValue" type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
                                 <div class="custom_dropdown">
                                     <div class="custom_dropdown_list">
-                                        <span class="custom_dropdown_placeholder clc">All Categories</span>
-                                        <i class="fas fa-chevron-down"></i>
-                                        <ul class="custom_list clc">
-                                            <li>
-                                                <a class="clc" href="#">All Categories</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Computers</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Laptops</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Cameras</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Hardware</a>
-                                            </li>
-                                            <li>
-                                                <a class="clc" href="#">Smartphones</a>
-                                            </li>
-                                        </ul>
+                                        <span class="custom_dropdown_placeholder custom_list clc">Toàn bộ danh mục</span>
                                     </div>
                                 </div>
                                 <button type="submit" class="header_search_button trans_300" value="Submit">
@@ -448,7 +431,7 @@
 
 </header>
 <!-- Single Product -->
-    @RenderBody()
+@RenderBody()
 </div>
 <!-- Recently Viewed -->
 

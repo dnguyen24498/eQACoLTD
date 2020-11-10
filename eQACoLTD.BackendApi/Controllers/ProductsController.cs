@@ -102,10 +102,10 @@ namespace eQACoLTD.BackendApi.Controllers
         }
 
         [HttpGet("filter")]
-        public async Task<IActionResult> FilterProductByCategory(string categoryId, string brandId, int pageNumber = 1, int pageSize = 15,
+        public async Task<IActionResult> FilterProductByCategory(string categoryId, string brandId,bool order=true, int pageNumber = 1, int pageSize = 15,
             decimal minimumPrice=0m,decimal maximumPrice=999999999m)
         {
-            var result = await _productService.FilterProductsByCategoryAsync(categoryId, brandId, minimumPrice,
+            var result = await _productService.FilterProductsByCategoryAsync(categoryId, brandId, order, minimumPrice,
                 maximumPrice, pageNumber, pageSize);
             if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
             return StatusCode((int)result.Code, result);

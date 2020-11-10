@@ -22,7 +22,7 @@ namespace eQACoLTD.Application.Product.ListProduct
         Task<ApiResult<IEnumerable<ProductCardDto>>> TopRate();
         Task<ApiResult<PagedResult<ProductCardDto>>> SearchProductsByCategory(string categoryId, string searchValue,int pageNumber,int pageSize);
 
-        Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId,
+        Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, bool order,
             decimal minimumPrice, decimal maximumPrice,int pageNumber, int pageSize);
     }
 }

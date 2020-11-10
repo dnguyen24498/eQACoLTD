@@ -25,9 +25,10 @@ namespace eQACoLTD.ClientMvc.Controllers
             _apiService = apiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var result = await _apiService.GetCategoryHomeAsync();
+            return View(result.ResultObj);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -36,11 +37,27 @@ namespace eQACoLTD.ClientMvc.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         
-        public async Task<IActionResult> Products(string categoryId,int page=1,int size=1)
+        public async Task<IActionResult> Products(string categoryId,int page=1,int size=15)
         {
             var result = await _apiService.GetProductsByCategoryPagingAsync(categoryId, page, size);
             if (result.Code != HttpStatusCode.OK) return View(new PagedResult<ProductCardDto>());
             return View(result.ResultObj);
+        }
+        
+        public async Task<IActionResult> Search(string categoryId, string searchValue,int page=1,int size=16)
+        {
+            var result = await _apiService.SearchProductsByCategory(categoryId, searchValue, page, size);
+            if (result.Code != HttpStatusCode.OK) return View(nameof(Products),new PagedResult<ProductCardDto>());
+            return View(nameof(Products),result.ResultObj);
+        }
+
+        public async Task<IActionResult> Filter(string categoryId, string brandId, bool order, int page = 1,
+            int size = 16, decimal minimumPrice=0m, decimal maximumPrice=999999999m)
+        {
+            var result = await _apiService.FilterProductsByCategoryAsync(categoryId, brandId, order, minimumPrice,
+                maximumPrice, page, size);
+            if (result.Code != HttpStatusCode.OK) return View(nameof(Products),new PagedResult<ProductCardDto>());
+            return View(nameof(Products),result.ResultObj);
         }
 
         [Authorize]

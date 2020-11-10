@@ -251,7 +251,7 @@ namespace eQACoLTD.Application.Product.ListProduct
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
 
-        public async Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, decimal minimumPrice, 
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, bool order, decimal minimumPrice, 
             decimal maximumPrice,int pageNumber, int pageSize)
         {
             if(minimumPrice>maximumPrice) return new ApiResult<PagedResult<ProductCardDto>>
@@ -284,6 +284,8 @@ namespace eQACoLTD.Application.Product.ListProduct
                           x.WarehouseId == GlobalProperties.MainWarehouseId).SingleOrDefault().AbleToSale
                     }
                 ).GetPagedAsync(pageNumber, pageSize);
+            products.Results = order ? products.Results.OrderBy(x => x.RetailPrice).ToList() : 
+                products.Results.OrderByDescending(x => x.RetailPrice).ToList();
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
 

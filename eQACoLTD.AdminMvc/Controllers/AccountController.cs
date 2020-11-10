@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace eQACoLTD.AdminMvc.Controllers
 {
-    [CustomAuthorize(Permissions = "Administrator")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly IAccountAPIService _accountAPIService;
@@ -21,6 +21,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         {
             _accountAPIService = accountAPIService;
         }
+        [CustomAuthorize(Permissions = "Administrator")]
         public async Task<IActionResult> Index(int page=1,int size=15)
         {
             var result = await _accountAPIService.GetAccountsPagingAsync(page,size);
@@ -29,11 +30,19 @@ namespace eQACoLTD.AdminMvc.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize(Permissions = "Administrator")]
         public async Task<IActionResult> Detail(Guid id) 
         {
             var result = await _accountAPIService.GetAccountDetailAsync(id);
             if (result.Code!=HttpStatusCode.OK) return View();
             return View(result.ResultObj);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Info()
+        {
+            
+            return View();
         }
     }
 }

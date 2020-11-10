@@ -115,5 +115,31 @@ namespace eQACoLTD.ClientMvc.Services
             }
             return new ApiResult<List<ProductCardDto>>(HttpStatusCode.NotFound);
         }
+
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> SearchProductsByCategory(string categoryId, string searchValue,
+            int pageNumber, int pageSize)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/products/search?categoryId={categoryId}&searchValue={searchValue}&pageNumber={pageNumber}&pageSize={pageSize}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<ProductCardDto>>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound);
+        }
+
+        public async Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, bool order, decimal minimumPrice,
+            decimal maximumPrice, int pageNumber, int pageSize)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/products/filter?categoryId={categoryId}&brandId={brandId}&order={order}&pageNumber={pageNumber}&pageSize={pageSize}&minimumPrice={minimumPrice}&maximumPrice={maximumPrice}").ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<ProductCardDto>>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound);
+        }
     }
 }

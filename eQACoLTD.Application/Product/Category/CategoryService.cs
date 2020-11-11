@@ -58,8 +58,6 @@ namespace eQACoLTD.Application.Product.Category
 
         public async Task<ApiResult<PagedResult<ProductCardDto>>> GetProductsByCategoryPagingAsync(string categoryId,int pageIndex,int pageSize)
         {
-            var checkCategory = await _context.Categories.FindAsync(categoryId);
-            if(checkCategory==null) return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.NotFound,$"Không tìm thấy danh mục có mã: {categoryId}");
             var products = await (from p in _context.Products
                 join c in _context.Categories on p.CategoryId equals c.Id
                 join brand in _context.Brands on p.BrandId equals brand.Id
@@ -69,7 +67,7 @@ namespace eQACoLTD.Application.Product.Category
                     into ProductImageGroup
                 from pi in ProductImageGroup.DefaultIfEmpty()
                 orderby p.Id
-                where c.Id == categoryId && pi.IsThumbnail == true
+                where c.Id.Contains(categoryId=="all"?"":categoryId) && pi.IsThumbnail == true
                 select new ProductCardDto()
                 {
                     Id = p.Id,

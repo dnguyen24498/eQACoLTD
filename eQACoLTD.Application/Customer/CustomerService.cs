@@ -153,17 +153,16 @@ namespace eQACoLTD.Application.Customer
                 join customertype in _context.CustomerTypes on c.CustomerTypeId equals customertype.Id
                     into CustomerTypeGroup
                 from ct in CustomerTypeGroup.DefaultIfEmpty()
-                let totalDebt = (from srd in _context.OrderDetails
-                                    join sr in _context.Orders on srd.OrderId equals sr.Id
-                                    where sr.CustomerId == c.Id
-                                    select srd.Quantity * srd.UnitPrice).Sum() +
-                                (from p in _context.PaymentVouchers
-                                    where p.CustomerId == c.Id
-                                    select p.Paid).Sum() -
-                                (from rv in _context.ReceiptVouchers
-                                    join sr in _context.Orders
-                                        on rv.OrderId equals sr.Id
-                                    select rv.Received).Sum()
+                let customerDebt = (_context.Orders.Where(x => x.CustomerId == c.Id &&
+                                                               x.TransactionStatusId !=
+                                                               GlobalProperties.CancelTransactionId
+                                                               && x.TransactionStatusId !=
+                                                               GlobalProperties.WaitingTransactionId)
+                                       .Sum(x => (decimal?) x.TotalAmount) ?? 0)
+                                   + (_context.PaymentVouchers.Where(x => x.CustomerId == c.Id)
+                                       .Sum(x => (decimal?) x.Paid) ?? 0) -
+                                   (_context.ReceiptVouchers.Where(x => x.CustomerId == c.Id)
+                                       .Sum(x => (decimal?) x.Received) ?? 0)
                 where c.Name.ToLower().Contains(customerName.ToLower()) && c.IsDelete == false
                 select new CustomerDto()
                 {
@@ -180,7 +179,8 @@ namespace eQACoLTD.Application.Customer
                     UserName = au.UserName,
                     PhoneNumber = c.PhoneNumber,
                     CustomerTypeName = ct.Name,
-                    TotalDebt = totalDebt
+                    TotalDebt = customerDebt,
+                    Email = string.IsNullOrEmpty(c.Email)?au.Email:c.Email
                 }).ToListAsync();
             return new ApiResult<IEnumerable<CustomerDto>>()
             {

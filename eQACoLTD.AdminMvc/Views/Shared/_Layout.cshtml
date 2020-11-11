@@ -28,7 +28,7 @@
 <div class="br-sideleft overflow-y-auto">
     <label class="sidebar-label pd-x-15 mg-t-20">Chung</label>
     <div class="br-sideleft-menu">
-        <a href="index.html" class="br-menu-link active">
+        <a asp-controller="Home" asp-action="Index" class="br-menu-link active">
             <div class="br-menu-item">
                 <i class="menu-item-icon icon ion-home tx-24"></i>
                 <span class="menu-item-label">Tổng quan</span>
@@ -88,7 +88,7 @@
                 <a asp-controller="Product" asp-action="Index" class="nav-link">Danh sách sản phẩm</a>
             </li>
             <li class="nav-item">
-                <a href="chart-flot.html" class="nav-link">Quản lý kho</a>
+                <a asp-controller="Product" asp-action="Stock" class="nav-link">Quản lý kho</a>
             </li>
             <li class="nav-item">
                 <a href="chart-chartjs.html" class="nav-link">Nhập hàng</a>

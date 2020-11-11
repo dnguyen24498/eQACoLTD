@@ -37,7 +37,7 @@ namespace eQACoLTD.ClientMvc.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         
-        public async Task<IActionResult> Products(string categoryId,int page=1,int size=15)
+        public async Task<IActionResult> Products(string categoryId="all",int page=1,int size=16)
         {
             var result = await _apiService.GetProductsByCategoryPagingAsync(categoryId, page, size);
             if (result.Code != HttpStatusCode.OK) return View(new PagedResult<ProductCardDto>());

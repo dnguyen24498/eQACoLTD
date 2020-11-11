@@ -10,6 +10,7 @@ using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using eQACoLTD.AdminMvc.Handlers;
+using eQACoLTD.AdminMvc.Services;
 using Microsoft.CodeAnalysis;
 
 namespace eQACoLTD.AdminMvc.Controllers
@@ -19,14 +20,16 @@ namespace eQACoLTD.AdminMvc.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        public HomeController(IHttpClientFactory httpClientFactory)
+        private readonly IReportService _reportService;
+
+        public HomeController(IReportService reportService)
         {
-            _httpClientFactory = httpClientFactory;
+            _reportService = reportService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();   
+            var result = await _reportService.GetOverviewReport();
+            return View(result.ResultObj);   
         }
     }
 }

@@ -3,16 +3,6 @@
 @section Scripts
 {
     <script>
-        var timer=null;
-        var orderId='';
-        $("#customer-search").keyup(function() {
-          clearTimeout(timer);
-          timer=setTimeout(searchCustomer,1000)
-        })
-        $("#product-search").keyup(function() {
-                  clearTimeout(timer);
-                  timer=setTimeout(searchProduct,1000)
-                })
         $(document).on('click', function(e) {
             if ( e.target.id != 'ok' ) {
                 hideCustomerPanel();
@@ -22,6 +12,7 @@
         function searchCustomer() {
           $("#customers-panel").css('display','block');
           var customerName=$("#customer-search").val();
+          if (customerName!==''){
           $.ajax({
              url:'@Configuration["APIServerHost"]api/customers/search/'+customerName,
              headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
@@ -49,7 +40,8 @@
                  $("#customers-ul").append(liEl);
                })
              }
-          });
+          })}
+          else hideCustomerPanel();
         }
         function selectCustomer(cus){
             $("#customer-search,#customers-panel").css('display','none');
@@ -59,7 +51,7 @@
             $("#customer-phone").val(cus.phoneNumber);
             $("#customer-email").val(cus.email);
             $("#customer-address").val(cus.address);
-            $("#customer-debt").val(cus.totalDebt);
+            $("#customer-debt").val(accounting.format(parseInt(cus.totalDebt)));
         }
         function hideCustomerPanel() {
           $("#customers-panel").css('display','none');
@@ -67,6 +59,7 @@
         function searchProduct() {
             $("#product-panel").css('display','block');
             var productName=$("#product-search").val();
+            if (productName!==''){
             $.ajax({
                 url:'@Configuration["APIServerHost"]api/products/search?searchValue='+productName,
                 headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
@@ -177,7 +170,7 @@
                     $("#products-ul").append(liEl);
                   })
                 }
-            })
+            })}else hideProductPanel();
         }
         function hideProductPanel() {
             $("#product-panel").css('display','none');
@@ -281,9 +274,7 @@
                 data:JSON.stringify(order),
                 success:function(data) {
                     showAlertMessage(true,data.message);
-                    orderId=data.resultObj;
-                    $("#payment-Order").css('display','block');
-                    $("#payment-Value").val(parseFloat($("#total-Amount-Final").text().replace(/,/g,'')));
+                    window.location='@Configuration["AdminMvc"]order/detail?orderId='+data.resultObj;
                     },
                 error:function(data) {
                     showAlertMessage(false,data.message);
@@ -308,28 +299,6 @@
             if($("#discount-Type").html()==='$') $("#discount-Type").html('%');
             else $("#discount-Type").html('$');
             updateTotalAmountOrder();
-        }
-        function paymentOrder(){
-             $.ajax({
-                url:'@Configuration["APIServerHost"]api/payments/orders/'+orderId,
-                headers: {
-                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
-                    },
-                method:'post',
-                contentType:"application/json",
-                data:JSON.stringify({
-                    "received": parseFloat($("#payment-Value").val().replace(/,/g,'')),
-                    "paymentMethodId": $("#payment-Method").find(":selected").val(),
-                    "description": $("#payment-Description").val(),
-                    "receivedDate": (new Date($("#payment-Date").val())).toJSON()
-                }),
-                success:function() {
-                    showAlertMessage(true,"Thanh toán đơn hàng thành công");
-                    },
-                error:function() {
-                    showAlertMessage(false,"Có lỗi khi Thanh toán đơn hàng");
-                }
-             });
         }
         $('#servicePrice,#serviceQuantity,#total-Discount,#payment-Value').keyup(function(event) {
                if(event.which >= 37 && event.which <= 40) return;
@@ -356,17 +325,17 @@
 <div class="col-md-8">
     <div class="form-layout form-layout-1 bg-white">
         <h6 class="tx-gray-800 tx-bold">Thông tin khách hàng</h6>
-        <input id="customer-search" style="display: block"
+        <input id="customer-search" style="display: block" oninput="searchCustomer()"
                placeholder="Tìm kiếm khách hàng..." class="form-control" type="text">
         <div id="customers-panel" style="display: none;position: absolute;z-index: 1"
              class="col-md-11 panel">
             <div class="panel-body row">
                 <ul id="customers-ul" class="form-control"
                     style="max-height: 350px;margin-bottom: 10px;overflow:scroll;-webkit-overflow-scrolling: touch;">
-                    <li class="list-group-item">
-                        Khách hàng:Nguyễn Dương Nguyên<br/>
-                        Điện thoại: 1234567890
-                    </li>
+                    @* <li class="list-group-item"> *@
+                    @*     Khách hàng:Nguyễn Dương Nguyên<br/> *@
+                    @*     Điện thoại: 1234567890 *@
+                    @* </li> *@
                 </ul>
             </div>
         </div>
@@ -402,7 +371,7 @@
                     <div class="col-md-4">
                         <div class="form-group mg-md-l--1 bd-t-0-force">
                             <label class="form-control-label">Công nợ hiện tại: <span class="tx-danger">*</span></label>
-                            <input id="customer-debt" class="form-control" type="text" disabled="disabled">
+                            <input id="customer-debt" class="form-control text-danger" type="text" disabled="disabled">
                         </div>
                     </div><!-- col-4 -->
                 </div><!-- row -->
@@ -412,7 +381,7 @@
     </div>
     <div class="form-layout form-layout-1 bg-white mt-3">
         <h6 class="tx-gray-800 tx-bold">Thông tin sản phẩm</h6>
-        <input id="product-search"
+        <input id="product-search" oninput="searchProduct()"
                placeholder="Tìm kiếm sản phẩm..." class="form-control" type="text">
         <div id="product-panel" style="display: none;position: absolute;z-index: 1" class="col-md-11 panel">
             <div class="panel-body row">
@@ -520,35 +489,6 @@
         <h6 class="tx-gray-800 tx-bold">Thông tin khác</h6>
         <p>Ghi chú</p>
         <textarea class="form-control" id="order-Description" cols="30" rows="5"></textarea>
-    </div>
-    <div class="form-layout form-layout-1 bg-white mt-3" id="payment-Order" style="display: none">
-        <h6 class="tx-gray-800 tx-bold">Xác nhận thanh toán đơn hàng</h6>
-        <div>
-            <label for="payment-Value" class="col-form-label">Phương thức thanh toán</label>
-            <select class="form-control" id="payment-Method">
-                <option value="7cd60e3f-c215-42b3-a98e-c4ac4fe71b63">Tiền mặt</option>
-                <option value="a196f0c3-c36a-4cb1-892c-3c72e1dd8b02">Quẹt thẻ</option>
-                <option value="f178a9b0-13fa-4221-90cc-7cede6995026">Điểm tích lũy</option>
-                <option value="93f58e8a-7b32-4f80-a128-1c3dc5b50eda">Chuyển khoản</option>
-            </select>
-        </div>
-        <div>
-            <label for="payment-Value" class="col-form-label">Số tiền thanh toán</label>
-            <input class="form-control price_format" type="text" id="payment-Value" style="text-align: right" value="0">
-        </div>
-        <div>
-            <label for="payment-Date" class="col-form-label">Ngày tạo phiếu</label>
-            <input class="form-control price_format" type="datetime-local" id="payment-Date"
-                   style="text-align: right">
-        </div>
-        <div>
-                    <label for="payment-Description" class="col-form-label">Ghi chú</label>
-                    <textarea  id="payment-Description" cols="30" class="form-control" rows="5"></textarea>
-                </div>
-        <a class="btn btn-primary form-control mt-3 text-white" onclick="paymentOrder()" style="cursor: pointer">
-            <i class="fa fa-credit-card pr-2"></i>
-            Thanh toán đơn hàng
-        </a>
     </div>
 </div>
 

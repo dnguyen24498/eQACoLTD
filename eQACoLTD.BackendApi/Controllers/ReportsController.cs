@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using eQACoLTD.Application.Report;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,5 +32,15 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _reportService.GetAllSupplierDebtAsync(pageIndex, pageSize);
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpGet("overview")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetOverViewReport()
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _reportService.GetOverviewReport(accountId);
+            return StatusCode((int)result.Code, result);
+        }
+        
     }
 }

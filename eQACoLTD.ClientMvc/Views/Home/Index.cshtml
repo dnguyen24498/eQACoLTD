@@ -32,12 +32,12 @@
                 <div class="top_bar_contact_item">
                     <div class="top_bar_icon">
                         <img src="~/images/phone.png" alt="">
-                    </div>0123456789
+                    </div>0982 459 566
                 </div>
                 <div class="top_bar_contact_item">
                     <div class="top_bar_icon">
                         <img src="~/images/mail.png" alt="">
-                    </div><a href="mailto:fastsales@gmail.com">fastsales@gmail.com</a>
+                    </div><a href="mailto:fastsales@gmail.com">maytinhquanganh@gmail.com</a>
                 </div>
                 <div class="top_bar_content ml-auto">
                     <div class="top_bar_user">
@@ -85,16 +85,18 @@
         <div class="row">
 
             <!-- Logo -->
-            <div class="col-lg-2 col-sm-3 col-3 order-1">
+            <div class="col-lg-3 col-sm-3 col-3 order-1">
                 <div class="logo_container">
                     <div class="logo">
-                        <a href="#">OneTech</a>
+                        <a asp-controller="Home" asp-action="Index">
+                            <img src="~/images/logo-quang-anh-2018.png" style="width: 190px">
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- Search -->
-            <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+            <div class="col-lg-5 col-12 order-lg-2 order-3 text-lg-left text-right">
                 <div class="header_search">
                     <div class="header_search_content">
                         <div class="header_search_form_container">
@@ -102,8 +104,7 @@
                                 <input name="searchValue" type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
                                 <div class="custom_dropdown">
                                     <div class="custom_dropdown_list">
-                                        <span class="custom_dropdown_placeholder clc">Toàn bộ danh mục</span>
-                                        <i class="fas fa-chevron-down"></i>
+                                        <span class="custom_dropdown_placeholder clc">Toàn bộ</span>
                                         <ul class="custom_list clc">
                                         </ul>
                                     </div>
@@ -128,7 +129,6 @@
                             <div class="wishlist_text">
                                 <a href="#">Yêu thích</a>
                             </div>
-                            <div class="wishlist_count">115</div>
                         </div>
                     </div>
 
@@ -138,14 +138,12 @@
                             <div class="cart_icon">
                                 <img src="~/images/cart.png" alt="">
                                 <div class="cart_count">
-                                    <span>10</span>
                                 </div>
                             </div>
                             <div class="cart_content">
                                 <div class="cart_text">
                                     <a asp-controller="Account" asp-action="Cart">Giỏ hàng</a>
                                 </div>
-                                <div class="cart_price">$85</div>
                             </div>
                         </div>
                     </div>
@@ -168,61 +166,13 @@
                     <div class="main_nav_menu ml-auto">
                         <ul class="standard_dropdown main_nav_dropdown">
                             <li>
-                                <a href="#">Trang chủ<i class="fas fa-chevron-down"></i></a>
+                                <a asp-controller="Home" asp-action="Products">Toàn bộ sản phẩm<i class="fas fa-chevron-down"></i></a>
                             </li>
                             <li class="hassubs">
-                                <a href="#">Thương hiệu<i class="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    <li>
-                                        <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                </ul>
+                                <a href="#">Thương hiệu</a>
                             </li>
                             <li class="hassubs">
-                                <a href="#">Đơn hàng<i class="fas fa-chevron-down"></i></a>
-                                <ul>
-                                    <li>
-                                        <a href="shop.html">Shop<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="product.html">Product<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="regular.html">Regular Post<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="cart.html">Cart<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                    <li>
-                                        <a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a>
-                                    </li>
-                                </ul>
+                                <a href="#">Đơn hàng</a>
                             </li>
                             <li>
                                 <a href="blog.html">Tin tức công nghệ<i class="fas fa-chevron-down"></i></a>
@@ -259,21 +209,10 @@
 <!-- Banner -->
 
 <div class="banner">
-    <div class="banner_background" style="background-image:url(~/images/banner_background.jpg)"></div>
     <div class="container fill_height">
-        <div class="row fill_height">
+        <div class="row fill_height" style="height: 250px">
             <div class="banner_product_image">
-                <img src="~/images/banner_product.png" alt="">
-            </div>
-            <div class="col-lg-5 offset-lg-4 fill_height">
-                <div class="banner_content">
-                    <h1 class="banner_text">new era of smartphones</h1>
-                    <div class="banner_price"><span>$530</span>$460</div>
-                    <div class="banner_product_name">Apple Iphone 6s</div>
-                    <div class="button banner_button">
-                        <a href="#">Mua ngay</a>
-                    </div>
-                </div>
+                <img src="~/images/banner.jpg" alt="">
             </div>
         </div>
     </div>
@@ -640,111 +579,6 @@
 
 <!-- Banner -->
 
-<div class="banner_2">
-    <div class="banner_2_background" style="background-image:url(~/images/banner_2_background.jpg)"></div>
-    <div class="banner_2_container">
-        <div class="banner_2_dots"></div>
-        <!-- Banner 2 Slider -->
-
-        <div class="owl-carousel owl-theme banner_2_slider">
-
-            <!-- Banner 2 Slider Item -->
-            <div class="owl-item">
-                <div class="banner_2_item">
-                    <div class="container fill_height">
-                        <div class="row fill_height">
-                            <div class="col-lg-4 col-md-6 fill_height">
-                                <div class="banner_2_content">
-                                    <div class="banner_2_category">Máy tính xách tay</div>
-                                    <div class="banner_2_title">MacBook Air 13</div>
-                                    <div class="banner_2_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</div>
-                                    <div class="rating_r rating_r_4 banner_2_rating">
-                                        <i></i><i></i><i></i><i></i><i></i>
-                                    </div>
-                                    <div class="button banner_2_button">
-                                        <a href="#">Xem ngay</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-8 col-md-6 fill_height">
-                                <div class="banner_2_image_container">
-                                    <div class="banner_2_image">
-                                        <img src="~/images/banner_2_product.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Banner 2 Slider Item -->
-            <div class="owl-item">
-                <div class="banner_2_item">
-                    <div class="container fill_height">
-                        <div class="row fill_height">
-                            <div class="col-lg-4 col-md-6 fill_height">
-                                <div class="banner_2_content">
-                                    <div class="banner_2_category">Laptops</div>
-                                    <div class="banner_2_title">MacBook Air 13</div>
-                                    <div class="banner_2_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</div>
-                                    <div class="rating_r rating_r_4 banner_2_rating">
-                                        <i></i><i></i><i></i><i></i><i></i>
-                                    </div>
-                                    <div class="button banner_2_button">
-                                        <a href="#">Explore</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-8 col-md-6 fill_height">
-                                <div class="banner_2_image_container">
-                                    <div class="banner_2_image">
-                                        <img src="~/images/banner_2_product.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Banner 2 Slider Item -->
-            <div class="owl-item">
-                <div class="banner_2_item">
-                    <div class="container fill_height">
-                        <div class="row fill_height">
-                            <div class="col-lg-4 col-md-6 fill_height">
-                                <div class="banner_2_content">
-                                    <div class="banner_2_category">Laptops</div>
-                                    <div class="banner_2_title">MacBook Air 13</div>
-                                    <div class="banner_2_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</div>
-                                    <div class="rating_r rating_r_4 banner_2_rating">
-                                        <i></i><i></i><i></i><i></i><i></i>
-                                    </div>
-                                    <div class="button banner_2_button">
-                                        <a href="#">Explore</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="col-lg-8 col-md-6 fill_height">
-                                <div class="banner_2_image_container">
-                                    <div class="banner_2_image">
-                                        <img src="~/images/banner_2_product.png" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 <!-- Hot New Arrivals -->
 
 <div class="new_arrivals">
@@ -812,446 +646,6 @@
         </div>
     </div>
 </div>
-
-<!-- Adverts -->
-
-<div class="adverts">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-lg-4 advert_col">
-
-                <!-- Advert Item -->
-
-                <div class="advert d-flex flex-row align-items-center justify-content-start">
-                    <div class="advert_content">
-                        <div class="advert_title">
-                            <a href="#">Thịnh hành 2018</a>
-                        </div>
-                        <div class="advert_text">Lorem ipsum dolor sit amet, consectetur adipiscing Donec et.</div>
-                    </div>
-                    <div class="ml-auto">
-                        <div class="advert_image">
-                            <img src="~/images/adv_1.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 advert_col">
-
-                <!-- Advert Item -->
-
-                <div class="advert d-flex flex-row align-items-center justify-content-start">
-                    <div class="advert_content">
-                        <div class="advert_subtitle">Thịnh hành 2018</div>
-                        <div class="advert_title_2">
-                            <a href="#">Giảm giá -45%</a>
-                        </div>
-                        <div class="advert_text">Lorem ipsum dolor sit amet, consectetur.</div>
-                    </div>
-                    <div class="ml-auto">
-                        <div class="advert_image">
-                            <img src="~/images/adv_2.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 advert_col">
-
-                <!-- Advert Item -->
-
-                <div class="advert d-flex flex-row align-items-center justify-content-start">
-                    <div class="advert_content">
-                        <div class="advert_title">
-                            <a href="#">Thịnh hành 2018</a>
-                        </div>
-                        <div class="advert_text">Lorem ipsum dolor sit amet, consectetur.</div>
-                    </div>
-                    <div class="ml-auto">
-                        <div class="advert_image">
-                            <img src="~/images/adv_3.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- Trends -->
-
-<div class="trends">
-    <div class="trends_background" style="background-image:url(~/images/trends_background.jpg)"></div>
-    <div class="trends_overlay"></div>
-    <div class="container">
-        <div class="row">
-
-            <!-- Trends Content -->
-            <div class="col-lg-3">
-                <div class="trends_container">
-                    <h2 class="trends_title">Thịnh hành trong năm @(DateTime.Now.Year - 1)</h2>
-                    <div class="trends_text">
-                        <p>Các sản phẩm thịnh hành trong năm vừa qua.</p>
-                    </div>
-                    <div class="trends_slider_nav">
-                        <div class="trends_prev trends_nav">
-                            <i class="fas fa-angle-left ml-auto"></i>
-                        </div>
-                        <div class="trends_next trends_nav">
-                            <i class="fas fa-angle-right ml-auto"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Trends Slider -->
-            <div class="col-lg-9">
-                <div class="trends_slider_container">
-
-                    <!-- Trends Slider -->
-
-                    <div class="owl-carousel owl-theme trends_slider">
-
-                        <!-- Trends Slider Item -->
-                        <div class="owl-item">
-                            <div class="trends_item is_new">
-                                <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                    <img src="~/images/trends_1.jpg" alt="">
-                                </div>
-                                <div class="trends_content">
-                                    <div class="trends_category">
-                                        <a href="#">Smartphones</a>
-                                    </div>
-                                    <div class="trends_info clearfix">
-                                        <div class="trends_name">
-                                            <a href="product.html">Jump White</a>
-                                        </div>
-                                        <div class="trends_price">$379</div>
-                                    </div>
-                                </div>
-                                <ul class="trends_marks">
-                                    <li class="trends_mark trends_discount">-25%</li>
-                                    <li class="trends_mark trends_new">new</li>
-                                </ul>
-                                <div class="trends_fav">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trends Slider Item -->
-                        <div class="owl-item">
-                            <div class="trends_item">
-                                <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                    <img src="~/images/trends_2.jpg" alt="">
-                                </div>
-                                <div class="trends_content">
-                                    <div class="trends_category">
-                                        <a href="#">Smartphones</a>
-                                    </div>
-                                    <div class="trends_info clearfix">
-                                        <div class="trends_name">
-                                            <a href="product.html">Samsung Charm...</a>
-                                        </div>
-                                        <div class="trends_price">$379</div>
-                                    </div>
-                                </div>
-                                <ul class="trends_marks">
-                                    <li class="trends_mark trends_discount">-25%</li>
-                                    <li class="trends_mark trends_new">new</li>
-                                </ul>
-                                <div class="trends_fav">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trends Slider Item -->
-                        <div class="owl-item">
-                            <div class="trends_item is_new">
-                                <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                    <img src="~/images/trends_3.jpg" alt="">
-                                </div>
-                                <div class="trends_content">
-                                    <div class="trends_category">
-                                        <a href="#">Smartphones</a>
-                                    </div>
-                                    <div class="trends_info clearfix">
-                                        <div class="trends_name">
-                                            <a href="product.html">DJI Phantom 3...</a>
-                                        </div>
-                                        <div class="trends_price">$379</div>
-                                    </div>
-                                </div>
-                                <ul class="trends_marks">
-                                    <li class="trends_mark trends_discount">-25%</li>
-                                    <li class="trends_mark trends_new">new</li>
-                                </ul>
-                                <div class="trends_fav">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trends Slider Item -->
-                        <div class="owl-item">
-                            <div class="trends_item is_new">
-                                <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                    <img src="~/images/trends_1.jpg" alt="">
-                                </div>
-                                <div class="trends_content">
-                                    <div class="trends_category">
-                                        <a href="#">Smartphones</a>
-                                    </div>
-                                    <div class="trends_info clearfix">
-                                        <div class="trends_name">
-                                            <a href="product.html">Jump White</a>
-                                        </div>
-                                        <div class="trends_price">$379</div>
-                                    </div>
-                                </div>
-                                <ul class="trends_marks">
-                                    <li class="trends_mark trends_discount">-25%</li>
-                                    <li class="trends_mark trends_new">new</li>
-                                </ul>
-                                <div class="trends_fav">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trends Slider Item -->
-                        <div class="owl-item">
-                            <div class="trends_item">
-                                <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                    <img src="~/images/trends_2.jpg" alt="">
-                                </div>
-                                <div class="trends_content">
-                                    <div class="trends_category">
-                                        <a href="#">Smartphones</a>
-                                    </div>
-                                    <div class="trends_info clearfix">
-                                        <div class="trends_name">
-                                            <a href="product.html">Jump White</a>
-                                        </div>
-                                        <div class="trends_price">$379</div>
-                                    </div>
-                                </div>
-                                <ul class="trends_marks">
-                                    <li class="trends_mark trends_discount">-25%</li>
-                                    <li class="trends_mark trends_new">new</li>
-                                </ul>
-                                <div class="trends_fav">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Trends Slider Item -->
-                        <div class="owl-item">
-                            <div class="trends_item is_new">
-                                <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                    <img src="~/images/trends_3.jpg" alt="">
-                                </div>
-                                <div class="trends_content">
-                                    <div class="trends_category">
-                                        <a href="#">Smartphones</a>
-                                    </div>
-                                    <div class="trends_info clearfix">
-                                        <div class="trends_name">
-                                            <a href="product.html">Jump White</a>
-                                        </div>
-                                        <div class="trends_price">$379</div>
-                                    </div>
-                                </div>
-                                <ul class="trends_marks">
-                                    <li class="trends_mark trends_discount">-25%</li>
-                                    <li class="trends_mark trends_new">new</li>
-                                </ul>
-                                <div class="trends_fav">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- Reviews -->
-
-<div class="reviews">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-
-                <div class="reviews_title_container">
-                    <h3 class="reviews_title">Đánh giá cuối</h3>
-                    <div class="reviews_all ml-auto">
-                        <a href="#">Xem toàn bộ</a>
-                    </div>
-                </div>
-
-                <div class="reviews_slider_container">
-
-                    <!-- Reviews Slider -->
-                    <div class="owl-carousel owl-theme reviews_slider">
-
-                        <!-- Reviews Slider Item -->
-                        <div class="owl-item">
-                            <div class="review d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div class="review_image">
-                                        <img src="~/images/review_1.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_name">Roberto Sanchez</div>
-                                    <div class="review_rating_container">
-                                        <div class="rating_r rating_r_4 review_rating">
-                                            <i></i><i></i><i></i><i></i><i></i>
-                                        </div>
-                                        <div class="review_time">2 day ago</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reviews Slider Item -->
-                        <div class="owl-item">
-                            <div class="review d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div class="review_image">
-                                        <img src="~/images/review_2.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_name">Brandon Flowers</div>
-                                    <div class="review_rating_container">
-                                        <div class="rating_r rating_r_4 review_rating">
-                                            <i></i><i></i><i></i><i></i><i></i>
-                                        </div>
-                                        <div class="review_time">2 day ago</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reviews Slider Item -->
-                        <div class="owl-item">
-                            <div class="review d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div class="review_image">
-                                        <img src="~/images/review_3.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_name">Emilia Clarke</div>
-                                    <div class="review_rating_container">
-                                        <div class="rating_r rating_r_4 review_rating">
-                                            <i></i><i></i><i></i><i></i><i></i>
-                                        </div>
-                                        <div class="review_time">2 day ago</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reviews Slider Item -->
-                        <div class="owl-item">
-                            <div class="review d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div class="review_image">
-                                        <img src="~/images/review_1.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_name">Roberto Sanchez</div>
-                                    <div class="review_rating_container">
-                                        <div class="rating_r rating_r_4 review_rating">
-                                            <i></i><i></i><i></i><i></i><i></i>
-                                        </div>
-                                        <div class="review_time">2 day ago</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reviews Slider Item -->
-                        <div class="owl-item">
-                            <div class="review d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div class="review_image">
-                                        <img src="~/images/review_2.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_name">Brandon Flowers</div>
-                                    <div class="review_rating_container">
-                                        <div class="rating_r rating_r_4 review_rating">
-                                            <i></i><i></i><i></i><i></i><i></i>
-                                        </div>
-                                        <div class="review_time">2 day ago</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reviews Slider Item -->
-                        <div class="owl-item">
-                            <div class="review d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div class="review_image">
-                                        <img src="~/images/review_3.jpg" alt="">
-                                    </div>
-                                </div>
-                                <div class="review_content">
-                                    <div class="review_name">Emilia Clarke</div>
-                                    <div class="review_rating_container">
-                                        <div class="rating_r rating_r_4 review_rating">
-                                            <i></i><i></i><i></i><i></i><i></i>
-                                        </div>
-                                        <div class="review_time">2 day ago</div>
-                                    </div>
-                                    <div class="review_text">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum laoreet.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="reviews_dots"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Recently Viewed -->
-
 <div class="viewed">
     <div class="container">
         <div class="row">
@@ -1388,14 +782,13 @@
                 <div class="footer_column footer_contact">
                     <div class="logo_container">
                         <div class="logo">
-                            <a href="#">OneTech</a>
+                            <a href="#">Q&A Computer</a>
                         </div>
                     </div>
-                    <div class="footer_title">Got Question? Call Us 24/7</div>
                     <div class="footer_phone">0123456789</div>
                     <div class="footer_contact_text">
-                        <p>17 Princess Road, London</p>
-                        <p>Grester London NW18JR, UK</p>
+                        <p>Địa chỉ: 57, Nguyễn Bình</p>
+                        <p>Kênh Dương, Lê Chân, Hải Phòng</p>
                     </div>
                     <div class="footer_social">
                         <ul>
@@ -1431,28 +824,22 @@
 
             <div class="col-lg-2 offset-lg-2">
                 <div class="footer_column">
-                    <div class="footer_title">Find it Fast</div>
+                    <div class="footer_title">Tìm nhanh danh mục</div>
                     <ul class="footer_list">
                         <li>
-                            <a href="#">Computers & Laptops</a>
+                            <a href="#">Máy tính</a>
                         </li>
                         <li>
-                            <a href="#">Cameras & Photos</a>
+                            <a href="#">Camera</a>
                         </li>
                         <li>
-                            <a href="#">Hardware</a>
+                            <a href="#">Phần cứng</a>
                         </li>
                         <li>
-                            <a href="#">Smartphones & Tablets</a>
+                            <a href="#">Phụ kiện</a>
                         </li>
                         <li>
-                            <a href="#">TV & Audio</a>
-                        </li>
-                    </ul>
-                    <div class="footer_subtitle">Gadgets</div>
-                    <ul class="footer_list">
-                        <li>
-                            <a href="#">Car Electronics</a>
+                            <a href="#">Phần mềm</a>
                         </li>
                     </ul>
                 </div>
@@ -1460,50 +847,25 @@
 
             <div class="col-lg-2">
                 <div class="footer_column">
-                    <ul class="footer_list footer_list_2">
-                        <li>
-                            <a href="#">Video Games & Consoles</a>
-                        </li>
-                        <li>
-                            <a href="#">Accessories</a>
-                        </li>
-                        <li>
-                            <a href="#">Cameras & Photos</a>
-                        </li>
-                        <li>
-                            <a href="#">Hardware</a>
-                        </li>
-                        <li>
-                            <a href="#">Computers & Laptops</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-lg-2">
-                <div class="footer_column">
-                    <div class="footer_title">Customer Care</div>
+                    <div class="footer_title">Chăm sóc khách hàng</div>
                     <ul class="footer_list">
                         <li>
-                            <a href="#">My Account</a>
+                            <a href="#">Tài khoản</a>
                         </li>
                         <li>
-                            <a href="#">Order Tracking</a>
+                            <a href="#">Theo dõi đơn hàng</a>
                         </li>
                         <li>
-                            <a href="#">Wish List</a>
+                            <a href="#">Dịch vụ khách hàng</a>
                         </li>
                         <li>
-                            <a href="#">Customer Services</a>
+                            <a href="#">Chính sách trả hàng/ đổi hàng</a>
                         </li>
                         <li>
-                            <a href="#">Returns / Exchange</a>
+                            <a href="#">Câu hỏi</a>
                         </li>
                         <li>
-                            <a href="#">FAQs</a>
-                        </li>
-                        <li>
-                            <a href="#">Product Support</a>
+                            <a href="#">Hỗ trợ sản phẩm</a>
                         </li>
                     </ul>
                 </div>

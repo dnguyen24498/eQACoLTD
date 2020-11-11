@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using eQACoLTD.AdminMvc.Services;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Product.Category.Handlers;
 using eQACoLTD.ViewModel.Product.Category.Queries;
 using eQACoLTD.ViewModel.Product.ListProduct.Handlers;
 using eQACoLTD.ViewModel.Product.ListProduct.Queries;
+using eQACoLTD.ViewModel.Product.Stock.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eQACoLTD.AdminMvc.Controllers
@@ -38,6 +40,13 @@ namespace eQACoLTD.AdminMvc.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Stock(int page = 1, int size = 15)
+        {
+            var result = await _productService.GetProductsInStockPagingAsync(page, size);
+            if (result.Code != HttpStatusCode.OK) return View(new PagedResult<ProductInStock>());
+            return View(result.ResultObj);
+        }
 
     }
 }

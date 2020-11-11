@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using eQACoLTD.Application.Common;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Application.Extensions;
 using eQACoLTD.Data.Entities;
@@ -48,7 +49,7 @@ namespace eQACoLTD.Application.Product.Supplier
             var checkSupplier = await _context.Suppliers.FindAsync(supplierId);
             if(checkSupplier==null) return new ApiResult<SupplierDto>(HttpStatusCode.NotFound,$"Không tìm thấy nhà cung cấp có mã: {supplierId}");
             var totalPurchaseOrder = await (from po in _context.PurchaseOrders
-                                            where po.SupplierId == supplierId
+                                            where po.SupplierId == supplierId && po.TransactionStatusId!=GlobalProperties.CancelTransactionId
                                             select po.TotalAmount).SumAsync();
             var totalReceiptVoucher = await (from rv in _context.ReceiptVouchers
                                              where rv.SupplierId == supplierId

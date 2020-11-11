@@ -20,5 +20,6 @@ namespace eQACoLTD.ViewModel.Customer.Queries
         public string Fax { get; set; }
         public string Website { get; set; }
         public string PhoneNumber { get; set; }
+        public string Email { get; set; }
     }
 }

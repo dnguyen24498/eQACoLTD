@@ -89,6 +89,7 @@ namespace eQACoLTD.AdminMvc
             services.AddTransient<ICategoryAPIService, CategoryAPIService>();
             services.AddTransient<ISupplierAPIService, SupplierAPIService>();
             services.AddTransient<IOrderAPIService,OrderAPIService>();
+            services.AddTransient<IReportService,ReportService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -37,6 +37,9 @@ namespace eQACoLTD.Data.Configurations
             builder.HasOne(l => l.LiquidationVoucher)
                 .WithMany(so => so.Shippings)
                 .HasForeignKey(so => so.LiquidationVoucherId);
+            builder.HasOne(e => e.Employee)
+                .WithMany(s => s.Shippings)
+                .HasForeignKey(s => s.EmployeeId);
         }
     }
 }

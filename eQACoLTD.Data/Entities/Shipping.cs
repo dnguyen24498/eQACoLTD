@@ -18,7 +18,10 @@ namespace eQACoLTD.Data.Entities
         public string ShippingStatusId { get; set; }
         public DateTime DateCreated { get; set; }
         public string LiquidationVoucherId { get; set; }
+        public string EmployeeId { get; set; }
+        
         public Customer Customer { get; set; }
+        public Employee Employee { get; set; }
         public Transporter Transporter { get; set; }
         public ShippingStatus ShippingStatus { get; set; }
         public Order Order { get; set; }

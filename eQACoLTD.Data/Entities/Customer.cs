@@ -30,7 +30,6 @@ namespace eQACoLTD.Data.Entities
         public List<PaymentVoucher> PaymentVouchers { get; set; }
         public List<ReceiptVoucher> ReceiptVouchers { get; set; }
         public List<CustomerPromotion> CustomerPromotions { get; set; }
-        public List<Warranty> Warranties { get; set; }
         public List<Order> Orders { get; set; }
         public List<RepairVoucher> RepairVouchers { get; set; }
         public List<LiquidationVoucher> LiquidationVouchers { get; set; }

@@ -19,9 +19,6 @@ namespace eQACoLTD.Data.Configurations
             builder.HasOne(s => s.Order)
                 .WithOne(w => w.Warranty)
                 .HasForeignKey<Warranty>(w => w.OrderId);
-            builder.HasOne(c => c.Customer)
-                .WithMany(w => w.Warranties)
-                .HasForeignKey(w => w.CustomerId);
             builder.HasOne(e => e.Employee)
                 .WithMany(w => w.Warranties)
                 .HasForeignKey(w => w.EmployeeId);

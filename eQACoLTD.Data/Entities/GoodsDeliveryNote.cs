@@ -23,7 +23,6 @@ namespace eQACoLTD.Data.Entities
         public RepairVoucher RepairVoucher { get; set; }
         public LiquidationVoucher LiquidationVoucher { get; set; }
         public Employee Employee { get; set; }
-        public StockBook StockBook { get; set; }
 
         public List<GoodsDeliveryNoteDetail> GoodsDeliveryNoteDetails { get; set; }
     }

@@ -16,8 +16,10 @@ namespace eQACoLTD.Data.Entities
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string PhoneNumber { get; set; }
+        public string EmployeeId { get; set; }
 
         public Customer Customer { get; set; }
+        public Employee Employee { get; set; }
         public Warehouse Warehouse { get; set; }
         public List<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
         public List<ReceiptVoucher> ReceiptVouchers { get; set; }

@@ -81,8 +81,9 @@ namespace eQACoLTD.AdminMvc
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
             services.AddControllersWithViews();
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IAccountAPIService, AccountAPIService>();
             services.AddTransient<IProductAPIService, ProductAPIService>();
             services.AddTransient<ICustomerAPIService, CustomerAPIService>();

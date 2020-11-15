@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
+using TwoStepDto = eQACoLTD.ViewModel.System.Account.Queries.TwoStepDto;
 
 namespace eQACoLTD.IdentityServer.Controllers
 {
@@ -118,26 +119,100 @@ namespace eQACoLTD.IdentityServer.Controllers
         {
             if (!ModelState.IsValid) return View(loginDtoViewModel);
             var checkUser = await _userManager.FindByEmailAsync(loginDtoViewModel.UserName);
+            if (checkUser == null)
+            {
+                checkUser = await _userManager.FindByNameAsync(loginDtoViewModel.UserName);
+                if (checkUser == null)
+                {
+                    ViewBag.LoginError = "Sai tên đăng nhập hoặc mật khẩu";
+                    return View(loginDtoViewModel);   
+                }
+            }
             var checkPassword = await _userManager.CheckPasswordAsync(checkUser, loginDtoViewModel.Password);
-            if (checkUser == null || !checkPassword)
+            if (!checkPassword)
             {
                 ViewBag.LoginError = "Sai tên đăng nhập hoặc mật khẩu";
-                return View(loginDtoViewModel);
+                return View(loginDtoViewModel);   
             }
+
+            if (!checkUser.EmailConfirmed)
+            {
+                ViewBag.LoginError = "Tài khoản chưa xác nhận mail";
+                return View(loginDtoViewModel); 
+            } 
             await _signInManager.SignOutAsync();
             var signinResult = await _signInManager.PasswordSignInAsync(checkUser, loginDtoViewModel.Password, 
-                loginDtoViewModel.RememberLogin,false);
+                loginDtoViewModel.RememberLogin,true);
             if (signinResult.IsLockedOut)
             {
                 ViewBag.LoginError = "Tài khoản bị khóa, hãy liên hệ với quản trị viên để được hỗ trợ";
                 return View(loginDtoViewModel);
             }
-            if (!signinResult.Succeeded)
+
+            if (signinResult.RequiresTwoFactor)
             {
-                ViewBag.LoginError = "Tài khoản chưa xác nhận mail";
-                return View(loginDtoViewModel);
+                return RedirectToAction(nameof(LoginTwoStep),
+                    new
+                    {
+                        Email = checkUser.EmailConfirmed, loginDtoViewModel.RememberLogin, loginDtoViewModel.ReturnUrl
+                    });
             }
             return Redirect(loginDtoViewModel.ReturnUrl);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LoginTwoStep(string email,bool rememberLogin,string returnUrl)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return RedirectToAction(nameof(Error), new { returnUrl });
+            }
+            var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
+            if (!providers.Contains("Email"))
+            {
+                return RedirectToAction(nameof(Error), new { returnUrl });
+            }
+            var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
+            var message = new Message(new string[] { email }, "Authentication token", token, null);
+            await _emailSender.SendEmailAsync(message);
+            ViewData["RouteData"] = new Dictionary<string, string>
+            {
+                { "returnUrl", returnUrl },
+                { "email", email }
+            };
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginTwoStep(TwoStepDto twoStepDto, string returnUrl, string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(twoStepDto);
+            }
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                return RedirectToAction(nameof(Error), new { returnUrl });
+            }
+            var result = await _signInManager.TwoFactorSignInAsync("Email",
+                twoStepDto.TwoFactorCode, twoStepDto.RememberLogin, rememberClient: false);
+            if (result.Succeeded)
+            {
+                return this.Redirect( returnUrl);
+            }
+            else if (result.IsLockedOut)
+            {
+                await HandleLockout(email, returnUrl);
+                return View(twoStepDto);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Error), new {returnUrl});
+            }
+            return View();
         }
 
         [HttpPost]

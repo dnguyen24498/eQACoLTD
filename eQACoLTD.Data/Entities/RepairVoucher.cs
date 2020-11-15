@@ -19,6 +19,7 @@ namespace eQACoLTD.Data.Entities
         public Customer Customer { get; set; }
         public Branch Branch { get; set; }
         public Employee Employee { get; set; }
+        public Warranty Warranty { get; set; }
         
         public List<GoodsReceivedNote> GoodsReceivedNote { get; set; }
         public List<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }

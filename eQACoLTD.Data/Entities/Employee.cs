@@ -34,5 +34,7 @@ namespace eQACoLTD.Data.Entities
         public List<InventoryVoucher> InventoryVouchers { get; set; }
         public List<Return> Returns { get; set; }
         public List<RepairVoucher> RepairVouchers { get; set; }
+        public List<LiquidationVoucher> LiquidationVouchers { get; set; }
+        public List<Shipping> Shippings { get; set; }
     }
 }

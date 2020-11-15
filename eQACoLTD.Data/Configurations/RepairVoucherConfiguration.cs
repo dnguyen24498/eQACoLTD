@@ -28,6 +28,9 @@ namespace eQACoLTD.Data.Configurations
             builder.HasOne(e => e.Employee)
                 .WithMany(r => r.RepairVouchers)
                 .HasForeignKey(r => r.EmployeeId);
+            builder.HasOne(w => w.Warranty)
+                .WithOne(r => r.RepairVoucher)
+                .HasForeignKey<Warranty>(r => r.RepairVoucherId);
         }
     }
 }

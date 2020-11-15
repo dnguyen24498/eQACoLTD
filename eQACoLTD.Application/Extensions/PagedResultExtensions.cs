@@ -28,6 +28,19 @@ namespace eQACoLTD.Application.Extensions
 
             return result;
         }
+        public static PagedResult<T> MapPage<T>(this IEnumerable<T> source,int page,int pageSize)
+        {
+            var paged = new PagedResult<T>
+            {
+                CurrentPage = page, PageSize = pageSize, RowCount = source.Count()
+            };
+
+            var pageCount = (double)paged.RowCount / pageSize;
+            paged.PageCount = (int)Math.Ceiling(pageCount);
+            var skip = (page - 1) * pageSize;
+            paged.Results = source.Skip(skip).Take(pageSize).ToList();
+            return paged;
+        }
         // public static async Task<PagedResult<U>> GetPagedAsync<T, U>(this IQueryable<T> query, int page, int pageSize) where U : class
         // {
         //     var result = new PagedResult<U>()
@@ -51,18 +64,6 @@ namespace eQACoLTD.Application.Extensions
         //     result.Results = ObjectMapper.Mapper.Map<List<T>, List<U>>(queryResult);
         //     return result;
         // }
-
-        public static PagedResult<T> MapPage<T>(this IEnumerable<T> source,int page,int pageSize,int totalRecord=0)
-        {
-            var paged = new PagedResult<T>();
-            paged.CurrentPage = page;
-            paged.PageSize = pageSize;
-            paged.Results = (IList<T>)source;
-            paged.RowCount = totalRecord;
-
-            var pageCount = (double)paged.RowCount / pageSize;
-            paged.PageCount = (int)Math.Ceiling(pageCount);
-            return paged;
-        }
+        
     }
 }

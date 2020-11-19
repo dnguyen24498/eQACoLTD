@@ -41,6 +41,10 @@ namespace eQACoLTD.Application.Product.Supplier
                     PhoneNumber = s.PhoneNumber
                 }).GetPagedAsync(pageIndex,pageSize);
             if(suppliers==null) return new ApiResult<PagedResult<SuppliersDto>>(HttpStatusCode.NoContent);
+            foreach (var sup in suppliers.Results)
+            {
+                sup.TotalDebt = await getSupplierDebt(sup.Id);
+            }
             return new ApiResult<PagedResult<SuppliersDto>>(HttpStatusCode.OK,suppliers);
         }
 
@@ -146,6 +150,45 @@ namespace eQACoLTD.Application.Product.Supplier
                 }
                 ).GetPagedAsync(pageIndex,pageSize);
             return new ApiResult<PagedResult<SupplierImportHistoriesDto>>(HttpStatusCode.OK,supplierHistories);
+        }
+
+        public async Task<ApiResult<IEnumerable<SuppliersDto>>> SearchSupplier(string searchValue)
+        {
+            var supplier = await (from s in _context.Suppliers
+                join employee in _context.Employees on s.EmployeeId equals employee.Id
+                into EmployeeGroup
+                from e in EmployeeGroup.DefaultIfEmpty()
+                where s.Name.ToLower().Contains(searchValue.ToLower())
+                select new SuppliersDto()
+                {
+                    Id = s.Id,
+                    Address = s.Address,
+                    Name = s.Name,
+                    PhoneNumber = s.PhoneNumber,
+                    EmployeeName = e.Name
+                }).ToListAsync();
+            foreach (var sup in supplier)
+            {
+                sup.TotalDebt = await getSupplierDebt(sup.Id.ToString());
+            }
+            return new ApiResult<IEnumerable<SuppliersDto>>(HttpStatusCode.OK,supplier);
+            
+        }
+
+        private async Task<decimal> getSupplierDebt(string supplierId)
+        {
+            var checkSupplier = await _context.Suppliers.FindAsync(supplierId);
+            if (checkSupplier == null) return 0;
+            var totalPurchaseOrder = await (from po in _context.PurchaseOrders
+                where po.SupplierId == supplierId && po.TransactionStatusId!=GlobalProperties.CancelTransactionId
+                select po.TotalAmount).SumAsync();
+            var totalReceiptVoucher = await (from rv in _context.ReceiptVouchers
+                where rv.SupplierId == supplierId
+                select rv.Received).SumAsync();
+            var totalPaymentVoucher = await (from pv in _context.PaymentVouchers
+                where pv.SupplierId == supplierId
+                select pv.Paid).SumAsync();
+            return totalPurchaseOrder + totalReceiptVoucher - totalPaymentVoucher;
         }
     }
 }

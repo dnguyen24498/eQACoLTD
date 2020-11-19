@@ -376,5 +376,43 @@ namespace eQACoLTD.Application.System.Account
             }
             return new ApiResult<string>(HttpStatusCode.BadRequest,"Người dùng liên kết với tài khoản không được phép chỉnh sửa thông tin, hãy liên hệ với quản trị viên để cập nhập thông tin cá nhân");
         }
+
+        public async Task<ApiResult<PagedResult<AccountOrdersDto>>> GetAccountOrders(int pageIndex, int pageSize, string accountId)
+        {
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(checkCustomer==null) return new ApiResult<PagedResult<AccountOrdersDto>>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng");
+            var orders = await (from o in _context.Orders
+                join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
+                orderby o.DateCreated descending 
+                where o.CustomerId == checkCustomer.Id
+                select new AccountOrdersDto()
+                {
+                    OrderId = o.Id,
+                    DateCreated = o.DateCreated,
+                    TotalAmount = o.TotalAmount,
+                    TransactionStatus = ts.Name
+                }).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<AccountOrdersDto>>(HttpStatusCode.OK,orders);
+        }
+
+        public async Task<ApiResult<string>> CancelOrder(string orderId, string accountId)
+        {
+            var checkCustomer = await _context.Customers.Where(x => x.AppUserId.ToString() == accountId)
+                .SingleOrDefaultAsync();
+            if(checkCustomer==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy khách hàng");
+            var checkOrder = await _context.Orders.Where(x => x.Id == orderId).SingleOrDefaultAsync();
+            if(checkOrder==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
+            if(checkOrder.TransactionStatusId!=GlobalProperties.WaitingTransactionId) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Chỉ được phép hủy đơn hàng đang trong trạng thái chờ");
+            var checkOrdersDetails = await _context.OrderDetails.Where(x => x.OrderId == checkOrder.Id).ToListAsync();
+            _context.OrderDetails.RemoveRange(checkOrdersDetails);
+            _context.Orders.Remove(checkOrder);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = orderId,
+                Message = "Hủy đơn hàng thành công"
+            };
+        }
     }
 }

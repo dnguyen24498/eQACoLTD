@@ -80,6 +80,7 @@ namespace eQACoLTD.ClientMvc
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
             services.AddControllersWithViews();
+            
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IHomeAPIService, HomeAPIService>();
             services.AddTransient<IProductAPIService,ProductAPIService>();

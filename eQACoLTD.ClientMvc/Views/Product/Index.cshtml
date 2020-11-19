@@ -17,23 +17,27 @@
 		  $(".image_selected").empty().append('<img style="height: 300px;width: 300px" src='+$(el).attr('src')+'>');
 		}
         function addToCart(el){
-            var productId=$(el).attr('id');
-            $.ajax({
-                url:'@Configuration["APIServerHost"]api/accounts/carts',
-                headers: {
-                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
-                    },
-                method:'post',
-                contentType:"application/json",
-                dataType:'json',
-                data:JSON.stringify(productId),
-                success:function(data) {
-                  showAlertMessage(true,data.message);
-                },
-                error:function(data) {
-                  showAlertMessage(false,data.message);
-                }
-            })
+		    bootbox.confirm('Bạn có muốn thêm sản phẩm này vào giỏ hàng?',function (result){
+		        if (result){
+		            var productId=$(el).attr('id');
+                    $.ajax({
+                        url:'@Configuration["APIServerHost"]api/accounts/carts',
+                        headers: {
+                            "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                            },
+                        method:'post',
+                        contentType:"application/json",
+                        dataType:'json',
+                        data:JSON.stringify(productId),
+                        success:function(data) {
+                          showAlertMessage(true,data.message);
+                        },
+                        error:function(data) {
+                          showAlertMessage(false,data.message);
+                        }
+                    })      
+		        }
+		    })
         }
 	</script>
 }
@@ -65,10 +69,10 @@
             <div class="col-lg-5 order-3">
                 <div class="product_description">
                     <div class="product_category">@Model.CategoryName</div>
-                    <div class="product_name">@Model.Name</div>
-                    <div><p>Còn lại: @Model.AbleToSale phiên bản</p></div>
+                    <div class="product_name font-weight-bold">@Model.Name</div>
+                    <div><p class="font-weight-bold">Còn lại: @Model.AbleToSale phiên bản</p></div>
                     <div class="bestsellers_rating">
-                        <p>Số sao đánh giá: </p>
+                        <p class="font-weight-bold">Số sao đánh giá: </p>
                         @{
                             if (Model.Stars > 0)
                             {
@@ -80,7 +84,7 @@
                         }
                     </div>
                     <div class="product_text">
-                        <p>Tổng quan cấu hình: @Model.OverView</p>
+                        <p class="font-weight-bold">Tổng quan cấu hình: @Model.OverView</p>
                     </div>
                     <div class="order_info d-flex flex-row">
                         <form action="#">
@@ -88,7 +92,7 @@
                                 <!-- Product Quantity -->
                             </div>
 
-                            <div class="product_price">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>
+                            <div class="product_price font-weight-bold font-italic">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>
                             <div class="button_container">
                                 @if (Model.AbleToSale == 0)
                                 {
@@ -109,10 +113,10 @@
             </div>
 
         </div>
-        <div class="row mt-3">
+        <div class="row mt-5">
            <div class="card text-center col-md-12">
-             <div class="card-header">
-               <h3>@Model.Name</h3>
+             <div class="card-header bg-transparent">
+               <h3> Giới thiệu về sản phẩm @Model.Name</h3>
              </div>
              <div class="card-body">
                @Html.Raw(@Model.Description)

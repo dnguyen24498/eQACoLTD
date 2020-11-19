@@ -37,12 +37,13 @@ namespace eQACoLTD.Application.Product.Stock
                 if (checkOrder.BranchId == checkEmployee.BranchId)
                 {
                     var goodsDeliveryNote = ObjectMapper.Mapper.Map<GoodsDeliveryNote>(orderDto);
-                    var sequencyNumber = await _context.GoodsDeliveryNotes.CountAsync();
-                    var goodsDeliveryNoteId = IdentifyGenerator.GenerateGoodsDeliveryNoteId(sequencyNumber + 1);
+                    var sequenceNumber = await _context.GoodsDeliveryNotes.CountAsync();
+                    var goodsDeliveryNoteId = IdentifyGenerator.GenerateGoodsDeliveryNoteId(sequenceNumber + 1);
                     goodsDeliveryNote.Id = goodsDeliveryNoteId;
                     goodsDeliveryNote.OrderId = orderId;
+                    goodsDeliveryNote.EmployeeId = checkEmployee.Id;
                     var goodsDeliveryNoteDetails = await (from od in _context.OrderDetails
-                                                          where od.OrderId == checkOrder.Id && !string.IsNullOrEmpty(od.ProductId)
+                                                          where od.OrderId == checkOrder.Id && od.ProductId!=null
                                                           select new GoodsDeliveryNoteDetail()
                                                           {
                                                               Id = Guid.NewGuid().ToString("D"),
@@ -190,7 +191,10 @@ namespace eQACoLTD.Application.Product.Stock
             var orderHistories = await (from gdn in _context.GoodsDeliveryNotes
                     join w in _context.Warehouses on gdn.WarehouseId equals w.Id
                     join sa in _context.StockActions on gdn.StockActionId equals sa.Id
-                    join e in _context.Employees on gdn.EmployeeId equals e.Id
+                    join employee in _context.Employees on gdn.EmployeeId equals employee.Id
+                    into EmployeeGroup
+                    from e in EmployeeGroup.DefaultIfEmpty()
+                    where gdn.OrderId==checkOrder.Id
                     select new ExportOrderHistoriesDto()
                     {
                         Id = gdn.Id,

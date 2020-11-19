@@ -53,7 +53,9 @@ namespace eQACoLTD.IdentityServer
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
                 config.User.RequireUniqueEmail = true;
+                config.Lockout.MaxFailedAccessAttempts = 3;
                 config.SignIn.RequireConfirmedEmail = true; 
+                
             }).AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
             var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;

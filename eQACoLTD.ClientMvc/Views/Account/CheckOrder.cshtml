@@ -1,0 +1,206 @@
+﻿@model eQACoLTD.ViewModel.System.Account.Queries.CartDto
+@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="~/styles/smart_wizard_arrows.css">
+}
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+                      // SmartWizard initialize
+                      $('#smartwizard').smartWizard({
+                        selected: 0, // Initial selected step, 0 = first step
+                        theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
+                        justified: true, // Nav menu justification. true/false
+                        darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+                        autoAdjustHeight: true, // Automatically adjust content height
+                        cycleSteps: false, // Allows to cycle the navigation of steps
+                        backButtonSupport: true, // Enable the back button support
+                        enableURLhash: true, // Enable selection of the step based on url hash
+                        transition: {
+                            animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+                            speed: '400', // Transion animation speed
+                            easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+                        },
+                        toolbarSettings: {
+                            toolbarPosition: 'bottom', // none, top, bottom, both
+                            toolbarButtonPosition: 'right', // left, right, center
+                            showNextButton: true, // show/hide a Next button
+                            showPreviousButton: true, // show/hide a Previous button
+                            toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+                        },
+                        anchorSettings: {
+                            anchorClickable: true, // Enable/Disable anchor navigation
+                            enableAllAnchors: false, // Activates all anchors clickable all times
+                            markDoneStep: true, // Add done state on navigation
+                            markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                            removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+                            enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+                        },
+                        keyboardSettings: {
+                            keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                            keyLeft: [37], // Left key code
+                            keyRight: [39] // Right key code
+                        },
+                        lang: { // Language variables for button
+                            next: 'Tiếp theo',
+                            previous: 'Quay lại'
+                        },
+                        disabledSteps: [], // Array Steps disabled
+                        errorSteps: [], // Highlight step with errors
+                        hiddenSteps: [] // Hidden steps
+                      });
+                     $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection) {
+                        if (parseInt(stepIndex+2)===4){
+                            bootbox.confirm('Bạn có muốn tạo đơn hàng không?',function (result){
+                                if (result){
+                                    window.location='@Configuration["ClientHost"]Account/CreateOrder'      
+                                }
+                            })
+                        }
+                     });
+                    });
+        getCustomerInfo();
+        function getCustomerInfo() {
+                  $.ajax({
+                    url:'@Configuration["APIServerHost"]api/accounts/info',
+                     headers: {
+                         "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                         },
+                     method:'GET',
+                     dataType:'json',
+                     success:function(data) {
+                       $("#customer-Name").val(data.resultObj.name);
+                       $("#customer-Phone").val(data.resultObj.phoneNumber);
+                       $("#customer-Address").val(data.resultObj.address);
+                     }
+                  })
+                }
+    </script>
+}
+
+<div class="container card p-md-5 my-md-3">
+    <h3 class="font-weight-bold text-primary">
+        <i class="fa fa-check-circle"></i>
+        Kiểm tra thông tin đơn hàng
+    </h3>
+    <div id="smartwizard">
+        <ul class="nav">
+            <li>
+                <a class="nav-link" href="#step-1">
+                    <i class="fa fa-shopping-cart"></i>
+                    Bước 1: Giỏ hàng
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="#step-2">
+                    <i class="fa fa-user-circle"></i>
+                    Bước 2: Thông tin cá nhân
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="#step-3">
+                    <i class="fa fa-credit-card"></i>
+                    Bước 3: Hình thức thanh toán
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="#step-4">
+                    <i class="fa fa-check"></i>
+                    Bước 4: Hoàn thành
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="step-1" class="tab-pane" role="tabpanel">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="bg-secondary text-white font-weight-bold">
+                            <td class="text-center">Sản phẩm</td>
+                            <td class="text-center w-25">Tên</td>
+                            <td class="text-center">Số lượng</td>
+                            <td class="text-center w-25">Đơn giá</td>
+                            <td class="text-right w-25">Tổng tiền</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var c in @Model.ListProduct)
+                        {
+                            var totalAmount = c.UnitPrice * c.Quantity;
+                            <tr id="@c.ProductId">
+                                <td class="text-center">
+                                    <img src='@Configuration["APIServerHost"]app-content/@c.ImagePath' style="height: 115px;width: 115px">
+                                </td>
+                                <td class="align-middle text-center">@c.ProductName</td>
+                                <td class="align-middle text-center">
+                                    <div class="row">
+                                        <input type="text" class="form-control text-center mx-auto" style="width: 60px"
+                                               value=@c.Quantity.ToString("#,##0") disabled="disabled">
+                                    </div>
+                                </td>
+                                <td class="align-middle text-center">@c.UnitPrice.ToString("#,##0")</td>
+                                <td class="align-middle text-right TongTienSanPham">@totalAmount.ToString("#,##0")</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="4" class="text-right">Giá trị đơn hàng:</td>
+                            <td id="td-TongTienDonHang" class="text-right font-weight-bold">@Model.TotalAmount.ToString("#,##0")</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="step-2" class="tab-pane" role="tabpanel">
+                <form>
+                    <div class="form-group row">
+                        <label for="customer-Name" class="col-sm-2 col-form-label">Họ và tên:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control text-dark" disabled="disabled" id="customer-Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="customer-Phone" class="col-sm-2 col-form-label">Số điện thoại:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control text-dark" disabled="disabled" id="customer-Phone">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="customer-Address" class="col-sm-2 col-form-label">Địa chỉ:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control text-dark" disabled="disabled" id="customer-Address">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="step-3" class="tab-pane" role="tabpanel">
+                <div class="row mt-3">
+                    <a class="btn btn-primary col-md-3 offset-md-1 mr-3 text-white">
+                        <i class="fa fa-money-bill-alt"></i>
+                        Tiền mặt
+                    </a>
+                    <a class="btn btn-outline-secondary col-md-3 mr-3 bg-white text-dark">
+                        <i class="fa fa-credit-card"></i>
+                        Chuyển khoản
+                    </a>
+                    <a class="btn btn-outline-secondary col-md-3 bg-white text-dark">
+                        <i class="fa fa-check-circle"></i>
+                        Bằng điểm tích lũy
+                    </a>
+                </div>
+            </div>
+            <div id="step-4" class="tab-pane" role="tabpanel">
+                <a class="text-center" asp-controller="Account" asp-action="Cart">Đã hủy đơn hàng, quay lại giỏ hàng</a>
+            </div>
+        </div>
+    </div>
+</div>

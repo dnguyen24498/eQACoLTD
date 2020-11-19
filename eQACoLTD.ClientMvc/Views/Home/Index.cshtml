@@ -53,6 +53,7 @@
                                     <a asp-controller="Account" asp-action="Info">@userName</a>
                                     <a asp-controller="Account" asp-action="Logout">
                                         <i class="fa fa-sign-out-alt ml-2"></i>
+                                        Đăng xuất
                                     </a>
                                 </div>
                             }
@@ -102,7 +103,7 @@
                         <div class="header_search_form_container">
                             <form asp-controller="Home" asp-action="Search" asp-route-categoryId="" class="header_search_form clearfix">
                                 <input name="searchValue" type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
-                                <div class="custom_dropdown">
+                                <div class="custom_dropdown d-none">
                                     <div class="custom_dropdown_list">
                                         <span class="custom_dropdown_placeholder clc">Toàn bộ</span>
                                         <ul class="custom_list clc">
@@ -930,6 +931,8 @@
 <script src="~/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 <script src="~/plugins/slick-1.8.0/slick.js"></script>
 <script src="~/plugins/easing/easing.js"></script>
+<script src="~/js/bootbox.min.js"></script>
+<script src="~/js/bootbox.locales.min.js"></script>
 <script src="~/js/custom.js"></script>
 </body>
 </html>

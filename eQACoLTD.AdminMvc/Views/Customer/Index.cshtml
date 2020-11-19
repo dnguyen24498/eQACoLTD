@@ -41,15 +41,15 @@
                 </select>
                 <input id="search-box" type="text" class="form-control col-md-10" placeholder="Tìm kiếm khách hàng">
             </div>
-            <table id="datatable2" class="table display responsive nowrap">
-                <thead>
+            <table id="datatable2" class="table display responsive table-striped nowrap mt-3">
+                <thead class="bg-primary">
                     <tr>
-                        <th class="wd-10p">Mã</th>
-                        <th class="wd-15p">Tài khoản</th>
-                        <th class="wd-15p">Tên</th>
-                        <th class="wd-10p">Điện thoại</th>
-                        <th class="wd-20">Nhân viên phụ trách</th>
-                        <th class="wd-15p">Hành động</th>
+                        <th class="wd-10p text-white">Mã</th>
+                        <th class="wd-15p text-white">Tài khoản</th>
+                        <th class="wd-15p text-white">Tên</th>
+                        <th class="wd-10p text-white">Điện thoại</th>
+                        <th class="wd-20 text-white">Nhân viên phụ trách</th>
+                        <th class="wd-15p text-white">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,21 +57,19 @@
                         foreach (var c in Model.Results)
                         {
                             <tr id=@c.Id>
-                                <td class="pt-md-4 pt-sm-4">@c.Id</td>
-                                <td class="pt-md-4 pt-sm-4">@c.UserName</td>
-                                <td class="pt-md-4 pt-sm-4">@c.Name</td>
-                                <td class="pt-md-4 pt-sm-4">@c.PhoneNumber</td>
-                                <td class="pt-md-4 pt-sm-4">@c.EmployeeName</td>
-                                <td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Id</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.UserName</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Name</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.PhoneNumber</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.EmployeeName</td>
+                                <td class="text-right">
                                     <form method="post">
                                         <a style="cursor:pointer" onclick="deleteCustomer('@c.Id')" class="btn btn-danger text-white mr-1">
                                             <i class="fa fa-trash"></i>
-                                            Xóa
                                         </a>
                                         <button type="submit"
                                                 style="cursor:pointer" class="btn btn-primary text-white">
                                             <i class="fa fa-pencil"></i>
-                                            Sửa
                                         </button>
                                     </form>
                                 </td>

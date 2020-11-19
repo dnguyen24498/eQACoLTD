@@ -208,12 +208,9 @@ namespace eQACoLTD.Application.Report
                 .SingleOrDefaultAsync();
             if(checkEmployee==null) return new ApiResult<ProfitReportDto>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
             var salesRevenue = await (from o in _context.Orders
-                join shippingOrder in _context.ShippingOrders on o.Id equals shippingOrder.OrderId
-                    into ShipingOrderGroup
-                from so in ShipingOrderGroup.DefaultIfEmpty()
                 join od in _context.OrderDetails on o.Id equals od.OrderId
                 where o.DateCreated >= fromDate && o.DateCreated <= toDate
-                select (od.UnitPrice * od.Quantity) + so.Fee).SumAsync();
+                select (od.UnitPrice * od.Quantity)).SumAsync();
             return new ApiResult<ProfitReportDto>(HttpStatusCode.OK,new ProfitReportDto()
             {
                 SalesRevenue = salesRevenue

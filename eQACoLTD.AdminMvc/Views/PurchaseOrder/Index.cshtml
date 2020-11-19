@@ -1,0 +1,84 @@
+﻿@model PagedResult<eQACoLTD.ViewModel.Product.PurchaseOrder.Queries.PurchaseOrdersDto>
+@inject IConfiguration Configuration
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
+        <span class="breadcrumb-item active">Nhập hàng</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Danh sách phiếu nhập</h4>
+    <p class="mg-b-0">Quản lý danh sách phiếu nhập có trong hệ thống</p>
+    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" asp-controller="PurchaseOrder" asp-action="Index" style="cursor: pointer">Tạo phiếu nhập</a>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <div class="row m-1">
+                <select class="form-control col-md-2 bd-r-0">
+                    <option selected="selected">Lọc</option>
+                    <option>Theo tên</option>
+                </select>
+                <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm sản phẩm">
+            </div>
+            <table id="datatable2" class="table display responsive nowrap table-striped mt-3">
+                <thead class="bg-primary">
+                <tr>
+                    <th class="wd-10p text-white">Mã phiếu</th>
+                    <th class="wd-15p text-white">Tên nhà cung cấp</th>
+                    <th class="wd-15p text-white">Trạng thái giao dịch</th>
+                    <th class="wd-15p text-white">Trạng thái thanh toán</th>
+                    <th class="wd-15p text-white">Ngày tạo</th>
+                    <th class="wd-15p text-white">Nhân viên tạo phiếu</th>
+                    <th class="text-white text-right">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                @{
+                    foreach (var c in Model.Results)
+                    {
+                        <tr>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Id</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.SupplierName</td>
+                            @if (c.TransactionStatusName.Contains("Đang giao dịch")||c.TransactionStatusName.Contains("Đang kiểm kho"))
+                            {
+                                <td class="pt-md-4 pt-sm-4 text-warning font-weight-bold">@c.TransactionStatusName</td>   
+                            }else if (c.TransactionStatusName.Contains("Hoàn thành"))
+                            {
+                                <td class="pt-md-4 pt-sm-4 text-success font-weight-bold">@c.TransactionStatusName</td>
+                            }
+                            @if (c.PaymentStatusName.Contains("Chưa thanh toán"))
+                            {
+                                <td class="pt-md-4 pt-sm-4 text-danger font-weight-bold">@c.PaymentStatusName</td>   
+                            }else if (c.PaymentStatusName.Contains("Thanh toán một phần"))
+                            {
+                                <td class="pt-md-4 pt-sm-4 text-warning font-weight-bold">@c.PaymentStatusName</td>
+                            }
+                            else
+                            {
+                                <td class="pt-md-4 pt-sm-4 text-success font-weight-bold">@c.PaymentStatusName</td>
+                            }
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.DateCreated.ToString("dd/MM/yyyy")</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.EmployeeName</td>
+                            <td class="text-right"> 
+                                <form method="post">
+                                    <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <button type="submit"
+                                            style="cursor:pointer" class="btn btn-primary text-white">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div><!-- table-wrapper -->
+    </div>
+    <div class="html mt-1">
+        @(await Component.InvokeAsync<PagerViewComponent>(Model))
+    </div>
+</div>

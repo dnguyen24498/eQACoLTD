@@ -1,26 +1,32 @@
 ﻿@model PagedResult<eQACoLTD.ViewModel.Product.Supplier.Queries.SuppliersDto>
 @inject IConfiguration Configuration
 @using Microsoft.AspNetCore.Http
+
 @section Scripts
 {
     <script>
         function deleteSupplier(id) {
-            $.ajax({
-                url:'@Configuration["APIServerHost"]api/suppliers/'+id,
-                headers: { "Authorization": 'Bearer @Context.Session.GetString("access_token")' },
-                method: 'DELETE',
-                contentType: "application/json",
-                success: function (data) {
-                    $("#" + id).fadeOut(1000);
-                    showAlertMessage(true, data.message);
-                },
-                error: function (data) {
-                    showAlertMessage(false, data.message);
-                }
-            })
+             bootbox.confirm("Bạn có muốn xóa nhà cung cấp này?",function (result){
+                        if (result){
+                            $.ajax({
+                            url:'@Configuration["APIServerHost"]api/suppliers/'+id,
+                            headers: { "Authorization": 'Bearer @Context.Session.GetString("access_token")' },
+                            method: 'DELETE',
+                            contentType: "application/json",
+                            success: function (data) {
+                                $("#" + id).fadeOut(1000);
+                                showAlertMessage(true, data.message);
+                            },
+                            error: function (data) {
+                                showAlertMessage(false, data.message);
+                            }
+                        })      
+                       }
+                    })
         }
     </script>
 }
+
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
         <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
@@ -31,7 +37,9 @@
     <h4 class="tx-gray-800 mg-b-5">Danh sách nhà cung cấp</h4>
     <p class="mg-b-0">Quản lý danh sách nhà cung cấp có trong hệ thống</p>
     <a class="btn btn-primary text-white mt-sm-3 mt-md-3" asp-controller="Supplier" asp-action="Create"
-       style="cursor: pointer">Thêm Nhà cung cấp</a>
+       style="cursor: pointer">
+        Thêm Nhà cung cấp
+    </a>
 </div>
 <div class="br-pagebody">
     <div class="br-section-wrapper">
@@ -43,43 +51,41 @@
                 </select>
                 <input id="search-box" type="text" class="form-control col-md-10" placeholder="Tìm kiếm nhà cung cấp">
             </div>
-            <table id="datatable2" class="table display table-responsive nowrap">
-                <thead>
-                    <tr>
-                        <th class="w-5">Mã</th>
-                        <th class="w-10">Tên</th>
-                        <th class="w-10">Địa chỉ</th>
-                        <th class="w-10">Điện thoại</th>
-                        <th class="w-10">Phụ trách</th>
-                        <th class="w-10">Hành động</th>
-                    </tr>
+            <table id="datatable2" class="table display table-responsive table-striped mt-3 nowrap">
+                <thead class="bg-primary">
+                <tr>
+                    <th class="w-5 text-white">Mã</th>
+                    <th class="w-10 text-white">Tên</th>
+                    <th class="w-10 text-white">Địa chỉ</th>
+                    <th class="w-10 text-white">Điện thoại</th>
+                    <th class="w-10 text-white">Phụ trách</th>
+                    <th class="w-10 text-white text-right">Hành động</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @{
-                        foreach (var c in Model.Results)
-                        {
-                            <tr id=@c.Id>
-                                <td class="pt-md-4 pt-sm-4">@c.Id</td>
-                                <td class="pt-md-4 pt-sm-4">@c.Name</td>
-                                <td class="pt-md-4 pt-sm-4">@c.Address</td>
-                                <td class="pt-md-4 pt-sm-4">@c.PhoneNumber</td>
-                                <td class="pt-md-4 pt-sm-4">@c.EmployeeName</td>
-                                <td>
-                                    <div class="row w-10">
-                                        <form method="post">
-                                            <a style="cursor:pointer" onclick="deleteSupplier('@c.Id')" class="btn btn-danger text-white mr-1">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                            <button type="submit"
-                                                    style="cursor:pointer" class="btn btn-primary text-white">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+                @{
+                    foreach (var c in Model.Results)
+                    {
+                        <tr id=@c.Id>
+                            <td class="pt-md-4 font-weight-bold pt-sm-4">@c.Id</td>
+                            <td class="pt-md-4 font-weight-bold pt-sm-4">@c.Name</td>
+                            <td class="pt-md-4 font-weight-bold pt-sm-4">@c.Address</td>
+                            <td class="pt-md-4 font-weight-bold pt-sm-4">@c.PhoneNumber</td>
+                            <td class="pt-md-4 font-weight-bold pt-sm-4">@c.EmployeeName</td>
+                            <td class="text-right">
+                                <form method="post">
+                                    <a style="cursor:pointer" onclick="deleteSupplier('@c.Id')" class="btn btn-danger text-white mr-1">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <button type="submit"
+                                            style="cursor:pointer" class="btn btn-primary text-white">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     }
+                }
                 </tbody>
             </table>
         </div><!-- table-wrapper -->

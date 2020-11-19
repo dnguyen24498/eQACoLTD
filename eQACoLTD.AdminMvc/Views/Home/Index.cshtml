@@ -1,63 +1,71 @@
 ﻿@model eQACoLTD.ViewModel.Report.Queries.OverviewReport
-<div class="row">
-    <h3 class="col-md-12 text-dark ml-3 mt-3">Tổng quan bán hàng</h3>
-    <div class="col-sm-6 col-md-4 mt-3">
-        <div class="card border-white">
-            <h4 class="card-header text-center">Đơn hàng đang chờ</h4>
-            <div class="card-body">
-                <h1 class="text-center">@Model.WaitingOrder đơn hàng</h1>
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <span class="breadcrumb-item active">Tổng quan</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div class="row">
+        <h3 class="col-md-12 text-dark ml-3 font-weight-bold">Tổng quan bán hàng</h3>
+            <div class="col-sm-6 col-md-4 mt-3">
+                <div class="card border-white bg-primary text-white">
+                    <h4 class="card-header text-center">Đơn hàng đang trong trạng thái đang chờ</h4>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.WaitingOrder đơn hàng</h1>
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>
+        
+            <div class="col-sm-6 col-md-4 mt-3">
+                <div class="card border-white bg-primary text-white">
+                    <h4 class="card-header text-center">Đơn hàng đang trong trạng thái giao dịch</h4>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.UnfinishedOrder đơn hàng</h1>
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>
+            <div class="col-sm-6 col-md-4 mt-3">
+                <div class="card border-white bg-primary text-white">
+                    <h4 class="card-header text-center">Đơn nhập hàng đang giao dịch</h4>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.UnfinishedPurchaseOrder đơn hàng</h1>
+                    </div>
+                </div>
+                <!--</div>-->
             </div>
         </div>
-        <!--</div>-->
-    </div>
-
-    <div class="col-sm-6 col-md-4 mt-3">
-        <div class="card border-white">
-            <h4 class="card-header text-center">Đơn hàng đang giao dịch</h4>
-            <div class="card-body">
-                <h1 class="text-center">@Model.UnfinishedOrder đơn hàng</h1>
+        <div class="row mt-5">
+            <h3 class="col-md-12 text-dark ml-3 mt-3 font-weight-bold">Tổng quan kho hàng</h3>
+            <div class="col-sm-6 col-md-4 mt-3">
+                <div class="card border-white bg-primary text-white">
+                    <h4 class="card-header text-center">Đơn hàng đang chờ nhập kho</h4>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.WaitingForImport đơn hàng</h1>
+                    </div>
+                </div>
+                <!--</div>-->
             </div>
-        </div>
-        <!--</div>-->
-    </div>
-    <div class="col-sm-6 col-md-4 mt-3">
-        <div class="card border-white">
-            <h4 class="card-header text-center">Đơn nhập hàng đang giao dịch</h4>
-            <div class="card-body">
-                <h1 class="text-center">@Model.UnfinishedPurchaseOrder đơn hàng</h1>
+        
+            <div class="col-sm-6 col-md-4 mt-3">
+                <div class="card border-white bg-primary text-white">
+                    <h4 class="card-header text-center">Đơn hàng đang chờ xuất kho</h4>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.WaitingForExport đơn hàng</h1>
+                    </div>
+                </div>
+                <!--</div>-->
             </div>
-        </div>
-        <!--</div>-->
+            <div class="col-sm-6 col-md-4 mt-3">
+                <div class="card border-white bg-primary text-white">
+                    <h4 class="card-header text-center">Tổng số lượng sản phẩm tồn kho</h4>
+                    <div class="card-body">
+                        <h1 class="text-center">@Model.TotalInventory sản phẩm</h1>
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>    
     </div>
-</div>
-<div class="row mt-5">
-    <h3 class="col-md-12 text-dark ml-3 mt-3">Tổng quan kho hàng</h3>
-    <div class="col-sm-6 col-md-4 mt-3">
-        <div class="card border-white">
-            <h4 class="card-header text-center">Đơn hàng đang chờ nhập kho</h4>
-            <div class="card-body">
-                <h1 class="text-center">@Model.WaitingForImport đơn hàng</h1>
-            </div>
-        </div>
-        <!--</div>-->
-    </div>
-
-    <div class="col-sm-6 col-md-4 mt-3">
-        <div class="card border-white">
-            <h4 class="card-header text-center">Đơn hàng đang chờ xuất kho</h4>
-            <div class="card-body">
-                <h1 class="text-center">@Model.WaitingForExport đơn hàng</h1>
-            </div>
-        </div>
-        <!--</div>-->
-    </div>
-    <div class="col-sm-6 col-md-4 mt-3">
-        <div class="card border-white">
-            <h4 class="card-header text-center">Tồn kho</h4>
-            <div class="card-body">
-                <h1 class="text-center">@Model.TotalInventory sản phẩm</h1>
-            </div>
-        </div>
-        <!--</div>-->
-    </div>
+    
 </div>

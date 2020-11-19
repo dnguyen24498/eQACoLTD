@@ -91,7 +91,7 @@
                 <a asp-controller="Product" asp-action="Stock" class="nav-link">Quản lý kho</a>
             </li>
             <li class="nav-item">
-                <a href="chart-chartjs.html" class="nav-link">Nhập hàng</a>
+                <a asp-controller="PurchaseOrder" asp-action="Index" class="nav-link">Nhập hàng</a>
             </li>
             <li class="nav-item">
                 <a asp-controller="Supplier" asp-action="Index" class="nav-link">Nhà cung cấp</a>
@@ -223,7 +223,19 @@
         <nav class="nav">
             <div class="dropdown">
                 <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-                    <span class="logged-name hidden-md-down">Katherine</span>
+                    @{
+                        var userName = "";
+                        try
+                        {
+                            userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+                        }
+                        catch
+                        {
+                            userName = "Không xác định";
+                        }
+
+                    }
+                    <span class="logged-name hidden-md-down font-weight-bold">Xin chào, @userName</span>
                     <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
                     <span class="square-10 bg-success"></span>
                 </a>
@@ -249,19 +261,7 @@
     </div>
 
     <footer class="br-footer">
-        <div class="footer-left">
-            <div class="mg-b-2">Copyright &copy; 2017. Bracket. All Rights Reserved.</div>
-            <div>Attentively and carefully made by ThemePixels.</div>
-        </div>
-        <div class="footer-right d-flex align-items-center">
-            <span class="tx-uppercase mg-r-10">Share:</span>
-            <a target="_blank" class="pd-x-5" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//themepixels.me/bracket/intro">
-                <i class="fa fa-facebook tx-20"></i>
-            </a>
-            <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Bracket,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/bracket/intro">
-                <i class="fa fa-twitter tx-20"></i>
-            </a>
-        </div>
+        
     </footer>
 </div><!-- br-mainpanel -->
 <!-- ########## END: MAIN PANEL ########## -->
@@ -282,6 +282,8 @@
 <script src="~/js/bracket.js"></script>
 <script src="~/js/ResizeSensor.js"></script>
 <script src="~/js/dashboard.js"></script>
+<script src="~/js/bootbox.min.js"></script>
+<script src="~/js/bootbox.locales.min.js"></script>
 <script>
         $(function () {
             'use strict'

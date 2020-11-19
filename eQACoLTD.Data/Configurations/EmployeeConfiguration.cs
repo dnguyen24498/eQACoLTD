@@ -123,6 +123,32 @@ namespace eQACoLTD.Data.Configurations
                     DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
                     PhoneNumber = "0934347618",
                     BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e"
+                },
+                new Employee()
+                {
+                    Id = "EPN0008",
+                    Dob = new DateTime(1998,04,24),
+                    Name = "Nguyễn Thanh Tú",
+                    Address = "Tôn Đức Thắng, Hải Phòng",
+                    Gender = true,
+                    IsDelete = false,
+                    AppuserId = new Guid("567e24d4-8eaa-4e2f-95b9-10000aa55f07"),
+                    DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                    PhoneNumber = "0934347618",
+                    BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e"
+                },
+                new Employee()
+                {
+                    Id = "EPN0009",
+                    Dob = new DateTime(1998,04,24),
+                    Name = "Nguyễn Thanh Tùng",
+                    Address = "Trần Thành Ngọ, Kiến An, Hải Phòng",
+                    Gender = true,
+                    IsDelete = false,
+                    AppuserId = new Guid("0f2c7ea8-8c71-4459-b470-7eecf7493234"),
+                    DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                    PhoneNumber = "0934347618",
+                    BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e"
                 });
         }
     }

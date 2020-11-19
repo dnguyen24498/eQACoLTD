@@ -29,6 +29,28 @@ namespace eQACoLTD.Data.Configurations
                 },
                 new AppUser()
                 {
+                    Id = new Guid("567e24d4-8eaa-4e2f-95b9-10000aa55f07"),
+                    UserName = "epn0008",
+                    NormalizedUserName = "EPN0008",
+                    Email = "nicholasnguyen5798@gmail.com",
+                    NormalizedEmail = "NICHOLASNGUYEN5798@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null,"Bonghoatrang1@!"),
+                    SecurityStamp = string.Empty  
+                },
+                new AppUser()
+                {
+                    Id = new Guid("0f2c7ea8-8c71-4459-b470-7eecf7493234"),
+                    UserName = "epn0009",
+                    NormalizedUserName = "EPN0009",
+                    Email = "nguyenthanhtungkahp1998@gmail.com",
+                    NormalizedEmail = "NGUYENTHANHTUNGKAHP1998@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null,"Bonghoatrang1@!"),
+                    SecurityStamp = string.Empty  
+                },
+                new AppUser()
+                {
                     Id = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
                     UserName = "epn0001",
                     NormalizedUserName = "EPN0001",

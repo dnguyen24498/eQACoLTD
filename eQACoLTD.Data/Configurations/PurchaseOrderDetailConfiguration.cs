@@ -41,6 +41,80 @@ namespace eQACoLTD.Data.Configurations
                     ProductId = "PRN0002",
                     UnitPrice = 30000000,
                     Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "0fd5d321-0d92-431f-8eca-5eaa3365ae9f",
+                    PurchaseOrderId = "PON0001",
+                    ProductId = "PRN0003",
+                    UnitPrice = 66000000,
+                    Quantity = 10
+                },
+                
+                new PurchaseOrderDetail()
+                {
+                    Id = "48248861-6679-4f7a-b4d7-a03d45dffec0",
+                    PurchaseOrderId = "PON0002",
+                    ProductId = "PRN0004",
+                    UnitPrice = 27590000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "3f66e689-4be2-446d-ae95-6ae72a4f9e76",
+                    PurchaseOrderId = "PON0002",
+                    ProductId = "PRN0005",
+                    UnitPrice = 31990000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "f835b3e4-9161-4b55-893e-6437c32eb912",
+                    PurchaseOrderId = "PON0002",
+                    ProductId = "PRN0006",
+                    UnitPrice = 13990000,
+                    Quantity = 10
+                },
+                
+                new PurchaseOrderDetail()
+                {
+                    Id = "90b1fca1-24e9-4a42-ba51-c4f1345e997c",
+                    PurchaseOrderId = "PON0003",
+                    ProductId = "PRN0007",
+                    UnitPrice = 9990000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "e7247dd5-af71-4599-b83c-9617ed666418",
+                    PurchaseOrderId = "PON0003",
+                    ProductId = "PRN0008",
+                    UnitPrice = 2990000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "32f2fe5b-4646-48f5-a6e9-e24d8c3937f5",
+                    PurchaseOrderId = "PON0003",
+                    ProductId = "PRN0010",
+                    UnitPrice = 280000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "a2fea2b7-5d1d-4061-b9af-d7aae0076478",
+                    PurchaseOrderId = "PON0003",
+                    ProductId = "PRN0011",
+                    UnitPrice = 280000,
+                    Quantity = 10
+                },
+                new PurchaseOrderDetail()
+                {
+                    Id = "54e021fa-0dc8-4e07-b2a8-d4017caa450a",
+                    PurchaseOrderId = "PON0003",
+                    ProductId = "PRN0016",
+                    UnitPrice = 22990000,
+                    Quantity = 1
                 });
         }
     }

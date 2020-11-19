@@ -72,6 +72,26 @@ namespace eQACoLTD.Data.Configurations
                     Email = "laptophaiphongconntact@gmail.com",
                     EmployeeId = "EPN0002",
                     IsDelete = false
+                },
+                new Supplier()
+                {
+                    Id = "SUN0005",
+                    Name = "Cửa hàng công nghệ Minh Anh",
+                    Address = "Số 109,Nguyễn Bình, Đổng Quốc Bình, Ngô Quyền, Hải Phòng",
+                    PhoneNumber = "0959842332",
+                    Email = "minhanhconntact@gmail.com",
+                    EmployeeId = "EPN0002",
+                    IsDelete = false
+                },
+                new Supplier()
+                {
+                    Id = "SUN0006",
+                    Name = "Cửa hàng công nghệ Thùy Dương",
+                    Address = "Số 109,Nguyễn Bình, Đổng Quốc Bình, Ngô Quyền, Hải Phòng",
+                    PhoneNumber = "0959842332",
+                    Email = "thuyduongconntact@gmail.com",
+                    EmployeeId = "EPN0002",
+                    IsDelete = false
                 });
         }
     }

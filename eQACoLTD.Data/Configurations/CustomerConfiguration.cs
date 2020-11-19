@@ -61,7 +61,52 @@ namespace eQACoLTD.Data.Configurations
                     CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
                     PhoneNumber = "0934349618",
                     Email = "duongnguyenadhp@gmail.com"
-                });
+                },
+                new Customer()
+                {
+                    Id = "CUS0003",
+                    Name = "Nguyễn Thanh Tùng",
+                    Address = "Số 99, Đường Hải Triều, Phường Quán Toan, Quận Hồng Bàng, Thành phố Hải Phòng",
+                    Gender = true,
+                    IsDelete = false,
+                    CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                    PhoneNumber = "0123456789",
+                    Email = "nttu5798@gmail.com"
+                },
+                new Customer()
+                {
+                    Id = "CUS0004",
+                    Name = "Nguyễn Thanh Tú",
+                    Address = "Số 99, Đường Hải Triều, Phường Quán Toan, Quận Hồng Bàng, Thành phố Hải Phòng",
+                    Gender = true,
+                    IsDelete = false,
+                    CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                    PhoneNumber = "4563214576",
+                    Email = "nttu15798@gmail.com"
+                },
+                new Customer()
+                {
+                    Id = "CUS0005",
+                    Name = "Phạm Công Thành",
+                    Address = "Tô Hiệu, Hải Phòng",
+                    Gender = true,
+                    IsDelete = false,
+                    CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                    PhoneNumber = "12345432365",
+                    Email = "nttu25798@gmail.com"
+                },
+                new Customer()
+                {
+                    Id = "CUS0006",
+                    Name = "Nguyễn Văn Tùng",
+                    Address = "Tô Hiệu, Hải Phòng",
+                    Gender = true,
+                    IsDelete = false,
+                    CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                    PhoneNumber = "4326584942",
+                    Email = "nttu257981@gmail.com"
+                }
+                );
         }
     }
 }

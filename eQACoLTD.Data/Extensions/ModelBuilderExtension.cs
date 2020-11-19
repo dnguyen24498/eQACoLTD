@@ -50,6 +50,16 @@ namespace eQACoLTD.Data.Extensions
                 {
                     UserId = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
                     RoleId = new Guid("c4702302-748c-4b01-b0ad-8299d86896a4")
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = new Guid("567e24d4-8eaa-4e2f-95b9-10000aa55f07"),
+                    RoleId = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459")
+                },
+                new IdentityUserRole<Guid>
+                {
+                    UserId = new Guid("0f2c7ea8-8c71-4459-b470-7eecf7493234"),
+                    RoleId = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459")
                 }
             );
             #endregion

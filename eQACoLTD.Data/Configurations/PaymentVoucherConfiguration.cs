@@ -59,6 +59,32 @@ namespace eQACoLTD.Data.Configurations
                     BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
                     SupplierId = "SUN0001",
                     EmployeeId = "EPN0005"
+                },
+                new PaymentVoucher()
+                {
+                    Id = "PVN0002",
+                    PurchaseOrderId = "PON0002",
+                    Paid = 735700000,
+                    DateCreated = DateTime.Now,
+                    PaymentDate = DateTime.Now,
+                    IsDelete = false,
+                    PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                    BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                    SupplierId = "SUN0002",
+                    EmployeeId = "EPN0005"
+                },
+                new PaymentVoucher()
+                {
+                    Id = "PVN0003",
+                    PurchaseOrderId = "PON0003",
+                    Paid = 158390000,
+                    DateCreated = DateTime.Now,
+                    PaymentDate = DateTime.Now,
+                    IsDelete = false,
+                    PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                    BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                    SupplierId = "SUN0003",
+                    EmployeeId = "EPN0005"
                 });
         }
     }

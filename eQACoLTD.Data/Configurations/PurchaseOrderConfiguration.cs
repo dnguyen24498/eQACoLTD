@@ -53,7 +53,37 @@ namespace eQACoLTD.Data.Configurations
                     EmployeeId = "EPN0001",
                     DiscountType = "$",
                     DiscountValue = 0,
-                    TotalAmount=720000000
+                    TotalAmount=1380000000
+                },
+                new PurchaseOrder()
+                {
+                    Id = "PON0002",
+                    SupplierId = "SUN0002",
+                    PaymentStatusId = "03696c5b-71ad-4476-a0af-e52568d4b645",
+                    IsDelete = false,
+                    DeliveryDate = DateTime.Now,
+                    DateCreated = DateTime.Now,
+                    BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                    TransactionStatusId = "4226c92d-694f-4948-afd4-04c636fd77a6",
+                    EmployeeId = "EPN0001",
+                    DiscountType = "$",
+                    DiscountValue = 0,
+                    TotalAmount=735700000
+                },
+                new PurchaseOrder()
+                {
+                    Id = "PON0003",
+                    SupplierId = "SUN0003",
+                    PaymentStatusId = "03696c5b-71ad-4476-a0af-e52568d4b645",
+                    IsDelete = false,
+                    DeliveryDate = DateTime.Now,
+                    DateCreated = DateTime.Now,
+                    BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                    TransactionStatusId = "4226c92d-694f-4948-afd4-04c636fd77a6",
+                    EmployeeId = "EPN0001",
+                    DiscountType = "$",
+                    DiscountValue = 0,
+                    TotalAmount=158390000 
                 });
 
         }

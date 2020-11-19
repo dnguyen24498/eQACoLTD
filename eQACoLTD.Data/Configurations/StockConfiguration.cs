@@ -38,6 +38,69 @@ namespace eQACoLTD.Data.Configurations
                     WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
                     RealQuantity = 10,
                     AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0003",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0004",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0005",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0006",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0007",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0008",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0010",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0011",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 10,
+                    AbleToSale = 10,
+                },
+                new Stock()
+                {
+                    ProductId = "PRN0016",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                    RealQuantity = 1,
+                    AbleToSale = 1,
                 });
         }
     }

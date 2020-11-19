@@ -63,5 +63,13 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _supplierService.GetSupplierImportHistoriesPagingAsync(supplierId, pageIndex, pageSize);
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpGet("search")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> SearchSupplier(string searchValue)
+        {
+            var result = await _supplierService.SearchSupplier(searchValue);
+            return StatusCode((int)result.Code, result);
+        }
     }
 }

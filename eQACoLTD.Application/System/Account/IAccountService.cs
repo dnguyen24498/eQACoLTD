@@ -21,5 +21,7 @@ namespace eQACoLTD.Application.System.Account
         Task<ApiResult<AccountInfo>> GetCurrentAccountInfo(string accountId);
         Task<ApiResult<string>> CreateOrderFromCartAsync(string customerId);
         Task<ApiResult<string>> UpdateAccountInfo(AccountForUpdateDto updateDto,string accountId);
+        Task<ApiResult<PagedResult<AccountOrdersDto>>> GetAccountOrders(int pageIndex, int pageSize, string accountId);
+        Task<ApiResult<string>> CancelOrder(string orderId, string accountId);
     }
 }

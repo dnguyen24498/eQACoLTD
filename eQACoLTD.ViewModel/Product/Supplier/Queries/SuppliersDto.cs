@@ -11,5 +11,6 @@ namespace eQACoLTD.ViewModel.Product.Supplier.Queries
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string EmployeeName { get; set; }
+        public decimal TotalDebt { get; set; }
     }
 }

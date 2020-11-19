@@ -15,5 +15,6 @@ namespace eQACoLTD.Application.Product.Supplier
         Task<ApiResult<string>> CreateSupplierAsync(SupplierForCreationDto creationDto,string accountId);
         Task<ApiResult<string>> DeleteSupplierAsync(string supplierId);
         Task<ApiResult<PagedResult<SupplierImportHistoriesDto>>> GetSupplierImportHistoriesPagingAsync(string supplierId,int pageIndex,int pageSize);
+        Task<ApiResult<IEnumerable<SuppliersDto>>> SearchSupplier(string searchValue);
     }
 }

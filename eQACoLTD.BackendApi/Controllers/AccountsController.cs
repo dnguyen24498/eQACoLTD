@@ -121,5 +121,23 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _accountService.UpdateAccountInfo(updateDto, accountId);
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpGet("orders")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAccountOrders(int pageIndex = 1, int pageSize = 15)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.GetAccountOrders(pageIndex, pageSize,accountId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpDelete("{orderId}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> CancelOrder(string orderId)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.CancelOrder(orderId, accountId);
+            return StatusCode((int)result.Code, result);
+        }
     }
 }

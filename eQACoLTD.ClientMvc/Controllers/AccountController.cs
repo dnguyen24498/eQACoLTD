@@ -47,6 +47,12 @@ namespace eQACoLTD.ClientMvc.Controllers
             if (result.Code != HttpStatusCode.OK) return View(new CustomerInfo());
             return View(result.ResultObj);
         }
+
+        public async Task<IActionResult> CheckOrder()
+        {
+            var result = await _apiService.GetCart();
+            return View(result.ResultObj);
+        }
         
     }
 }

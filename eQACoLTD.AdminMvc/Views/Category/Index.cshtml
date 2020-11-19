@@ -5,17 +5,21 @@
 {
     <script >
         function deleteCategory(el,id){
-            $.ajax({
-                url:'@Configuration["APIServerHost"]api/categories/'+id,
-                headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
-                method:'delete',
-                contentType: "application/json",
-                success:function(data) {
-                  showAlertMessage(true ,data.message);
-                  $(el).parent().parent().parent().fadeOut(1000);
-                },
-                error:function(data) {
-                  showAlertMessage(false,data.message);
+            bootbox.confirm("Bạn có muốn xóa danh mục này?",function (result){
+                if (result){
+                $.ajax({
+                    url:'@Configuration["APIServerHost"]api/categories/'+id,
+                    headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                    method:'delete',
+                    contentType: "application/json",
+                    success:function(data) {
+                      showAlertMessage(true ,data.message);
+                      $(el).parent().parent().parent().fadeOut(1000);
+                         },
+                    error:function(data) {
+                      showAlertMessage(false,data.message);
+                        }
+                    })
                 }
             })
         }
@@ -44,13 +48,13 @@
                 </select>
                 <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm danh mục">
             </div>
-            <table id="datatable2" class="table display responsive nowrap">
-                <thead>
+            <table id="datatable2" class="table display responsive table-striped nowrap mt-3">
+                <thead class="bg-primary">
                 <tr>
-                    <th class="wd-25p">Tên danh mục</th>
-                    <th class="wd-15p">Số sản phẩm</th>
-                    <th class="wd-25p">Mô tả</th>
-                    <th class="wd-20p">Hành động</th>
+                    <th class="wd-25p text-white">Tên danh mục</th>
+                    <th class="wd-15p text-white">Số sản phẩm</th>
+                    <th class="wd-25p text-white">Mô tả</th>
+                    <th class="wd-20p text-white text-right">Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,16 +65,14 @@
                             <td class="pt-md-4 pt-sm-4">@c.Name</td>
                             <td class="pt-md-4 pt-sm-4">@c.NumbProduct</td>
                             <td class="pt-md-4 pt-sm-4">@c.Description</td>
-                            <td>
+                            <td class="text-right">
                                 <form method="post">
                                     <a style="cursor:pointer" onclick="deleteCategory(this,'@c.Id')" class="btn btn-danger text-white mr-1">
                                         <i class="fa fa-trash"></i>
-                                        Xóa
                                     </a>
                                     <button type="submit"
                                             style="cursor:pointer" class="btn btn-primary text-white">
                                         <i class="fa fa-pencil"></i>
-                                        Sửa
                                     </button>
                                 </form>
                             </td>

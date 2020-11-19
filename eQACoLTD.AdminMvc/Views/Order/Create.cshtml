@@ -83,12 +83,19 @@
                     imgDiv.append(img);
                     rowDiv.append(imgDiv);
                     var infoDiv=document.createElement('div');
-                    infoDiv.setAttribute('class','col-md-11');
+                    infoDiv.setAttribute('class','col-md-7');
                     var pProduct=document.createElement('p');
-                    pProduct.setAttribute('class','p-3');
+                    pProduct.setAttribute('class','p-3 font-weight-bold');
                     pProduct.append(prod.name);
                     infoDiv.append(pProduct);
+                    var quantityDiv=document.createElement('div');
+                    quantityDiv.setAttribute('class','col-md-4');
+                    var pQuantity=document.createElement('p');
+                    pQuantity.setAttribute('class','p-3 font-weight-bold');
+                    pQuantity.append('Số lượng có thể bán: '+prod.ableToSale+' phiên bản còn lại');
+                    quantityDiv.append(pQuantity);
                     rowDiv.append(infoDiv);
+                    rowDiv.append(quantityDiv);
                     liEl.append(rowDiv);
                     $(liEl).on({
                         mouseenter: function(){
@@ -240,46 +247,50 @@
           updateTotalAmountOrder();
         }
         function createOrder(){
-            var listProducts=[];
-            $('tbody tr').each(function(){
-                if($(this).is("[id]")){
-                var productId=$(this).find('td').eq(0).html();
-                var productQuantity=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
-                var productPrice=$(this).find('td').eq(4).find('input').val().replace(/,/g,'');
-                listProducts.push({productId:productId,quantity:parseInt(productQuantity),unitPrice:parseFloat(productPrice),serviceName:''});
+            bootbox.confirm("Đồng ý tạo đơn hàng mới?",function (result){
+                if (result){
+                var listProducts=[];
+                $('tbody tr').each(function(){
+                    if($(this).is("[id]")){
+                    var productId=$(this).find('td').eq(0).html();
+                    var productQuantity=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
+                    var productPrice=$(this).find('td').eq(4).find('input').val().replace(/,/g,'');
+                    listProducts.push({productId:productId,quantity:parseInt(productQuantity),unitPrice:parseFloat(productPrice),serviceName:''});
+                    }
+                    else{
+                        console.log($(this).find('td').eq(1).find('input').val());
+                        var serviceName=$(this).find('td').eq(1).find('input').val();
+                        var serviceQuantity=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
+                        var servicePrice=$(this).find('td').eq(4).find('input').val().replace(/,/g,'');
+                        listProducts.push({productId:'',quantity:parseInt(serviceQuantity),unitPrice:parseFloat(servicePrice),serviceName:serviceName});
+                    }
+                })
+                var order={
+                    "customerId": $("#customer-id").val(),
+                    "description": $("#order-Description").val(),
+                    "discountValue": parseFloat($("#total-Discount").val().replace(/,/g,'')),
+                    "discountDescription": "",
+                    "discountType": $("#discount-Type").html(),
+                    "listOrderDetail": listProducts
                 }
-                else{
-                    console.log($(this).find('td').eq(1).find('input').val());
-                    var serviceName=$(this).find('td').eq(1).find('input').val();
-                    var serviceQuantity=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
-                    var servicePrice=$(this).find('td').eq(4).find('input').val().replace(/,/g,'');
-                    listProducts.push({productId:'',quantity:parseInt(serviceQuantity),unitPrice:parseFloat(servicePrice),serviceName:serviceName});
+                $.ajax({
+                    url:'@Configuration["APIServerHost"]api/orders',
+                    headers: {
+                        "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                        },
+                    method:'post',
+                    contentType:"application/json",
+                    data:JSON.stringify(order),
+                    success:function(data) {
+                        showAlertMessage(true,data.message);
+                        window.location='@Configuration["AdminMvc"]order/detail?orderId='+data.resultObj;
+                        },
+                    error:function(data) {
+                        showAlertMessage(false,data.message);
+                    }
+                 });
                 }
             })
-            var order={
-                "customerId": $("#customer-id").val(),
-                "description": $("#order-Description").val(),
-                "discountValue": parseFloat($("#total-Discount").val().replace(/,/g,'')),
-                "discountDescription": "",
-                "discountType": $("#discount-Type").html(),
-                "listOrderDetail": listProducts
-            }
-            $.ajax({
-                url:'@Configuration["APIServerHost"]api/orders',
-                headers: {
-                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
-                    },
-                method:'post',
-                contentType:"application/json",
-                data:JSON.stringify(order),
-                success:function(data) {
-                    showAlertMessage(true,data.message);
-                    window.location='@Configuration["AdminMvc"]order/detail?orderId='+data.resultObj;
-                    },
-                error:function(data) {
-                    showAlertMessage(false,data.message);
-                }
-            });
         }
         function updateTotalAmountOrder(){
             var totalAmount=0;
@@ -312,7 +323,7 @@
     </script>
 }
 
-<div class="br-pageheader pd-y-15 pd-l-20">
+<div class="br-pageheader text-dark pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
         <a class="breadcrumb-item" asp-controller="Order" asp-action="Create">Đơn hàng</a>
         <span class="breadcrumb-item active">Tạo mới</span>
@@ -392,8 +403,11 @@
                             <div class="col-md-1">
                                 <img src="~/img/no-image-icon.jpg" alt="Ảnh danh mục" width="50" height="50">
                             </div>
-                            <div class="col-md-11">
+                            <div class="col-md-9">
                                 <p class="pt-3">Macbook Pro 2020</p>
+                            </div>
+                            <div class="col-md-2">
+                                <p class="pt-3">Có thể bán: 0</p>
                             </div>
                         </div>
                     </li>
@@ -401,14 +415,14 @@
             </div>
         </div>
         <table id="order-table" class="table mt-1" style="border-collapse: collapse">
-            <thead style="background-color: #EEEEEE">
+            <thead class="bg-primary">
             <tr>
-                <th scope="col" style="width: 8%">Mã</th>
-                <th scope="col" style="width: 45%">Tên sản phẩm</th>
-                <th scope="col" style="width: 10%">Đơn vị</th>
-                <th scope="col" style="width: 10%">Số lượng</th>
-                <th scope="col" style="width: 15%" class="text-right">Đơn giá</th>
-                <th scope="col" style="width: 12%" class="text-right">Thành tiền</th>
+                <th class="text-white" scope="col" style="width: 8%">Mã</th>
+                <th class="text-white" scope="col" style="width: 45%">Tên sản phẩm</th>
+                <th class="text-white" scope="col" style="width: 10%">Đơn vị</th>
+                <th class="text-white" scope="col" style="width: 10%">Số lượng</th>
+                <th scope="col" style="width: 15%" class="text-right text-white">Đơn giá</th>
+                <th scope="col" style="width: 12%" class="text-right text-white">Thành tiền</th>
             </tr>
             </thead>
             <tbody>

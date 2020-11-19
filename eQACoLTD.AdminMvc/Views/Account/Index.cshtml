@@ -31,14 +31,14 @@
                 </select>
                 <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm tài khoản">
             </div>
-            <table id="datatable2" class="table display responsive nowrap">
-                <thead>
+            <table id="datatable2" class="table display responsive table-striped mt-3 nowrap">
+                <thead class="bg-primary">
                 <tr>
-                    <th class="wd-15p">Tài khoản</th>
-                    <th class="wd-20p">Email</th>
-                    <th class="wd-15p">Người sở hữu</th>
-                    <th class="wd-10p">Số điện thoại</th>
-                    <th class="wd-20p">Hành động</th>
+                    <th class="wd-15p text-white">Tài khoản</th>
+                    <th class="wd-20p text-white">Email</th>
+                    <th class="wd-15p text-white">Người sở hữu</th>
+                    <th class="wd-10p text-white">Số điện thoại</th>
+                    <th class="wd-20p text-right text-white">Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,36 +46,33 @@
                     foreach (var a in Model.Results)
                     {
                         <tr>
-                            <td class="pt-md-4 pt-sm-4">@a.UserName</td>
-                            <td class="pt-md-4 pt-sm-4">@a.Email</td>
-                            <td class="pt-md-4 pt-sm-4">
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@a.UserName</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@a.Email</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">
                                 @{
                                     if (!string.IsNullOrEmpty(a.CustomerName))
                                     {
-                                        <p>@a.CustomerName</p>
+                                        <p class="font-weight-bold">Khách hàng: @a.CustomerName</p>
                                     }
                                     else
                                     {
-                                        <p>@a.EmployeeName</p>
+                                        <p class="font-weight-bold">Nhân viên: @a.EmployeeName</p>
                                     }
                                 }
                             </td>
-                            <td class="pt-md-4 pt-sm-4">@a.PhoneNumber</td>
-                            <td> 
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@a.PhoneNumber</td>
+                            <td class="text-right"> 
                                 <form asp-controller="Account" asp-action="Detail" method="get">
                                     <input type="hidden" name="id" value="@a.Id"/>
                                     <a style="cursor:pointer" class="btn btn-warning mr-1">
                                         <i class="fa fa-lock"></i>
-                                        Khóa
                                     </a>
                                     <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
                                         <i class="fa fa-trash"></i>
-                                        Xóa
                                     </a>
                                     <button type="submit"
                                             style="cursor:pointer" class="btn btn-primary text-white">
                                         <i class="fa fa-eye"></i>
-                                        Chi tiết
                                     </button>
                                 </form>
                             </td>

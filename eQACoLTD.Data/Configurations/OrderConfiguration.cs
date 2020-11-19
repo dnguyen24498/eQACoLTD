@@ -21,6 +21,7 @@ namespace eQACoLTD.Data.Configurations
             builder.Property(x => x.CustomerName).HasColumnType("nvarchar(150)");
             builder.Property(x => x.CustomerAddress).HasColumnType("nvarchar(300)");
             builder.Property(x => x.CustomerPhone).HasColumnType("nvarchar(30)");
+            builder.Property(x => x.CustomerId).HasColumnType("varchar(12)").IsRequired(false);
             builder.HasOne(c => c.Customer)
                 .WithMany(s => s.Orders)
                 .HasForeignKey(s => s.CustomerId);

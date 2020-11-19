@@ -19,6 +19,8 @@ namespace eQACoLTD.Application.Common
 
         public static string MainWarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5";
 
+        public static string WaitingToShippingId = "cf4ff408-bdbc-4692-9b70-0e141269cfdb";
+
 
     }
 }

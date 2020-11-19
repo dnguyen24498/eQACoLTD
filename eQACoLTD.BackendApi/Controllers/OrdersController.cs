@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Order;
 using eQACoLTD.ViewModel.Order.Handlers;
+using eQACoLTD.ViewModel.Order.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +74,15 @@ namespace eQACoLTD.BackendApi.Controllers
         {
             var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var result = await _orderService.AcceptWaitingOrderAsync(accountId, orderId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpPost("{orderId}/shipping")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager")]
+        public async Task<IActionResult> CreateShippingOrder(string orderId, ShippingOrderDto shippingOrderDto)
+        {
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _orderService.CreateShippingOrder(orderId, shippingOrderDto, accountId);
             return StatusCode((int)result.Code, result);
         }
     }

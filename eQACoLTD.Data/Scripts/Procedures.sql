@@ -175,5 +175,3 @@ begin
 	left join GoodsReceivedNotes on GoodsReceivedNotes.Id=GoodsReceivedNoteDetails.GoodsReceivedNoteId
 	where Stocks.RealQuantity>0 and Stocks.WarehouseId=@warehouseId and GoodsReceivedNotes.ImportDate<=@dateTime
 end;
-
-exec prGetStockBookReports @warehouseId='d6bbee65-fe3d-4765-b569-202d9f3aa4f5',@dateTime='2020/11/12'

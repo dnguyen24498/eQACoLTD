@@ -46,7 +46,8 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator")]
         public async Task<IActionResult> AddRole(Guid userId, [FromBody]Guid roleId)
         {
-            var result = await _accountService.AddRoleAsync(userId, roleId);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.AddRoleAsync(userId, roleId,accountId);
             return StatusCode((int)result.Code, result);
         }
 
@@ -54,7 +55,8 @@ namespace eQACoLTD.BackendApi.Controllers
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator")]
         public async Task<IActionResult> RemoveRole(Guid userId, Guid roleId)
         {
-            var result = await _accountService.RemoveRoleAsync(userId, roleId);
+            var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _accountService.RemoveRoleAsync(userId, roleId,accountId);
             return StatusCode((int)result.Code, result);
         }
 

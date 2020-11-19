@@ -4,6 +4,7 @@
     <title>Single Product</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="pragma" content="no-cache" />
     <meta name="description" content="OneTech shop project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="~/styles/bootstrap4/bootstrap.min.css">
@@ -11,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="~/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="~/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="~/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Arimo&display=swap" rel="stylesheet">
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -55,13 +58,14 @@
                                     <a asp-controller="Account" asp-action="Info">@userName</a>
                                     <a asp-controller="Account" asp-action="Logout">
                                         <i class="fa fa-sign-out-alt ml-2"></i>
+                                        Đăng xuất
                                     </a>
                                 </div>
                             }
                             catch
                             {
                                 <div class="user_icon">
-                                    <img src="~/~/images/user.svg" alt="">
+                                    <img src="~/images/user.svg" alt="">
                                 </div>
                                 <div>
                                     <a href="#">Đăng ký</a>
@@ -102,11 +106,13 @@
                     <div class="header_search_content">
                         <div class="header_search_form_container">
                             <form asp-controller="Home" asp-action="Search" asp-route-categoryId="" class="header_search_form clearfix">
-                                <input name="searchValue" type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
-                                <div class="custom_dropdown">
+                                <input name="searchValue" type="search" required="required" 
+                                       class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
+                                <div class="custom_dropdown d-none">
                                     <div class="custom_dropdown_list">
                                         <span class="custom_dropdown_placeholder clc">Toàn bộ</span>
                                         <ul class="custom_list clc">
+                                            <li><a class="clc" href="#">Toàn bộ</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -648,6 +654,8 @@
 <script src="~/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 <script src="~/plugins/easing/easing.js"></script>
 <script src="~/js/product_custom.js"></script>
+<script src="~/js/bootbox.min.js"></script>
+<script src="~/js/bootbox.locales.min.js"></script>
 @RenderSection("Scripts", required: false)
 <script>
     function showAlertMessage(isSuccess,message){

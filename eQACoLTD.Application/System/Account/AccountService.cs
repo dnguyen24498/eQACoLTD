@@ -100,14 +100,17 @@ namespace eQACoLTD.Application.System.Account
             return new ApiResult<AccountDto>(HttpStatusCode.OK,accountDetail);
         }
 
-        public async Task<ApiResult<Guid>> AddRoleAsync(Guid userId, Guid roleId)
+        public async Task<ApiResult<Guid>> AddRoleAsync(Guid userId, Guid roleId,string accountId)
         {
+            var checkAccount = await _userManager.FindByIdAsync(accountId);
             var user = await _userManager.FindByIdAsync(userId.ToString("D"));
             if (user == null) return new ApiResult<Guid>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản có mã: {userId}");
+            if(checkAccount.Id==user.Id) return new ApiResult<Guid>(HttpStatusCode.BadRequest,$"Tài khoản đã ở quyền cao nhất của hệ thống");
+            if(user.UserName.ToLower()=="admin") return new ApiResult<Guid>(HttpStatusCode.BadRequest,$"Không được chỉnh sửa quyền cho tài khoản có mức độ phân quyền cao nhất");
             var role = await _roleManager.FindByIdAsync(roleId.ToString("D"));
             if(role==null) return new ApiResult<Guid>(HttpStatusCode.NotFound,$"Không tìm thấy quyền có mã: {roleId}");
             var isInRole = await _userManager.IsInRoleAsync(user, role.Name);
-            if(isInRole) return new ApiResult<Guid>(HttpStatusCode.NotModified,"Tài khoản đã có quyền này");
+            if(isInRole) return new ApiResult<Guid>(HttpStatusCode.BadRequest,"Tài khoản đã có quyền này");
             var result=await _userManager.AddToRoleAsync(user, role.Name);
             if(result.Succeeded)
                 return new ApiResult<Guid>(HttpStatusCode.OK,roleId)
@@ -117,10 +120,13 @@ namespace eQACoLTD.Application.System.Account
             return new ApiResult<Guid>(HttpStatusCode.NotModified,$"Có lỗi khi thêm quyền");
         }
 
-        public async Task<ApiResult<Guid>> RemoveRoleAsync(Guid userId, Guid roleId)
+        public async Task<ApiResult<Guid>> RemoveRoleAsync(Guid userId, Guid roleId,string accountId)
         {
+            var checkAccount = await _userManager.FindByIdAsync(accountId);
             var user = await _userManager.FindByIdAsync(userId.ToString("D"));
             if (user == null) return new ApiResult<Guid>(HttpStatusCode.NotFound,$"Không tìm thấy tài khoản có mã: {userId}");
+            if(checkAccount.Id==user.Id) return new ApiResult<Guid>(HttpStatusCode.BadRequest,$"Tài khoản đã ở quyền cao nhất của hệ thống");
+            if(user.UserName.ToLower()=="admin") return new ApiResult<Guid>(HttpStatusCode.BadRequest,$"Không được chỉnh sửa quyền cho tài khoản có mức độ phân quyền cao nhất");
             var role = await _roleManager.FindByIdAsync(roleId.ToString("D"));
             if(role==null) return new ApiResult<Guid>(HttpStatusCode.NotFound,$"Không tìm thấy quyền có mã: {roleId}");
             var isInRole = await _userManager.IsInRoleAsync(user, role.Name);
@@ -331,6 +337,7 @@ namespace eQACoLTD.Application.System.Account
                 CustomerId = checkCustomer.Id,
                 TransactionStatusId = GlobalProperties.WaitingTransactionId,
                 PaymentStatusId = GlobalProperties.UnpaidPaymentId,
+                TotalAmount = orderDetails.Sum(x=>x.Quantity*x.UnitPrice),
                 DateCreated = DateTime.Now,
                 OrderDetails = orderDetails
             };

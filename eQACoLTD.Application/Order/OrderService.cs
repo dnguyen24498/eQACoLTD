@@ -35,6 +35,11 @@ namespace eQACoLTD.Application.Order
                 var orderId = IdentifyGenerator.GenerateOrderId(sequenceNumber + 1);
                 var order = ObjectMapper.Mapper.Map<Data.Entities.Order>(creationDto);
                 var orderDetail = ObjectMapper.Mapper.Map<IEnumerable<OrderDetail>>(creationDto.ListOrderDetail);
+                if (string.IsNullOrEmpty(creationDto.CustomerId))
+                {
+                    order.CustomerId = null;
+                    order.CustomerName = "Khách lẻ";
+                } 
                 decimal totalAmount = 0;
                 int checkIfAllService = 0;
                 foreach (var od in orderDetail)
@@ -204,11 +209,55 @@ namespace eQACoLTD.Application.Order
             };
         }
 
+        public async Task<ApiResult<string>> CreateShippingOrder(string orderId, ShippingOrderDto shippingOrderDto, string accountId)
+        {
+            var checkEmployee =
+                await _context.Employees.Where(x => x.AppuserId.ToString() == accountId).SingleOrDefaultAsync();
+            if(checkEmployee==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Lỗi tài khoản đăng nhập");
+            var checkOrder = await _context.Orders.Where(x => x.Id == orderId).SingleOrDefaultAsync();
+            if(checkOrder==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
+            if(checkOrder.TransactionStatusId==GlobalProperties.CancelTransactionId || checkOrder.TransactionStatusId==GlobalProperties.FinishedTransactionId)
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Không thể tạo phiếu vận chuyển cho đơn hàng bị hủy/ hoàn thành");
+            if (checkOrder.TransactionStatusId == GlobalProperties.InventoryTransactionId)
+            {
+                var checkCustomer =
+                    await _context.Customers.Where(x => x.Id == checkOrder.CustomerId).SingleOrDefaultAsync();
+                var shippingId = new Guid().ToString("D");
+                var shipping = new Shipping()
+                {
+                    Id = shippingId,
+                    TransporterId = shippingOrderDto.TransporterId,
+                    Description = shippingOrderDto.Description,
+                    CustomerId = string.IsNullOrEmpty(checkOrder.CustomerId) ? null : checkOrder.CustomerId,
+                    CustomerName = checkCustomer == null ? shippingOrderDto.CustomerName : checkCustomer.Name ?? "",
+                    Address = checkCustomer == null ? shippingOrderDto.CustomerAddress : checkCustomer.Address ?? "",
+                    PhoneNumber = checkCustomer == null
+                        ? shippingOrderDto.CustomerPhone
+                        : checkCustomer.PhoneNumber ?? "",
+                    OrderId = checkOrder.Id,
+                    DateCreated = DateTime.Now,
+                    Fee = shippingOrderDto.Fee,
+                    ShippingStatusId = GlobalProperties.WaitingToShippingId,
+                    EmployeeId = checkEmployee.Id
+                };
+                await _context.ShippingOrders.AddAsync(shipping);
+                await _context.SaveChangesAsync();
+                return new ApiResult<string>(HttpStatusCode.OK)
+                {
+                    ResultObj = shippingId,
+                    Message = "Tạo phiếu vận chuyển thành công"
+                };
+            }
+            return new ApiResult<string>(HttpStatusCode.BadRequest,$"Chỉ được tạo phiếu vận chuyển cho đơn hàng chưa được xuất kho");
+        }
+
         public async Task<ApiResult<OrderDto>> GetOrderAsync(string orderId)
         {
             var hasPaid = _context.ReceiptVouchers.Where(x => x.OrderId == orderId).Sum(x => x.Received);
             var orderDetails = await (from o in _context.Orders
-                               join c in _context.Customers on o.CustomerId equals c.Id
+                               join customer in _context.Customers on o.CustomerId equals customer.Id
+                               into CustomerGroup
+                               from c in CustomerGroup.DefaultIfEmpty()
                                join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
                                join ps in _context.PaymentStatuses on o.PaymentStatusId equals ps.Id
                                join b in _context.Branches on o.BranchId equals b.Id
@@ -220,7 +269,7 @@ namespace eQACoLTD.Application.Order
                                {
                                    Id = o.Id,
                                    BranchName = b.Name,
-                                   CustomerName = c.Name,
+                                   CustomerName = string.IsNullOrEmpty(c.Name)?o.CustomerName:c.Name,
                                    DateCreated = o.DateCreated,
                                    Description = o.Description,
                                    DiscountDescription = o.DiscountDescription,
@@ -268,7 +317,7 @@ namespace eQACoLTD.Application.Order
                           select new OrdersDto()
                           {
                               OrderId=o.Id,
-                              CustomerName=c.Name,
+                              CustomerName=string.IsNullOrEmpty(c.Name)?o.CustomerName:c.Name,
                               EmployeeName=e.Name,
                               DateCreated=o.DateCreated,
                               PaymentStatusName=ps.Name,

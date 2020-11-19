@@ -21,15 +21,15 @@
                 </select>
                 <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm sản phẩm">
             </div>
-            <table id="datatable2" class="table display responsive nowrap">
-                <thead>
+            <table id="datatable2" class="table display responsive nowrap table-striped mt-3">
+                <thead class="bg-primary">
                 <tr>
-                    <th class="wd-10p">Ảnh mô tả</th>
-                    <th class="wd-25p">Tên sản phẩm</th>
-                    <th class="wd-15p">Danh mục</th>
-                    <th class="wd-15p">Thương hiệu</th>
-                    <th class="wd-15p">Có thể bán</th>
-                    <th class="wd-20p">Hành động</th>
+                    <th class="wd-10p text-white">Ảnh mô tả</th>
+                    <th class="wd-25p text-white">Tên sản phẩm</th>
+                    <th class="wd-15p text-white">Danh mục</th>
+                    <th class="wd-15p text-white">Thương hiệu</th>
+                    <th class="wd-15p text-white">Có thể bán</th>
+                    <th class="wd-20p text-white text-right">Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,20 +48,18 @@
                                     <img src=@path alt="Ảnh danh mục" width="50" height="50">
                                 }
                             </td>
-                            <td class="pt-md-4 pt-sm-4">@c.ProductName</td>
-                            <td class="pt-md-4 pt-sm-4">@c.CategoryName</td>
-                            <td class="pt-md-4 pt-sm-4">@c.BrandName</td>
-                            <td class="pt-md-4 pt-sm-4">@c.AbleToSale</td>
-                            <td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.ProductName</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.CategoryName</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.BrandName</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.AbleToSale</td>
+                            <td class="text-right"> 
                                 <form method="post">
                                     <a style="cursor:pointer" onclick="deleteCategory(this,'@c.Id')" class="btn btn-danger text-white mr-1">
                                         <i class="fa fa-trash"></i>
-                                        Xóa
                                     </a>
                                     <button type="submit"
                                             style="cursor:pointer" class="btn btn-primary text-white">
                                         <i class="fa fa-pencil"></i>
-                                        Sửa
                                     </button>
                                 </form>
                             </td>

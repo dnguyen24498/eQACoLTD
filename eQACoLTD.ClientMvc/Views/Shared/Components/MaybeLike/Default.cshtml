@@ -8,10 +8,11 @@
         {
             <!-- Recently Viewed Item -->
             <div class="owl-item">
-                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center" 
+                     style="min-height: 360px;max-height: 360px">
                     <p>@p.CategoryName</p>
                     <div class="viewed_image"><img src='@Configuration["APIServerHost"]app-content/@p.ImagePath'></div>
-                    <div class="bestsellers_rating">
+                    <div class="bestsellers_rating mt-3">
                         @{
                             if (p.Stars > 0)
                             {
@@ -24,8 +25,12 @@
                     </div>
                     <div class="viewed_content text-center">
                         <div class="viewed_price">@p.RetailPrice.ToString("#,##0") đ</div>
-                        <div class="viewed_name"><a asp-controller="Product" asp-action="Index" asp-route-productId=@p.Id>@p.Name</a></div>
-                        <p>Thương hiệu: @p.BrandName</p>
+                        @{
+                            var productName = p.Name.Length > 15 ? p.Name.Substring(0, 12) + "..." : p.Name;
+                        }
+                        <div class="viewed_name"><a asp-controller="Product"
+                                                               asp-action="Index" asp-route-productId=@p.Id>@productName</a></div>
+                        <p>@p.BrandName</p>
                     </div>
                 </div>
             </div>

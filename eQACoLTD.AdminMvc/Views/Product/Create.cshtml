@@ -109,29 +109,33 @@
          })
      }
      function postProduct(){
-         var product={
-             name:$("#productName").val(),
-             overView:$("#productInformation").val(),
-             categoryid:$("#categories-select").find(':selected').val(),
-             description:$('#summernote').summernote('code'),
-             retailprice:$("#productRetailPrice").val(),
-             wholesaleprices:parseFloat($("#productWholeSalePrice").val().replace(/,/g,'')),
-             warrantyperiod:$("#productWarrantyPeriod").val().replace(/,/g,''),
-             brandid:$("#brands-select").find(':selected').val()
-         };
-         $.ajax({
-            url:'@Configuration["APIServerHost"]api/products',
-            headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
-            contentType:'application/json',
-            method:'POST',
-            data:JSON.stringify(product),
-            success:function(data){
-                postImage(data.resultObj);
-                showAlertMessage(true,data.message);
-            },
-            error:function(data) {
-               showAlertMessage(false,data.message);
-            }
+         bootbox.confirm('Bạn có đồng ý tạo sản phẩm mới?',function (result){
+             if (result){
+                var product={
+                name:$("#productName").val(),
+                overView:$("#productInformation").val(),
+                categoryid:$("#categories-select").find(':selected').val(),
+                description:$('#summernote').summernote('code'),
+                retailprice:$("#productRetailPrice").val(),
+                wholesaleprices:parseFloat($("#productWholeSalePrice").val().replace(/,/g,'')),
+                warrantyperiod:$("#productWarrantyPeriod").val().replace(/,/g,''),
+                brandid:$("#brands-select").find(':selected').val()
+            };
+            $.ajax({
+               url:'@Configuration["APIServerHost"]api/products',
+               headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+               contentType:'application/json',
+               method:'POST',
+               data:JSON.stringify(product),
+               success:function(data){
+                   postImage(data.resultObj);
+                   showAlertMessage(true,data.message);
+               },
+               error:function(data) {
+                  showAlertMessage(false,data.message);
+               }
+             })      
+             }
          })
      }
      $('#productRetailPrice,#productWholeSalePrice').keyup(function(event) {

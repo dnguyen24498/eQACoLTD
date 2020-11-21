@@ -53,6 +53,12 @@ namespace eQACoLTD.ClientMvc.Controllers
             var result = await _apiService.GetCart();
             return View(result.ResultObj);
         }
+
+        public async Task<IActionResult> Orders(int page = 1, int size = 15)
+        {
+            var result = await _apiService.GetAccountOrders(page, size);
+            return View(result.ResultObj);
+        }
         
     }
 }

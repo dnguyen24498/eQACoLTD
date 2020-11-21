@@ -46,11 +46,27 @@ namespace eQACoLTD.BackendApi.Controllers
             return StatusCode((int)result.Code, result);
         }
 
+        [HttpGet("purchase-orders/{purchaseOrderId}/is-paid")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Cashier,CashManager")]
+        public async Task<IActionResult> CheckPaidPurchaseOrder(string purchaseOrderId)
+        {
+            var result = await _paymentService.IsPaidPurchaseOrder(purchaseOrderId);
+            return StatusCode((int)result.Code, result);
+        }
+
         [HttpGet("orders/{orderId}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Cashier,CashManager,Accountant")]
         public async Task<IActionResult> GetPaymentsOrder(string orderId)
         {
             var result = await _paymentService.GetOrderPaymentHistory(orderId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("purchase-orders/{purchaseOrderId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Cashier,CashManager,Accountant")]
+        public async Task<IActionResult> GetPaymentPurchaseOrder(string purchaseOrderId)
+        {
+            var result = await _paymentService.GetPurchaseOrderPaymentHistory(purchaseOrderId);
             return StatusCode((int)result.Code, result);
         }
 

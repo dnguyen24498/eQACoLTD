@@ -60,6 +60,15 @@ namespace eQACoLTD.BackendApi.Controllers
             return StatusCode((int)result.Code, result);
         }
 
+        [HttpGet("imports/{purchaseOrderId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager")]
+        public async Task<IActionResult> IsImportPurchaseOrder(string purchaseOrderId)
+        {
+            var result = await _stockService.PurchaseOrderIsImport(purchaseOrderId);
+            return StatusCode((int)result.Code, result);
+        }
+        
+        
         [HttpGet("exports/{orderId}/export-histories")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,Accountant")]
         public async Task<IActionResult> GetOrderExportHistories(string orderId)
@@ -68,6 +77,14 @@ namespace eQACoLTD.BackendApi.Controllers
             return StatusCode((int)result.Code, result);
         }
 
+        [HttpGet("imports/{purchaseOrderId}/import-histories")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,Accountant")]
+        public async Task<IActionResult> GetPurchaseOrderImportHistories(string purchaseOrderId)
+        {
+            var result = await _stockService.GetImportPurchaseOrderHistory(purchaseOrderId);
+            return StatusCode((int)result.Code, result);
+        }
+        
         [HttpGet("products")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,Accountant,Salesman")]
         public async Task<IActionResult> GetProductsInStock(int pageIndex=1, int pageSize=15)

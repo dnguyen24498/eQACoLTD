@@ -45,6 +45,24 @@ namespace eQACoLTD.Data.Configurations
                     EmployeeId = "EPN0001",
                     StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
                     WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                },
+                new GoodsReceivedNote()
+                {
+                    Id = "GRN0002",
+                    PurchaseOrderId = "PON0002",
+                    ImportDate = DateTime.Now,
+                    EmployeeId = "EPN0001",
+                    StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                },
+                new GoodsReceivedNote()
+                {
+                    Id = "GRN0003",
+                    PurchaseOrderId = "PON0003",
+                    ImportDate = DateTime.Now,
+                    EmployeeId = "EPN0001",
+                    StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
+                    WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
                 });
         }
     }

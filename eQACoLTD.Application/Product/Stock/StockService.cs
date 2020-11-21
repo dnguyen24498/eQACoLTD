@@ -216,6 +216,41 @@ namespace eQACoLTD.Application.Product.Stock
                 return new ApiResult<ExportOrderHistoriesDto>(HttpStatusCode.OK,orderHistories);
             }
 
+        public async Task<ApiResult<ImportPurchaseOrderHistoriesDto>> GetImportPurchaseOrderHistory(string purchaseOrderId)
+        {
+            var checkPurchaseOrder =
+                await _context.PurchaseOrders.Where(x => x.Id == purchaseOrderId).SingleOrDefaultAsync();
+            if(checkPurchaseOrder==null) return new ApiResult<ImportPurchaseOrderHistoriesDto>(HttpStatusCode.NotFound,$"Không tìm thấy phiếu nhập hàng có mã: {purchaseOrderId}");
+            var purchaseOrderHistory = await (from grn in _context.GoodReceivedNotes
+                join w in _context.Warehouses on grn.WarehouseId equals w.Id
+                join sa in _context.StockActions on grn.StockActionId equals sa.Id
+                join employee in _context.Employees on grn.EmployeeId equals employee.Id
+                    into EmployeeGroup
+                from e in EmployeeGroup.DefaultIfEmpty()
+                where grn.PurchaseOrderId == purchaseOrderId
+                select new ImportPurchaseOrderHistoriesDto()
+                {
+                    Id = grn.Id,
+                    Description = grn.Description,
+                    ImportDate = grn.ImportDate,
+                    EmployeeName = e.Name,
+                    WarehouseName = w.Name,
+                    StockActionName = sa.Name,
+                    Products = (from grnd in _context.GoodsReceivedNoteDetails
+                        join product in _context.Products on grnd.ProductId equals product.Id
+                            into ProductGroup
+                        from p in ProductGroup.DefaultIfEmpty()
+                        where grnd.GoodsReceivedNoteId == grn.Id
+                        select new ImportPurchaseOrderHistoryDetailsDto()
+                        {
+                            ProductId = grnd.ProductId,
+                            Quantity = grnd.Quantity,
+                            ProductName = p.Name
+                        }).ToList()
+                }).SingleOrDefaultAsync();
+            return new ApiResult<ImportPurchaseOrderHistoriesDto>(HttpStatusCode.OK,purchaseOrderHistory);
+        }
+
         public async Task<ApiResult<PagedResult<ProductInStock>>> GetProductsInStockPagingAsync(int pageIndex, int pageSize,string accountId)
         {
             var checkEmployee = await _context.Employees.Where(x => x.AppuserId.ToString() == accountId)
@@ -237,6 +272,17 @@ namespace eQACoLTD.Application.Product.Stock
                     AbleToSale = s.AbleToSale
                 }).GetPagedAsync(pageIndex, pageSize);
             return new ApiResult<PagedResult<ProductInStock>>(HttpStatusCode.OK,products);
+        }
+
+        public async Task<ApiResult<bool>> PurchaseOrderIsImport(string purchaseOrderId)
+        {
+            var checkPurchaseOrder =
+                await _context.PurchaseOrders.Where(x => x.Id == purchaseOrderId).SingleOrDefaultAsync();
+            if(checkPurchaseOrder==null) return new ApiResult<bool>(HttpStatusCode.NotFound,$"Không tìm thấy phiếu nhập hàng có mã: {purchaseOrderId}");
+            var checkIsImport = await _context.GoodReceivedNotes.Where(x => x.PurchaseOrderId == purchaseOrderId)
+                .SingleOrDefaultAsync();
+            if(checkIsImport!=null) return new ApiResult<bool>(HttpStatusCode.OK,true);
+            return new ApiResult<bool>(HttpStatusCode.OK,false);
         }
     }
 }

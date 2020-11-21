@@ -131,7 +131,7 @@ namespace eQACoLTD.BackendApi.Controllers
             return StatusCode((int)result.Code, result);
         }
 
-        [HttpDelete("{orderId}")]
+        [HttpDelete("orders/{orderId}")]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CancelOrder(string orderId)
         {

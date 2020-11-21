@@ -125,6 +125,18 @@ namespace eQACoLTD.Application.Product.Payment
             return new ApiResult<bool>(HttpStatusCode.OK,false);
         }
 
+        public async Task<ApiResult<bool>> IsPaidPurchaseOrder(string purchaseOrderId)
+        {
+            var checkPurchaseOrder =
+                await _context.PurchaseOrders.Where(x => x.Id == purchaseOrderId).SingleOrDefaultAsync();
+            if(checkPurchaseOrder==null) return new ApiResult<bool>(HttpStatusCode.NotFound,$"Không tìm thấy phiếu nhập hàng có mã: {purchaseOrderId}");
+            var checkPaymentVoucher = await (from pv in _context.PaymentVouchers
+                where pv.PurchaseOrderId == checkPurchaseOrder.Id
+                select pv.Paid).SumAsync();
+            if(checkPaymentVoucher==checkPurchaseOrder.TotalAmount) return new ApiResult<bool>(HttpStatusCode.OK,true);
+            return new ApiResult<bool>(HttpStatusCode.OK,false);
+        }
+
         public async Task<ApiResult<IEnumerable<OrderPaymentsDto>>> GetOrderPaymentHistory(string orderId)
         {
             var checkOrder = await _context.Orders.FindAsync(orderId);
@@ -142,6 +154,28 @@ namespace eQACoLTD.Application.Product.Payment
                     EmployeeName = e.Name
                 }).ToListAsync();
             return new ApiResult<IEnumerable<OrderPaymentsDto>>(HttpStatusCode.OK,orderPayments);
+        }
+
+        public async Task<ApiResult<IEnumerable<PurchaseOrderPaymentsDto>>> GetPurchaseOrderPaymentHistory(string purchaseOrderId)
+        {
+            var checkPurchaseOrder =
+                await _context.PurchaseOrders.Where(x => x.Id == purchaseOrderId).SingleOrDefaultAsync();
+            if(checkPurchaseOrder==null) return new ApiResult<IEnumerable<PurchaseOrderPaymentsDto>>(HttpStatusCode.NotFound,$"Không tìm thấy phiếu nhập hàng có mã: {purchaseOrderId}");
+            var getPaymentHistories = await (from pv in _context.PaymentVouchers
+                join pm in _context.PaymentMethods on pv.PaymentMethodId equals pm.Id
+                join employee in _context.Employees on pv.EmployeeId equals employee.Id
+                    into EmployeeGroup
+                from e in EmployeeGroup.DefaultIfEmpty()
+                where pv.PurchaseOrderId == purchaseOrderId
+                select new PurchaseOrderPaymentsDto()
+                {
+                    Id = pv.Id,
+                    Paid = pv.Paid,
+                    EmployeeName = e.Name,
+                    PaymentDate = pv.PaymentDate,
+                    PaymentMethodName = pm.Name
+                }).ToListAsync();
+            return new ApiResult<IEnumerable<PurchaseOrderPaymentsDto>>(HttpStatusCode.OK,getPaymentHistories);
         }
 
         public async Task<ApiResult<string>> CreatePaymentVoucherAsync(PaymentVoucherForCreationDto creationDto, string accountId)

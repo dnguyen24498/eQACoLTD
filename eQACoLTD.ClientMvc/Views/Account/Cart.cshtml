@@ -82,7 +82,13 @@
     </script>
 }
 <div class="container card p-md-5 my-md-3">
-    @if (Model != null && Model.ListProduct != null && Model.ListProduct.Count()>0)
+    <div class="row">
+        <a class="btn col-md-3 offset-md-9 mb-3 btn-primary text-white" style="cursor: pointer" asp-controller="Account" asp-action="Orders">
+            Xem lịch sử mua hàng
+            <i class="fa fa-history pl-3"></i>
+        </a>
+    </div>
+    @if (Model != null && Model.ListProduct != null && Model.ListProduct.Count() > 0)
     {
         <div class="row">
             <table class="table table-bordered">
@@ -141,4 +147,4 @@
             <h3 class="col-md-12 text-secondary text-center mt-5 font-weight-bold">Giỏ hàng của bạn đang trống, hãy mua sắm ngay!</h3>
         </div>
     }
-    </div>
+</div>

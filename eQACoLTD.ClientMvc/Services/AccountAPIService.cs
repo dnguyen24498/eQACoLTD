@@ -65,5 +65,17 @@ namespace eQACoLTD.ClientMvc.Services
             }
             return new ApiResult<CustomerInfo>(response.StatusCode);
         }
+
+        public async Task<ApiResult<PagedResult<AccountOrdersDto>>> GetAccountOrders(int pageIndex, int pageSize)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync("api/accounts/orders");
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PagedResult<AccountOrdersDto>>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PagedResult<AccountOrdersDto>>(response.StatusCode);
+        }
     }
 }

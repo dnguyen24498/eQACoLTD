@@ -44,7 +44,7 @@ namespace eQACoLTD.Data.Configurations
                 },
                 new PurchaseOrderDetail()
                 {
-                    Id = "0fd5d321-0d92-431f-8eca-5eaa3365ae9f",
+                    Id = "ee02d34b-9b06-4ff4-bd7c-4fd77f93fd0b",
                     PurchaseOrderId = "PON0001",
                     ProductId = "PRN0003",
                     UnitPrice = 66000000,

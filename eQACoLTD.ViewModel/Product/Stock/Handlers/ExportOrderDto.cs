@@ -6,7 +6,13 @@ namespace eQACoLTD.ViewModel.Product.Stock.Handlers
 {
     public class ExportOrderDto
     {
-        public DateTime ExportDate { get; set; }
+        private DateTime exportDate;
+        public DateTime ExportDate { get=>exportDate;
+            set
+            {
+                exportDate = value.ToLocalTime();
+            }
+        }
         public string Description { get; set; }
         public string StockActionId { get; set; }
         public string WarehouseId { get; set; }

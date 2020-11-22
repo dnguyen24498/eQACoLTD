@@ -22,5 +22,17 @@ namespace eQACoLTD.AdminMvc.Controllers
             if (result.Code != HttpStatusCode.OK) return View(new PagedResult<PurchaseOrdersDto>());
             return View(result.ResultObj);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Detail(string purchaseOrderId)
+        {
+            var result = await _apiService.GetPurchaseOrderAsync(purchaseOrderId);
+            if (result.Code != HttpStatusCode.OK) return View(new PurchaseOrderDto());
+            return View(result.ResultObj);
+        }
     }
 }

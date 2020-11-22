@@ -104,6 +104,7 @@ namespace eQACoLTD.Application.Product.PurchaseOrder
                                            SupplierName = s.Name,
                                            TransactionStatusName = ts.Name,
                                            TotalAmount = po.TotalAmount,
+                                           SupplierId = s.Id,
                                            RestAmount = po.TotalAmount - restAmount,
                                            ListProduct = subOrders
                                        }).SingleOrDefaultAsync();

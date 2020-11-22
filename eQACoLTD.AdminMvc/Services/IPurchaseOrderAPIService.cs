@@ -7,5 +7,6 @@ namespace eQACoLTD.AdminMvc.Services
     public interface IPurchaseOrderAPIService
     {
         Task<ApiResult<PagedResult<PurchaseOrdersDto>>> GetPurchaseOrderPagingAsync(int pageIndex, int pageSize);
+        Task<ApiResult<PurchaseOrderDto>> GetPurchaseOrderAsync(string purchaseOrderId);
     }
 }

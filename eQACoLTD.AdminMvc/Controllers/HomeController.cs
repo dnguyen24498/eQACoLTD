@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Index()
         {
             var result = await _reportService.GetOverviewReport();
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             return View(result.ResultObj);   
         }
     }

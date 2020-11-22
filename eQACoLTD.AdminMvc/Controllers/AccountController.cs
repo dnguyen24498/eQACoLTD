@@ -25,6 +25,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Index(int page=1,int size=15)
         {
             var result = await _accountAPIService.GetAccountsPagingAsync(page,size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code!=HttpStatusCode.OK) View("Index", new PagedResult<AccountsDto>());
             return View(result.ResultObj);
         }
@@ -34,6 +35,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Detail(Guid id) 
         {
             var result = await _accountAPIService.GetAccountDetailAsync(id);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code!=HttpStatusCode.OK) return View();
             return View(result.ResultObj);
         }
@@ -41,7 +43,6 @@ namespace eQACoLTD.AdminMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Info()
         {
-            
             return View();
         }
     }

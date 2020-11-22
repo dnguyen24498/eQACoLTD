@@ -23,6 +23,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Index(int page = 1,int size=15)
         {
             var result = await _productService.GetProductPagingAsync(page,size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code!=System.Net.HttpStatusCode.OK) return View((new PagedResult<ProductsDto>()));
             else return View(result.ResultObj);
         }
@@ -44,6 +45,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Stock(int page = 1, int size = 15)
         {
             var result = await _productService.GetProductsInStockPagingAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code != HttpStatusCode.OK) return View(new PagedResult<ProductInStock>());
             return View(result.ResultObj);
         }

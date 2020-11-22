@@ -1,4 +1,5 @@
-﻿using eQACoLTD.AdminMvc.Services;
+﻿using System.Net;
+using eQACoLTD.AdminMvc.Services;
 using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Product.Supplier.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Index(int page=1,int size=15)
         {
             var result = await _supplierAPIService.GetSupplierPagingAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code != System.Net.HttpStatusCode.OK) return View(new PagedResult<SuppliersDto>());
             return View(result.ResultObj);
         }

@@ -20,6 +20,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> CashBook(DateTime fromDate, DateTime toDate, int page=1,int size=50)
         {
             var result = await _reportService.GetCashBookReport(fromDate, toDate, page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if(result.Code!=HttpStatusCode.OK) return View(new CashBookReportDto());
             return View(result.ResultObj);
         }
@@ -27,6 +28,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> StockBook(DateTime dateTime, int page = 1, int size = 50)
         {
             var result = await _reportService.GetStockBookReport(dateTime, page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code != HttpStatusCode.OK) return View(new StockBookReportDto());
             return View(result.ResultObj);
         }

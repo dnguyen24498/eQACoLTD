@@ -21,6 +21,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Index(int page = 1,int size=15)
         {
             var result = await _apiService.GetOrdersPagingAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code!=System.Net.HttpStatusCode.OK) return View(new PagedResult<OrdersDto>());
             return View(result.ResultObj);
         }
@@ -31,6 +32,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Detail(string orderId)
         {
             var result = await _apiService.GetOrderAsync(orderId);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code != HttpStatusCode.OK) return View(new OrderDto());
             return View(result.ResultObj);
         }
@@ -38,6 +40,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Waiting(int page = 1,int size=15)
         {
             var result = await _apiService.GetWaitingOrderAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if(result.Code!=HttpStatusCode.OK) return View(new PagedResult<OrdersDto>());
             return View(result.ResultObj);
         }
@@ -45,6 +48,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> WaitingOrderDetail(string orderId)
         {
             var result = await _apiService.GetWaitingOrderDetailAsync(orderId);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if(result.Code!=HttpStatusCode.OK) return View(new WaitingOrderDto());
             return View(result.ResultObj);
         }

@@ -19,6 +19,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Index(int page=1,int size=15)
         {
             var result = await _apiService.GetPurchaseOrderPagingAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code != HttpStatusCode.OK) return View(new PagedResult<PurchaseOrdersDto>());
             return View(result.ResultObj);
         }
@@ -31,6 +32,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> Detail(string purchaseOrderId)
         {
             var result = await _apiService.GetPurchaseOrderAsync(purchaseOrderId);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
             if (result.Code != HttpStatusCode.OK) return View(new PurchaseOrderDto());
             return View(result.ResultObj);
         }

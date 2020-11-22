@@ -1,0 +1,102 @@
+﻿@model eQACoLTD.ViewModel.Report.Queries.CashBookReportDto
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h2 class="tx-gray-800 mg-b-5">Sổ quỹ</h2>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <form asp-controller="Report" asp-action="CashBook" class="form-row">
+                <div class="col-1 text-center">
+                    <p class="my-md-2">Từ ngày: </p>
+                </div>
+                <div class="col-3">
+                    <input type="date" name="fromDate"
+                           class="form-control" value=@DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0, 0)).ToString("yyyy-MM-dd").Replace(' ', 'T')>
+                </div>
+                <div class="col-1 text-center">
+                    <p class="my-md-2">Đến ngày: </p>
+                </div>
+                <div class="col-3">
+                    <input type="date" name="toDate"
+                           class="form-control" value=@DateTime.Now.ToString("yyyy-MM-dd").Replace(' ', 'T')>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Xem báo cáo">
+            </form>
+        </div>
+    </div>
+</div>
+<div class="br-pagebody text-dark">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper row">
+            <div class="col-md-2">
+                <h2 class="text-center">Số dư đầu kỳ</h2>
+                <h2 class="text-center">@Model.SurplusBeginningValue.ToString("#,##0")</h2>
+            </div>
+            <div class="col-md-1">
+                <h2 class="text-center">+</h2>
+            </div>
+            <div class="col-md-2">
+                <h2 class="text-center">Tổng thu</h2>
+                <h2 class="text-center">@Model.TotalReceivedValue.ToString("#,##0")</h2>
+            </div>
+            <div class="col-md-1">
+                <h2 class="text-center">-</h2>
+            </div>
+            <div class="col-md-2">
+                <h2 class="text-center">Tổng chi</h2>
+                <h2 class="text-center">@Model.TotalPaymentValue.ToString("#,##0")</h2>
+            </div>
+            <div class="col-md-1">
+                <h2 class="text-center">=</h2>
+            </div>
+            <div class="col-md-3">
+                <h2 class="text-center">Tồn cuối kỳ</h2>
+                <h2 class="text-center">@Model.EndingStocksValue.ToString("#,##0")</h2>
+            </div>
+            <table class="table table-striped mt-3">
+                <thead class="bg-primary">
+                <th class="text-white">STT</th>
+                <th class="text-white">Loại phiếu</th>
+                <th class="text-white">Ngày ghi nhận</th>
+                <th class="text-white">Ngày tạo</th>
+                <th class="text-white">Mã phiếu</th>
+                <th class="text-white">Mã chứng từ</th>
+                <th class="text-white">Người nộp/nhận</th>
+                <th class="text-white">Hình thức thanh toán</th>
+                <th class="text-white">Tiền thu</th>
+                <th class="text-white">Tiền chi</th>
+                </thead>
+                <tbody>
+                @if (Model.Rows != null)
+                {
+                    foreach (var r in Model.Rows.Results.Select((value, i) => new {i, value}))
+                    {
+                        <tr>
+                            @{
+                                var index = r.i + 1;
+                                <td>@index</td>
+                            }
+                            @if (r.value.Received > 0)
+                            {
+                                <td>Phiếu thu</td>
+                            }
+                            else
+                            {
+                                <td>Phiếu chi</td>
+                            }
+                            <td>@r.value.RecordDate.ToString("dd/MM/yyyy")</td>
+                            <td>@r.value.DateCreated.ToString("dd/MM/yyyy")</td>
+                            <td>@r.value.Id</td>
+                            <td>@r.value.OriginalDocumentId</td>
+                            <td>@r.value.TargetPerson</td>
+                            <td>@r.value.PaymentMethodName</td>
+                            <td>@r.value.Received.ToString("#,##0")</td>
+                            <td>@r.value.Paid.ToString("#,##0")</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

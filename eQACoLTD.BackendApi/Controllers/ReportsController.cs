@@ -45,21 +45,23 @@ namespace eQACoLTD.BackendApi.Controllers
 
         [HttpGet("cash-book")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Accountant,CashManager")]
-        public async Task<IActionResult> GetCashBookReport(DateTime fromDate, DateTime toDate, int pageIndex = 1,
+        public async Task<IActionResult> GetCashBookReport(string fromDate, string toDate, int pageIndex = 1,
             int pageSize = 15)
         {
+            var frDate = DateTime.Parse(fromDate);
+            var tDate = DateTime.Parse(toDate).AddDays(1);
             var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _reportService.GetCashBookReport(fromDate, toDate, pageIndex, pageSize, accountId);
+            var result = await _reportService.GetCashBookReport(frDate, tDate, pageIndex, pageSize, accountId);
             return StatusCode((int)result.Code, result);
         }
 
         [HttpGet("stock-book")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Accountant,WarehouseManager")]
-        public async Task<IActionResult> GetStocksBookReport(DateTime dateTime, int pageIndex = 1,
+        public async Task<IActionResult> GetStocksBookReport(string dateTime, int pageIndex = 1,
             int pageSize = 15)
         {
             var accountId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var result = await _reportService.GetStockBookReport(dateTime, pageIndex, pageSize, accountId);
+            var result = await _reportService.GetStockBookReport(DateTime.Parse(dateTime).AddDays(1), pageIndex, pageSize, accountId);
             return StatusCode((int)result.Code, result);
         }
 

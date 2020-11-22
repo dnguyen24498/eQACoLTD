@@ -26,5 +26,17 @@ namespace eQACoLTD.AdminMvc.Services
             }
             return new ApiResult<PagedResult<PurchaseOrdersDto>>(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
+
+        public async Task<ApiResult<PurchaseOrderDto>> GetPurchaseOrderAsync(string purchaseOrderId)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/purchaseorders/{purchaseOrderId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PurchaseOrderDto>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PurchaseOrderDto>(response.StatusCode, await response.Content.ReadAsStringAsync());
+        }
     }
 }

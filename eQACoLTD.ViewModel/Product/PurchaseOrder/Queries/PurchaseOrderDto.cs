@@ -15,6 +15,7 @@ namespace eQACoLTD.ViewModel.Product.PurchaseOrder.Queries
         public string Description { get; set; }
         public string EmployeeName { get; set; }
         public decimal DiscountValue { get; set; }
+        public string SupplierId { get; set; }
         public string DiscountDescription { get; set; }
         public string DiscountType { get; set; }
         public string BranchName { get; set; }

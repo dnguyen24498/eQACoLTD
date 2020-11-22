@@ -1,4 +1,4 @@
-﻿@model eQACoLTD.ViewModel.Order.Queries.OrderDto
+﻿@model eQACoLTD.ViewModel.Product.PurchaseOrder.Queries.PurchaseOrderDto
 @inject IConfiguration Configuration
 @using Microsoft.AspNetCore.Http
 
@@ -12,7 +12,7 @@
         getCusomterDetail();
         function checkOrderHasPaid(){
             $.ajax({
-                url:'@Configuration["APIServerHost"]api/payments/orders/@Model.Id/is-paid',
+                url:'@Configuration["APIServerHost"]api/payments/purchase-orders/@Model.Id/is-paid',
                 headers: {
                     "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                     },
@@ -33,7 +33,7 @@
         }
         function checkOrderHasExport() {
           $.ajax({
-                url:'@Configuration["APIServerHost"]api/stocks/exports/@Model.Id',
+                url:'@Configuration["APIServerHost"]api/stocks/imports/@Model.Id',
                 headers: {
                     "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                     },
@@ -60,7 +60,7 @@
         function getPaymentsOrderHistory() {
            $("#table-Payment-History tbody").empty();
            $.ajax({
-                url:'@Configuration["APIServerHost"]api/payments/orders/@Model.Id',
+                url:'@Configuration["APIServerHost"]api/payments/purchase-orders/@Model.Id',
                 headers: {
                     "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                     },
@@ -69,7 +69,7 @@
                 success:function(data) {
                   var totalPaid=0;
                   $(data.resultObj).each(function (index,his){
-                      totalPaid+=parseFloat(his.received);
+                      totalPaid+=parseFloat(his.paid);
                   })
                   $(data.resultObj).each(function(index,his) {
                     var trEl=document.createElement('tr');
@@ -77,7 +77,7 @@
                     tdId.append(his.id);
                     trEl.append(tdId);
                     var tdReceived=document.createElement('td');
-                    tdReceived.append(accounting.formatNumber(his.received));
+                    tdReceived.append(accounting.formatNumber(his.paid));
                     trEl.append(tdReceived);
                     var tdEmployeeName=document.createElement('td');
                     tdEmployeeName.append(his.employeeName);
@@ -121,17 +121,17 @@
             bootbox.confirm("Bạn có muốn thanh toán cho đơn hàng này?",function (result){
                 if (result){
                     $.ajax({
-                       url:'@Configuration["APIServerHost"]api/payments/orders/@Model.Id',
+                       url:'@Configuration["APIServerHost"]api/payments/purchase-orders/@Model.Id',
                        headers: {
                            "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                            },
                        method:'post',
                        contentType:"application/json",
                        data:JSON.stringify({
-                           "received": parseFloat($("#payment-Value").val().replace(/,/g,'')),
+                           "paid": parseFloat($("#payment-Value").val().replace(/,/g,'')),
                            "paymentMethodId": $("#payment-Method").find(":selected").val(),
                            "description": $("#payment-Description").val(),
-                           "receivedDate": (new Date($("#payment-Date").val())).toJSON()
+                           "paymentDate": (new Date($("#payment-Date").val())).toJSON()
                        }),
                        success:function(data) {
                            showAlertMessage(true,data.message);
@@ -148,7 +148,7 @@
         }
         function getCusomterDetail(){
              $.ajax({
-                url:'@Configuration["APIServerHost"]api/customers/@Model.CustomerId',
+                url:'@Configuration["APIServerHost"]api/suppliers/@Model.SupplierId',
                 headers: {
                     "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                     },
@@ -162,7 +162,7 @@
                   $("#customer-debt").val(accounting.formatNumber(data.resultObj.totalDebt));
                 },
                 error:function() {
-                  console.log("Có lỗi");
+                  console.log("Có lỗi khi lấy ncc");
                 }
                 })
         }
@@ -203,10 +203,10 @@
             })
         }
         function exportOrder(){
-            bootbox.confirm("Bạn có muốn xuất kho cho đơn hàng này?",function (result){
+            bootbox.confirm("Bạn có muốn nhập kho cho đơn hàng này?",function (result){
                 if(result){
                     $.ajax({
-                       url:'@Configuration["APIServerHost"]api/stocks/exports/@Model.Id',
+                       url:'@Configuration["APIServerHost"]api/stocks/imports/@Model.Id',
                        headers: {
                            "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                            },
@@ -216,14 +216,14 @@
                            "warehouseId": $("#warehouses-select").find(":selected").val(),
                            "stockActionId": $("#stock-action-select").find(":selected").val(),
                            "description": $("#payment-Description").val(),
-                           "exportDate": (new Date($("#export-Date").val())).toJSON()
+                           "importDate": (new Date($("#export-Date").val())).toJSON()
                        }),
                        success:function(data) {
                            showAlertMessage(true,data.message);
                            checkOrderHasExport()
                            },
                        error:function() {
-                           showAlertMessage(false,"Có lỗi khi xuất kho sản phẩm");
+                           showAlertMessage(false,"Có lỗi khi nhập kho sản phẩm");
                        } 
                     })
                 }
@@ -232,7 +232,7 @@
         function getExportHistory(){
             $("#table-Export-History tbody").empty();
             $.ajax({
-                 url:'@Configuration["APIServerHost"]api/stocks/exports/@Model.Id/export-histories',
+                 url:'@Configuration["APIServerHost"]api/stocks/imports/@Model.Id/import-histories',
                  headers: {
                      "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
                      },
@@ -240,12 +240,12 @@
                  dataType:'json',
                  success:function(data) {
                  $("#delivery-notes-id").val(data.resultObj.id);
-                 $("#export-date").val(new Date(data.resultObj.exportDate).toLocaleString());
+                 $("#export-date").val(new Date(data.resultObj.importDate).toLocaleString());
                  $("#export-employee").val(data.resultObj.employeeName);
                  $("#export-description").val(data.resultObj.description);
                  $("#export-action").val(data.resultObj.stockActionName);
                  $("#export-warehouse").val(data.resultObj.warehouseName);
-                 $(data.resultObj.listProduct).each(function(index,his)
+                 $(data.resultObj.products).each(function(index,his)
                  {
                     var trEl=document.createElement('tr');
                     var tdProductId=document.createElement('td');
@@ -265,6 +265,9 @@
                  }
             })
         }
+        function formatCurrency(el){
+            $(el).val(accounting.formatNumber($(el).val()));
+        }
     </script>
 }
 
@@ -281,7 +284,7 @@
 <div class="row">
 <div class="col-md-9">
 <div class="form-layout form-layout-1 bg-white">
-    <h6 class="tx-gray-800 tx-bold">Thông tin khách hàng: @Model.CustomerName</h6>
+    <h6 class="tx-gray-800 tx-bold">Thông tin nhà cung cấp: @Model.SupplierName</h6>
     <div id="customer-info" style="display: block;position: relative;z-index: 1"
          class="col-md-12 panel">
         <div class="form-layout form-layout-3">
@@ -289,7 +292,7 @@
                 <input id="customer-id" class="form-control" type="hidden" disabled="disabled">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">Tên nhà cung cấp: <span class="tx-danger">*</span></label>
                         <input id="customer-name" class="form-control" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
@@ -301,7 +304,7 @@
                 </div><!-- col-4 -->
                 <div class="col-md-4 mg-t--1 mg-md-t-0">
                     <div class="form-group mg-md-l--1">
-                        <label class="form-control-label">Hòm thư điện tử: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">Email: <span class="tx-danger">*</span></label>
                         <input id="customer-email" class="form-control" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
@@ -336,7 +339,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var od in @Model.OrderDetailsDtos)
+        @foreach (var od in @Model.ListProduct)
         {
             if (!string.IsNullOrEmpty(od.ProductId))
             {
@@ -369,7 +372,7 @@
                 <tr>
                     <td></td>
                     <td>
-                        <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
+                        <input type="text" class="form-control" disabled="disabled" value='@od.CostName'>
                     </td>
                     <td></td>
                     <td class="align-middle">
@@ -429,9 +432,9 @@
                 <thead class="bg-primary" style="background-color: #EEEEEE">
                 <tr>
                     <th scope="col" class="text-white" style="width: 15%">Mã phiếu</th>
-                    <th scope="col" class="text-white">Số tiền thu</th>
-                    <th scope="col" class="text-white" style="width: 15%">Người thu</th>
-                    <th scope="col" class="text-white" style="width: 35%">Ngày thu</th>
+                    <th scope="col" class="text-white">Số tiền chi</th>
+                    <th scope="col" class="text-white" style="width: 15%">Người chi</th>
+                    <th scope="col" class="text-white" style="width: 35%">Ngày chi</th>
                     <th scope="col" class="text-white" style="width: 15%">Hình thức</th>
                 </tr>
                 </thead>
@@ -442,24 +445,24 @@
     </div>
 </div>
 <div id="order-exports" style="display: block;position: relative;z-index: 1" class="form-layout form-layout-1 bg-white mt-3">
-    <h6 class="tx-gray-800 tx-bold">Lịch sử xuất kho</h6>
+    <h6 class="tx-gray-800 tx-bold">Lịch sử nhập kho kho</h6>
     <div class="form-layout form-layout-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-control-label">Mã phiếu xuất: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">Mã phiếu nhập: <span class="tx-danger">*</span></label>
                         <input id="delivery-notes-id" class="form-control" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
                 <div class="col-md-4 mg-t--1 mg-md-t-0">
                     <div class="form-group mg-md-l--1">
-                        <label class="form-control-label">Ngày xuất: <span class="tx-danger">*</span></label>
-                        <input id="export-date" class="form-control" type="text" disabled="disabled">
+                        <label class="form-control-label">Ngày nhập: <span class="tx-danger">*</span></label>
+                        <input id="export-date" class="form-control" type="text"  disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
                 <div class="col-md-4 mg-t--1 mg-md-t-0">
                     <div class="form-group mg-md-l--1">
-                        <label class="form-control-label">Người xuất: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">Người nhập: <span class="tx-danger">*</span></label>
                         <input id="export-employee" class="form-control" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
@@ -471,13 +474,13 @@
                 </div><!-- col-8 -->
                 <div class="col-md-4">
                     <div class="form-group mg-md-l--1 bd-t-0-force">
-                        <label class="form-control-label">Xuất tại kho: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">Nhập tại kho: <span class="tx-danger">*</span></label>
                         <input id="export-warehouse" class="form-control" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
                 <div class="col-md-4">
                     <div class="form-group mg-md-l--1 bd-t-0-force">
-                        <label class="form-control-label">Lý do xuất: <span class="tx-danger">*</span></label>
+                        <label class="form-control-label">Lý do nhập: <span class="tx-danger">*</span></label>
                         <input id="export-action" class="form-control" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
@@ -489,7 +492,7 @@
                 <tr>
                     <th class="text-white" scope="col" style="width: 25%">Mã sản phẩm</th>
                     <th class="text-white" scope="col" style="width: 55%">Tên sản phẩm</th>
-                    <th class="text-white" scope="col" style="width: 20%">Số lượng xuất</th>
+                    <th class="text-white" scope="col" style="width: 20%">Số lượng nhập</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -505,8 +508,11 @@
     <div class="form-layout form-layout-1 bg-white">
         <h6 class="tx-gray-800 tx-bold">Thông tin khác</h6>
         <p>Ngày tạo đơn</p>
-        <input type="text" class="form-control text-right" disabled="disabled"
-               value='@Model.DateCreated.ToString("hh:mm tt-dd/MM/yyyy")'>
+        <input type="datetime-local" class="form-control text-right" disabled="disabled"
+               value='@Model.DateCreated.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')'>
+        <p class="mt-3">Ngày giao hàng</p>
+                <input type="datetime-local" class="form-control text-right" disabled="disabled"
+                       value='@Model.DeliveryDate.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')'>
         <p class="mt-3">Ghi chú</p>
         <textarea class="form-control" id="order-Description" disabled="disabled" 
                     cols="30" rows="5">@Model.Description</textarea>
@@ -524,11 +530,12 @@
         </div>
         <div>
             <label for="payment-Value" class="col-form-label">Số tiền thanh toán</label>
-            <input class="form-control price_format" type="text" id="payment-Value" style="text-align: right" value="0">
+            <input class="form-control price_format" oninput="formatCurrency(this)" type="text" id="payment-Value" style="text-align: right" value="0">
         </div>
         <div>
             <label for="payment-Date" class="col-form-label">Ngày tạo phiếu</label>
-            <input class="form-control price_format" type="datetime-local" id="payment-Date" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')
+            <input class="form-control" type="datetime-local" id="payment-Date" 
+                   value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')
                    style="text-align: right">
         </div>
         <div>
@@ -541,21 +548,21 @@
         </a>
     </div>
     <div class="form-layout form-layout-1 bg-white mt-3" id="export-Order-div" style="display: block">
-        <h6 class="tx-gray-800 tx-bold">Xác nhận xuất kho</h6>
+        <h6 class="tx-gray-800 tx-bold">Xác nhận nhập kho</h6>
         <div>
-            <label for="payment-Value" class="col-form-label">Xuất tại kho</label>
+            <label for="payment-Value" class="col-form-label">Nhập tại kho</label>
             <select class="form-control" id="warehouses-select">
 
             </select>
         </div>
         <div>
-            <label for="payment-Value" class="col-form-label">Lý do xuất kho</label>
+            <label for="payment-Value" class="col-form-label">Lý do nhập kho</label>
             <select class="form-control" id="stock-action-select">
 
             </select>
         </div>
         <div>
-            <label for="export-date" class="col-form-label">Ngày tạo phiếu</label>
+            <label for="payment-Date" class="col-form-label">Ngày tạo phiếu</label>
             <input class="form-control price_format" type="datetime-local" id="export-Date" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')
                    style="text-align: right">
         </div>
@@ -565,7 +572,7 @@
         </div>
         <a class="btn btn-primary form-control mt-3 text-white" onclick="exportOrder()" style="cursor: pointer">
             <i class="fa fa-arrow-right pr-2"></i>
-            Xuất kho
+            Nhập kho
         </a>
     </div>
 </div>

@@ -11,5 +11,6 @@ namespace eQACoLTD.ClientMvc.Services
         Task<ApiResult<string>> CreateOrderFromCartAsync();
         Task<ApiResult<CustomerInfo>> GetCurrentAccountInfo();
         Task<ApiResult<PagedResult<AccountOrdersDto>>> GetAccountOrders(int pageIndex, int pageSize);
+        Task<ApiResult<string>> CreateOrderForUnknownUser(CartDto cartDto);
     }
 }

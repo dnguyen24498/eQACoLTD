@@ -12,6 +12,7 @@
 @section Scripts
 {
     <script>
+        capNhapTongTien();
         function xoaSanPham(el){
             bootbox.confirm('Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?',function (result){
                 if (result){
@@ -36,7 +37,7 @@
                            showAlertMessage(true,data.message);
                        },   
                        error:function(data) {
-                         showAlertMessage(false,data.message);
+                         deleteProductFromCartNoLogin(productId,el);
                        }
                     })
                 }
@@ -66,11 +67,64 @@
                      showAlertMessage(true,data.message);
                    },
                    error:function() {
-                     showAlertMessage(false,data.message);
+                     addToCartNoLogin(productId,el)
                    }
                 })      
               }
           })
+        }
+        function addToCartNoLogin(productId,el){
+            var prodId=productId;
+            $.ajax({
+                url:'@Configuration["ClientHost"]Account/AddProductToCartNoLogin?productId='+prodId,
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'post',
+                contentType:"application/json",
+                dataType:'json',
+                success:function(data) {
+                  var divElement=$(el).closest('div');
+                  var soLuongHienCo=parseInt($(divElement).find('input').val());
+                  $(divElement).find('input').val(parseInt(soLuongHienCo+1));
+                  var tdElTongTien=$(el).closest('td').next().next();
+                  var tdDonGia=$(el).closest('td').next().text().replace(/,/g,'');
+                  $(tdElTongTien).text(accounting.formatNumber(parseFloat(tdDonGia)*parseInt(soLuongHienCo+1)));
+                  capNhapTongTien();   
+                  showAlertMessage(true,'Đã thêm sản phẩm vào giỏ hàng');
+                },
+                error:function(data) {
+                    showAlertMessage(false,'Có lỗi khi thêm sản phẩm vào giỏ hàng');
+                }
+            })      
+        }
+        function deleteProductFromCartNoLogin(productId,el){
+            var prodId=productId;
+            $.ajax({
+                url:'@Configuration["ClientHost"]Account/RemoveProductFromCart?productId='+prodId,
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'post',
+                contentType:"application/json",
+                dataType:'json',
+                success:function(data) {
+                  var divElement=$(el).closest('div');
+                  var soLuongHienCo=parseInt($(divElement).find('input').val());
+                  if(soLuongHienCo-1===0){
+                         $(el).closest("tr").remove();
+                  }
+                  $(divElement).find('input').val(parseInt(soLuongHienCo-1));
+                  var tdElTongTien=$(el).closest('td').next().next();
+                  var tdDonGia=$(el).closest('td').next().text().replace(/,/g,'');
+                  $(tdElTongTien).text(accounting.formatNumber(parseFloat(tdDonGia)*parseInt(soLuongHienCo-1)));
+                  capNhapTongTien();
+                  showAlertMessage(true,'Xóa sản phẩm khỏi giỏ hàng thành công');
+                },
+                error:function(data) {
+                    showAlertMessage(false,'Có lỗi khi xóa sản phẩm vào giỏ hàng');
+                }
+            })      
         }
         function capNhapTongTien() {
           var tongTienDonHang=0;
@@ -82,12 +136,20 @@
     </script>
 }
 <div class="container card p-md-5 my-md-3">
-    <div class="row">
-        <a class="btn col-md-3 offset-md-9 mb-3 btn-primary text-white" style="cursor: pointer" asp-controller="Account" asp-action="Orders">
-            Xem lịch sử mua hàng
-            <i class="fa fa-history pl-3"></i>
-        </a>
-    </div>
+    @try
+    {
+        var userName = User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+        <div class="row">
+            <a class="btn col-md-3 offset-md-9 mb-3 btn-primary text-white" style="cursor: pointer" asp-controller="Account" asp-action="Orders">
+                Xem lịch sử mua hàng
+                <i class="fa fa-history pl-3"></i>
+            </a>
+        </div>
+    }
+    catch
+    {
+            
+    }
     @if (Model != null && Model.ListProduct != null && Model.ListProduct.Count() > 0)
     {
         <div class="row">

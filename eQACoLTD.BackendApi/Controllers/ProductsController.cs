@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.Application.Product.ListProduct;
 using eQACoLTD.ViewModel.Product.ListProduct.Handlers;
+using eQACoLTD.ViewModel.Product.ListProduct.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -107,7 +108,36 @@ namespace eQACoLTD.BackendApi.Controllers
         {
             var result = await _productService.FilterProductsByCategoryAsync(categoryId, brandId, order, minimumPrice,
                 maximumPrice, pageNumber, pageSize);
-            if (result.Code == HttpStatusCode.BadRequest) return BadRequest(result.Message);
+            return StatusCode((int)result.Code, result);
+        }
+        [HttpGet("promotions")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> GetPromotions(int pageIndex = 1, int pageSize = 15)
+        {
+            var result = await _productService.GetPromotionsPagingAsync(pageIndex, pageSize);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("promotions/{promotionId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> GetPromotionDetail(string promotionId)
+        {
+            var result = await _productService.GetPromotionDetail(promotionId);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpPost("promotions")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> CreatePromotion(PromotionForCreationDto creationDto)
+        {
+            var result = await _productService.CreatePromotionAsync(creationDto);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("closet-promotions")]
+        public async Task<IActionResult> GetClosetPromotion()
+        {
+            var result = await _productService.GetClosetPromotion();
             return StatusCode((int)result.Code, result);
         }
     }

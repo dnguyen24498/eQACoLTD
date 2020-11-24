@@ -1,0 +1,95 @@
+﻿@model eQACoLTD.ViewModel.System.Account.Queries.CartDto
+@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+}
+@section Scripts
+{
+    <script>
+        capNhapTongTien();
+        function capNhapTongTien() {
+          var tongTienDonHang=0;
+          $(".TongTienSanPham").each(function(index,element) {
+              tongTienDonHang+=parseInt($(element).html().replace(/,/g,''));
+          })
+          $("#td-TongTienDonHang").text(accounting.formatNumber(tongTienDonHang));
+        }
+    </script>
+}
+<div class="container card p-md-5 my-md-3">
+    <form asp-controller="Account" asp-action="CreateOrderNoLogin">
+        <h3 class="font-weight-bold mb-3">Kiểm tra thông tin đơn hàng</h3>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="customerNameInput" class="font-weight-bold">Họ tên:</label>
+                <input name="customerName" type="text" id="customerNameInput" class="form-control" placeholder="Họ tên khách hàng">
+            </div>
+            <div class="form-group">
+                <label for="customerAddressInput" class="font-weight-bold">Địa chỉ:</label>
+                <input name="customerAddress" type="text" id="customerAddressInput" class="form-control" placeholder="Địa chỉ khách hàng">
+            </div>
+            <div class="form-group">
+                <label for="customerPhoneInput" class="font-weight-bold">Số điện thoại:</label>
+                <input name="customerPhone" type="text" id="customerPhoneInput" class="form-control" placeholder="Số điện thoại">
+            </div>
+            <div class="form-group">
+                <label for="customerEmailInput" class="font-weight-bold">Email:</label>
+                <input name="customerEmail" type="email" id="customerEmailInput" class="form-control" placeholder="Địa chỉ email">
+            </div>
+        </div>
+        <h3 class="font-weight-bold mb-3">Danh sách sản phẩm</h3>
+        @if (Model != null && Model.ListProduct != null && Model.ListProduct.Count() > 0)
+        {
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="bg-secondary text-white font-weight-bold">
+                        <td class="text-center">Sản phẩm</td>
+                        <td class="text-center w-25">Tên</td>
+                        <td class="text-center">Số lượng</td>
+                        <td class="text-center w-25">Đơn giá</td>
+                        <td class="text-right w-25">Tổng tiền</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var c in @Model.ListProduct)
+                    {
+                        var totalAmount = c.UnitPrice * c.Quantity;
+                        <tr id="@c.ProductId">
+                            <td class="text-center">
+                                <img src='@Configuration["APIServerHost"]app-content/@c.ImagePath' style="height: 115px;width: 115px">
+                            </td>
+                            <td class="align-middle text-center">@c.ProductName</td>
+                            <td class="align-middle text-center">
+                                <div class="row">
+                                    <input id="input-soLuong" type="text" class="form-control text-center mx-auto" style="width: 60px"
+                                           value=@c.Quantity.ToString("#,##0") disabled="disabled">
+                                </div>
+                            </td>
+                            <td class="align-middle text-center">@c.UnitPrice.ToString("#,##0")</td>
+                            <td class="align-middle text-right TongTienSanPham">@totalAmount.ToString("#,##0")</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="text-right">Giá trị đơn hàng:</td>
+                        <td id="td-TongTienDonHang" class="text-right font-weight-bold">@Model.TotalAmount.ToString("#,##0")</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <input type="submit" class="btn col-md-3 offset-md-9 span btn-primary text-white" style="cursor: pointer" value="Tạo đơn">
+            </div>
+        }
+        else
+        {
+            <div class="row mt-5">
+                <img src="~/images/no-product-in-cart.png" class="align-middle img-fluid mx-auto d-block" style="height: 250px;width: 450px">
+                <h3 class="col-md-12 text-secondary text-center mt-5 font-weight-bold">Giỏ hàng của bạn đang trống, hãy mua sắm ngay!</h3>
+            </div>
+        }
+    </form>
+</div>

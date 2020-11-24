@@ -79,9 +79,28 @@ namespace eQACoLTD.Application.Product.Category
                     ImagePath = pi.Path,
                     RetailPrice = p.RetailPrice
                 }).GetPagedAsync(pageIndex, pageSize);
+            foreach (var item in products.Results)
+            {
+                var result = await GetProductPrice(item.Id);
+                item.PromotionRetailPrice = result.Item1;
+                item.DiscountValue = result.Item2;
+            }
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
 
+        private async Task<Tuple<decimal,decimal>> GetProductPrice(string productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var newPriceIfExists = await (from p in _context.Promotions
+                join pd in _context.PromotionDetails on p.Id equals pd.PromotionId
+                where p.FromDate <= DateTime.Now && DateTime.Now<=p.ToDate && pd.ProductId==productId
+                select pd).SingleOrDefaultAsync();
+            if (newPriceIfExists != null)
+                return Tuple.Create(newPriceIfExists.DiscountType == "%"
+                    ? product.RetailPrice - (product.RetailPrice * newPriceIfExists.DiscountValue / 100)
+                    : product.RetailPrice - newPriceIfExists.DiscountValue,newPriceIfExists.DiscountValue);
+            return Tuple.Create(product.RetailPrice,0m);
+        }
         public async Task<ApiResult<IEnumerable<CategoryDto>>> GetCategoriesForHomePageAsync()
         {
             var categories = await (from c in _context.Categories

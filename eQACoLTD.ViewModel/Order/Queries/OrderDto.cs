@@ -20,6 +20,8 @@ namespace eQACoLTD.ViewModel.Order.Queries
         public decimal RestAmount { get; set; }
         public string BranchName { get; set; }
         public string CustomerId { get; set; }
+        public string CustomerAddress { get; set; }
+        public string CustomerPhone { get; set; }
         public IEnumerable<OrderDetailsDto> OrderDetailsDtos { get; set; }
 
     }

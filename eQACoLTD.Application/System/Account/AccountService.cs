@@ -202,9 +202,12 @@ namespace eQACoLTD.Application.System.Account
                     Quantity = c.Quantity,
                     ProductId = c.ProductId,
                     ProductName = p.Name,
-                    UnitPrice = p.RetailPrice,
                     ImagePath = p.ProductImages.Where(x=>x.IsThumbnail==true).SingleOrDefault().Path
                 }).ToListAsync();
+            foreach (var item in cartDetails)
+            {
+                item.UnitPrice = await GetProductPrice(item.ProductId);
+            }
             var cart=new CartDto()
             {
                 CustomerId = checkCustomer.Id,
@@ -212,6 +215,20 @@ namespace eQACoLTD.Application.System.Account
                 TotalAmount = cartDetails==null||cartDetails.Count==0?0:cartDetails.Sum(x => x.Quantity * x.UnitPrice)
             };
             return new ApiResult<CartDto>(HttpStatusCode.OK,cart);
+        }
+
+        private async Task<decimal> GetProductPrice(string productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var newPriceIfExists = await (from p in _context.Promotions
+                join pd in _context.PromotionDetails on p.Id equals pd.PromotionId
+                where p.FromDate <= DateTime.Now && DateTime.Now<=p.ToDate && pd.ProductId==productId
+                select pd).SingleOrDefaultAsync();
+            if (newPriceIfExists != null)
+                return newPriceIfExists.DiscountType == "%"
+                    ? product.RetailPrice - (product.RetailPrice * newPriceIfExists.DiscountValue / 100)
+                    : product.RetailPrice - newPriceIfExists.DiscountValue;
+            return product.RetailPrice;
         }
 
         public async Task<ApiResult<string>> DeleteProductFromCart(string customerId, string productId)
@@ -328,7 +345,7 @@ namespace eQACoLTD.Application.System.Account
                     OrderId = orderId,
                     ProductId = cart.ProductId,
                     Quantity = cart.Quantity,
-                    UnitPrice =  await (from p in _context.Products where p.Id==cart.ProductId select p.RetailPrice).SingleOrDefaultAsync()
+                    UnitPrice = await GetProductPrice(cart.ProductId)
                 });
             }
             var order=new Data.Entities.Order()
@@ -350,6 +367,7 @@ namespace eQACoLTD.Application.System.Account
                 Message = "Đã tạo đơn hàng"
             };
         }
+        
 
         public async Task<ApiResult<string>> UpdateAccountInfo(AccountForUpdateDto updateDto,string accountId)
         {

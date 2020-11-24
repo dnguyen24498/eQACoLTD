@@ -20,6 +20,7 @@ namespace eQACoLTD.ViewModel.Product.ListProduct.Queries
         public string BrandName { get; set; }
         public string Path { get; set; }
         public int AbleToSale { get; set; }
+        public decimal PromotionPrice { get; set; }
         public IEnumerable<ProductImagesDto> ListImage { get; set; }
     }
 }

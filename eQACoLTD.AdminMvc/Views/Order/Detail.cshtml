@@ -147,6 +147,8 @@
             })
         }
         function getCusomterDetail(){
+            var customerId='@Model.CustomerId';
+            if (customerId!=''){
              $.ajax({
                 url:'@Configuration["APIServerHost"]api/customers/@Model.CustomerId',
                 headers: {
@@ -164,7 +166,8 @@
                 error:function() {
                   console.log("Có lỗi");
                 }
-                })
+              })   
+            }
         }
         function getStockActions(){
             $.ajax({
@@ -290,13 +293,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
-                        <input id="customer-name" class="form-control" type="text" disabled="disabled">
+                        <input id="customer-name" class="form-control" value="@Model.CustomerName" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
                 <div class="col-md-4 mg-t--1 mg-md-t-0">
                     <div class="form-group mg-md-l--1">
                         <label class="form-control-label">Điện thoại: <span class="tx-danger">*</span></label>
-                        <input id="customer-phone" class="form-control" type="text" disabled="disabled">
+                        <input id="customer-phone" class="form-control" value="@Model.CustomerPhone" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
                 <div class="col-md-4 mg-t--1 mg-md-t-0">
@@ -308,13 +311,13 @@
                 <div class="col-md-8">
                     <div class="form-group bd-t-0-force">
                         <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
-                        <input id="customer-address" class="form-control" type="text" disabled="disabled">
+                        <input id="customer-address" class="form-control" value="@Model.CustomerAddress" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-8 -->
                 <div class="col-md-4">
                     <div class="form-group mg-md-l--1 bd-t-0-force">
                         <label class="form-control-label">Công nợ hiện tại: <span class="tx-danger">*</span></label>
-                        <input id="customer-debt" class="form-control text-danger" type="text" disabled="disabled">
+                        <input id="customer-debt" class="form-control text-danger" value="0" type="text" disabled="disabled">
                     </div>
                 </div><!-- col-4 -->
             </div><!-- row -->

@@ -24,5 +24,10 @@ namespace eQACoLTD.Application.Product.ListProduct
 
         Task<ApiResult<PagedResult<ProductCardDto>>> FilterProductsByCategoryAsync(string categoryId, string brandId, bool order,
             decimal minimumPrice, decimal maximumPrice,int pageNumber, int pageSize);
+
+        Task<ApiResult<PagedResult<PromotionsDto>>> GetPromotionsPagingAsync(int pageIndex, int pageSize);
+        Task<ApiResult<PromotionDto>> GetPromotionDetail(string promotionId);
+        Task<ApiResult<string>> CreatePromotionAsync(PromotionForCreationDto creationDto);
+        Task<ApiResult<PromotionDto>> GetClosetPromotion();
     }
 }

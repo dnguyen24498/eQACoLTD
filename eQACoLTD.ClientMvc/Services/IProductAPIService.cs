@@ -7,5 +7,6 @@ namespace eQACoLTD.ClientMvc.Services
     public interface IProductAPIService
     {
         Task<ApiResult<ProductDto>> GetProductAsync(string productId);
+        Task<ApiResult<PromotionDto>> GetClosetPromotion();
     }
 }

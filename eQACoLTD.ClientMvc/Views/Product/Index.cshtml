@@ -33,11 +33,29 @@
                           showAlertMessage(true,data.message);
                         },
                         error:function(data) {
-                          showAlertMessage(false,data.message);
+                          addToCartNoLogin(productId);
                         }
                     })      
 		        }
 		    })
+        }
+        function addToCartNoLogin(productId){
+		    var prodId=productId;
+		    $.ajax({
+                url:'@Configuration["ClientHost"]Account/AddProductToCartNoLogin?productId='+prodId,
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'post',
+                contentType:"application/json",
+                dataType:'json',
+                success:function(data) {
+                  showAlertMessage(true,'Đã thêm sản phẩm vào giỏ hàng');
+                },
+                error:function(data) {
+                    showAlertMessage(false,'Có lỗi khi thêm sản phẩm vào giỏ hàng');
+                }
+            })      
         }
 	</script>
 }
@@ -91,8 +109,15 @@
                             <div class="clearfix" style="z-index: 1000;">
                                 <!-- Product Quantity -->
                             </div>
-
-                            <div class="product_price font-weight-bold font-italic">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>
+                            @if (Model.PromotionPrice > 0 && Model.PromotionPrice != Model.RetailPrice)
+                            {
+                                <div class="product_price font-weight-bold font-italic"><del>Giá cũ: @Model.RetailPrice.ToString("#,##0") đ</del></div>
+                                <div class="product_price mt-1 font-weight-bold font-italic text-danger">Giá mới: @Model.PromotionPrice.ToString("#,##0") đ</div>
+                            }
+                            else
+                            {
+                                <div class="product_price font-weight-bold font-italic">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>   
+                            }
                             <div class="button_container">
                                 @if (Model.AbleToSale == 0)
                                 {

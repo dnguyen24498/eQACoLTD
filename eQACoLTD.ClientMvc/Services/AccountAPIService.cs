@@ -77,5 +77,19 @@ namespace eQACoLTD.ClientMvc.Services
             }
             return new ApiResult<PagedResult<AccountOrdersDto>>(response.StatusCode);
         }
+
+        public async Task<ApiResult<string>> CreateOrderForUnknownUser(CartDto cartDto)
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var json = JsonConvert.SerializeObject(cartDto);
+            var httpContent=new StringContent(json,Encoding.UTF8,"application/json");
+            var response = await httpClient.PostAsync("api/orders/create-for-unknown-user",httpContent);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<string>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<string>(response.StatusCode);
+        }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using eQACoLTD.ViewModel.System.Account.Queries;
 
 namespace eQACoLTD.Application.Order
 {
@@ -20,5 +21,6 @@ namespace eQACoLTD.Application.Order
 
         Task<ApiResult<string>> CreateShippingOrder(string orderId, ShippingOrderDto shippingOrderDto,
             string accountId);
+        Task<ApiResult<string>> CreateOrderForUnknownUser(CartDto cartDto);
     }
 }

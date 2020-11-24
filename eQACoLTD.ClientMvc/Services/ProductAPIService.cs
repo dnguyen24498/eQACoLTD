@@ -26,5 +26,17 @@ namespace eQACoLTD.ClientMvc.Services
             }
             return new ApiResult<ProductDto>(HttpStatusCode.NotFound);
         }
+
+        public async Task<ApiResult<PromotionDto>> GetClosetPromotion()
+        {
+            var httpClient = _httpClientFactory.CreateClient("APIClient");
+            var response = await httpClient.GetAsync($"api/products/closet-promotions");
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiResult<PromotionDto>>
+                    (await response.Content.ReadAsStringAsync());
+            }
+            return new ApiResult<PromotionDto>(HttpStatusCode.NotFound);
+        }
     }
 }

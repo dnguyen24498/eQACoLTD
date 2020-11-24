@@ -93,6 +93,20 @@ namespace eQACoLTD.Application.Product.ListProduct
                             IsThumbnail = pi.IsThumbnail
                         })
                 }).SingleOrDefaultAsync();
+            if (product != null)
+            {
+                var promotionDetail = await (from p in _context.Promotions
+                    join pd in _context.PromotionDetails on p.Id equals pd.PromotionId
+                    where p.FromDate <= DateTime.Now && p.ToDate >= DateTime.Now && pd.ProductId == product.Id
+                    select pd).SingleOrDefaultAsync();
+                if (promotionDetail != null)
+                {
+                    product.PromotionPrice = promotionDetail.DiscountType == "%"
+                        ? product.RetailPrice - (product.RetailPrice * promotionDetail.DiscountValue / 100)
+                        : product.RetailPrice - promotionDetail.DiscountValue;
+                }
+                else product.PromotionPrice = product.RetailPrice;
+            }
             if(product==null) return new ApiResult<ProductDto>(HttpStatusCode.NotFound,$"Không tìm thấy sản phẩm có mã: {productId}");
             return new ApiResult<ProductDto>(HttpStatusCode.OK,product);
         }
@@ -248,6 +262,12 @@ namespace eQACoLTD.Application.Product.ListProduct
                     AbleToSale=_context.Stocks.Where(x=>x.ProductId==p.Id && 
                         x.WarehouseId==GlobalProperties.MainWarehouseId).SingleOrDefault().AbleToSale
                 }).GetPagedAsync(pageNumber, pageSize);
+            foreach (var item in products.Results)
+            {
+                var result = await GetProductPrice(item.Id);
+                item.PromotionRetailPrice = result.Item1;
+                item.DiscountValue = result.Item2;
+            }
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
         }
 
@@ -286,7 +306,170 @@ namespace eQACoLTD.Application.Product.ListProduct
                 ).GetPagedAsync(pageNumber, pageSize);
             products.Results = order ? products.Results.OrderBy(x => x.RetailPrice).ToList() : 
                 products.Results.OrderByDescending(x => x.RetailPrice).ToList();
+            foreach (var item in products.Results)
+            {
+                var result = await GetProductPrice(item.Id);
+                item.PromotionRetailPrice = result.Item1;
+                item.DiscountValue = result.Item2;
+            }
             return new ApiResult<PagedResult<ProductCardDto>>(HttpStatusCode.OK,products);
+        }
+
+        private async Task<Tuple<decimal,decimal>> GetProductPrice(string productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var newPriceIfExists = await (from p in _context.Promotions
+                join pd in _context.PromotionDetails on p.Id equals pd.PromotionId
+                where p.FromDate <= DateTime.Now && DateTime.Now<=p.ToDate && pd.ProductId==productId
+                select pd).SingleOrDefaultAsync();
+            if (newPriceIfExists != null)
+                return Tuple.Create(newPriceIfExists.DiscountType == "%"
+                    ? product.RetailPrice - (product.RetailPrice * newPriceIfExists.DiscountValue / 100)
+                    : product.RetailPrice - newPriceIfExists.DiscountValue,newPriceIfExists.DiscountValue);
+            return Tuple.Create(product.RetailPrice,0m);
+        }
+        
+        public async Task<ApiResult<PagedResult<PromotionsDto>>> GetPromotionsPagingAsync(int pageIndex, int pageSize)
+        {
+            var promotions = await (from p in _context.Promotions
+                select new PromotionsDto()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    FromDate = p.FromDate,
+                    ToDate = p.ToDate,
+                    NumberProduct = _context.PromotionDetails.Where(x => x.PromotionId == p.Id).Count()
+                }).GetPagedAsync(pageIndex,pageSize);
+            return new ApiResult<PagedResult<PromotionsDto>>(HttpStatusCode.OK,promotions);
+        }
+
+        public async Task<ApiResult<PromotionDto>> GetPromotionDetail(string promotionId)
+        {
+            var checkPromotion = await _context.Promotions.Where(x => x.Id == promotionId).SingleOrDefaultAsync();
+            if(checkPromotion==null) return new ApiResult<PromotionDto>(HttpStatusCode.NotFound,$"Không tìm thấy chương trình khuyến mãi có mã: {promotionId}");
+            var promotion = await (from p in _context.Promotions
+                join category in _context.Categories on p.CategoryId equals category.Id
+                    into CategoryGroup
+                from c in CategoryGroup.DefaultIfEmpty()
+                where p.Id == promotionId
+                select new PromotionDto()
+                {
+                    Id = p.Id,
+                    Description = p.Description,
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    CategoryName = c.Name,
+                    DiscountType = p.DiscountType,
+                    DiscountValue = p.DiscountValue,
+                    FromDate = p.FromDate,
+                    ToDate = p.ToDate,
+                    Products = (from pd in _context.PromotionDetails
+                        join pr in _context.Products on pd.ProductId equals pr.Id
+                        where pd.PromotionId == p.Id
+                        select new PromotionDetailDto()
+                        {
+                            Id = pd.Id,
+                            DiscountType = pd.DiscountType,
+                            DiscountValue = pd.DiscountValue,
+                            ProductId = pr.Id,
+                            ProductName = pr.Name,
+                            PromotionId = p.Id,
+                            UnitPrice = pd.DiscountType == "%"
+                                ? pr.RetailPrice - (pr.RetailPrice * pd.DiscountValue / 100)
+                                : pr.RetailPrice - pd.DiscountValue
+                        }).ToList()
+                }).SingleOrDefaultAsync();
+            return new ApiResult<PromotionDto>(HttpStatusCode.OK,promotion);
+        }
+
+        public async Task<ApiResult<string>> CreatePromotionAsync(PromotionForCreationDto creationDto)
+        {
+            if(creationDto.FromDate<=DateTime.Now || creationDto.ToDate<=DateTime.Now || creationDto.FromDate>creationDto.ToDate)
+                return new ApiResult<string>(HttpStatusCode.BadRequest,$"Thời gian diễn ra sự kiện không hợp lệ");
+            var promotion=new Promotion()
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                Description = creationDto.Description,
+                Name = creationDto.Name,
+                CategoryId = creationDto.CategoryId,
+                DiscountType = creationDto.DiscountType,
+                DiscountValue = creationDto.DiscountValue,
+                FromDate = creationDto.FromDate,
+                ToDate = creationDto.ToDate.AddHours(23).AddMinutes(59).AddSeconds(59),
+            };
+            var promotionDetails = new List<PromotionDetail>();
+            if(creationDto.Products!=null && creationDto.Products.Count()>0)
+            {
+                foreach (var item in creationDto.Products)
+                {
+                    if (await CheckPromotionDetail(item.ProductId, promotion.FromDate, promotion.ToDate) == false)
+                    {
+                        promotionDetails.Add(new PromotionDetail()
+                        {
+                            Id = Guid.NewGuid().ToString("D"),
+                            DiscountType = item.DiscountType,
+                            DiscountValue = item.DiscountValue,
+                            ProductId = item.ProductId,
+                            PromotionId = promotion.Id
+                        });   
+                    }
+                    else return new ApiResult<string>(HttpStatusCode.BadRequest,$"Sản phẩm có mã {item.ProductId} đang trong một chương trình giảm giá khác");
+                }   
+            }
+            promotion.PromotionDetails = promotionDetails;
+            await _context.Promotions.AddAsync(promotion);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK,$"Tạo mới chương trình khuyến mãi thành công")
+            {
+                ResultObj = promotion.Id
+            };
+        }
+
+        public async Task<ApiResult<PromotionDto>> GetClosetPromotion()
+        {
+            var promotion = await (from p in _context.Promotions
+                join category in _context.Categories on p.CategoryId equals category.Id
+                into CategoryGroup
+                from c in CategoryGroup.DefaultIfEmpty()
+                orderby p.FromDate ascending
+                where (p.FromDate<=DateTime.Now && p.ToDate>=DateTime.Now) || p.FromDate >= DateTime.Now
+                select new PromotionDto()
+                {
+                    Description = p.Description,
+                    Id = p.Id,
+                    Name = p.Name,
+                    CategoryId = p.CategoryId,
+                    CategoryName = c.Name,   
+                    DiscountType = p.DiscountType,
+                    DiscountValue = p.DiscountValue,
+                    FromDate = p.FromDate,
+                    ToDate = p.ToDate,
+                    Products = (from pd in _context.PromotionDetails
+                        join pr in _context.Products on pd.ProductId equals pr.Id
+                            where pd.PromotionId==p.Id
+                                select new PromotionDetailDto()
+                                {
+                                    Id = pd.Id,
+                                    DiscountType = pd.DiscountType,
+                                    DiscountValue = pd.DiscountValue,
+                                    ProductId = pd.ProductId,
+                                    ProductName = pr.Name,
+                                    PromotionId = p.Id,
+                                    UnitPrice = pd.DiscountType=="%"?pr.RetailPrice-(pr.RetailPrice*pd.DiscountValue/100):pr.RetailPrice-pd.DiscountValue 
+                                })
+                }).SingleOrDefaultAsync();
+            return new ApiResult<PromotionDto>(HttpStatusCode.OK,promotion??new PromotionDto());
+        }
+
+        private async Task<bool> CheckPromotionDetail(string productId,DateTime fromDate, DateTime toDate)
+        {
+            var condition = await (from pd in _context.PromotionDetails
+                join p in _context.Promotions on pd.PromotionId equals p.Id
+                where pd.ProductId == productId && ((fromDate <= p.ToDate && p.FromDate <= toDate) ||
+                      (fromDate <= p.FromDate && toDate <= p.ToDate)||(p.FromDate<=fromDate&&p.ToDate<=toDate))
+                select p).ToListAsync();
+            if (condition != null && condition.Count > 0) return true;
+            return false;
         }
 
         private async Task<string> SaveFile(IFormFile file,Guid guid)

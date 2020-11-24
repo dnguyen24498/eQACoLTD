@@ -12,6 +12,8 @@ using eQACoLTD.ViewModel.Order.Handlers;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.Application.Common;
+using eQACoLTD.ViewModel.System.Account.Queries;
+
 namespace eQACoLTD.Application.Order
 {
     public class OrderService : IOrderService
@@ -100,7 +102,7 @@ namespace eQACoLTD.Application.Order
                 select new OrdersDto()
                 {
                     OrderId=o.Id,
-                    CustomerName=c.Name,
+                    CustomerName=string.IsNullOrEmpty(c.Name)?o.CustomerName:c.Name,
                     EmployeeName=e.Name,
                     DateCreated=o.DateCreated,
                     PaymentStatusName=ps.Name,
@@ -166,12 +168,12 @@ namespace eQACoLTD.Application.Order
                                          select new WaitingOrderDto()
                                          {
                                              Id = o.Id,
-                                             CustomerAddress = c.Address,
+                                             CustomerAddress =string.IsNullOrEmpty(c.Address)?o.CustomerAddress:c.Address,
                                              CustomerId = c.Id,
-                                             CustomerName = c.Name,
-                                             CustomerPhone = !string.IsNullOrEmpty(c.PhoneNumber)
-                                                 ? c.PhoneNumber
-                                                 : (_context.AppUsers.Where(x => x.Id == c.AppUserId).SingleOrDefault().PhoneNumber),
+                                             CustomerName =string.IsNullOrEmpty(c.Name)?o.CustomerName:c.Name,
+                                             CustomerPhone = !string.IsNullOrEmpty(c.PhoneNumber) ? c.PhoneNumber
+                                                 : (!string.IsNullOrEmpty(_context.AppUsers.Where(x => x.Id == c.AppUserId).SingleOrDefault().PhoneNumber)?
+                                                     _context.AppUsers.Where(x => x.Id == c.AppUserId).SingleOrDefault().PhoneNumber:o.CustomerPhone),
                                              DateCreated = o.DateCreated,
                                              OrderDetails = (from od in _context.OrderDetails
                                                              join product in _context.Products on od.ProductId equals product.Id
@@ -251,6 +253,58 @@ namespace eQACoLTD.Application.Order
             return new ApiResult<string>(HttpStatusCode.BadRequest,$"Chỉ được tạo phiếu vận chuyển cho đơn hàng chưa được xuất kho");
         }
 
+        public async Task<ApiResult<string>> CreateOrderForUnknownUser(CartDto cartDto)
+        {
+            var sequenceNumber = await _context.Orders.CountAsync();
+            var orderId = IdentifyGenerator.GenerateOrderId(sequenceNumber + 1);
+            var orderDetail = new List<OrderDetail>();
+            foreach (var item in cartDto.ListProduct)
+            {
+                var result = await GetProductPrice(item.ProductId);
+                orderDetail.Add(new OrderDetail()
+                {
+                    Id = Guid.NewGuid().ToString("D"),
+                    Quantity = item.Quantity,
+                    OrderId = orderId,
+                    ProductId = item.ProductId,
+                    UnitPrice = result.Item1
+                });
+            }
+            var order = new Data.Entities.Order()
+            {
+                Id = orderId,
+                CustomerAddress = cartDto.Address,
+                CustomerName = cartDto.CustomerName,
+                CustomerPhone = cartDto.PhoneNumber,
+                DateCreated = DateTime.Now,
+                TransactionStatusId = GlobalProperties.WaitingTransactionId,
+                PaymentStatusId = GlobalProperties.UnpaidPaymentId,
+                TotalAmount = orderDetail.Select(x => x.Quantity * x.UnitPrice).Sum(),
+                DiscountValue = 0,
+                DiscountType = "$",
+                OrderDetails = orderDetail
+            };
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK,$"Tạo đơn hàng thành công")
+            {
+                ResultObj = orderId
+            };
+        }
+        private async Task<Tuple<decimal,decimal>> GetProductPrice(string productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var newPriceIfExists = await (from p in _context.Promotions
+                join pd in _context.PromotionDetails on p.Id equals pd.PromotionId
+                where p.FromDate <= DateTime.Now && DateTime.Now<=p.ToDate && pd.ProductId==productId
+                select pd).SingleOrDefaultAsync();
+            if (newPriceIfExists != null)
+                return Tuple.Create(newPriceIfExists.DiscountType == "%"
+                    ? product.RetailPrice - (product.RetailPrice * newPriceIfExists.DiscountValue / 100)
+                    : product.RetailPrice - newPriceIfExists.DiscountValue,newPriceIfExists.DiscountValue);
+            return Tuple.Create(product.RetailPrice,0m);
+        }
+
         public async Task<ApiResult<OrderDto>> GetOrderAsync(string orderId)
         {
             var hasPaid = _context.ReceiptVouchers.Where(x => x.OrderId == orderId).Sum(x => x.Received);
@@ -276,6 +330,8 @@ namespace eQACoLTD.Application.Order
                                    DiscountType = o.DiscountType,
                                    DiscountValue = o.DiscountValue,
                                    EmployeeName = e.Name,
+                                   CustomerAddress = o.CustomerAddress,
+                                   CustomerPhone = o.CustomerPhone,
                                    PaymentStatusName = ps.Name,
                                    TransactionStatusName = ts.Name,
                                    OrderDetailsDtos = (from od in _context.OrderDetails

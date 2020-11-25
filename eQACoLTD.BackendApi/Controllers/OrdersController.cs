@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using EmailService;
 using eQACoLTD.Application.Order;
 using eQACoLTD.ViewModel.Order.Handlers;
 using eQACoLTD.ViewModel.Order.Queries;
@@ -19,9 +20,11 @@ namespace eQACoLTD.BackendApi.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        public OrdersController(IOrderService orderService)
+        private readonly IEmailSender _emailSender;
+        public OrdersController(IOrderService orderService,IEmailSender emailSender)
         {
             _orderService = orderService;
+            _emailSender = emailSender;
         }
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,Salesman,Cashier,WarehouseManager,CashManager,Technician,Accountant")]

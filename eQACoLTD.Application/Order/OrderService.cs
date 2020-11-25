@@ -3,25 +3,34 @@ using eQACoLTD.ViewModel.Common;
 using eQACoLTD.ViewModel.Order.Queries;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
 using eQACoLTD.Application.Extensions;
 using System.Net;
+using EmailService;
 using Microsoft.EntityFrameworkCore;
 using eQACoLTD.ViewModel.Order.Handlers;
 using eQACoLTD.Application.Configurations;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.Application.Common;
 using eQACoLTD.ViewModel.System.Account.Queries;
+using Microsoft.Extensions.Configuration;
 
 namespace eQACoLTD.Application.Order
 {
     public class OrderService : IOrderService
     {
         private readonly AppIdentityDbContext _context;
-        public OrderService(AppIdentityDbContext context)
+        private IConfigurationRoot configuration;
+        private readonly IEmailSender _emailSender;
+        public OrderService(AppIdentityDbContext context,IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
+            configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json").Build();
         }
 
         public async Task<ApiResult<string>> CreateOrderAsync(OrderForCreationDto creationDto,string accountId)
@@ -286,6 +295,29 @@ namespace eQACoLTD.Application.Order
             };
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
+            var content =
+                $"Cảm ơn quý khách: {order.CustomerName} đã mua hàng tại Máy tính Quang Anh. Đơn hàng của quý khách gồm các sản phẩm: ";
+            foreach (var item in order.OrderDetails)
+            {
+                var product = await _context.Products.Where(x => x.Id == item.ProductId).SingleOrDefaultAsync();
+                content += $"{product.Name} (Đơn giá: {item.UnitPrice} đồng, Số lượng: {item.Quantity} cái), ";
+            }
+            content +=
+                $"để công ty có thể đóng gói và gửi hàng cho quý khách theo địa chỉ:{order.CustomerAddress}, quý khách vui lòng chuyển khoản trước 10% giá trị tổng đơn hàng: {(order.TotalAmount.ToString("#,##0"))} đồng, " +
+                $"tức: {(order.TotalAmount * 10 / 100).ToString("#,##0")} đồng vào Số tài khoản: 0123456789101112, Chủ sở hữu: Hoàng Kim Quang, Ngân hàng Vietcombank với nội dung như sau: \"Chuyen tien dat coc 10% cho don hang ma so: {order.Id}\" " +
+                $".Mong quý khách hãy để ý điện thoại để có thể nhận được thông tin đơn vận chuyển từ nhà vận chuyển, xin cảm ơn quý khách!";
+            var sendTestEmail=new Message(new string[]{cartDto.Email},"Xác nhận đơn hàng Máy tính Quang Anh",content,null);
+            try
+            {
+                await _emailSender.SendEmailAsync(sendTestEmail);
+            }
+            catch
+            {
+                return new ApiResult<string>(HttpStatusCode.OK,$"Tạo đơn hàng thành công")
+                {
+                    ResultObj = orderId
+                };    
+            }
             return new ApiResult<string>(HttpStatusCode.OK,$"Tạo đơn hàng thành công")
             {
                 ResultObj = orderId
@@ -314,7 +346,9 @@ namespace eQACoLTD.Application.Order
                                from c in CustomerGroup.DefaultIfEmpty()
                                join ts in _context.TransactionStatuses on o.TransactionStatusId equals ts.Id
                                join ps in _context.PaymentStatuses on o.PaymentStatusId equals ps.Id
-                               join b in _context.Branches on o.BranchId equals b.Id
+                               join branch in _context.Branches on o.BranchId equals branch.Id
+                               into BranchGroup
+                               from b in BranchGroup.DefaultIfEmpty()
                                join employee in _context.Employees on o.EmployeeId equals employee.Id
                                into EmployeesGroup
                                from e in EmployeesGroup.DefaultIfEmpty()

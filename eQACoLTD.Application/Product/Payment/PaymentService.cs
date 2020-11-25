@@ -121,6 +121,10 @@ namespace eQACoLTD.Application.Product.Payment
             var totalPaid = await (from rv in _context.ReceiptVouchers
                 where rv.OrderId == checkOrder.Id
                 select rv.Received).SumAsync();
+            if (checkOrder.TransactionStatusId==GlobalProperties.CancelTransactionId)
+            {
+                return new ApiResult<bool>(HttpStatusCode.OK,true);
+            }
             if (checkOrder.TotalAmount == totalPaid) return new ApiResult<bool>(HttpStatusCode.OK,true);
             return new ApiResult<bool>(HttpStatusCode.OK,false);
         }

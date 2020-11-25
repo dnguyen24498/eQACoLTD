@@ -56,7 +56,7 @@ namespace eQACoLTD.AdminMvc.Controllers
         public async Task<IActionResult> AcceptWaitingOrder(string orderId)
         {
             await _apiService.AcceptWaitingOrderAsync(orderId);
-            return Redirect(_configuration["AdminMvc"]+$"Order/Detail?orderId={orderId}");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> CancelWaitingOrder(string orderId)

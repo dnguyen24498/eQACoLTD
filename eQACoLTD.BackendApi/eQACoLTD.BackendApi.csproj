@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EmailService\EmailService.csproj" />
     <ProjectReference Include="..\eQACoLTD.Application\eQACoLTD.Application.csproj" />
     <ProjectReference Include="..\eQACoLTD.Data\eQACoLTD.Data.csproj" />
     <ProjectReference Include="..\LoggerService\LoggerService.csproj" />

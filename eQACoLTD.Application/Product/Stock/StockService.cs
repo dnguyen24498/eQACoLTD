@@ -179,6 +179,7 @@ namespace eQACoLTD.Application.Product.Stock
             if(checkOrder==null) return new ApiResult<bool>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
             var checkIsExport = await _context.GoodsDeliveryNotes.Where(x => x.OrderId == checkOrder.Id)
                 .SingleOrDefaultAsync();
+            if(checkOrder.TransactionStatusId==GlobalProperties.CancelTransactionId) return new ApiResult<bool>(HttpStatusCode.OK,true);
             if(checkIsExport!=null) return new ApiResult<bool>(HttpStatusCode.OK,true);
             return new ApiResult<bool>(HttpStatusCode.OK,false);
         }

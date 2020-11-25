@@ -268,6 +268,14 @@
                  }
             })
         }
+        function printOrder(){
+            var restorepage = $('body').html();
+            $("#printDiv").attr('class','d-block');
+            var printcontent = $('#printDiv').clone();
+            $('body').empty().html(printcontent);
+            window.print();
+            $('body').html(restorepage);
+        }
     </script>
 }
 
@@ -281,6 +289,10 @@
 <div class="br-pagebody text-dark">
 <div>
 <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thông tin đơn hàng: @Model.Id</h4>
+<a class="btn btn-primary text-white mt-1 mb-3" onclick="printOrder()" style="cursor: pointer">
+    <i class="fa fa-print"></i>
+    In hóa đơn
+</a>
 <div class="row">
 <div class="col-md-9">
 <div class="form-layout form-layout-1 bg-white">
@@ -339,59 +351,62 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var od in @Model.OrderDetailsDtos)
+        @if (Model.OrderDetailsDtos != null)
         {
-            if (!string.IsNullOrEmpty(od.ProductId))
+            @foreach (var od in @Model.OrderDetailsDtos)
             {
-                <tr class="border">
-                    <td class="align-middle text-dark">@od.ProductId</td>
-                    <td class="align-middle text-dark">@od.ProductName</td>
-                    <td class="align-middle">
-                        <select class="form-control text-center" disabled="disabled">
-                            <option>Cái</option>
-                        </select>
-                    </td>
-                    <td class="align-middle">
-                        <input type="text" class="form-control text-dark price_format text-center" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
-                    </td>
-                    <td class="align-middle">
-                        <input type="text" class="form-control text-dark price_format text-right" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
-                    </td>
-                    <td class="text-right align-middle text-dark">
-                        @{
-                            var total = od.UnitPrice * od.Quantity;
-                            <a>
-                                @total.ToString("#,##0")
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
-            else
-            {
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
-                    </td>
-                    <td></td>
-                    <td class="align-middle">
-                        <input type="text" class="form-control price_format" disabled="disabled"
-                               value='@od.Quantity.ToString("#,##0")'>
-                    </td>
-                    <td class="align-middle">
-                        <input type="text" class="form-control price_format" disabled="disabled"
-                               value='@od.UnitPrice.ToString("#,##0")'>
-                    </td>
-                    <td class="text-right align-middle">
-                        @{
-                            var total = od.UnitPrice * od.Quantity;
-                            <a>
-                                @total.ToString(("#,##0"))
-                            </a>
-                        }
-                    </td>
-                </tr>
+                if (!string.IsNullOrEmpty(od.ProductId))
+                {
+                    <tr class="border">
+                        <td class="align-middle text-dark">@od.ProductId</td>
+                        <td class="align-middle text-dark">@od.ProductName</td>
+                        <td class="align-middle">
+                            <select class="form-control text-center" disabled="disabled">
+                                <option>Cái</option>
+                            </select>
+                        </td>
+                        <td class="align-middle">
+                            <input type="text" class="form-control text-dark price_format text-center" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
+                        </td>
+                        <td class="align-middle">
+                            <input type="text" class="form-control text-dark price_format text-right" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
+                        </td>
+                        <td class="text-right align-middle text-dark">
+                            @{
+                                var total = od.UnitPrice * od.Quantity;
+                                <a>
+                                    @total.ToString("#,##0")
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
+                        </td>
+                        <td></td>
+                        <td class="align-middle">
+                            <input type="text" class="form-control price_format" disabled="disabled"
+                                   value='@od.Quantity.ToString("#,##0")'>
+                        </td>
+                        <td class="align-middle">
+                            <input type="text" class="form-control price_format" disabled="disabled"
+                                   value='@od.UnitPrice.ToString("#,##0")'>
+                        </td>
+                        <td class="text-right align-middle">
+                            @{
+                                var total = od.UnitPrice * od.Quantity;
+                                <a>
+                                    @total.ToString(("#,##0"))
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
             }
         }
         </tbody>
@@ -428,67 +443,67 @@
 <div id="order-payments" style="display: block;position: relative;z-index: 1" class="form-layout form-layout-1 bg-white mt-3">
     <h6 class="tx-gray-800 tx-bold">Lịch sử thanh toán</h6>
     <div class="form-layout form-layout-3">
-            <table id="table-Payment-History" class="table table-borderless">
-                <thead class="bg-primary" style="background-color: #EEEEEE">
-                <tr>
-                    <th scope="col" class="text-white" style="width: 15%">Mã phiếu</th>
-                    <th scope="col" class="text-white">Số tiền thu</th>
-                    <th scope="col" class="text-white" style="width: 15%">Người thu</th>
-                    <th scope="col" class="text-white" style="width: 35%">Ngày thu</th>
-                    <th scope="col" class="text-white" style="width: 15%">Hình thức</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <table id="table-Payment-History" class="table table-borderless">
+            <thead class="bg-primary" style="background-color: #EEEEEE">
+            <tr>
+                <th scope="col" class="text-white" style="width: 15%">Mã phiếu</th>
+                <th scope="col" class="text-white">Số tiền thu</th>
+                <th scope="col" class="text-white" style="width: 15%">Người thu</th>
+                <th scope="col" class="text-white" style="width: 35%">Ngày thu</th>
+                <th scope="col" class="text-white" style="width: 15%">Hình thức</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 
     </div>
 </div>
 <div id="order-exports" style="display: block;position: relative;z-index: 1" class="form-layout form-layout-1 bg-white mt-3">
     <h6 class="tx-gray-800 tx-bold">Lịch sử xuất kho</h6>
     <div class="form-layout form-layout-3">
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-control-label">Mã phiếu xuất: <span class="tx-danger">*</span></label>
-                        <input id="delivery-notes-id" class="form-control" type="text" disabled="disabled">
-                    </div>
-                </div><!-- col-4 -->
-                <div class="col-md-4 mg-t--1 mg-md-t-0">
-                    <div class="form-group mg-md-l--1">
-                        <label class="form-control-label">Ngày xuất: <span class="tx-danger">*</span></label>
-                        <input id="export-date" class="form-control" type="text" disabled="disabled">
-                    </div>
-                </div><!-- col-4 -->
-                <div class="col-md-4 mg-t--1 mg-md-t-0">
-                    <div class="form-group mg-md-l--1">
-                        <label class="form-control-label">Người xuất: <span class="tx-danger">*</span></label>
-                        <input id="export-employee" class="form-control" type="text" disabled="disabled">
-                    </div>
-                </div><!-- col-4 -->
-                <div class="col-md-4">
-                    <div class="form-group bd-t-0-force">
-                        <label class="form-control-label">Mô tả: <span class="tx-danger">*</span></label>
-                        <input id="export-description" class="form-control" type="text" disabled="disabled">
-                    </div>
-                </div><!-- col-8 -->
-                <div class="col-md-4">
-                    <div class="form-group mg-md-l--1 bd-t-0-force">
-                        <label class="form-control-label">Xuất tại kho: <span class="tx-danger">*</span></label>
-                        <input id="export-warehouse" class="form-control" type="text" disabled="disabled">
-                    </div>
-                </div><!-- col-4 -->
-                <div class="col-md-4">
-                    <div class="form-group mg-md-l--1 bd-t-0-force">
-                        <label class="form-control-label">Lý do xuất: <span class="tx-danger">*</span></label>
-                        <input id="export-action" class="form-control" type="text" disabled="disabled">
-                    </div>
-                </div><!-- col-4 -->
-            </div><!-- row -->
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-control-label">Mã phiếu xuất: <span class="tx-danger">*</span></label>
+                    <input id="delivery-notes-id" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div><!-- col-4 -->
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
+                <div class="form-group mg-md-l--1">
+                    <label class="form-control-label">Ngày xuất: <span class="tx-danger">*</span></label>
+                    <input id="export-date" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div><!-- col-4 -->
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
+                <div class="form-group mg-md-l--1">
+                    <label class="form-control-label">Người xuất: <span class="tx-danger">*</span></label>
+                    <input id="export-employee" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div><!-- col-4 -->
+            <div class="col-md-4">
+                <div class="form-group bd-t-0-force">
+                    <label class="form-control-label">Mô tả: <span class="tx-danger">*</span></label>
+                    <input id="export-description" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div><!-- col-8 -->
+            <div class="col-md-4">
+                <div class="form-group mg-md-l--1 bd-t-0-force">
+                    <label class="form-control-label">Xuất tại kho: <span class="tx-danger">*</span></label>
+                    <input id="export-warehouse" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div><!-- col-4 -->
+            <div class="col-md-4">
+                <div class="form-group mg-md-l--1 bd-t-0-force">
+                    <label class="form-control-label">Lý do xuất: <span class="tx-danger">*</span></label>
+                    <input id="export-action" class="form-control" type="text" disabled="disabled">
+                </div>
+            </div><!-- col-4 -->
+        </div><!-- row -->
         <h6 class="mt-3 font-weight-bold">Chi tiết sản phẩm</h6>
         <div class="form-layout form-layout-3">
             <table id="table-Export-History" class="table table-borderless">
-                <thead class="bg-primary" >
+                <thead class="bg-primary">
                 <tr>
                     <th class="text-white" scope="col" style="width: 25%">Mã sản phẩm</th>
                     <th class="text-white" scope="col" style="width: 55%">Tên sản phẩm</th>
@@ -531,7 +546,7 @@
         </div>
         <div>
             <label for="payment-Date" class="col-form-label">Ngày tạo phiếu</label>
-            <input class="form-control price_format" type="datetime-local" id="payment-Date" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')
+            <input class="form-control price_format" type="datetime-local" id="payment-Date" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T')
                    style="text-align: right">
         </div>
         <div>
@@ -559,7 +574,7 @@
         </div>
         <div>
             <label for="export-date" class="col-form-label">Ngày tạo phiếu</label>
-            <input class="form-control price_format" type="datetime-local" id="export-Date" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')
+            <input class="form-control price_format" type="datetime-local" id="export-Date" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T')
                    style="text-align: right">
         </div>
         <div>
@@ -576,3 +591,56 @@
 </div>
 </div>
 </div>
+
+ <div class="row m-5 d-none" id="printDiv">
+     <h3 class="text-center mt-5 col-md-12">HÓA ĐƠN BÁN HÀNG</h3>
+     <h5 class="text-center col-md-12">Đơn hàng: @Model.Id</h5>
+     <h5 class="text-center col-md-12">Ngày tạo: @Model.DateCreated.ToString("dd/MM/yyyy hh:mm")</h5>
+        <div class="col-md-12 mt-5 border border-dark p-md-3">
+            <h5>Thông tin khách hàng</h5>
+            <p>Khách hàng: @Model.CustomerName</p>
+            <p>Địa chỉ: @Model.CustomerAddress</p>
+            <p>Điện thoại: @Model.CustomerPhone</p>
+        </div>
+        <div class="col-md-12 mt-2 border border-dark p-md-3">
+            <h5>Danh sách sản phẩm</h5>
+            <table class="table table-bordered">
+                <thead>
+                <tr class="text-center">
+                    <th>STT</th>
+                    <th>Tên sản phẩm, dịch vụ</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Tổng tiền</th>
+                </tr>
+                <tr class="text-center">
+                        <th>A</th>
+                        <th>B</th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3=1x2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var r in Model.OrderDetailsDtos.Select((value,i)=>new{i,value}))
+                {
+                    var totalUnit = r.value.Quantity * r.value.UnitPrice;
+                    var index = r.i + 1;
+                    var productName = string.IsNullOrEmpty(r.value.ProductName) ? r.value.ServiceName : r.value.ProductName;
+                    <tr>
+                        <td class="text-center">@index</td>
+                        <td>@productName</td>
+                        <td class="text-right">@r.value.Quantity.ToString("#,##0")</td>
+                        <td class="text-right">@r.value.UnitPrice.ToString("#,##0")</td>
+                        <td class="text-right">@totalUnit.ToString("#,##0")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <div class="row">
+                <p class="col-md-6 font-weight-bold">Tổng tiền sản phẩm : @Model.OrderDetailsDtos.Sum(x=>x.Quantity*x.UnitPrice).ToString("#,##0")</p>
+                <p class="col-md-6 font-weight-bold">Chiết khấu: @Model.DiscountValue</p>
+                <p class="col-md-6 font-weight-bold">Khách phải trả : @Model.TotalAmount.ToString("#,##0")</p>
+            </div>
+        </div>
+ </div>

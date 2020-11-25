@@ -67,59 +67,62 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach (var od in @Model.OrderDetails)
+                        @if (Model.OrderDetails != null)
                         {
-                            if (!string.IsNullOrEmpty(od.ProductId))
+                            @foreach (var od in @Model.OrderDetails)
                             {
-                                <tr class="border">
-                                    <td class="align-middle">@od.ProductId</td>
-                                    <td class="align-middle">@od.ProductName</td>
-                                    <td class="align-middle">
-                                        <select class="form-control" disabled="disabled">
-                                            <option>Cái</option>
-                                        </select>
-                                    </td>
-                                    <td class="align-middle">
-                                        <input type="text" class="form-control price_format" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
-                                    </td>
-                                    <td class="align-middle">
-                                        <input type="text" class="form-control price_format" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
-                                    </td>
-                                    <td class="text-right align-middle">
-                                        @{
-                                            var total = od.UnitPrice * od.Quantity;
-                                            <a>
-                                                @total.ToString("#,##0")
-                                            </a>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
-                                    </td>
-                                    <td></td>
-                                    <td class="align-middle">
-                                        <input type="text" class="form-control price_format" disabled="disabled"
-                                               value='@od.Quantity.ToString("#,##0")'>
-                                    </td>
-                                    <td class="align-middle">
-                                        <input type="text" class="form-control price_format" disabled="disabled"
-                                               value='@od.UnitPrice.ToString("#,##0")'>
-                                    </td>
-                                    <td class="text-right align-middle">
-                                        @{
-                                            var total = od.UnitPrice * od.Quantity;
-                                            <a>
-                                                @total.ToString(("#,##0"))
-                                            </a>
-                                        }
-                                    </td>
-                                </tr>
+                                if (!string.IsNullOrEmpty(od.ProductId))
+                                {
+                                    <tr class="border">
+                                        <td class="align-middle">@od.ProductId</td>
+                                        <td class="align-middle">@od.ProductName</td>
+                                        <td class="align-middle">
+                                            <select class="form-control" disabled="disabled">
+                                                <option>Cái</option>
+                                            </select>
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            @{
+                                                var total = od.UnitPrice * od.Quantity;
+                                                <a>
+                                                    @total.ToString("#,##0")
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
+                                        </td>
+                                        <td></td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" disabled="disabled"
+                                                   value='@od.Quantity.ToString("#,##0")'>
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" disabled="disabled"
+                                                   value='@od.UnitPrice.ToString("#,##0")'>
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            @{
+                                                var total = od.UnitPrice * od.Quantity;
+                                                <a>
+                                                    @total.ToString(("#,##0"))
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
                         </tbody>

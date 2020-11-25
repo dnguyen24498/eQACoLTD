@@ -422,9 +422,7 @@ namespace eQACoLTD.Application.System.Account
             var checkOrder = await _context.Orders.Where(x => x.Id == orderId).SingleOrDefaultAsync();
             if(checkOrder==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy đơn hàng có mã: {orderId}");
             if(checkOrder.TransactionStatusId!=GlobalProperties.WaitingTransactionId) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Chỉ được phép hủy đơn hàng đang trong trạng thái chờ");
-            var checkOrdersDetails = await _context.OrderDetails.Where(x => x.OrderId == checkOrder.Id).ToListAsync();
-            _context.OrderDetails.RemoveRange(checkOrdersDetails);
-            _context.Orders.Remove(checkOrder);
+            checkOrder.TransactionStatusId = GlobalProperties.CancelTransactionId;
             await _context.SaveChangesAsync();
             return new ApiResult<string>(HttpStatusCode.OK)
             {

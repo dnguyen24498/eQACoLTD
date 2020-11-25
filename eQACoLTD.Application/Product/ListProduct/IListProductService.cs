@@ -29,5 +29,7 @@ namespace eQACoLTD.Application.Product.ListProduct
         Task<ApiResult<PromotionDto>> GetPromotionDetail(string promotionId);
         Task<ApiResult<string>> CreatePromotionAsync(PromotionForCreationDto creationDto);
         Task<ApiResult<PromotionDto>> GetClosetPromotion();
+        Task<ApiResult<string>> AddProductToPromotion(string promotionId,PromotionDetailForCreationDto creationDto);
+        Task<ApiResult<string>> DeleteProductFromPromotion(string promotionId,string productId);
     }
 }

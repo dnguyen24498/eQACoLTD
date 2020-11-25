@@ -140,5 +140,21 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _productService.GetClosetPromotion();
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpPost("promotions/{promotionId}/promotion-details")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> AddProductToPromotion(string promotionId,PromotionDetailForCreationDto creationDto)
+        {
+            var result = await _productService.AddProductToPromotion(promotionId,creationDto);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpDelete("promotions/{promotionId}/products/{productId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> RemoveProductFromPromotion(string promotionId, string productId)
+        {
+            var result = await _productService.DeleteProductFromPromotion(promotionId, productId);
+            return StatusCode((int)result.Code, result);
+        }
     }
 }

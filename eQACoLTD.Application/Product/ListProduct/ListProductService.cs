@@ -461,6 +461,50 @@ namespace eQACoLTD.Application.Product.ListProduct
             return new ApiResult<PromotionDto>(HttpStatusCode.OK,promotion??new PromotionDto());
         }
 
+        public async Task<ApiResult<string>> AddProductToPromotion(string promotionId, PromotionDetailForCreationDto creationDto)
+        {
+            var checkPromotion = await _context.Promotions.Where(x => x.Id == promotionId).SingleOrDefaultAsync();
+            if(checkPromotion==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy chương trình khuyến mãi có mã: {promotionId}");
+            if(checkPromotion.ToDate<=DateTime.Now) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Không thể thêm sản phẩm vào chương trình khuyến mãi đã hết hạn");
+            var checkProduct = await (from pd in _context.PromotionDetails
+                join p in _context.Promotions on pd.PromotionId equals p.Id
+                where p.Id == promotionId && pd.ProductId == creationDto.ProductId select pd).SingleOrDefaultAsync();
+            if(checkProduct!=null) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Chương trình khuyến mãi đã có sản phẩm này");
+            var promotionDetails=new PromotionDetail()
+            {
+                Id = Guid.NewGuid().ToString("D"),
+                DiscountType = creationDto.DiscountType,
+                DiscountValue = creationDto.DiscountValue,
+                ProductId = creationDto.ProductId,
+                PromotionId = checkPromotion.Id
+            };
+            await _context.PromotionDetails.AddAsync(promotionDetails);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = promotionDetails.Id
+            };
+        }
+
+        public async Task<ApiResult<string>> DeleteProductFromPromotion(string promotionId, string productId)
+        {
+            var checkPromotion = await _context.Promotions.Where(x => x.Id == promotionId).SingleOrDefaultAsync();
+            if(checkPromotion==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy chương trình khuyến mãi có mã: {promotionId}");
+            if(checkPromotion.ToDate<=DateTime.Now) return new ApiResult<string>(HttpStatusCode.BadRequest,$"Không thể thêm sản phẩm vào chương trình khuyến mãi đã hết hạn");
+            var checkProduct = await (from pd in _context.PromotionDetails
+                join p in _context.Promotions on pd.PromotionId equals p.Id
+                where p.Id == promotionId && pd.ProductId == productId
+                select pd).SingleOrDefaultAsync();
+            if(checkProduct==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Sản phẩm không có trong chương trình khuyến mãi");
+            _context.PromotionDetails.Remove(checkProduct);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK)
+            {
+                ResultObj = productId
+            };
+        }
+
+
         private async Task<bool> CheckPromotionDetail(string productId,DateTime fromDate, DateTime toDate)
         {
             var condition = await (from pd in _context.PromotionDetails

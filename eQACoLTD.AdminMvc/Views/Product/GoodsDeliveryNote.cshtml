@@ -1,0 +1,102 @@
+﻿@model eQACoLTD.ViewModel.Product.Stock.Queries.GoodsDeliveryNoteDto
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+        <a class="breadcrumb-item" asp-controller="Product" asp-action="Index">Phiếu xuất kho</a>
+        <span class="breadcrumb-item active">@Model.Id</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div>
+        <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Phiếu xuất kho: @Model.Id</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Thông tin chung</h5>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id">Mã phiếu</label>
+                            <input type="text" class="form-control" id="id" value="@Model.Id">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exportDate">Ngày xuất kho</label>
+                            <input type="text" class="form-control" id="exportDate" value="@Model.ExportDate.ToString("dd/MM/yyyy-hh:mm")">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id">Mã chứng từ</label>
+                            <input type="text" class="form-control" id="id" value="@Model.OrderId">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exportDate">Người xuất</label>
+                            <input type="text" class="form-control" id="exportDate" value="@Model.Employee">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id">Mô tả</label>
+                            <input type="text" class="form-control" id="id" value="@Model.Description">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exportDate">Lý do xuất</label>
+                            <input type="text" class="form-control" id="exportDate" value="@Model.StockAction">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id">Xuất tại</label>
+                            <input type="text" class="form-control" id="id" value="@Model.Warehouse">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="exportDate">Chi nhánh</label>
+                            <input type="text" class="form-control" id="exportDate" value="@Model.Branch">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Danh sách sản phẩm xuất</h5>
+                    <table id="datatable2" class="table display responsive nowrap table-striped mt-3">
+                        <thead class="bg-primary">
+                        <tr>
+                            <th class="wd-10p text-white">Mã sản phẩm</th>
+                            <th class="wd-25p text-white">Tên sản phẩm</th>
+                            <th class="wd-15p text-white">Số lượng xuất</th>
+                            <th class="wd-15p text-white">Đơn giá xuất</th>
+                            <th class="wd-20p text-white text-right">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @{
+                            foreach (var c in Model.Products)
+                            {
+                                <tr>
+                                    <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.ProductId</td>
+                                    <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.ProductName</td>
+                                    <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Quantity</td>
+                                    <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.UnitPrice.ToString("#,##0")</td>
+                                    <td class="text-right">
+                                        <form method="post">
+                                            <a style="cursor:pointer" class="btn btn-danger text-white mr-1">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <button type="submit"
+                                                    style="cursor:pointer" class="btn btn-primary text-white">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

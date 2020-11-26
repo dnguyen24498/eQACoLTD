@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using eQACoLTD.AdminMvc.Services;
 using eQACoLTD.ViewModel.Common;
@@ -50,5 +51,43 @@ namespace eQACoLTD.AdminMvc.Controllers
             return View(result.ResultObj);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Promotions(int page = 1, int size = 15)
+        {
+            var result = await _productService.GetPromotionsPagingAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
+            if (result.Code != HttpStatusCode.OK) return View(new PagedResult<PromotionsDto>());
+            return View(result.ResultObj);
+        }
+
+        [HttpGet]
+        public IActionResult CreatePromotion()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PromotionDetail(string promotionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GoodsDeliveryNotes(int page = 1, int size = 15)
+        {
+            var result = await _productService.GetGoodsDeliveryNotePagingAsync(page, size);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
+            if (result.Code != HttpStatusCode.OK) return View(new PagedResult<GoodsDeliveryNotesDto>());
+            return View(result.ResultObj);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GoodsDeliveryNote(string goodsDeliveryNoteId)
+        {
+            var result = await _productService.GetGoodsDeliveryNote(goodsDeliveryNoteId);
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
+            if (result.Code != HttpStatusCode.OK) return View(new GoodsDeliveryNoteDto());
+            return View(result.ResultObj);
+        }
     }
 }

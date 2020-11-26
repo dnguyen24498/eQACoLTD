@@ -391,7 +391,7 @@ namespace eQACoLTD.Application.Product.ListProduct
                 Id = Guid.NewGuid().ToString("D"),
                 Description = creationDto.Description,
                 Name = creationDto.Name,
-                CategoryId = creationDto.CategoryId,
+                CategoryId = string.IsNullOrEmpty(creationDto.CategoryId)?null: creationDto.CategoryId,
                 DiscountType = creationDto.DiscountType,
                 DiscountValue = creationDto.DiscountValue,
                 FromDate = creationDto.FromDate,
@@ -501,6 +501,21 @@ namespace eQACoLTD.Application.Product.ListProduct
             return new ApiResult<string>(HttpStatusCode.OK)
             {
                 ResultObj = productId
+            };
+        }
+
+        public async Task<ApiResult<string>> DeletePromotion(string promotionId)
+        {
+            var checkPromotion = await _context.Promotions.Where(x => x.Id == promotionId).SingleOrDefaultAsync();
+            if(checkPromotion==null) return new ApiResult<string>(HttpStatusCode.NotFound,$"Không tìm thấy chương trình khuyến mãi có mã: {promotionId}");
+            var promotionDetails =
+                await _context.PromotionDetails.Where(x => x.PromotionId == checkPromotion.Id).ToListAsync();
+            _context.PromotionDetails.RemoveRange(promotionDetails);
+            _context.Promotions.Remove(checkPromotion);
+            await _context.SaveChangesAsync();
+            return new ApiResult<string>(HttpStatusCode.OK,"Xóa chương trình khuyến mãi thành công")
+            {
+                ResultObj = checkPromotion.Id
             };
         }
 

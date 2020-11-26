@@ -10,8 +10,21 @@ namespace eQACoLTD.ViewModel.Product.ListProduct.Queries
         public string CategoryId { get; set; }
         public string DiscountType { get; set; }
         public decimal DiscountValue { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        private DateTime fromDate;
+        public DateTime FromDate { get=>fromDate;
+            set
+            {
+                fromDate = value.ToLocalTime();
+            }
+        }
+
+        private DateTime toDate;
+        public DateTime ToDate { get=>toDate;
+            set
+            {
+                toDate = value.ToLocalTime();
+            }
+        }
         public IEnumerable<PromotionDetailForCreationDto> Products { get; set; }
     }
 }

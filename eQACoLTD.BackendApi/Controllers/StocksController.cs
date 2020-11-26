@@ -93,6 +93,22 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _stockService.GetProductsInStockPagingAsync(pageIndex, pageSize, accountId);
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpGet("goods-delivery-notes")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,Accountant")]
+        public async Task<IActionResult> GetGoodsDeliveryNotes(int pageIndex = 1, int pageSize = 15)
+        {
+            var result = await _stockService.GetGoodsDeliveryNotePagingAsync(pageIndex, pageSize);
+            return StatusCode((int)result.Code, result);
+        }
+
+        [HttpGet("goods-delivery-notes/{goodsDeliveryNoteId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,WarehouseManager,Accountant")]
+        public async Task<IActionResult> GetGoodsDeliveryNote(string goodsDeliveryNoteId)
+        {
+            var result = await _stockService.GetGoodsDeliveryNote(goodsDeliveryNoteId);
+            return StatusCode((int)result.Code, result);
+        }
     }
 }
     

@@ -19,7 +19,6 @@ namespace eQACoLTD.ClientMvc.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var result = await _productApiService.GetClosetPromotion();
-            if (result.Code!=HttpStatusCode.OK) return View("Default", new PromotionDto());
             return View("Default",result.ResultObj);
         }
     }

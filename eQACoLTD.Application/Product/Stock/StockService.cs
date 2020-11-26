@@ -285,5 +285,68 @@ namespace eQACoLTD.Application.Product.Stock
             if(checkIsImport!=null) return new ApiResult<bool>(HttpStatusCode.OK,true);
             return new ApiResult<bool>(HttpStatusCode.OK,false);
         }
+
+        public async Task<ApiResult<PagedResult<GoodsDeliveryNotesDto>>> GetGoodsDeliveryNotePagingAsync(int pageIndex, int pageSize)
+        {
+            var goodsDeliveryNotes = await (from gdn in _context.GoodsDeliveryNotes
+                join order in _context.Orders on gdn.OrderId equals order.Id
+                    into OrderGroup
+                from o in OrderGroup.DefaultIfEmpty()
+                join employee in _context.Employees on gdn.EmployeeId equals employee.Id
+                    into EmployeeGroup
+                from e in EmployeeGroup.DefaultIfEmpty()
+                join sa in _context.StockActions on gdn.StockActionId equals sa.Id
+                join w in _context.Warehouses on gdn.WarehouseId equals w.Id
+                join b in _context.Branches on w.BranchId equals b.Id
+                orderby gdn.Id descending
+                select new GoodsDeliveryNotesDto()
+                {
+                    Id = gdn.Id,
+                    BranchName = b.Name,
+                    EmployeeName = e.Name,
+                    ExportDate = gdn.ExportDate,
+                    OrderId = o.Id,
+                    WarehouseName = w.Name,
+                    StockActionId = sa.Name
+                }).GetPagedAsync(pageIndex, pageSize);
+            return new ApiResult<PagedResult<GoodsDeliveryNotesDto>>(HttpStatusCode.OK,goodsDeliveryNotes);
+        }
+
+        public async Task<ApiResult<GoodsDeliveryNoteDto>> GetGoodsDeliveryNote(string goodsDeliveryNoteId)
+        {
+            var checkGDN = await _context.GoodsDeliveryNotes.Where(x => x.Id == goodsDeliveryNoteId)
+                .SingleOrDefaultAsync();
+            if(checkGDN==null) return new ApiResult<GoodsDeliveryNoteDto>(HttpStatusCode.NotFound,$"Không tìm thấy phiếu xuất kho có mã: {checkGDN}");
+            var goodsDeliveryNotes = await (from gdn in _context.GoodsDeliveryNotes
+                join employee in _context.Employees on gdn.EmployeeId equals employee.Id
+                    into EmployeeGroup
+                from e in EmployeeGroup.DefaultIfEmpty()
+                join sa in _context.StockActions on gdn.StockActionId equals sa.Id
+                join w in _context.Warehouses on gdn.WarehouseId equals w.Id
+                join b in _context.Branches on w.BranchId equals b.Id
+                where gdn.Id == goodsDeliveryNoteId
+                select new GoodsDeliveryNoteDto()
+                {
+                    Branch = b.Name,
+                    Description = gdn.Description,
+                    Employee = e.Name,
+                    Id = gdn.Id,
+                    Warehouse = w.Name,
+                    ExportDate = gdn.ExportDate,
+                    OrderId = gdn.OrderId,
+                    StockAction = sa.Name,
+                    Products = (from gdnd in _context.GoodsDeliveryNoteDetails
+                        join p in _context.Products on gdnd.ProductId equals p.Id
+                        where gdnd.GoodsDeliveryNoteId == gdn.Id
+                        select new GoodsDeliveryNoteDetailsDto()
+                        {
+                            Quantity = gdnd.Quantity,
+                            ProductId = gdnd.ProductId,
+                            ProductName = p.Name,
+                            UnitPrice = gdnd.UnitPrice
+                        }).ToList()
+                }).SingleOrDefaultAsync();
+            return new ApiResult<GoodsDeliveryNoteDto>(HttpStatusCode.OK,goodsDeliveryNotes);
+        }
     }
 }

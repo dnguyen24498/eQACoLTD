@@ -156,5 +156,13 @@ namespace eQACoLTD.BackendApi.Controllers
             var result = await _productService.DeleteProductFromPromotion(promotionId, productId);
             return StatusCode((int)result.Code, result);
         }
+
+        [HttpDelete("promotions/{promotionId}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdministrator,BusinessStaff")]
+        public async Task<IActionResult> DeletePromotion(string promotionId)
+        {
+            var result = await _productService.DeletePromotion(promotionId);
+            return StatusCode((int)result.Code, result);
+        }
     }
 }

@@ -1,0 +1,105 @@
+﻿@model PagedResult<PromotionsDto>
+@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@section Scripts
+{
+    <script>
+        function deletePromotion(el,id){
+            bootbox.confirm('Bạn có muốn xóa chương trình khuyến mãi này?',function (result){
+                if (result){
+                    $.ajax({
+                    url:'@Configuration["APIServerHost"]api/products/promotions/'+id,
+                    headers: {
+                        "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                        },
+                    method:'delete',
+                    contentType:"application/json",
+                    success:function(data) {
+                        showAlertMessage(true,data.message);
+                        $(el).closest('tr').remove();
+                        },
+                    error:function() {
+                        showAlertMessage(false,"Có lỗi khi xóa chương trình giảm giá");
+                    } 
+                })
+                }
+            })
+        }
+    </script>
+}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
+        <span class="breadcrumb-item active" href="#">Chương trình khuyến mãi</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Danh sách chương trình khuyến mãi</h4>
+    <p class="mg-b-0">Quản lý chương trình khuyến mãi có trong hệ thống</p>
+    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" asp-controller="Product" asp-action="CreatePromotion" style="cursor: pointer">Thêm chương trình khuyến mãi</a>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <div class="row m-1">
+                <select class="form-control col-md-2 bd-r-0">
+                    <option selected="selected">Lọc</option>
+                    <option>Theo tên</option>
+                </select>
+                <input id="search-box" onkeyup="searchEnter(this)" type="text" class="form-control col-md-10" placeholder="Tìm kiếm chương trình">
+            </div>
+            <table id="datatable2" class="table display responsive nowrap table-striped mt-3">
+                <thead class="bg-primary">
+                <tr>
+                    <th class="wd-25p text-white">Tên</th>
+                    <th class="wd-10p text-white">Từ ngày</th>
+                    <th class="wd-10p text-white">Đến ngày</th>
+                    <th class="wd-15p text-white">Số sản phẩm</th>
+                    <th class="wd-15p text-white">Trạng thái</th>
+                    <th class="wd-20p text-white text-right">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                @{
+                    foreach (var c in Model.Results)
+                    {
+                        <tr>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Name</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.FromDate.ToString("dd/MM/yyyy-hh:mm")</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.ToDate.ToString("dd/MM/yyyy-hh:mm")</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.NumberProduct</td>
+                            <td class="pt-md-4 pt-sm-4 font-weight-bold">
+                                @{
+                                    var status = "Sắp diễn ra";
+                                    if (DateTime.Now >= @c.FromDate && DateTime.Now <= c.ToDate)
+                                    {
+                                        status = "Đang diễn ra";
+                                    }else if (DateTime.Now > @c.ToDate)
+                                    {
+                                        status = "Đã kết thúc";
+                                    }
+                                }
+                                @status
+                            </td>
+                            <td class="text-right">
+                                <form method="post">
+                                    <a style="cursor:pointer" onclick="deletePromotion(this,'@c.Id')" class="btn btn-danger text-white mr-1">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <button type="submit"
+                                            style="cursor:pointer" class="btn btn-primary text-white">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div><!-- table-wrapper -->
+    </div>
+    <div class="html mt-1">
+        @(await Component.InvokeAsync<PagerViewComponent>(Model))
+    </div>
+</div>

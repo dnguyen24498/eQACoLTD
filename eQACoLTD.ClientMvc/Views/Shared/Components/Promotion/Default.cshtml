@@ -1,0 +1,12 @@
+﻿@model PromotionDto
+@if (Model != null&&!string.IsNullOrEmpty(Model.Name))
+{
+    var text = $"{@Model.Name} sẽ diễn ra từ {@Model.FromDate.Hour} giờ {@Model.FromDate.Minute} phút ngày {@Model.FromDate:dd/MM/yyyy} đến {@Model.ToDate.Hour} giờ {@Model.ToDate.Minute} phút ngày {@Model.ToDate:dd/MM/yyyy}. Các sản phẩm được giảm giá bao gồm: ";
+    var text2 = "";
+    text2 = string.Join(", ", @Model.Products.Select(x => x.ProductName + $" (giảm giá {x.DiscountValue}{x.DiscountType})").ToList()) + ". Quý vị hãy nhanh tay mua sắm để nhận được mức giá tốt nhất";
+    text += text2;
+
+    <marquee style="height: 40px" class="my-auto text-danger font-weight-bold" behavior="scroll" direction="left">
+        <fa class="fa fa-fire"></fa> @text <fa class="fa fa-fire"></fa>
+    </marquee>
+}

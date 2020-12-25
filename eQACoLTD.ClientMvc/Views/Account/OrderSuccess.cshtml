@@ -1,0 +1,25 @@
+﻿@model string
+@section Styles
+{
+     <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
+     <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+}
+<div class="single_product">
+    <div class="container">
+        <div class="row">
+            <h3>Cảm ơn quý khách đã đặt hàng tại Máy tính Quang Anh, nhân viên của cửa hàng sẽ liên hệ lại với quý khách để xác nhận đơn hàng.</h3>
+            @if (string.IsNullOrEmpty(Model))
+            {
+                <a asp-controller="Account" asp-action="Orders" class="btn btn-primary text-white">
+                    <i class="fa fa-history pr-2"></i>
+                    Xem lịch sử đặt hàng
+                </a>
+            }
+            else
+            {
+                <h3>Chú ý: Mã đơn hàng của quý khách là: <b>@Model</b>, khi quý khách đã nhận được thông tin xác nhận đơn hàng từ phía cửa hàng, quý khách vui lòng chuyển khoản trước 10% tổng giá trị đơn hàng cho cửa hàng thông qua tài ngân hàng <b>Vietcombank (Tài khoản: 012345678901011, 
+                    Chủ sở hữu: Hoàng Kim Quang, với nội dung: VD: "Dat coc 10% cho don hang ma so: SRN0001"</b> để cửa hàng có thể đóng gói, vận chuyển hàng cho quý khách. Máy tính Quang Anh xin chân thành cảm ơn!</h3>
+            }
+        </div>
+    </div>
+</div>

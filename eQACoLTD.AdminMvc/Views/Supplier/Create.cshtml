@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration
+
+@section Scripts
+{
+    <script>
+        function postSupplier() {
+            var supplier = {
+                name: $("#supplierName").val(),
+                address: $("#supplierAddress").val(),
+                phoneNumber: $("#supplierPhone").val(),
+                email: $("#supplierEmail").val(),
+                fax: $("#supplierFax").val(),
+                employeeId: $("#employees-select").find(':selected').val(),
+                website: $("#supplierWebsite").val(),
+                description: $("#supplierDescription").val()
+            }
+            $.ajax({
+                url: '@Configuration["APIServerHost"]api/suppliers',
+                headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                method:'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(supplier),
+                success: function () {
+                    showAlertMessage(true, "Tạo mới nhà cung cấp thành công");
+                },
+                error: function () {
+                    showAlertMessage(false, "Tạo mới nhà cung cấp thất bại");
+                }
+
+            })
+        }
+    </script>
+}
+
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
+        <a class="breadcrumb-item" asp-controller="Supplier" asp-action="Index">Nhà cung cấp</a>
+        <span class="breadcrumb-item active" href="#">Thêm mới</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div>
+        <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thêm mới nhà cung cấp</h4>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Tổng quan</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Tên nhà cung cấp: <span class="tx-danger">*</span></label>
+                                <input id="supplierName" class="form-control" type="text" placeholder="Nhập tên nhà cung cấp">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-control-label">Số điện thoại:</label>
+                                <input type="text" id="supplierPhone" class="form-control" placeholder="Nhập số điện thoại">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-9">
+                            <div class="form-group">
+                                <label class="form-control-label">Địa chỉ:</label>
+                                <input id="supplierAddress" class="form-control" type="text" placeholder="Nhập địa chỉ nhà cung cấp">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Email:</label>
+                                <input type="email" id="supplierEmail" class="form-control" placeholder="Nhập email">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Fax:</label>
+                                <input type="text" id="supplierFax" class="form-control" placeholder="Nhập số fax">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Website:</label>
+                                <input type="text" id="supplierWebsite" class="form-control" placeholder="Nhập website">
+                            </div>
+                        </div><!-- col-4 -->
+                    </div><!-- row -->
+                </div><!-- form-layout -->
+            </div>
+            <div class="col-md-4">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Thông tin khác</h5>
+                    <div class="form-group">
+                        <label class="form-control-label">Mô tả:</label>
+                        <textarea id="supplierDescription" placeholder="Nhập mô tả" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-md-2 ml-md-0">
+            <input class="btn btn-primary text-white" onclick="postSupplier()" style="cursor: pointer" value="Thêm mới nhà cung cấp" type="submit"/>
+            <a class="btn btn-secondary text-white ml-md-1" style="cursor: pointer">Trở lại</a>
+        </div>
+    </div>
+</div>

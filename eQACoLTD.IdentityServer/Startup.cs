@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
+using EmailService;
 using eQACoLTD.Data.DBContext;
 using eQACoLTD.Data.Entities;
 using eQACoLTD.IdentityServer.Configurations;
@@ -14,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 
 namespace eQACoLTD.IdentityServer
 {
@@ -29,6 +32,10 @@ namespace eQACoLTD.IdentityServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var emailConfig = Configuration.GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
@@ -45,19 +52,43 @@ namespace eQACoLTD.IdentityServer
                 config.Password.RequireDigit = false;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
+                config.User.RequireUniqueEmail = true;
+                config.Lockout.MaxFailedAccessAttempts = 3;
+                config.SignIn.RequireConfirmedEmail = true; 
+                
             }).AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
-
+            var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddIdentityServer()
-                .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
-                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
-                .AddInMemoryClients(IdentityServerConfig.GetClients())
+                .AddConfigurationStore(opt =>
+                {
+                    opt.ConfigureDbContext = c => c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    sql => sql.MigrationsAssembly(migrationAssembly));
+                })
+                .AddOperationalStore(opt =>
+                {
+                    opt.ConfigureDbContext = o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    sql => sql.MigrationsAssembly(migrationAssembly));
+                })
                 .AddAspNetIdentity<AppUser>()
                 .AddProfileService<ProfileService>()
                 .AddDeveloperSigningCredential();
 
+        
             services.AddControllersWithViews();
-            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt => 
+                opt.TokenLifespan = TimeSpan.FromHours(2));
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "1006379685493-ujqe2ae3k3jbsn2k8pckphb561cfh5in.apps.googleusercontent.com";
+                options.ClientSecret = "mnPUnxRHKwrTQ0_j43fgANza";
+            }).AddFacebook(options=> {
+                options.ClientId = "368626310922622";
+                options.ClientSecret = "9d646344a5b894c6e81fa7f1387275f3";
+            });
+            services.AddTransient<AppIdentityDbContext, AppIdentityDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +108,6 @@ namespace eQACoLTD.IdentityServer
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>

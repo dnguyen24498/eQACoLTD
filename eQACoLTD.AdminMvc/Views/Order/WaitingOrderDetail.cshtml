@@ -1,0 +1,158 @@
+﻿@model eQACoLTD.ViewModel.Order.Queries.WaitingOrderDto
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Order" asp-action="Create">Đơn hàng</a>
+        <a class="breadcrumb-item" asp-controller="Order" asp-action="Create">Danh sách đơn hàng chờ</a>
+        <span class="breadcrumb-item active">@Model.Id</span>
+    </nav>
+</div>
+<div class="br-pagebody text-dark">
+    <div>
+        <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thông tin đơn hàng: @Model.Id</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h6 class="tx-gray-800 tx-bold">Thông tin khách hàng: @Model.CustomerName</h6>
+                    <div id="customer-info" style="display: block;position: relative;z-index: 1"
+                         class="col-md-12 panel">
+                        <div class="form-layout form-layout-3">
+                            <div class="row no-gutters">
+                                <input id="customer-id" class="form-control" type="hidden" disabled="disabled">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
+                                        <input id="customer-name" class="form-control" type="text" value="@Model.CustomerName" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                    <div class="form-group mg-md-l--1">
+                                        <label class="form-control-label">Điện thoại: <span class="tx-danger">*</span></label>
+                                        <input id="customer-phone" class="form-control" value="@Model.CustomerPhone" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                                <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                    <div class="form-group mg-md-l--1">
+                                        <label class="form-control-label">Hòm thư điện tử: <span class="tx-danger">*</span></label>
+                                        <input id="customer-email" class="form-control" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                                <div class="col-md-8">
+                                    <div class="form-group bd-t-0-force">
+                                        <label class="form-control-label">Địa chỉ: <span class="tx-danger">*</span></label>
+                                        <input id="customer-address" class="form-control" value="@Model.CustomerAddress" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-8 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mg-md-l--1 bd-t-0-force">
+                                        <label class="form-control-label">Công nợ hiện tại: <span class="tx-danger">*</span></label>
+                                        <input id="customer-debt" class="form-control text-danger" type="text" disabled="disabled">
+                                    </div>
+                                </div><!-- col-4 -->
+                            </div><!-- row -->
+                        </div><!-- form-layout -->
+
+                    </div>
+                </div>
+                <div class="form-layout form-layout-1 bg-white mt-3">
+                    <h6 class="tx-gray-800 tx-bold">Thông tin sản phẩm</h6>
+                    <table id="order-table" class="table mt-1" style="border-collapse: collapse">
+                        <thead class="bg-primary">
+                        <tr>
+                            <th scope="col" class="text-white" style="width: 8%">Mã</th>
+                            <th scope="col" class="text-white" style="width: 45%">Tên sản phẩm</th>
+                            <th scope="col" class="text-white" style="width: 10%">Đơn vị</th>
+                            <th scope="col" class="text-white" style="width: 10%">Số lượng</th>
+                            <th scope="col" style="width: 15%" class="text-right text-white">Đơn giá</th>
+                            <th scope="col" style="width: 12%" class="text-right text-white">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if (Model.OrderDetails != null)
+                        {
+                            @foreach (var od in @Model.OrderDetails)
+                            {
+                                if (!string.IsNullOrEmpty(od.ProductId))
+                                {
+                                    <tr class="border">
+                                        <td class="align-middle">@od.ProductId</td>
+                                        <td class="align-middle">@od.ProductName</td>
+                                        <td class="align-middle">
+                                            <select class="form-control" disabled="disabled">
+                                                <option>Cái</option>
+                                            </select>
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" value='@od.Quantity.ToString("#,##0")' disabled="disabled">
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" value='@od.UnitPrice.ToString("#,##0")' disabled="disabled">
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            @{
+                                                var total = od.UnitPrice * od.Quantity;
+                                                <a>
+                                                    @total.ToString("#,##0")
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled="disabled" value='@od.ServiceName'>
+                                        </td>
+                                        <td></td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" disabled="disabled"
+                                                   value='@od.Quantity.ToString("#,##0")'>
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="text" class="form-control price_format" disabled="disabled"
+                                                   value='@od.UnitPrice.ToString("#,##0")'>
+                                        </td>
+                                        <td class="text-right align-middle">
+                                            @{
+                                                var total = od.UnitPrice * od.Quantity;
+                                                <a>
+                                                    @total.ToString(("#,##0"))
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-12" style="width: 35%">
+                            <p class="float-left mt-2" style="font-weight: bold">Số tiền khách phải trả</p>
+                            <p id="total-Amount-Final" class="float-right font-weight-bold mt-2 text-danger">@Model.TotalAmount.ToString("#,##0")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 float-right">
+                    <a asp-controller="Order" asp-action="AcceptWaitingOrder" asp-route-orderId="@Model.Id"
+                       class="btn text-white btn-success" style="cursor: pointer">Xác nhận đơn</a>
+                    <a asp-controller="Order" asp-action="CancelWaitingOrder" asp-route-orderId="@Model.Id"
+                       class="btn text-white btn-danger" style="cursor: pointer">Hủy đơn</a>                     
+                </div>
+            </div>
+            @* <div class="col-md-3"> *@
+            @*     <div class="form-layout form-layout-1 bg-white"> *@
+            @*         <h6 class="tx-gray-800 tx-bold">Thông tin khác</h6> *@
+            @*         <p>Ngày tạo đơn</p> *@
+            @*         <input type="text" class="form-control text-right" disabled="disabled" *@
+            @*                value='@Model.DateCreated.ToString("hh:mm tt-dd/MM/yyyy")'> *@
+            @*         <p class="mt-3">Ghi chú</p> *@
+            @*         <textarea class="form-control" id="order-Description" disabled="disabled"  *@
+            @*                     cols="30" rows="5">@Model.Description</textarea> *@
+            @*     </div> *@
+            @* </div> *@
+
+        </div>
+    </div>
+</div>

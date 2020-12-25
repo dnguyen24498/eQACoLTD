@@ -1,0 +1,77 @@
+﻿@model eQACoLTD.ViewModel.Report.Queries.StockBookReportDto
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h2 class="tx-gray-800 mg-b-5">Báo cáo tồn kho</h2>
+</div>
+<div class="br-pagebody">
+    <form asp-controller="Report" asp-action="StockBook">
+        <label for="dateTime">Thời gian:</label>
+        <input type="date" class="form-control col-md-2 ml-3 d-inline-block" name="dateTime"
+               id="dateTime" value=@DateTime.Now.ToString("yyyy-MM-dd").Replace(' ', 'T')>
+        <input type="submit" value="Xem báo cáo" class="btn btn-primary">
+    </form>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-primary">
+                <tr>
+                    <th rowspan="2" class="text-white align-middle text-center">STT</th>
+                    <th rowspan="2" class="text-white align-middle text-center">Phiên bản sản phẩm</th>
+                    <th rowspan="2" class="text-white align-middle text-center">Mã sản phẩm</th>
+                    <th rowspan="1" class="text-white align-middle text-center" colspan="3">Chi nhánh mặc định</th>
+                    <th rowspan="1" class="text-white align-middle text-center" colspan="2">Hệ thống</th>
+                </tr>
+                <tr>
+                    <th class="text-white align-middle border-left text-center">Tồn kho</th>
+                    <th class="text-white align-middle text-center">Giá trị tồn kho</th>
+                    <th class="text-white align-middle text-center">Giá vốn</th>
+                    <th class="text-white align-middle text-center">Tồn kho</th>
+                    <th class="text-white align-middle text-center">Giá trị tồn kho</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-dark">
+                    <td colspan="3" class="font-weight-bold">Tổng</td>
+                    <td colspan="1" class="text-center font-weight-bold">@Model.RealTotalInventory.ToString("#,##0")</td>
+                    <td colspan="1" class="text-right font-weight-bold">@Model.RealTotalInventoryValue.ToString("#,##0")</td>
+                    <td colspan="1" class="text-center font-weight-bold"></td>
+                    <td colspan="1" class="text-center font-weight-bold">@Model.SystemTotalInventory.ToString("#,##0")</td>
+                    <td colspan="1" class="text-right font-weight-bold">@Model.SystemTotalInventoryValue.ToString("#,##0")</td>
+                </tr>
+                @if (Model.Rows != null)
+                {
+                    foreach (var r in Model.Rows.Results.Select((value, i) => new {i, value}))
+                    {
+                        var index = r.i + 1;
+                        <tr class="text-dark">
+                            <td>@index</td>
+                            <td>
+                                @r.value.ProductName
+                            </td>
+                            <td>
+                                @r.value.Id
+                            </td>
+                            <td class="text-center">
+                                @r.value.RealInventoryQuantity.ToString("#,##0")
+                            </td>
+                            <td class="text-right">
+                                @r.value.TotalInventoryValue.ToString("#,##0")
+                            </td>
+                            <td class="text-right">
+                                @r.value.AveragePrice.ToString("#,##0")
+                            </td>
+                            <td class="text-center">
+                                @r.value.SystemInventoryQuantity.ToString("#,##0")
+                            </td>
+                            <td class="text-right">
+                                @r.value.TotalSystemValue.ToString("#,##0")
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

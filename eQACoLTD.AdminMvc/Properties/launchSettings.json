@@ -17,7 +17,7 @@
     },
     "eQACoLTD.AdminMvc": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser":false,
       "applicationUrl": "https://localhost:5002/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

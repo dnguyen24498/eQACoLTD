@@ -1,0 +1,141 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration
+@section Scripts
+{
+    <script>
+        getCustomerTypes();
+        function getCustomerTypes(){
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/others/customer-types',
+                headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                method:'GET',
+                dataType:'json',
+                success:function(data) {
+                    var customerTypesEL = $("#customer-types-select");
+                  $(data).each(function (index,empt) {
+                    customerTypesEL.append('<option selected="selected" value=' + empt.id + '>' + empt.name+'</option>');
+                   })
+                   console.log("Test");
+                }
+            })
+        }
+        function postCustomer() {
+          var selectedDate=new Date($("#customerDob").val());
+          var customer={
+              name:$("#customerName").val(),
+              dob:selectedDate.toJSON(),
+              address:$("#customerAddress").val(),
+              gender:$("#customerGender").find(':selected').val(),
+              customerTypeId:$("#customer-types-select").find(':selected').val(),
+              phoneNumber: $("#customerPhone").val(),
+              email: $("#customerEmail").val(),
+              fax: $("#customerFax").val(),
+              website: $("customerWebsite").val(),
+              description: $("customerDescription").val(),
+              employeeId: $("#employees-select").find(':selected').val()
+
+          }
+          $.ajax({
+              url:'@Configuration["APIServerHost"]api/customers',
+              headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+              method:'POST',
+              contentType:'application/json',
+              data:JSON.stringify(customer),
+              success:function() {
+                showAlertMessage(true,"Tạo mới khách hàng thành công");
+              },
+              error:function() {
+                showAlertMessage(false,"Tạo mới khách hàng thất bại");
+              }
+            })
+        }
+    </script>
+}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Customer" asp-action="Index">Khách hàng</a>
+        <span class="breadcrumb-item active">Tạo mới</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div>
+        <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thêm mới khách hàng</h4>
+        <div class="row">    
+            <div class="col-md-8">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Tổng quan</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Tên khách hàng: <span class="tx-danger">*</span></label>
+                                <input id="customerName" class="form-control" type="text" placeholder="Nhập tên khách hàng">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-control-label">Số điện thoại:</label>
+                                <input type="text" id="customerPhone" class="form-control" placeholder="Nhập số điện thoại">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-9">
+                            <div class="form-group">
+                                <label class="form-control-label">Địa chỉ:</label>
+                                <input id="customerAddress" class="form-control" type="text" placeholder="Nhập địa chỉ khách hàng">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Email:</label>
+                                <input type="email" id="customerEmail" class="form-control" placeholder="Nhập email">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Fax:</label>
+                                <input type="text" id="customerFax" class="form-control" placeholder="Nhập số fax">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label">Website:</label>
+                                <input type="text" id="customerWebsite" class="form-control" placeholder="Nhập website">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-12">
+                            <label class="form-control-label">Mô tả:</label>
+                            <textarea id="customerDescription" placeholder="Nhập mô tả" rows="3" class="form-control"></textarea>
+                        </div>
+                    </div><!-- row -->
+                </div><!-- form-layout -->
+            </div>
+            <div class="col-md-4">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Thông tin khác</h5>
+                    <div class="form-group">
+                        <label class="form-control-label">Ngày sinh:</label>
+                        <input type="date" class="form-control" id="customerDob" value="@DateTime.Now.ToString("dd/MM/yyyy")">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="form-control-label">Giới tính:</label>
+                            <select id="customerGender" class="form-control">
+                                <option value="0" selected="selected">Nữ</option>
+                                <option value="1">Nam</option>
+                            </select>
+                        </div>
+                    </div><!-- col-4 -->
+                    <div class="form-group">
+                        <label class="form-control-label">Loại khách hàng:</label>
+                        <select id="customer-types-select" class="form-control">
+                            
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-md-2 ml-md-0">
+            <input class="btn btn-primary text-white" onclick="postCustomer()" style="cursor: pointer" value="Thêm mới khách hàng" type="submit"/>
+            <a class="btn btn-secondary text-white ml-md-1" style="cursor: pointer">Trở lại</a>
+        </div>
+    </div>
+</div>

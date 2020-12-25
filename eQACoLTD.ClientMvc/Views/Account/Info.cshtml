@@ -1,0 +1,137 @@
+﻿@using eQACoLTD.ClientMvc.Components
+@using Microsoft.AspNetCore.Http
+@model eQACoLTD.ViewModel.System.Account.Queries.CustomerInfo
+@inject IConfiguration Configuration
+
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/plugins/jquery-ui-1.12.1.custom/jquery-ui.css"
+          xmlns="http://www.w3.org/1999/html">
+    <link rel="stylesheet" type="text/css" href="~/styles/shop_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/styles/shop_responsive.css">
+}
+
+@section Scripts
+{
+    <script src="~/js/shop_custom.js"></script>
+    <script>
+        function saveProfile(){
+            var gender=$('#account-gender option').filter(':selected').val();
+            var dob=  new Date($('#account-dob').val());
+            var fax=$('#account-fax').val();
+            var website=$('#account-web').val();
+            var name=$("#account-name").val();
+            var phoneNumber=$('#account-phone').val();
+            var address=$('#account-address').val();
+            if (name===''||phoneNumber===''||address==='') showAlertMessage(false,'Không được bỏ trống những trường này');
+            else{
+             var updateProfile={
+                gender:gender,
+                dob:dob.toJSON(),
+                fax:fax,
+                website:website,
+                name:name,
+                phoneNumber:phoneNumber,
+                address:address,
+                }
+                $.ajax({
+                  url:'@Configuration["APIServerHost"]api/accounts/info',
+                   headers: {
+                       "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                       },
+                   method:'PUT',
+                   dataType:'json',
+                   contentType:'application/json',
+                   data:JSON.stringify(updateProfile),
+                   success:function(data) {
+                     showAlertMessage(true,data.message);
+                   },
+                   error:function (data){
+                      showAlertMessage(false,data.message);
+                   }
+                })        
+            }
+        }
+    </script>
+}
+
+<div class="single_product">
+    <div class="container">
+        <div class="row mt-3 card p-3">
+            <div class="row">
+            <p class="col-md-12 font-weight-bold text-dark text-uppercase">Thông tin cá nhân</p>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-name">Họ và tên</label>
+                        <input type="text" value="@Model.Name" class="form-control text-dark" id="account-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-dob">Ngày sinh</label>
+                        <input type="date" value="@Model.Dob.ToString("yyyy-MM-dd")" class="form-control text-dark" id="account-dob">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-web">Trang web cá nhân</label>
+                        <input type="text" value="@Model.Website" class="form-control text-dark" id="account-web">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-phone">Số điện thoại</label>
+                        <input type="text" value="@Model.PhoneNumber" class="form-control text-dark" id="account-phone">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="account-gender">Giới tính</label>
+                        <select class="form-control text-dark" id="account-gender">
+                            @{
+                                if (@Model.Gender==false)
+                                {
+                                    <option value="false">Nữ</option>
+                                }
+                                else
+                                {
+                                    <option value="true">Nam</option>                                    
+                                }
+                            }
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="account-fax">Số fax</label>
+                        <input type="text" value="@Model.Fax" class="form-control text-dark ml-2" id="account-fax">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-email">Địa chỉ hòm thư</label>
+                        <input type="text" value="@Model.Email" disabled="disabled" class="form-control text-dark ml-2" id="account-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="account-address">Địa chỉ cá nhân</label>
+                        <input type="text" value="@Model.Address" class="form-control text-dark ml-2" id="account-address">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="btn btn-success text-white col-md-2 offset-md-10" onclick="saveProfile()">Lưu thông tin cá nhân</a>
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-md-12 font-weight-bold text-dark text-uppercase">Đổi mật khẩu</p>
+                <div class="form-group col-md-12">
+                    <label for="account-oldPassword">Mật khẩu hiện tại</label>
+                    <input type="password" class="form-control ml-2" id="account-oldPassword">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="account-newPassword">Mật khẩu mới</label>
+                    <input type="password" class="form-control ml-2" id="account-newPassword">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="account-repeatPassword">Nhập lại mật khẩu mới</label>
+                    <input type="password" class="form-control ml-2" id="account-repeatPassword">
+                </div>
+                <div class="col-md-12">
+                    <a class="btn btn-primary text-white col-md-2 offset-md-10">Đổi mật khẩu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

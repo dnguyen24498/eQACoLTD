@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Http
+@model CategoryForCreationDto
+@inject IConfiguration Configuration
+@section Scripts
+{
+    <script>
+        function createCategory(){
+            var data={
+                "name":$("#categoryName").val(),
+                "description":$("#categoryDescription").val()
+            };
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/categories',
+                headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                method:'post',
+                contentType:"application/json",
+                data:JSON.stringify(data),
+                success:function(data) {
+                  showAlertMessage(true,data.message);
+                },
+                error:function(data) {
+                  showAlertMessage(false,data.message);
+                }
+            });
+            $("#categoryName #categoryDescription").attr('value','');
+        }
+       
+    </script>
+}
+
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Quản lý danh mục</a>
+        <span class="breadcrumb-item active" href="#">Tạo mới</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Thêm mới danh mục</h6>
+        <p class="mg-b-30 tx-gray-600">A basic form where labels are aligned in left with bordered wrapper.</p>
+        <div class="form-layout form-layout-6">
+                <div class="row no-gutters">
+                    <div class="col-5 col-sm-4">
+                        Tên danh mục
+                        <span class="tx-danger ml-1">*</span>
+                    </div><!-- col-4 -->
+                    <div class="col-7 col-sm-8">
+                        <input id="categoryName" class="form-control" type="text" asp-for="Name" placeholder="Nhập tên">
+                    </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                    <div class="col-5 col-sm-4">
+                        Mô tả
+                    </div><!-- col-4 -->
+                    <div class="col-7 col-sm-8">
+                        <textarea id="categoryDescription" class="form-control" asp-for="Description" placeholder="Nhập mô tả" cols="30" rows="5"></textarea>
+                    </div><!-- col-8 -->
+                </div><!-- row -->
+            </div><!-- form-layout -->
+            <div class="html mt-2 float-right">
+                <a onclick="createCategory()" class="btn btn-primary text-white" style="cursor: pointer">Thêm mới</a>
+                <a class="btn btn-secondary text-white" style="cursor: pointer">Trở về</a>
+            </div>
+    </div>
+</div>

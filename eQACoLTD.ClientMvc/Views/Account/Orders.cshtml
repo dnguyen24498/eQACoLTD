@@ -1,0 +1,73 @@
+﻿@model eQACoLTD.ViewModel.Common.PagedResult<eQACoLTD.ViewModel.System.Account.Queries.AccountOrdersDto>
+@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@{
+    Layout = "_Layout";
+}
+
+@section Scripts
+{
+    <script>
+        function cancelOrder(el){
+            var orderId=$(el).attr('id');
+            bootbox.confirm('Bạn có muốn hủy đơn hàng này không?',function (result){
+                if (result){
+                     $.ajax({
+                      url:'@Configuration["APIServerHost"]api/accounts/orders/'+orderId,
+                       headers: {
+                           "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                           },
+                       method:'delete',
+                       success:function(data) {
+                           var tr=$(el).closest('tr').remove();
+                           showAlertMessage(true,data.message);
+                       },   
+                       error:function(data) {
+                         showAlertMessage(false,data.message);
+                       }
+                    })
+                }
+            })
+        }
+    </script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+}
+
+<div class="container card p-md-5 my-md-3">
+    <h3>Danh sách đơn hàng</h3>
+    <table class="table table-striped">
+        <thead class="bg-primary text-white">
+        <th>Mã đơn hàng</th>
+        <th>Ngày đặt</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái đơn hàng</th>
+        <th>Hành động</th>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Results)
+        {
+            <tr>
+                <td class="align-middle">@item.OrderId</td>
+                <td class="align-middle">@item.DateCreated.ToString("dd/MM/yyyy")</td>
+                <td class="align-middle">@item.TotalAmount.ToString("#,##0") VNĐ</td>
+                <td class="align-middle">@item.TransactionStatus</td>
+                @if (@item.TransactionStatus.Contains("Đang chờ"))
+                {
+                    <td class="align-middle">
+                        <a id="@item.OrderId" class="btn btn-danger text-white" onclick="cancelOrder(this)" style="cursor: pointer">Hủy đơn</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

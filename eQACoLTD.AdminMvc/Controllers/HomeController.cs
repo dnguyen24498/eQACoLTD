@@ -1,50 +1,37 @@
-﻿using IdentityModel.Client;
+﻿using System.Linq;
+using System.Net;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using System.Reflection.Metadata;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using eQACoLTD.AdminMvc.Handlers;
+using eQACoLTD.AdminMvc.Services;
+using Microsoft.CodeAnalysis;
 
 namespace eQACoLTD.AdminMvc.Controllers
 {
+    //[CustomAuthorize(Permissions = "SuperAdministrator,Accountant,Technician,Cashier,WarehouseManager,WarehouseStaff,BusinessStaff," +
+    //    "Administrator,Salesman,Manager,CashManager")]
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
-        public HomeController(ILogger<HomeController> logger,IHttpClientFactory httpClientFactory)
-        {
-            _logger = logger;
-            _httpClientFactory = httpClientFactory;
-        }
+        private readonly IReportService _reportService;
 
-        [Authorize]
+        public HomeController(IReportService reportService)
+        {
+            _reportService = reportService;
+        }
         public async Task<IActionResult> Index()
         {
-            var acessToken = await HttpContext.GetTokenAsync("access_token");
-
-            //var content = await GetSecret(acessToken);
-            return View("Index",acessToken);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public IActionResult Logout()
-        {
-            return SignOut("Cookie", "oidc");
-        }
-
-
-        private async Task<string> GetSecret(string accessToken)
-        {
-            var apiClient = _httpClientFactory.CreateClient();
-
-            apiClient.SetBearerToken(accessToken);
-
-            var response = await apiClient.GetAsync("https://localhost:5001/api/secret/admin");
-
-            var content = await response.Content.ReadAsStringAsync();
-            return content;
+            var result = await _reportService.GetOverviewReport();
+            if (result.Code == HttpStatusCode.Forbidden) return View("403");
+            return View(result.ResultObj);   
         }
     }
 }

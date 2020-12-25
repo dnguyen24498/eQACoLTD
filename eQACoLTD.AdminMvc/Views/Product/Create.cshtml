@@ -1,0 +1,243 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration
+@section Styles
+{
+    <link href="~/lib/summernote/summernote-bs4.css" rel="stylesheet">
+}
+@section Scripts
+{
+    <script src="~/lib/summernote/summernote-bs4.min.js"></script>
+    <script>
+     getBrands();
+     getCategories();
+     var formData=new FormData();
+     var filesData=[];
+     $('#summernote').summernote({
+               height: 300,
+               tooltip: false
+             });
+     function previewFiles(input,placeToInsertImagePreview){
+         if(input.files){
+             var filesAmount = input.files.length;
+             for (i=0;i<filesAmount;i++){
+                 formData.append("files",input.files[i]);
+                 filesData.push(input.files[i]);
+                 var reader=new FileReader();
+                 reader.onload=function(event) {
+                   var div=document.createElement('div');
+                   $(div).attr('class','card m-md-2');
+                   $(div).attr('style','width: 8rem;');
+                   var divChild=document.createElement('div');
+                   var iEl=document.createElement('i');
+                   $(iEl).attr('class','fa fa-close text-dark float-right pt-md-1 pr-md-2');
+                   $(iEl).attr('style','cursor:pointer');
+                   $(iEl).on('click',function() {
+                     deleteImage(this);
+                   })
+                   $(divChild).append(iEl);
+                   var divBody=document.createElement('div');
+                   $(divBody).attr('class','card-body');
+                   var imgEl=document.createElement('img');
+                   imgEl.src=event.target.result;
+                   $(imgEl).attr('class','img-fluid')
+                   $(divBody).append(imgEl);
+                   $(div).append(divChild);
+                   $(div).append(divBody);
+                   $(placeToInsertImagePreview).append(div);
+                 }
+                 reader.readAsDataURL(input.files[i]);
+             }
+         }
+     }
+     function deleteImage(el){
+         var index=$("#preview-images div div i").index(el);
+         $(el).parent().parent().remove();
+         filesData.splice(index,1);
+         formData.delete('files');
+         $.each(filesData,function(i,v){
+             formData.append('files',v);
+         })
+     }
+     $("#image-files").on('change',function(){
+        previewFiles(this,$("#preview-images")) 
+     })
+     function getBrands(){
+         $.ajax({
+            url:'@Configuration["APIServerHost"]api/others/brands',
+            headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+            dataType:'json',
+            method:'get',
+            success:function(data){
+                var brandsSelect= $("#brands-select");
+                 $(data).each(function (index,empt) {
+                     brandsSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>');
+                 })
+            },
+            error:function() {
+              console.log("Có lỗi khi lấy thương hiệu");
+            }
+         })
+     }
+     function getCategories(){
+         $.ajax({
+         url:'@Configuration["APIServerHost"]api/others/categories',
+         headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+         dataType:'json',
+         method:'get',
+         success:function(data){
+             var brandsSelect= $("#categories-select");
+              $(data).each(function (index,empt) {
+                  brandsSelect.append('<option value=' + empt.id + '>' + empt.name+'</option>');
+              })
+            }
+         })
+     }
+     function postImage(productId){
+         $.ajax({
+           url:'@Configuration["APIServerHost"]api/products/'+productId+'/images',
+           headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+           data:formData,
+           type:'POST',
+           contentType: false,
+           processData: false,
+           success:function(data) {
+             console.log("Thành công");
+           },
+           error:function(data) {
+             showAlertMessage(false,data.message);
+           }
+         })
+     }
+     function postProduct(){
+         bootbox.confirm('Bạn có đồng ý tạo sản phẩm mới?',function (result){
+             if (result){
+                var product={
+                name:$("#productName").val(),
+                overView:$("#productInformation").val(),
+                categoryid:$("#categories-select").find(':selected').val(),
+                description:$('#summernote').summernote('code'),
+                retailprice:$("#productRetailPrice").val(),
+                wholesaleprices:parseFloat($("#productWholeSalePrice").val().replace(/,/g,'')),
+                warrantyperiod:$("#productWarrantyPeriod").val().replace(/,/g,''),
+                brandid:$("#brands-select").find(':selected').val()
+            };
+            $.ajax({
+               url:'@Configuration["APIServerHost"]api/products',
+               headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+               contentType:'application/json',
+               method:'POST',
+               data:JSON.stringify(product),
+               success:function(data){
+                   postImage(data.resultObj);
+                   showAlertMessage(true,data.message);
+               },
+               error:function(data) {
+                  showAlertMessage(false,data.message);
+               }
+             })      
+             }
+         })
+     }
+     $('#productRetailPrice,#productWholeSalePrice').keyup(function(event) {
+       if(event.which >= 37 && event.which <= 40) return;
+       $(this).val(function(index, value) {
+         return value
+         .replace(/\D/g, "")
+         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+         ;
+       });
+     });
+     </script>
+}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
+        <a class="breadcrumb-item" asp-controller="Product" asp-action="Index">Danh sách sản phẩm</a>
+        <span class="breadcrumb-item active">Tạo mới</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div>
+        <h4 class="tx-gray-800 tx-uppercase tx-bold mg-b-10">Thêm mới sản phẩm</h4>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Tổng quan</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Tên sản phẩm: <span class="tx-danger">*</span></label>
+                                <input id="productName" class="form-control" type="text" placeholder="Nhập tên sản phẩm">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Tổng quan:</label>
+                                <input id="productInformation" class="form-control" type="text" placeholder="Nhập thông tin tổng quan">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Thời gian bảo hành (tháng):</label>
+                                <input id="productWarrantyPeriod" class="form-control" type="text" placeholder="Nhập thời gian bảo hành">
+                            </div>
+                        </div><!-- col-4 -->
+                    </div><!-- row -->
+                </div><!-- form-layout -->
+                <div class="form-layout form-layout-1 mt-2 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Giá sản phẩm</h5>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Giá bán lẻ:</label>
+                                <input id="productRetailPrice" class="form-control" type="text" placeholder="Nhập giá bán lẻ">
+                            </div>
+                        </div><!-- col-4 -->
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label">Giá bán buôn:</label>
+                                <input id="productWholeSalePrice" class="form-control" type="text" placeholder="Nhập giá bán buôn">
+                            </div>
+                        </div><!-- col-4 -->
+                    </div><!-- row -->
+                </div><!-- form-layout -->
+                <div class="form-layout form-layout-1 mt-2 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Bài viết giới thiệu</h5>
+                    <p>Tạo bài viết giới thiệu cho sản phẩm</p>
+                    <div id="summernote">Hãy nhập gì đó</div>
+                </div><!-- form-layout -->
+            </div>
+            <div class="col-md-4">
+                <div class="form-layout form-layout-1 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Phân loại</h5>
+                    <div class="form-group">
+                        <label class="form-control-label">Danh mục:</label>
+                        <select id="categories-select" class="form-control">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Thương hiệu:</label>
+                        <select id="brands-select" class="form-control">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-layout form-layout-1 mt-2 bg-white">
+                    <h5 class="tx-bold tx-gray-800">Ảnh sản phẩm</h5>
+                    <p>Chọn hình ảnh cho sản phẩm</p>
+                    <div class="card mb-3">
+                        <div id="preview-images" class="card-body row">
+                         
+                        </div>
+                    </div>
+                    
+                    <input type="file" id="image-files" name="image-file" multiple size="1" accept="image/*"
+                     class="btn btn-primary text-white form-control" style="cursor: pointer;"/>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-md-2 ml-md-0">
+            <input class="btn btn-primary text-white" onclick="postProduct()"  style="cursor: pointer" value="Thêm mới sản phẩm" type="submit"/>
+            <a class="btn btn-secondary text-white ml-md-1" style="cursor: pointer">Trở lại</a>
+        </div>
+    </div>
+</div>

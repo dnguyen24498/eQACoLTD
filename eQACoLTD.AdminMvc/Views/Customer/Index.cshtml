@@ -1,0 +1,86 @@
+﻿@model PagedResult<CustomersDto>
+@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration
+@section Scripts{
+    <script>
+        function deleteCustomer(id) {
+            $.ajax({
+                url:'@Configuration["APIServerHost"]api/customers/'+id,
+                headers: { "Authorization": 'Bearer @Context.Session.GetString("access_token")' },
+                method: 'DELETE',
+                contentType: "application/json",
+                success: function () {
+                    $("#" + id).fadeOut(1000);
+                    showAlertMessage(true, "Xóa khách hàng thành công");
+                },
+                error: function () {
+                    showAlertMessage(false, "Có lỗi khi xóa khách hàng");
+                }
+            })
+        }
+    </script>
+}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <span class="breadcrumb-item active" href="#">Khách hàng</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Danh sách khách hàng</h4>
+    <p class="mg-b-0">Quản lý danh sách khách hàng có trong hệ thống</p>
+    <a class="btn btn-primary text-white mt-sm-3 mt-md-3" asp-controller="Customer" asp-action="Create"
+       style="cursor: pointer">Thêm khách hàng</a>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <div class="table-wrapper">
+            <div class="row m-1">
+                <select class="form-control col-md-2 bd-r-0">
+                    <option selected="selected">Lọc</option>
+                    <option>Theo tên</option>
+                </select>
+                <input id="search-box" type="text" class="form-control col-md-10" placeholder="Tìm kiếm khách hàng">
+            </div>
+            <table id="datatable2" class="table display responsive table-striped nowrap mt-3">
+                <thead class="bg-primary">
+                    <tr>
+                        <th class="wd-10p text-white">Mã</th>
+                        <th class="wd-15p text-white">Tài khoản</th>
+                        <th class="wd-15p text-white">Tên</th>
+                        <th class="wd-10p text-white">Điện thoại</th>
+                        <th class="wd-20 text-white">Nhân viên phụ trách</th>
+                        <th class="wd-15p text-white">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var c in Model.Results)
+                        {
+                            <tr id=@c.Id>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Id</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.UserName</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.Name</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.PhoneNumber</td>
+                                <td class="pt-md-4 pt-sm-4 font-weight-bold">@c.EmployeeName</td>
+                                <td class="text-right">
+                                    <form method="post">
+                                        <a style="cursor:pointer" onclick="deleteCustomer('@c.Id')" class="btn btn-danger text-white mr-1">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <button type="submit"
+                                                style="cursor:pointer" class="btn btn-primary text-white">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div><!-- table-wrapper -->
+    </div>
+    <div class="html mt-1">
+        @(await Component.InvokeAsync<PagerViewComponent>(Model))
+    </div>
+</div>

@@ -1,0 +1,14 @@
+﻿@model eQACoLTD.ViewModel.System.Account.Queries.TwoStepDto
+<h2>Đăng nhập 2 bước</h2>
+<form asp-action="LoginTwoStep"
+      asp-all-route-data="(Dictionary<string, string>)@ViewData["RouteData"]">
+    <div class="form-group">
+        <label asp-for="TwoFactorCode" class="control-label"></label>
+        <input asp-for="TwoFactorCode" class="form-control" />
+        <span asp-validation-for="TwoFactorCode" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="RememberLogin" />
+    <div class="form-group">
+        <input type="submit" value="Đăng nhập" class="btn btn-primary" />
+    </div>
+</form>

@@ -1,0 +1,300 @@
+﻿@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@section Scripts
+{
+    <script>
+        $(document).on('click', function(e) {
+                if ( e.target.id != 'ok' ) {
+                    hideProductPanel();
+                }
+            });
+        function createPromotion(){
+            bootbox.confirm('Bạn có muốn tạo chương trình khuyến mãi mới?',function (result){
+                if (result){
+                    var listProducts=[];
+                    $('tbody tr').each(function(){
+                    var productId=$(this).find('td').eq(0).html();
+                    var productDiscount=$(this).find('td').eq(3).find('input').val().replace(/,/g,'');
+                    var productDiscountType=$(this).find('td').eq(2).find('option:selected').val();
+                    listProducts.push({productId:productId,discountType:productDiscountType,discountValue:parseFloat(productDiscount)});
+                    })
+                    var newDiscount={
+                        name:$("#promotionName").val(),
+                        description:$("#promotionDescription").val(),
+                        categoryId:'',
+                        discountType:'$',
+                        discountValue:0,
+                        fromDate:(new Date($("#promotionFromDate").val())).toJSON(),
+                        toDate:(new Date($("#promotionToDate").val())).toJSON(),
+                        products:listProducts
+                    }
+                    console.log(newDiscount);
+                    $.ajax({
+                        url:'@Configuration["APIServerHost"]api/products/promotions',
+                        headers: {
+                            "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                            },
+                        method:'post',
+                        contentType:"application/json",
+                        data:JSON.stringify(newDiscount),
+                        success:function(data) {
+                            showAlertMessage(true,data.message);
+                            },
+                        error:function() {
+                            showAlertMessage(false,"Có lỗi khi tạo chương trình giảm giá");
+                        } 
+                    })
+                }
+            })
+        }
+        function hideProductPanel() {
+                 $("#product-panel").css('display','none');
+             }
+        function searchProduct() {
+                    $("#product-panel").css('display','block');
+                    var productName=$("#product-search").val();
+                    if (productName!==''){
+                    $.ajax({
+                        url:'@Configuration["APIServerHost"]api/products/search?searchValue='+productName,
+                        headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                        method:'GET',
+                        dataType:'json',
+                        success:function(data) {
+                          $("#products-ul").empty();
+                          $(data.resultObj.results).each(function(index,prod) {
+                            var liEl=document.createElement('li');
+                            liEl.setAttribute('class','list-group-item');
+                            liEl.setAttribute('style','cursor:pointer');
+                            liEl.setAttribute('id',prod.id);
+                            var rowDiv=document.createElement('div');
+                            rowDiv.setAttribute('class','row');
+                            var imgDiv=document.createElement('div');
+                            imgDiv.setAttribute('class','col-md-1');
+                            var img=document.createElement('img');
+                            img.setAttribute('width','50px');
+                            img.setAttribute('height','50px');
+                            img.setAttribute('src','@Configuration["APIServerHost"]app-content/'+prod.imagePath);
+                            imgDiv.append(img);
+                            rowDiv.append(imgDiv);
+                            var infoDiv=document.createElement('div');
+                            infoDiv.setAttribute('class','col-md-7');
+                            var pProduct=document.createElement('p');
+                            pProduct.setAttribute('class','p-3 font-weight-bold');
+                            pProduct.append(prod.name);
+                            infoDiv.append(pProduct);
+                            var quantityDiv=document.createElement('div');
+                            quantityDiv.setAttribute('class','col-md-4');
+                            var pQuantity=document.createElement('p');
+                            pQuantity.setAttribute('class','p-3 font-weight-bold');
+                            pQuantity.append('Số lượng có thể bán: '+prod.ableToSale+' phiên bản còn lại');
+                            quantityDiv.append(pQuantity);
+                            rowDiv.append(infoDiv);
+                            rowDiv.append(quantityDiv);
+                            liEl.append(rowDiv);
+                            $(liEl).on({
+                                mouseenter: function(){
+                                     $(this).css("background-color", "#0085F9").css("color","white");},
+                                mouseleave: function(){
+                                     $(this).css("background-color", "white").css("color","black");
+                                     },
+                                click:function(){
+                                    var trProd=document.createElement('tr');
+                                    trProd.setAttribute('class','border');
+                                    trProd.setAttribute('id',prod.id);
+                                    var tdId=document.createElement('td');
+                                    tdId.setAttribute('class','align-middle');
+                                    tdId.append(prod.id);
+                                    trProd.append(tdId);
+                                    var tdName=document.createElement('td');
+                                    tdName.setAttribute('class','align-middle');
+                                    tdName.append(prod.name);
+                                    trProd.append(tdName);
+                                    var tdUnit=document.createElement('td');
+                                    tdUnit.setAttribute('class','align-middle');
+                                    var unitSelect=document.createElement('select');
+                                    unitSelect.setAttribute('class','form-control');
+                                    var option=document.createElement('option');
+                                    option.append('Phần trăm');
+                                    option.setAttribute('value','%')
+                                    var option2=document.createElement('option');
+                                    option2.append('Tiền mặt');
+                                    option2.setAttribute('value','$')
+                                    unitSelect.append(option);
+                                    unitSelect.append(option2);
+                                    tdUnit.append(unitSelect);
+                                    trProd.append(tdUnit);
+                                    var tdQuantity=document.createElement('td');
+                                    tdQuantity.setAttribute('class','align-middle');
+                                    var inputQuantity=document.createElement('input');
+                                    inputQuantity.setAttribute('type','text');
+                                    inputQuantity.setAttribute('class','form-control price_format');
+                                    inputQuantity.setAttribute('value','0');
+                                    tdQuantity.append(inputQuantity);
+                                    trProd.append(tdQuantity);
+                                    var tdPrice=document.createElement('td');
+                                    tdPrice.setAttribute('class','align-middle');
+                                    var inputPrice=document.createElement('input');
+                                    inputPrice.setAttribute('type','text');
+                                    inputPrice.setAttribute('class','form-control');
+                                    inputPrice.setAttribute('value',accounting.format(prod.retailPrice));
+                                    tdPrice.append(inputPrice);
+                                    trProd.append(tdPrice);
+                                    var tdTotal=document.createElement('td');
+                                    tdTotal.setAttribute('class','text-right align-middle');
+                                    var aEl=document.createElement('a');
+                                    var spanEl=document.createElement('span');
+                                    spanEl.setAttribute('class','price');
+                                    spanEl.append(accounting.formatNumber(prod.retailPrice));
+                                    aEl.append(spanEl);
+                                    var iEl=document.createElement('i');
+                                    iEl.setAttribute('class','fa fa-close');
+                                    iEl.setAttribute('style','cursor: pointer;padding-left: 3px');
+                                    $(iEl).on('click',function() {
+                                        $(trProd).remove();
+                                    })
+                                    aEl.append(iEl);
+                                    tdTotal.append(aEl);
+                                    trProd.append(tdTotal);
+                                    $(inputPrice).add(inputQuantity).on('input',function() {
+                                      var discountType=$(unitSelect).find('option:selected').val();
+                                      var newTotal=0;
+                                      if (discountType==='%'){
+                                        newTotal=$(inputPrice).val().replace(/,/g,'')-(($(inputPrice).val().replace(/,/g,''))*$(inputQuantity).val().replace(/,/g,'')/100);
+                                      }else{
+                                          newTotal=$(inputPrice).val().replace(/,/g,'')-$(inputQuantity).val().replace(/,/g,'');
+                                      }
+                                      $(spanEl).empty().append(accounting.formatNumber(newTotal));
+                                    })
+                                    $(inputPrice).add(inputQuantity).on('keyup',function(event) {
+                                      if(event.which >= 37 && event.which <= 40) return;
+                                             $(this).val(function(index, value) {
+                                               return value
+                                               .replace(/\D/g, "")
+                                               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                                               ;
+                                             });
+                                    })
+                                    $("#order-table tbody").append(trProd);
+                                }});
+                            $("#products-ul").append(liEl);
+                          })
+                        }
+                    })}else hideProductPanel();
+                }
+                
+    </script>
+}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Sản phẩm</a>
+        <a class="breadcrumb-item" asp-controller="Category" asp-action="Index">Chương trình khuyến mãi</a>
+        <span class="breadcrumb-item active" href="#">Thêm mới</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+        <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Thêm mới chương trình khuyến mãi</h6>
+        <p class="mg-b-30 tx-gray-600">Nhập thông tin chi tiết về chương trình khuyến mãi</p>
+        <div class="row p-md-3">
+            <div class="form-group col-md-12">
+                <label for="promotionName">Tên chương trình</label>
+                <input type="text" class="form-control" id="promotionName" placeholder="Tên chương trình khuyến mãi">
+            </div>
+            <div class="form-group col-md-12">
+                <label for="promotionDescription">Nội dung chương trình</label>
+                <textarea class="form-control" id="promotionDescription" placeholder="Nội dung chương trình"></textarea>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="promotionFromDate">Bắt đầu từ ngày</label>
+                <input type="datetime-local" class="form-control" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T')
+                       id="promotionFromDate">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="promotionToDate">Đến hết ngày</label>
+                <input type="datetime-local" class="form-control" value=@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T') 
+                       id="promotionToDate">
+            </div>
+            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Danh sách sản phẩm</h6>
+            <input id="product-search" oninput="searchProduct()"
+                           placeholder="Tìm kiếm sản phẩm..." class="form-control ml-3 mr-3" type="text">
+                    <div id="product-panel" style="display: none;position: absolute;z-index: 1" class="col-md-11 panel">
+                        <div class="panel-body row">
+                            <ul id="products-ul" class="form-control"
+                                style="max-height: 350px;margin-bottom: 10px;overflow:scroll;-webkit-overflow-scrolling: touch;">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <img src="~/img/no-image-icon.jpg" alt="Ảnh danh mục" width="50" height="50">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p class="pt-3">Macbook Pro 2020</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p class="pt-3">Có thể bán: 0</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table id="order-table" class="table mt-3 ml-3 mr-3" style="border-collapse: collapse">
+                                <thead class="bg-primary">
+                                <tr>
+                                    <th class="text-white" scope="col" style="width: 8%">Mã</th>
+                                    <th class="text-white" scope="col" style="width: 45%">Tên sản phẩm</th>
+                                    <th class="text-white" scope="col" style="width: 10%">Loại giảm giá</th>
+                                    <th class="text-white" scope="col" style="width: 10%">Giảm giá</th>
+                                    <th scope="col" style="width: 15%" class="text-right text-white">Giá gốc</th>
+                                    <th scope="col" style="width: 12%" class="text-right text-white">Giá đã giảm</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @* <tr class="border"> *@
+                                @*     <td class="align-middle">PRN0001</td> *@
+                                @*     <td class="align-middle">Macbook Pro 2020</td> *@
+                                @*     <td class="align-middle"> *@
+                                @*         <select class="form-control"> *@
+                                @*             <option>Cái</option> *@
+                                @*         </select> *@
+                                @*     </td> *@
+                                @*     <td class="align-middle"> *@
+                                @*         <input type="text" class="form-control price_format" value="0"> *@
+                                @*     </td> *@
+                                @*     <td class="align-middle"> *@
+                                @*         <input type="text" class="form-control price_format" value="0"> *@
+                                @*     </td> *@
+                                @*     <td class="text-right align-middle"> *@
+                                @*         <a> *@
+                                @*             30,000,000 *@
+                                @*             <i class="fa fa-close" style="cursor: pointer;padding-left: 3px"></i> *@
+                                @*         </a> *@
+                                @*     </td> *@
+                                @* </tr> *@
+                                @* <tr> *@
+                                @*     <td></td> *@
+                                @*     <td> *@
+                                @*         <input type="text" class="form-control" placeholder="Tên dịch vụ"> *@
+                                @*     </td> *@
+                                @*     <td></td> *@
+                                @*     <td class="align-middle"> *@
+                                @*         <input type="text" class="form-control price_format" value="0"> *@
+                                @*     </td> *@
+                                @*     <td class="align-middle"> *@
+                                @*         <input type="text" class="form-control price_format" value="0"> *@
+                                @*     </td> *@
+                                @*     <td class="text-right align-middle"> *@
+                                @*         <a> *@
+                                @*             100,000 *@
+                                @*             <i class="fa fa-close" style="cursor: pointer;padding-left: 4px"></i> *@
+                                @*         </a> *@
+                                @*     </td> *@
+                                @* </tr> *@
+                                </tbody>
+                            </table>
+        </div><!-- form-layout -->
+        <div class="html mt-2 float-right">
+            <a class="btn btn-primary text-white" onclick="createPromotion()" style="cursor: pointer">Thêm mới</a>
+            <a class="btn btn-secondary text-white" style="cursor: pointer">Trở về</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IConfiguration Configuration
+
+@section Scripts
+{
+    <script>
+        getAccountInfo();
+        function getAccountInfo(){
+            $.ajax({
+                        url: '@Configuration["APIServerHost"]api/accounts/info',
+                        headers: {"Authorization":'Bearer @Context.Session.GetString("access_token")'},
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            $("#name").attr("value",data.resultObj.name);
+                            if (data.resultObj.gender==true){
+                                $("#gender").attr("value","Nam");
+                            }
+                            else{
+                                $("#gender").attr("value","Nữ");
+                            }
+                            $("#department").attr("value",data.resultObj.departmentName);
+                            $("#branch").attr("value",data.resultObj.branchName);
+                            $("#phone").attr("value",data.resultObj.phoneNumber);
+                            $("#address").attr("value",data.resultObj.address);
+                            $("#email").attr("value",data.resultObj.email);
+                        },
+                        error: function () {
+                            showAlertMessage(false,"Có lỗi khi kết nối tới máy chủ.");
+                            }
+                        })
+        }
+    </script>
+}
+
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" href="index.html">Tài khoản</a>
+        <span class="breadcrumb-item active" href="#">Thông tin tài khoản</span>
+    </nav>
+</div><!-- br-pageheader -->
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper row">
+        <h5 class="col-md-12 text-dark">Thông tin tài khoản cá nhân</h5>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">Họ và tên:</label>
+                <input type="text" class="form-control" id="name" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="gender">Giới tính:</label>
+                <input type="text" class="form-control" id="gender" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="department">Thuộc bộ phận:</label>
+                <input type="text" class="form-control" id="department" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="branch">Thuộc chi nhánh:</label>
+                <input type="text" class="form-control" id="branch" disabled="disabled">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="text" class="form-control" id="phone" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="address">Địa chỉ:</label>
+                <input type="text" class="form-control" id="address" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" disabled="disabled">
+            </div>
+        </div>
+    </div>
+    <div class="br-section-wrapper row mt-3">
+        <h5 class="col-md-12 tx-gray-800">Đổi mật khẩu</h5>
+        <div class="form-group col-md-12">
+            <label for="oldPassword">Mật khẩu cũ:</label>
+            <input type="password" class="form-control" id="oldPassword">
+        </div>
+        <div class="form-group col-md-12">
+            <label for="newPassword">Mật khẩu mới:</label>
+            <input type="password" class="form-control" id="newPassword">
+        </div>
+        <div class="form-group col-md-12">
+            <label for="newPasswordRepeat">Nhắc lại mật khẩu mới:</label>
+            <input type="password" class="form-control" id="newPasswordRepeat">
+        </div>
+    </div>
+    <div class="row mt-3">
+        <a class="btn-success btn text-white mr-2" style="width: 60px;cursor: pointer">Lưu</a>
+        <a class="btn-secondary btn text-white" style="width: 85px;cursor: pointer">Quay lại</a>
+    </div>
+</div>

@@ -96,13 +96,48 @@ namespace eQACoLTD.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("4dce65a4-01ab-4a3c-9d3f-090ab2803c60"),
-                            RoleId = new Guid("d41440df-bfc5-4599-ba94-6b43e8e1ed26")
+                            UserId = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
+                            RoleId = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459")
                         },
                         new
                         {
-                            UserId = new Guid("e90f766a-f9b2-4280-ae28-411053af3891"),
-                            RoleId = new Guid("a5479d8a-70d6-47b2-8dda-20f6c67341ec")
+                            UserId = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
+                            RoleId = new Guid("ae9c2256-44e4-4d46-a297-4da29c7e1637")
+                        },
+                        new
+                        {
+                            UserId = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
+                            RoleId = new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                            RoleId = new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6")
+                        },
+                        new
+                        {
+                            UserId = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                            RoleId = new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692")
+                        },
+                        new
+                        {
+                            UserId = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                            RoleId = new Guid("e70b5bc1-102a-4ba5-a4e1-dd75b1fe5b1b")
+                        },
+                        new
+                        {
+                            UserId = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                            RoleId = new Guid("c4702302-748c-4b01-b0ad-8299d86896a4")
+                        },
+                        new
+                        {
+                            UserId = new Guid("567e24d4-8eaa-4e2f-95b9-10000aa55f07"),
+                            RoleId = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459")
+                        },
+                        new
+                        {
+                            UserId = new Guid("0f2c7ea8-8c71-4459-b470-7eecf7493234"),
+                            RoleId = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459")
                         });
                 });
 
@@ -136,9 +171,7 @@ namespace eQACoLTD.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200)
-                        .IsUnicode(true);
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -153,19 +186,91 @@ namespace eQACoLTD.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a5479d8a-70d6-47b2-8dda-20f6c67341ec"),
-                            ConcurrencyStamp = "fc3bfb4e-2f1f-4b11-84ba-22a821405f1c",
-                            Description = "Quyền nhân viên bán hàng",
-                            Name = "Salesman",
-                            NormalizedName = "Salesman"
+                            Id = new Guid("1e76986e-fad7-42d9-a689-8a69d36273f9"),
+                            ConcurrencyStamp = "2a220e4f-ccf1-484b-ba25-198068989109",
+                            Description = "Quản trị viên",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = new Guid("d41440df-bfc5-4599-ba94-6b43e8e1ed26"),
-                            ConcurrencyStamp = "29f0af50-9700-46a6-8ff4-5437f7da71e8",
-                            Description = "Quyền quản trị viên",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
+                            Id = new Guid("a7148fa4-5a7c-4144-bbfd-6d72c4f191c6"),
+                            ConcurrencyStamp = "be8e6597-b6c2-4452-9f6e-37b85be48ee1",
+                            Description = "Nhân viên kho",
+                            Name = "WarehouseStaff",
+                            NormalizedName = "WAREHOUSESTAFF"
+                        },
+                        new
+                        {
+                            Id = new Guid("3b46cfe9-6b65-4a91-bdd9-9ec9052c422a"),
+                            ConcurrencyStamp = "a4ff00a8-0d6f-4619-b720-4fb48508fe31",
+                            Description = "Nhân viên bán hàng",
+                            Name = "Salesman",
+                            NormalizedName = "SALESMAN"
+                        },
+                        new
+                        {
+                            Id = new Guid("dabaaa26-81a6-4137-8534-428fcfe8f692"),
+                            ConcurrencyStamp = "58c82043-ec49-4f79-aca3-f5b75d16cac8",
+                            Description = "Nhân viên thu ngân",
+                            Name = "Cashier",
+                            NormalizedName = "CASHIER"
+                        },
+                        new
+                        {
+                            Id = new Guid("ae9c2256-44e4-4d46-a297-4da29c7e1637"),
+                            ConcurrencyStamp = "98d8b94e-69b6-43d7-b6ff-27407450ab2b",
+                            Description = "Thủ kho",
+                            Name = "WarehouseManager",
+                            NormalizedName = "WAREHOUSEMANAGER"
+                        },
+                        new
+                        {
+                            Id = new Guid("e70b5bc1-102a-4ba5-a4e1-dd75b1fe5b1b"),
+                            ConcurrencyStamp = "570b3734-fd99-45e7-b68c-81a07adf678e",
+                            Description = "Thủ quỹ",
+                            Name = "CashManager",
+                            NormalizedName = "CASHMANAGER"
+                        },
+                        new
+                        {
+                            Id = new Guid("c4702302-748c-4b01-b0ad-8299d86896a4"),
+                            ConcurrencyStamp = "510d30e5-73c5-4f03-92a8-dd69c5224d0c",
+                            Description = "Nhân viên kinh doanh",
+                            Name = "BusinessStaff",
+                            NormalizedName = "BUSINESSSTAFF"
+                        },
+                        new
+                        {
+                            Id = new Guid("68113af4-39b0-4926-b0fb-091d827fc6d9"),
+                            ConcurrencyStamp = "5606393c-db70-4d70-92eb-6b00e7e9a85a",
+                            Description = "Nhân viên kỹ thuật",
+                            Name = "Technician",
+                            NormalizedName = "TECHNICIAN"
+                        },
+                        new
+                        {
+                            Id = new Guid("0ae13bb5-43f5-404e-9100-046e7ff0bfc7"),
+                            ConcurrencyStamp = "c0b3ccf1-dfbe-4208-8069-777277047cfa",
+                            Description = "Kế toán",
+                            Name = "Accountant",
+                            NormalizedName = "ACCOUNTANT"
+                        },
+                        new
+                        {
+                            Id = new Guid("b6a7f49c-ed4a-41bf-b2b3-9fdaca763459"),
+                            ConcurrencyStamp = "0a0060fe-f7bd-4ada-8c8c-85fbbda4f1f8",
+                            Description = "Giám đốc",
+                            Name = "SuperAdministrator",
+                            NormalizedName = "SUPERADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = new Guid("2c3047ca-da34-4a37-a640-d8b20bf0f21c"),
+                            ConcurrencyStamp = "05e74d56-fa32-4ee5-9116-85b86e7eb5ed",
+                            Description = "Quản lý chi nhánh",
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
                         });
                 });
 
@@ -178,23 +283,11 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                    b.Property<string>("Adrress")
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DOB")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("District")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -202,26 +295,11 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<bool>("Gender")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(max)");
@@ -241,21 +319,11 @@ namespace eQACoLTD.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("SubDistrict")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -264,56 +332,3820 @@ namespace eQACoLTD.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4dce65a4-01ab-4a3c-9d3f-090ab2803c60"),
+                            Id = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
                             AccessFailedCount = 0,
-                            Address = "Số nhà 88",
-                            City = "Hải Phòng",
-                            ConcurrencyStamp = "2d208e3c-c7a1-49e3-85c8-93efd9d75cd2",
-                            DOB = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            District = "Hồng Bàng",
+                            ConcurrencyStamp = "dd1aaf8d-d3f5-4871-b25c-d9632cf0d9f1",
                             Email = "dnguyen24498@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Nguyễn",
-                            Gender = true,
-                            LastName = "Nguyên",
                             LockoutEnabled = false,
-                            MiddleName = "Dương",
-                            NormalizedEmail = "dnguyen24498@gmail.com",
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBUn2YTOqEqoK7TC7HTRS2oTKCsVn8TOcaX4OZef5REBz2Q5X5rsKRrj1q4OUKlfqg==",
+                            NormalizedEmail = "DNGUYEN24498@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIsx3SW0FZ2TlKbFqnd/1LKdhVhyDAHy9Zzv/U3FUqLSTHfMY0KNXSBLJPxaKFm1IQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
-                            Street = "Hải triều",
-                            SubDistrict = "Quán Toan",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = new Guid("e90f766a-f9b2-4280-ae28-411053af3891"),
+                            Id = new Guid("567e24d4-8eaa-4e2f-95b9-10000aa55f07"),
                             AccessFailedCount = 0,
-                            Address = "Số nhà 88",
-                            City = "Hải Phòng",
-                            ConcurrencyStamp = "c43c02d4-b32f-496b-a4a8-e0fd010c95ee",
-                            DOB = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            District = "Hồng Bàng",
-                            Email = "dnguyen244@gmail.com",
+                            ConcurrencyStamp = "e06ade55-c571-4d6d-ba15-5fd3eea2b2e8",
+                            Email = "nicholasnguyen5798@gmail.com",
                             EmailConfirmed = true,
-                            FirstName = "Nguyễn",
-                            Gender = true,
-                            LastName = "Nguyên",
                             LockoutEnabled = false,
-                            MiddleName = "Dương",
-                            NormalizedEmail = "dnguyen244@gmail.com",
-                            NormalizedUserName = "dnguyen244",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIGpSVUdbCdLksCo58vBC5PQh6/unT/FOsAG1islGksPyScIVV+9mtCMQpTt72vFSw==",
+                            NormalizedEmail = "NICHOLASNGUYEN5798@GMAIL.COM",
+                            NormalizedUserName = "EPN0008",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF3S8FnBytLqZW8CLKQIQjSLrFH+ct1KqaZuaFrDlnQU8Ztdv79j6QiOnIeYDvQAYw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
-                            Street = "Hải triều",
-                            SubDistrict = "Quán Toan",
                             TwoFactorEnabled = false,
-                            UserName = "dnguyen244"
+                            UserName = "epn0008"
+                        },
+                        new
+                        {
+                            Id = new Guid("0f2c7ea8-8c71-4459-b470-7eecf7493234"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e89b4728-3c6a-40ac-b2df-8505dd847948",
+                            Email = "nguyenthanhtungkahp1998@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "NGUYENTHANHTUNGKAHP1998@GMAIL.COM",
+                            NormalizedUserName = "EPN0009",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG3hymzj74DrO53uQm20UYBBF9Fed01yqAlzr8hnlxQq8mOuha+tDCF1gQlnfy/VzA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0009"
+                        },
+                        new
+                        {
+                            Id = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b49fba7d-ec4e-4816-9b2f-54765cb8e455",
+                            Email = "duongnguyenadhp@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP@GMAIL.COM",
+                            NormalizedUserName = "EPN0001",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIxsbJh2O03J4plCbmtLEErBlRoCii1IAvjrJDFd+wIUIHDQzz4vn2tW/s86GG951Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0001"
+                        },
+                        new
+                        {
+                            Id = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c91ebcb9-537f-4f3e-b099-5853068e61c0",
+                            Email = "nguyen68973@st.vimaru.edu.vn",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "NGUYEN68973@ST.VIMARU.EDU.VN",
+                            NormalizedUserName = "EPN0002",
+                            PasswordHash = "AQAAAAEAACcQAAAAECQTZgPNcKthIID31AhIBkcD9Mic+guPmeo6Fn2bWglk0dOlcDtUDX8Ra/bLJpRIrQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0002"
+                        },
+                        new
+                        {
+                            Id = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a410d006-a31f-4ab3-a18b-a58a5ee68350",
+                            Email = "duongnguyenadhp3@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP3@GMAIL.COM",
+                            NormalizedUserName = "EPN0003",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK5oYGmrhsHXrYFF7Kw6izhjl/a45KCBaidYdPnfnLAOiWPYIJyQJkD+PLtZWAoP7w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0003"
+                        },
+                        new
+                        {
+                            Id = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "19561db9-c945-4ba8-b052-436e4e6faefc",
+                            Email = "duongnguyenadhp4@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP4@GMAIL.COM",
+                            NormalizedUserName = "EPN0004",
+                            PasswordHash = "AQAAAAEAACcQAAAAEASIRn/nfw10HUvccpe2fO6RLbWiTL/l5c7Y391Xl8iHZtULZ+uDvNTfxz5Qh6ym5w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0004"
+                        },
+                        new
+                        {
+                            Id = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2706fc42-321e-44b9-a271-9963da9c3a19",
+                            Email = "duongnguyenadhp5@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP5@GMAIL.COM",
+                            NormalizedUserName = "EPN0005",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJs7LZ89j5FL0ypz52JP9sFHlpRrja+F5ywdjElmYFE9Oe3kK1OM2Z2TwB1dAUImbg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0005"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b6f832e3-eaf6-4704-ad66-ff5ccb95b20c",
+                            Email = "duongnguyenadhp6@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP6@GMAIL.COM",
+                            NormalizedUserName = "EPN0006",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOI6epG7RrOzFcMnii5UfV2YfmPSTE1JTJioBDP8TPg62Rp8V1bRRKQCEHjBIhYADQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "epn0006"
+                        },
+                        new
+                        {
+                            Id = new Guid("80efff0f-48cc-4e7a-8803-6782ce66960a"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "29a0c5c6-7d6b-4fa9-819c-b57e3cd6dd88",
+                            Email = "duongnguyenadhp1@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP1@GMAIL.COM",
+                            NormalizedUserName = "CUS0001",
+                            PasswordHash = "AQAAAAEAACcQAAAAEByaFSlqq1jodbi/3ZMMQ6khZHQ4I1Vk6+h5nX+PxxoMJqr6K95BfichmcagS1brgw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "cus0001"
+                        },
+                        new
+                        {
+                            Id = new Guid("f502066f-7adc-4a5c-9d89-bb1015964cd9"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "753d16ec-0405-4a5d-a7fb-17092339bb57",
+                            Email = "duongnguyenadhp2@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DUONGNGUYENADHP2@GMAIL.COM",
+                            NormalizedUserName = "CUS0002",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAF+HTOSyJRHbCS58V3QnO+vjXYZAZ/KGo7yP+nzjG8nSCz/OP+giiLwyTQoToa01A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "cus0002"
                         });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Branch", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Branches");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            Name = "Chi nhánh mặc định"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Brand", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "85000231-9235-48a6-b852-c64bdcc3376b",
+                            Name = "Apple"
+                        },
+                        new
+                        {
+                            Id = "df574e84-8df9-4da9-9686-52446cbd9a69",
+                            Name = "Dell"
+                        },
+                        new
+                        {
+                            Id = "0f3d454d-a999-44de-af81-e918e117f5e5",
+                            Name = "HP"
+                        },
+                        new
+                        {
+                            Id = "bc240879-0f96-4752-9632-82141e4f23b3",
+                            Name = "Lenovo"
+                        },
+                        new
+                        {
+                            Id = "82fab56a-dc26-4179-9624-d4eac7f43923",
+                            Name = "Asus"
+                        },
+                        new
+                        {
+                            Id = "41f4bb29-5373-459a-8f6d-def64f15f747",
+                            Name = "Acer"
+                        },
+                        new
+                        {
+                            Id = "25a44ea6-ca33-494c-90d7-933e38ec3fb5",
+                            Name = "Razer"
+                        },
+                        new
+                        {
+                            Id = "6c0d47b5-5b62-4c53-bd6e-680a3f08c1f0",
+                            Name = "Canon"
+                        },
+                        new
+                        {
+                            Id = "ce382131-49b5-49ea-9732-9d33e49874de",
+                            Name = "ThinkView"
+                        },
+                        new
+                        {
+                            Id = "3d3db375-7436-4783-93d4-3f1777538b4e",
+                            Name = "Samsung"
+                        },
+                        new
+                        {
+                            Id = "fb5f1a2e-796a-4a38-9fb3-db9f4924c201",
+                            Name = "Logitech"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Cart", b =>
+                {
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("AppUserId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            Name = "Máy tính xách tay"
+                        },
+                        new
+                        {
+                            Id = "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525",
+                            Name = "Máy tính để bàn"
+                        },
+                        new
+                        {
+                            Id = "a749d9d1-7621-4596-89f8-a6395778809b",
+                            Name = "Tai nghe"
+                        },
+                        new
+                        {
+                            Id = "5f1d0891-37db-4d20-92e9-0a9da180ee62",
+                            Name = "Bàn phím"
+                        },
+                        new
+                        {
+                            Id = "f09b42c7-79f6-406e-8b32-d1bd714f93cf",
+                            Name = "Chuột"
+                        },
+                        new
+                        {
+                            Id = "610491a0-1824-4dd6-a8af-1f22f2a840a4",
+                            Name = "Máy in"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Customer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CustomerTypeId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("Dob")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool?>("Gender")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.HasIndex("CustomerTypeId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "CUS0001",
+                            Address = "Số 88, Đường Hải Triều, Phường Quán Toan, Quận Hồng Bàng, Thành phố Hải Phòng",
+                            AppUserId = new Guid("80efff0f-48cc-4e7a-8803-6782ce66960a"),
+                            CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "duongnguyenadhp@gmail.com",
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Dương Nguyên",
+                            PhoneNumber = "0934349618"
+                        },
+                        new
+                        {
+                            Id = "CUS0002",
+                            Address = "Số 99, Đường Hải Triều, Phường Quán Toan, Quận Hồng Bàng, Thành phố Hải Phòng",
+                            AppUserId = new Guid("f502066f-7adc-4a5c-9d89-bb1015964cd9"),
+                            CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "duongnguyenadhp@gmail.com",
+                            Gender = false,
+                            IsDelete = false,
+                            Name = "Bùi Thùy Dương",
+                            PhoneNumber = "0934349618"
+                        },
+                        new
+                        {
+                            Id = "CUS0003",
+                            Address = "Số 99, Đường Hải Triều, Phường Quán Toan, Quận Hồng Bàng, Thành phố Hải Phòng",
+                            CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nttu5798@gmail.com",
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thanh Tùng",
+                            PhoneNumber = "0123456789"
+                        },
+                        new
+                        {
+                            Id = "CUS0004",
+                            Address = "Số 99, Đường Hải Triều, Phường Quán Toan, Quận Hồng Bàng, Thành phố Hải Phòng",
+                            CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nttu15798@gmail.com",
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thanh Tú",
+                            PhoneNumber = "4563214576"
+                        },
+                        new
+                        {
+                            Id = "CUS0005",
+                            Address = "Tô Hiệu, Hải Phòng",
+                            CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nttu25798@gmail.com",
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Phạm Công Thành",
+                            PhoneNumber = "12345432365"
+                        },
+                        new
+                        {
+                            Id = "CUS0006",
+                            Address = "Tô Hiệu, Hải Phòng",
+                            CustomerTypeId = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nttu257981@gmail.com",
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Văn Tùng",
+                            PhoneNumber = "4326584942"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.CustomerPromotion", b =>
+                {
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("PromotionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("char(32)");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("char(1)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("CustomerId", "PromotionId");
+
+                    b.HasIndex("PromotionId");
+
+                    b.ToTable("CustomerPromotions");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.CustomerType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c876bee4-019b-4b42-acbd-e728e9f545b6",
+                            Name = "Bán buôn"
+                        },
+                        new
+                        {
+                            Id = "a3bc8a51-9264-4590-af51-5fd20812695a",
+                            Name = "Bán lẻ"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Department", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "023536ea-f6c4-40a1-a610-2e95dd0e4f2a",
+                            Name = "Bộ phận kho"
+                        },
+                        new
+                        {
+                            Id = "2c33ac5e-c033-4eeb-b185-7f79007bbec3",
+                            Name = "Bộ phận kinh doanh"
+                        },
+                        new
+                        {
+                            Id = "15d805f8-32fb-43f3-8c95-31e87c05d3e7",
+                            Name = "Bộ phận bán hàng"
+                        },
+                        new
+                        {
+                            Id = "896571ab-344a-4258-b144-3f5c39b286e1",
+                            Name = "Bộ phận thu ngân"
+                        },
+                        new
+                        {
+                            Id = "fd730f29-f41c-4d7f-a4a7-66bb8b2ac6b0",
+                            Name = "Bộ phận kế toán"
+                        },
+                        new
+                        {
+                            Id = "aedb9def-b1ef-484a-ace0-d95471cf9421",
+                            Name = "Bộ phận kỹ thuật"
+                        },
+                        new
+                        {
+                            Id = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                            Name = "Bộ phận quản lý cấp cao"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Employee", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<Guid?>("AppuserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("DepartmentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("Dob")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+                    b.Property<bool?>("Gender")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppuserId")
+                        .IsUnique()
+                        .HasFilter("[AppuserId] IS NOT NULL");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "EPN0001",
+                            Address = "Số 88, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("1dcbb3b4-3bcd-4aaf-8b4d-e2339c5596f0"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "023536ea-f6c4-40a1-a610-2e95dd0e4f2a",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thanh Tùng",
+                            PhoneNumber = "0934349618"
+                        },
+                        new
+                        {
+                            Id = "EPN0002",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("2ac747da-3752-488d-87dc-cb5d4a2e9432"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "15d805f8-32fb-43f3-8c95-31e87c05d3e7",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thanh Tú",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0003",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("fee378c8-8a38-4b42-a420-82ff5888e819"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "023536ea-f6c4-40a1-a610-2e95dd0e4f2a",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Văn An",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0004",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("94a967b5-914b-43a5-b7f5-2cd42d994b92"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "896571ab-344a-4258-b144-3f5c39b286e1",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thành Nam",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0005",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("408e3e40-3191-451c-a606-a1f565310e8a"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "896571ab-344a-4258-b144-3f5c39b286e1",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = false,
+                            IsDelete = false,
+                            Name = "Nguyễn Khánh Ly",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0006",
+                            Address = "Số 100, Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("ec3d3bc7-8141-4205-b068-4ca7d5fd1201"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "2c33ac5e-c033-4eeb-b185-7f79007bbec3",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = false,
+                            IsDelete = false,
+                            Name = "Trần Thị Thủy",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0007",
+                            Address = "Số 88-Hải Triều-Quán Toan-Hồng Bàng-Hải Phòng",
+                            AppuserId = new Guid("8a4bde2a-b1f9-4498-be84-6d0282573bcf"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Dương Nguyên",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0008",
+                            Address = "Tôn Đức Thắng, Hải Phòng",
+                            AppuserId = new Guid("567e24d4-8eaa-4e2f-95b9-10000aa55f07"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thanh Tú",
+                            PhoneNumber = "0934347618"
+                        },
+                        new
+                        {
+                            Id = "EPN0009",
+                            Address = "Trần Thành Ngọ, Kiến An, Hải Phòng",
+                            AppuserId = new Guid("0f2c7ea8-8c71-4459-b470-7eecf7493234"),
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DepartmentId = "8567cb14-668c-45f9-9c9a-182ee3b99981",
+                            Dob = new DateTime(1998, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Gender = true,
+                            IsDelete = false,
+                            Name = "Nguyễn Thanh Tùng",
+                            PhoneNumber = "0934347618"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsDeliveryNote", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("ExportDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 850, DateTimeKind.Local).AddTicks(3587));
+
+                    b.Property<string>("LiquidationVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("RepairVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ReturnId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("StockActionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("LiquidationVoucherId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("RepairVoucherId");
+
+                    b.HasIndex("ReturnId");
+
+                    b.HasIndex("StockActionId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("GoodsDeliveryNotes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "GDN0001",
+                            EmployeeId = "EPN0001",
+                            ExportDate = new DateTime(2020, 11, 23, 21, 4, 40, 853, DateTimeKind.Local).AddTicks(5401),
+                            OrderId = "SRN0001",
+                            StockActionId = "e27503bd-12c6-4d8e-a68e-6296892134e2",
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsDeliveryNoteDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("GoodsDeliveryNoteId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodsDeliveryNoteId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("GoodsDeliveryNoteDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d1013190-9ca9-4ef0-a0a3-1df43601fa9c",
+                            GoodsDeliveryNoteId = "GDN0001",
+                            ProductId = "PRN0001",
+                            Quantity = 1,
+                            UnitPrice = 45000000m
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsReceivedNote", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("ImportDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 861, DateTimeKind.Local).AddTicks(460));
+
+                    b.Property<string>("PlacedLocation")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("PurchaseOrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("RepairVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ReturnId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("StockActionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.HasIndex("RepairVoucherId");
+
+                    b.HasIndex("ReturnId");
+
+                    b.HasIndex("StockActionId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("GoodsReceivedNotes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "GRN0001",
+                            EmployeeId = "EPN0001",
+                            ImportDate = new DateTime(2020, 11, 23, 21, 4, 40, 864, DateTimeKind.Local).AddTicks(2385),
+                            PurchaseOrderId = "PON0001",
+                            StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            Id = "GRN0002",
+                            EmployeeId = "EPN0001",
+                            ImportDate = new DateTime(2020, 11, 23, 21, 4, 40, 864, DateTimeKind.Local).AddTicks(4082),
+                            PurchaseOrderId = "PON0002",
+                            StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            Id = "GRN0003",
+                            EmployeeId = "EPN0001",
+                            ImportDate = new DateTime(2020, 11, 23, 21, 4, 40, 864, DateTimeKind.Local).AddTicks(4125),
+                            PurchaseOrderId = "PON0003",
+                            StockActionId = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsReceivedNoteDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("GoodsReceivedNoteId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<decimal>("UnitPrice")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodsReceivedNoteId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("GoodsReceivedNoteDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "80f3c6fc-71e3-42a6-90a0-be91f3bd5234",
+                            GoodsReceivedNoteId = "GRN0001",
+                            ProductId = "PRN0001",
+                            Quantity = 10,
+                            UnitPrice = 42000000m
+                        },
+                        new
+                        {
+                            Id = "a2cf0535-7a25-4f2e-abfd-1a31d5352e4b",
+                            GoodsReceivedNoteId = "GRN0001",
+                            ProductId = "PRN0002",
+                            Quantity = 10,
+                            UnitPrice = 30000000m
+                        },
+                        new
+                        {
+                            Id = "aa21c8ee-06ef-4451-bc7f-8f753cb99659",
+                            GoodsReceivedNoteId = "GRN0001",
+                            ProductId = "PRN0003",
+                            Quantity = 10,
+                            UnitPrice = 66000000m
+                        },
+                        new
+                        {
+                            Id = "1c5c2a8f-8c5f-4cba-94d4-f640242af728",
+                            GoodsReceivedNoteId = "GRN0002",
+                            ProductId = "PRN0004",
+                            Quantity = 10,
+                            UnitPrice = 27590000m
+                        },
+                        new
+                        {
+                            Id = "fdaa8695-f714-4aef-adce-e692124577fe",
+                            GoodsReceivedNoteId = "GRN0002",
+                            ProductId = "PRN0005",
+                            Quantity = 10,
+                            UnitPrice = 31990000m
+                        },
+                        new
+                        {
+                            Id = "87ea5ecf-8f62-463b-8b9c-bad631f2fd9c",
+                            GoodsReceivedNoteId = "GRN0002",
+                            ProductId = "PRN0006",
+                            Quantity = 10,
+                            UnitPrice = 13990000m
+                        },
+                        new
+                        {
+                            Id = "fc8bea22-d5ee-4fd2-a471-131fd74c3541",
+                            GoodsReceivedNoteId = "GRN0003",
+                            ProductId = "PRN0007",
+                            Quantity = 10,
+                            UnitPrice = 9990000m
+                        },
+                        new
+                        {
+                            Id = "e3517ca9-5a15-458b-a73f-04bd44d0fea5",
+                            GoodsReceivedNoteId = "GRN0003",
+                            ProductId = "PRN0008",
+                            Quantity = 10,
+                            UnitPrice = 2990000m
+                        },
+                        new
+                        {
+                            Id = "9456a727-ab5b-4698-b9e5-7a0634e2d6c3",
+                            GoodsReceivedNoteId = "GRN0003",
+                            ProductId = "PRN0010",
+                            Quantity = 10,
+                            UnitPrice = 280000m
+                        },
+                        new
+                        {
+                            Id = "f3e34a02-0e2b-48aa-9705-67369dde43b9",
+                            GoodsReceivedNoteId = "GRN0003",
+                            ProductId = "PRN0011",
+                            Quantity = 10,
+                            UnitPrice = 280000m
+                        },
+                        new
+                        {
+                            Id = "d29a204f-747d-4146-a9cc-6b49433bc8d9",
+                            GoodsReceivedNoteId = "GRN0003",
+                            ProductId = "PRN0016",
+                            Quantity = 1,
+                            UnitPrice = 22990000m
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.InventoryVoucher", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("InventoryDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 832, DateTimeKind.Local).AddTicks(5226));
+
+                    b.Property<bool>("IsConfirm")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("InventoryVouchers");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.InventoryVoucherDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("BadQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExpiredQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InventoryVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("NormalQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("RealQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SystemQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryVoucherId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("InventoryVoucherDetails");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.LiquidationVoucher", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("CustomerAddress")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 839, DateTimeKind.Local).AddTicks(5789));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("char(1)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("LiquidationDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 839, DateTimeKind.Local).AddTicks(6453));
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("LiquidationVouchers");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.LiquidationVoucherDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("LiquidationVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LiquidationVoucherId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("LiquidationVoucherDetails");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Order", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CustomerAddress")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("CustomerPhone")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 805, DateTimeKind.Local).AddTicks(9884));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("DiscountDescription")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("char(1)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("OrderStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("PaymentStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("PromotionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("TransactionStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("PaymentStatusId");
+
+                    b.HasIndex("PromotionId");
+
+                    b.HasIndex("TransactionStatusId");
+
+                    b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "SRN0001",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            CustomerId = "CUS0001",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DiscountType = "$",
+                            DiscountValue = 0m,
+                            EmployeeId = "EPN0002",
+                            PaymentStatusId = "03696c5b-71ad-4476-a0af-e52568d4b645",
+                            TotalAmount = 45000000m,
+                            TransactionStatusId = "4226c92d-694f-4948-afd4-04c636fd77a6"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.OrderDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ca9aa508-dc33-49b1-ae1c-8f76018dacdf",
+                            OrderId = "SRN0001",
+                            ProductId = "PRN0001",
+                            Quantity = 1,
+                            UnitPrice = 45000000m
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.OrderStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "0e3c8901-759e-4df0-aed3-2f7e6b0425ed",
+                            Name = "Chờ xác nhận"
+                        },
+                        new
+                        {
+                            Id = "56c9e511-f469-4b29-a39f-c4bc5fa20428",
+                            Name = "Đã xác nhận/Kiểm kho"
+                        },
+                        new
+                        {
+                            Id = "39b20679-3c2a-4a4b-b73d-441443438308",
+                            Name = "Đã tạo"
+                        },
+                        new
+                        {
+                            Id = "384d0614-49bd-46c0-8db1-33fc6d0b34f2",
+                            Name = "Hủy"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PaymentMethod", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentMethods");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                            Name = "Tiền mặt"
+                        },
+                        new
+                        {
+                            Id = "a196f0c3-c36a-4cb1-892c-3c72e1dd8b02",
+                            Name = "Quẹt thẻ"
+                        },
+                        new
+                        {
+                            Id = "f178a9b0-13fa-4221-90cc-7cede6995026",
+                            Name = "Điểm tích lũy"
+                        },
+                        new
+                        {
+                            Id = "93f58e8a-7b32-4f80-a128-1c3dc5b50eda",
+                            Name = "Chuyển khoản"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PaymentStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "4d2a23f7-4d7b-4fcb-b69b-fa078487f9aa",
+                            Name = "Chưa thanh toán"
+                        },
+                        new
+                        {
+                            Id = "4cc5fe42-6e47-4d47-a205-96039474bdac",
+                            Name = "Thanh toán một phần"
+                        },
+                        new
+                        {
+                            Id = "03696c5b-71ad-4476-a0af-e52568d4b645",
+                            Name = "Đã thanh toán"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PaymentVoucher", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 764, DateTimeKind.Local).AddTicks(5641));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<decimal>("Paid")
+                        .HasColumnType("decimal");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 764, DateTimeKind.Local).AddTicks(3296));
+
+                    b.Property<string>("PaymentMethodId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("PurchaseOrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ReturnId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ShippingId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("SupplierId")
+                        .HasColumnType("varchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.HasIndex("ReturnId");
+
+                    b.HasIndex("ShippingId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("PaymentVouchers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "PVN0001",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DateCreated = new DateTime(2020, 11, 23, 21, 4, 40, 768, DateTimeKind.Local).AddTicks(17),
+                            EmployeeId = "EPN0005",
+                            IsDelete = false,
+                            Paid = 320000000m,
+                            PaymentDate = new DateTime(2020, 11, 23, 21, 4, 40, 768, DateTimeKind.Local).AddTicks(473),
+                            PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                            PurchaseOrderId = "PON0001",
+                            SupplierId = "SUN0001"
+                        },
+                        new
+                        {
+                            Id = "PVN0002",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DateCreated = new DateTime(2020, 11, 23, 21, 4, 40, 768, DateTimeKind.Local).AddTicks(2603),
+                            EmployeeId = "EPN0005",
+                            IsDelete = false,
+                            Paid = 735700000m,
+                            PaymentDate = new DateTime(2020, 11, 23, 21, 4, 40, 768, DateTimeKind.Local).AddTicks(2623),
+                            PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                            PurchaseOrderId = "PON0002",
+                            SupplierId = "SUN0002"
+                        },
+                        new
+                        {
+                            Id = "PVN0003",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DateCreated = new DateTime(2020, 11, 23, 21, 4, 40, 768, DateTimeKind.Local).AddTicks(2684),
+                            EmployeeId = "EPN0005",
+                            IsDelete = false,
+                            Paid = 158390000m,
+                            PaymentDate = new DateTime(2020, 11, 23, 21, 4, 40, 768, DateTimeKind.Local).AddTicks(2686),
+                            PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                            PurchaseOrderId = "PON0003",
+                            SupplierId = "SUN0003"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Product", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("BrandId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasDefaultValue(null);
+
+                    b.Property<string>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasDefaultValue(null);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("MaximumQuantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("MinimumQuantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("OverView")
+                        .HasColumnType("nvarchar(600)");
+
+                    b.Property<decimal>("RetailPrice")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.Property<byte>("Stars")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)1);
+
+                    b.Property<int>("Views")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<byte>("WarrantyPeriod")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)0);
+
+                    b.Property<decimal>("WholesalePrices")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "PRN0001",
+                            BrandId = "85000231-9235-48a6-b852-c64bdcc3376b",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Macbook Pro 13.3\" (2020)",
+                            OverView = "Gray/I5-2.0GHz/16GB/512GB/TouchBar/New-Fullbox",
+                            RetailPrice = 45000000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 44500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0002",
+                            BrandId = "85000231-9235-48a6-b852-c64bdcc3376b",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Macbook Pro 13.3\" (2019)",
+                            OverView = "Gray/I5-1.4GHz/8GB/256GB/TouchBar/New-Fullbox",
+                            RetailPrice = 32000000m,
+                            Stars = (byte)1,
+                            Views = 2500,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 31500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0003",
+                            BrandId = "85000231-9235-48a6-b852-c64bdcc3376b",
+                            CategoryId = "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "iMac 27\" (2020)",
+                            OverView = "I7-3.8GHz/8GB/1TB/Radeon Pro 5500 XT 8GB/New-Fullbox",
+                            RetailPrice = 66800000m,
+                            Stars = (byte)1,
+                            Views = 2930,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 66500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0004",
+                            BrandId = "85000231-9235-48a6-b852-c64bdcc3376b",
+                            CategoryId = "c3eaeb51-38c5-4ac4-bbb1-9cbeb8881525",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Mac Mini (2020)",
+                            OverView = "I5-3.0GHz/8GB/512TB/Intel UHD Graphics 630/New-Fullbox",
+                            RetailPrice = 27590000m,
+                            Stars = (byte)1,
+                            Views = 2930,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 27500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0005",
+                            BrandId = "85000231-9235-48a6-b852-c64bdcc3376b",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Macbook Air 13.3\" (2020)",
+                            OverView = "Gray/I5-1.1GHz/8GB/256GB/New-Fullbox",
+                            RetailPrice = 31990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 31500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0006",
+                            BrandId = "41f4bb29-5373-459a-8f6d-def64f15f747",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Acer Swift 3 SF314",
+                            OverView = "I3-2.1GHz/4GB/256GB/New-Fullbox",
+                            RetailPrice = 13990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 13500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0007",
+                            BrandId = "41f4bb29-5373-459a-8f6d-def64f15f747",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Acer Aspire 3 A315",
+                            OverView = "I3-2.3GHz/4GB/1TB/New-Fullbox",
+                            RetailPrice = 9990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 9500000m
+                        },
+                        new
+                        {
+                            Id = "PRN0008",
+                            BrandId = "6c0d47b5-5b62-4c53-bd6e-680a3f08c1f0",
+                            CategoryId = "610491a0-1824-4dd6-a8af-1f22f2a840a4",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Canon LBP 2900 Black",
+                            OverView = "Chức năng: Print, Khổ giấy: A4/A5, In đảo mặt: Không, Cổng giao tiếp: USB, Dùng mực: Canon EP303",
+                            RetailPrice = 2990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 2700000m
+                        },
+                        new
+                        {
+                            Id = "PRN0009",
+                            BrandId = "6c0d47b5-5b62-4c53-bd6e-680a3f08c1f0",
+                            CategoryId = "610491a0-1824-4dd6-a8af-1f22f2a840a4",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Canon LBP 2900 White",
+                            OverView = "Chức năng: Print, Khổ giấy: A4/A5, In đảo mặt: Không, Cổng giao tiếp: USB, Dùng mực: Canon EP303",
+                            RetailPrice = 2990000m,
+                            Stars = (byte)1,
+                            Views = 2232,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 2700000m
+                        },
+                        new
+                        {
+                            Id = "PRN0010",
+                            BrandId = "fb5f1a2e-796a-4a38-9fb3-db9f4924c201",
+                            CategoryId = "f09b42c7-79f6-406e-8b32-d1bd714f93cf",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Logitech G102 Black",
+                            OverView = "8000 DPI, LED RGB 16,8 triệu màu tùy chỉnh, Phù hợp với Gaming",
+                            RetailPrice = 290000m,
+                            Stars = (byte)1,
+                            Views = 2232,
+                            WarrantyPeriod = (byte)12,
+                            WholesalePrices = 270000m
+                        },
+                        new
+                        {
+                            Id = "PRN0011",
+                            BrandId = "fb5f1a2e-796a-4a38-9fb3-db9f4924c201",
+                            CategoryId = "f09b42c7-79f6-406e-8b32-d1bd714f93cf",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Logitech G102 White",
+                            OverView = "8000 DPI, LED RGB 16,8 triệu màu tùy chỉnh, Phù hợp với Gaming",
+                            RetailPrice = 290000m,
+                            Stars = (byte)1,
+                            Views = 2232,
+                            WarrantyPeriod = (byte)12,
+                            WholesalePrices = 270000m
+                        },
+                        new
+                        {
+                            Id = "PRN0012",
+                            BrandId = "25a44ea6-ca33-494c-90d7-933e38ec3fb5",
+                            CategoryId = "f09b42c7-79f6-406e-8b32-d1bd714f93cf",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Razer Hammerhead Pro V2",
+                            RetailPrice = 1290000m,
+                            Stars = (byte)1,
+                            Views = 2232,
+                            WarrantyPeriod = (byte)12,
+                            WholesalePrices = 1285000m
+                        },
+                        new
+                        {
+                            Id = "PRN0013",
+                            BrandId = "25a44ea6-ca33-494c-90d7-933e38ec3fb5",
+                            CategoryId = "f09b42c7-79f6-406e-8b32-d1bd714f93cf",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Razer Kraken Pro V2",
+                            RetailPrice = 2290000m,
+                            Stars = (byte)1,
+                            Views = 2232,
+                            WarrantyPeriod = (byte)12,
+                            WholesalePrices = 2285000m
+                        },
+                        new
+                        {
+                            Id = "PRN0014",
+                            BrandId = "82fab56a-dc26-4179-9624-d4eac7f43923",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Asus Nitro 5",
+                            OverView = "I5-2.6GHz/8GB/256GB/New-Fullbox",
+                            RetailPrice = 12990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 12900000m
+                        },
+                        new
+                        {
+                            Id = "PRN0015",
+                            BrandId = "82fab56a-dc26-4179-9624-d4eac7f43923",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Asus Predator",
+                            OverView = "I9-3.6GHz/16GB/1TB/New-Fullbox",
+                            RetailPrice = 52990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 52900000m
+                        },
+                        new
+                        {
+                            Id = "PRN0016",
+                            BrandId = "82fab56a-dc26-4179-9624-d4eac7f43923",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Asus ROG Strix",
+                            OverView = "I7-3.6GHz/8GB/512GB/New-Fullbox",
+                            RetailPrice = 22990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 22900000m
+                        },
+                        new
+                        {
+                            Id = "PRN0017",
+                            BrandId = "82fab56a-dc26-4179-9624-d4eac7f43923",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Asus Zenbook",
+                            OverView = "I5-3.6GHz/8GB/128GB/New-Fullbox",
+                            RetailPrice = 13990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 13900000m
+                        },
+                        new
+                        {
+                            Id = "PRN0018",
+                            BrandId = "bc240879-0f96-4752-9632-82141e4f23b3",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Thinkpad X250",
+                            OverView = "I5-2.6GHz/8GB/128GB/New-Fullbox",
+                            RetailPrice = 9990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 9900000m
+                        },
+                        new
+                        {
+                            Id = "PRN0019",
+                            BrandId = "bc240879-0f96-4752-9632-82141e4f23b3",
+                            CategoryId = "e8a447d0-ab0c-4dbc-b11b-5bcb60af73e2",
+                            IsDelete = false,
+                            MaximumQuantity = 100,
+                            MinimumQuantity = 5,
+                            Name = "Thinkpad X260",
+                            OverView = "I5-3.1GHz/8GB/128GB/New-Fullbox",
+                            RetailPrice = 10990000m,
+                            Stars = (byte)1,
+                            Views = 2100,
+                            WarrantyPeriod = (byte)36,
+                            WholesalePrices = 10900000m
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ProductEvaluation", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<byte>("Stars")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((byte)1);
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductEvaluations");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ProductEvaluationReply", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ProductEvaluationId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductEvaluationId");
+
+                    b.ToTable("ProductEvaluationReplies");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ProductImage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsThumbnail")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6eb2d8f5-999e-4b3e-8280-0fb58c6ef35f",
+                            IsThumbnail = true,
+                            Path = "6eb2d8f5-999e-4b3e-8280-0fb58c6ef35f.png",
+                            ProductId = "PRN0001"
+                        },
+                        new
+                        {
+                            Id = "bbe3a085-0b4e-4549-97b5-0ab47536c0db",
+                            IsThumbnail = true,
+                            Path = "bbe3a085-0b4e-4549-97b5-0ab47536c0db.png",
+                            ProductId = "PRN0002"
+                        },
+                        new
+                        {
+                            Id = "b8a45f7e-7174-47cc-87da-17b18d084b99",
+                            IsThumbnail = true,
+                            Path = "b8a45f7e-7174-47cc-87da-17b18d084b99.png",
+                            ProductId = "PRN0003"
+                        },
+                        new
+                        {
+                            Id = "9d2281d0-5bd9-4323-b79b-d65144af5338",
+                            IsThumbnail = true,
+                            Path = "9d2281d0-5bd9-4323-b79b-d65144af5338.png",
+                            ProductId = "PRN0004"
+                        },
+                        new
+                        {
+                            Id = "d791b7d6-661a-43fd-a0e8-32589639a346",
+                            IsThumbnail = true,
+                            Path = "d791b7d6-661a-43fd-a0e8-32589639a346.png",
+                            ProductId = "PRN0005"
+                        },
+                        new
+                        {
+                            Id = "bc091a22-5d49-4f0a-9d8b-1823e7df0b26",
+                            IsThumbnail = true,
+                            Path = "bc091a22-5d49-4f0a-9d8b-1823e7df0b26.png",
+                            ProductId = "PRN0006"
+                        },
+                        new
+                        {
+                            Id = "0b9c9f29-f557-49e6-8753-7018576f1f11",
+                            IsThumbnail = true,
+                            Path = "0b9c9f29-f557-49e6-8753-7018576f1f11.png",
+                            ProductId = "PRN0007"
+                        },
+                        new
+                        {
+                            Id = "126eb3fa-cd6c-4601-925b-c0e5754fe293",
+                            IsThumbnail = true,
+                            Path = "126eb3fa-cd6c-4601-925b-c0e5754fe293.png",
+                            ProductId = "PRN0008"
+                        },
+                        new
+                        {
+                            Id = "9e45320a-3b5f-45c1-988b-9b54a917ce41",
+                            IsThumbnail = true,
+                            Path = "9e45320a-3b5f-45c1-988b-9b54a917ce41.png",
+                            ProductId = "PRN0009"
+                        },
+                        new
+                        {
+                            Id = "648807b4-a97e-4e0c-bbef-c4c6198828b4",
+                            IsThumbnail = true,
+                            Path = "648807b4-a97e-4e0c-bbef-c4c6198828b4.png",
+                            ProductId = "PRN0010"
+                        },
+                        new
+                        {
+                            Id = "9f8e48be-e769-4222-9fad-0ca1c60d7e57",
+                            IsThumbnail = true,
+                            Path = "9f8e48be-e769-4222-9fad-0ca1c60d7e57.png",
+                            ProductId = "PRN0011"
+                        },
+                        new
+                        {
+                            Id = "9438d141-3011-4438-8ed3-85d7d375f255",
+                            IsThumbnail = true,
+                            Path = "9438d141-3011-4438-8ed3-85d7d375f255.png",
+                            ProductId = "PRN0012"
+                        },
+                        new
+                        {
+                            Id = "8b361a2c-5a87-44ed-a327-934f7147c641",
+                            IsThumbnail = true,
+                            Path = "8b361a2c-5a87-44ed-a327-934f7147c641.png",
+                            ProductId = "PRN0013"
+                        },
+                        new
+                        {
+                            Id = "53d1c2b4-6724-4ad4-b056-b6b26a830a8b",
+                            IsThumbnail = true,
+                            Path = "53d1c2b4-6724-4ad4-b056-b6b26a830a8b.png",
+                            ProductId = "PRN0014"
+                        },
+                        new
+                        {
+                            Id = "1699bbbb-5490-43a0-9219-8ec31b65e958",
+                            IsThumbnail = true,
+                            Path = "1699bbbb-5490-43a0-9219-8ec31b65e958.png",
+                            ProductId = "PRN0015"
+                        },
+                        new
+                        {
+                            Id = "4de34fba-6e86-42bf-ae6b-8a1d1aad8fc8",
+                            IsThumbnail = true,
+                            Path = "4de34fba-6e86-42bf-ae6b-8a1d1aad8fc8.png",
+                            ProductId = "PRN0016"
+                        },
+                        new
+                        {
+                            Id = "86ef26e0-d2cd-48a7-8dd5-63b769731d55",
+                            IsThumbnail = true,
+                            Path = "86ef26e0-d2cd-48a7-8dd5-63b769731d55.png",
+                            ProductId = "PRN0017"
+                        },
+                        new
+                        {
+                            Id = "dbe638f0-4ded-4bc4-b373-aac67c0698cb",
+                            IsThumbnail = true,
+                            Path = "dbe638f0-4ded-4bc4-b373-aac67c0698cb.png",
+                            ProductId = "PRN0018"
+                        },
+                        new
+                        {
+                            Id = "4eb16e67-92f7-41cb-ab49-547e3ab4fb70",
+                            IsThumbnail = true,
+                            Path = "4eb16e67-92f7-41cb-ab49-547e3ab4fb70.png",
+                            ProductId = "PRN0019"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Promotion", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("char(1)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Promotions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "116e249d-20f0-4fb0-a4eb-0ccd21ecdc31",
+                            Description = "Chương trình diễn ra trong 7 ngày duy nhất từ 24/11-30/11, hãy nhanh tay mua sắm để nhận được mức giá ưu đãi cực hot lên đến 5% giá trị sản phẩm",
+                            DiscountValue = 0m,
+                            FromDate = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Chương trình giảm giá Black Friday",
+                            ToDate = new DateTime(2020, 11, 30, 23, 59, 59, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PromotionDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("char(1)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("PromotionId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PromotionId");
+
+                    b.ToTable("PromotionDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8b54beba-2bf8-4e37-85bf-134dcc972ae9",
+                            DiscountType = "%",
+                            DiscountValue = 2m,
+                            ProductId = "PRN0001",
+                            PromotionId = "116e249d-20f0-4fb0-a4eb-0ccd21ecdc31"
+                        },
+                        new
+                        {
+                            Id = "bf3a0587-59a8-4ebc-a1ca-48332ef3759e",
+                            DiscountType = "%",
+                            DiscountValue = 3m,
+                            ProductId = "PRN0002",
+                            PromotionId = "116e249d-20f0-4fb0-a4eb-0ccd21ecdc31"
+                        },
+                        new
+                        {
+                            Id = "b2d5d729-88b5-4354-a19c-9866ca1c8e4b",
+                            DiscountType = "%",
+                            DiscountValue = 2m,
+                            ProductId = "PRN0003",
+                            PromotionId = "116e249d-20f0-4fb0-a4eb-0ccd21ecdc31"
+                        },
+                        new
+                        {
+                            Id = "3b183700-eee0-4166-81d7-44e84ea79e46",
+                            DiscountType = "%",
+                            DiscountValue = 2m,
+                            ProductId = "PRN0016",
+                            PromotionId = "116e249d-20f0-4fb0-a4eb-0ccd21ecdc31"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PurchaseOrder", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("BrandId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 747, DateTimeKind.Local).AddTicks(2906));
+
+                    b.Property<DateTime>("DeliveryDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 749, DateTimeKind.Local).AddTicks(1387));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("DiscountDescription")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("DiscountType")
+                        .HasColumnType("char(1)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("PaymentStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("SupplierId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal");
+
+                    b.Property<string>("TransactionStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("PaymentStatusId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.HasIndex("TransactionStatusId");
+
+                    b.ToTable("PurchaseOrders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "PON0001",
+                            BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DateCreated = new DateTime(2020, 11, 23, 21, 4, 40, 751, DateTimeKind.Local).AddTicks(9865),
+                            DeliveryDate = new DateTime(2020, 11, 23, 21, 4, 40, 751, DateTimeKind.Local).AddTicks(9413),
+                            DiscountType = "$",
+                            DiscountValue = 0m,
+                            EmployeeId = "EPN0001",
+                            IsDelete = false,
+                            PaymentStatusId = "4cc5fe42-6e47-4d47-a205-96039474bdac",
+                            SupplierId = "SUN0001",
+                            TotalAmount = 1380000000m,
+                            TransactionStatusId = "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8"
+                        },
+                        new
+                        {
+                            Id = "PON0002",
+                            BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DateCreated = new DateTime(2020, 11, 23, 21, 4, 40, 752, DateTimeKind.Local).AddTicks(2790),
+                            DeliveryDate = new DateTime(2020, 11, 23, 21, 4, 40, 752, DateTimeKind.Local).AddTicks(2763),
+                            DiscountType = "$",
+                            DiscountValue = 0m,
+                            EmployeeId = "EPN0001",
+                            IsDelete = false,
+                            PaymentStatusId = "03696c5b-71ad-4476-a0af-e52568d4b645",
+                            SupplierId = "SUN0002",
+                            TotalAmount = 735700000m,
+                            TransactionStatusId = "4226c92d-694f-4948-afd4-04c636fd77a6"
+                        },
+                        new
+                        {
+                            Id = "PON0003",
+                            BrandId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            DateCreated = new DateTime(2020, 11, 23, 21, 4, 40, 752, DateTimeKind.Local).AddTicks(2854),
+                            DeliveryDate = new DateTime(2020, 11, 23, 21, 4, 40, 752, DateTimeKind.Local).AddTicks(2852),
+                            DiscountType = "$",
+                            DiscountValue = 0m,
+                            EmployeeId = "EPN0001",
+                            IsDelete = false,
+                            PaymentStatusId = "03696c5b-71ad-4476-a0af-e52568d4b645",
+                            SupplierId = "SUN0003",
+                            TotalAmount = 158390000m,
+                            TransactionStatusId = "4226c92d-694f-4948-afd4-04c636fd77a6"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PurchaseOrderDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CostName")
+                        .HasColumnType("nvarchar(400)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("PurchaseOrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.ToTable("PurchaseOrderDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "73e88c7b-6a11-4c27-9045-308d2d1b553a",
+                            ProductId = "PRN0001",
+                            PurchaseOrderId = "PON0001",
+                            Quantity = 10,
+                            UnitPrice = 42000000m
+                        },
+                        new
+                        {
+                            Id = "e93c0a07-69a3-4736-9671-21ce451bc656",
+                            ProductId = "PRN0002",
+                            PurchaseOrderId = "PON0001",
+                            Quantity = 10,
+                            UnitPrice = 30000000m
+                        },
+                        new
+                        {
+                            Id = "ee02d34b-9b06-4ff4-bd7c-4fd77f93fd0b",
+                            ProductId = "PRN0003",
+                            PurchaseOrderId = "PON0001",
+                            Quantity = 10,
+                            UnitPrice = 66000000m
+                        },
+                        new
+                        {
+                            Id = "48248861-6679-4f7a-b4d7-a03d45dffec0",
+                            ProductId = "PRN0004",
+                            PurchaseOrderId = "PON0002",
+                            Quantity = 10,
+                            UnitPrice = 27590000m
+                        },
+                        new
+                        {
+                            Id = "3f66e689-4be2-446d-ae95-6ae72a4f9e76",
+                            ProductId = "PRN0005",
+                            PurchaseOrderId = "PON0002",
+                            Quantity = 10,
+                            UnitPrice = 31990000m
+                        },
+                        new
+                        {
+                            Id = "f835b3e4-9161-4b55-893e-6437c32eb912",
+                            ProductId = "PRN0006",
+                            PurchaseOrderId = "PON0002",
+                            Quantity = 10,
+                            UnitPrice = 13990000m
+                        },
+                        new
+                        {
+                            Id = "90b1fca1-24e9-4a42-ba51-c4f1345e997c",
+                            ProductId = "PRN0007",
+                            PurchaseOrderId = "PON0003",
+                            Quantity = 10,
+                            UnitPrice = 9990000m
+                        },
+                        new
+                        {
+                            Id = "e7247dd5-af71-4599-b83c-9617ed666418",
+                            ProductId = "PRN0008",
+                            PurchaseOrderId = "PON0003",
+                            Quantity = 10,
+                            UnitPrice = 2990000m
+                        },
+                        new
+                        {
+                            Id = "32f2fe5b-4646-48f5-a6e9-e24d8c3937f5",
+                            ProductId = "PRN0010",
+                            PurchaseOrderId = "PON0003",
+                            Quantity = 10,
+                            UnitPrice = 280000m
+                        },
+                        new
+                        {
+                            Id = "a2fea2b7-5d1d-4061-b9af-d7aae0076478",
+                            ProductId = "PRN0011",
+                            PurchaseOrderId = "PON0003",
+                            Quantity = 10,
+                            UnitPrice = 280000m
+                        },
+                        new
+                        {
+                            Id = "54e021fa-0dc8-4e07-b2a8-d4017caa450a",
+                            ProductId = "PRN0016",
+                            PurchaseOrderId = "PON0003",
+                            Quantity = 1,
+                            UnitPrice = 22990000m
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ReceiptVoucher", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 780, DateTimeKind.Local).AddTicks(3597));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LiquidationVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("PaymentMethodId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("Received")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.Property<DateTime>("ReceivedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 780, DateTimeKind.Local).AddTicks(1870));
+
+                    b.Property<string>("RepairVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ReturnId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ShippingId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("SupplierId")
+                        .HasColumnType("varchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("LiquidationVoucherId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("RepairVoucherId");
+
+                    b.HasIndex("ReturnId");
+
+                    b.HasIndex("ShippingId");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("ReceiptVouchers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "RVN0001",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            CustomerId = "CUS0001",
+                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeId = "EPN0001",
+                            IsDelete = false,
+                            OrderId = "SRN0001",
+                            PaymentMethodId = "7cd60e3f-c215-42b3-a98e-c4ac4fe71b63",
+                            Received = 45000000m,
+                            ReceivedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.RepairVoucher", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("AppointmentDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 820, DateTimeKind.Local).AddTicks(801));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("RepairVouchers");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.RepairVoucherDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsFixed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RepairContent")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("RepairVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RepairVoucherId");
+
+                    b.ToTable("RepairVoucherDetails");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Return", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 812, DateTimeKind.Local).AddTicks(9350));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<bool>("IsImport")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("PurchaseOrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("PurchaseOrderId");
+
+                    b.ToTable("Returns");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ReturnDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReturnId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ReturnId");
+
+                    b.ToTable("ReturnDetails");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Shipping", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 787, DateTimeKind.Local).AddTicks(5135));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<decimal>("Fee")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal")
+                        .HasDefaultValue(0m);
+
+                    b.Property<string>("LiquidationVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("ShippingStatusId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("TransporterId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("LiquidationVoucherId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ShippingStatusId");
+
+                    b.HasIndex("TransporterId");
+
+                    b.ToTable("Shippings");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ShippingStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cf4ff408-bdbc-4692-9b70-0e141269cfdb",
+                            Name = "Đã đóng gói/Đợi giao hàng"
+                        },
+                        new
+                        {
+                            Id = "e1bf07a3-4576-463d-940d-ecf284b80534",
+                            Name = "Đang giao hàng"
+                        },
+                        new
+                        {
+                            Id = "220966a7-8489-46dc-b621-97e834925554",
+                            Name = "Đã giao hàng/Nhận tiền từ nhà vận chuyển"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Stock", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("AbleToSale")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PlacedLocation")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("RealQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WarehouseId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Stocks");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = "PRN0001",
+                            AbleToSale = 9,
+                            RealQuantity = 9,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0002",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0003",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0004",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0005",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0006",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0007",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0008",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0010",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0011",
+                            AbleToSale = 10,
+                            RealQuantity = 10,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        },
+                        new
+                        {
+                            ProductId = "PRN0016",
+                            AbleToSale = 1,
+                            RealQuantity = 1,
+                            WarehouseId = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.StockAction", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StockActions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ec40371a-cd21-44f3-85a2-618ceb92a16f",
+                            Name = "Nhập hàng nhà cung cấp"
+                        },
+                        new
+                        {
+                            Id = "e27503bd-12c6-4d8e-a68e-6296892134e2",
+                            Name = "Xuất kho giao hàng cho khách/shipper"
+                        },
+                        new
+                        {
+                            Id = "066d0137-c819-4335-ab4a-b5659193b80b",
+                            Name = "Nhập hàng khách trả"
+                        },
+                        new
+                        {
+                            Id = "8170a4e6-42c4-48b6-a9a6-20ef490e75be",
+                            Name = "Nhập hàng bảo hành"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Supplier", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(150)");
+
+                    b.Property<string>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(12)")
+                        .HasDefaultValue(null);
+
+                    b.Property<string>("Fax")
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("varchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Suppliers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "SUN0001",
+                            Address = "Kinh Môn, Hải Dương",
+                            Email = "minhkhangconntact@gmail.com",
+                            EmployeeId = "EPN0001",
+                            IsDelete = false,
+                            Name = "Công ty TNHH Minh Khang",
+                            PhoneNumber = "0959842342"
+                        },
+                        new
+                        {
+                            Id = "SUN0002",
+                            Address = "An Lão, Hải Phòng",
+                            Email = "thienanconntact@gmail.com",
+                            EmployeeId = "EPN0002",
+                            IsDelete = false,
+                            Name = "Công ty TNHH Thiên An",
+                            PhoneNumber = "0959842342"
+                        },
+                        new
+                        {
+                            Id = "SUN0003",
+                            Address = "Số 102,Nguyễn Bình, Đổng Quốc Bình, Ngô Quyền, Hải Phòng",
+                            Email = "laptop247conntact@gmail.com",
+                            EmployeeId = "EPN0001",
+                            IsDelete = false,
+                            Name = "Cửa hàng máy tính Laptop247",
+                            PhoneNumber = "0959842342"
+                        },
+                        new
+                        {
+                            Id = "SUN0004",
+                            Address = "Số 109,Nguyễn Bình, Đổng Quốc Bình, Ngô Quyền, Hải Phòng",
+                            Email = "laptophaiphongconntact@gmail.com",
+                            EmployeeId = "EPN0002",
+                            IsDelete = false,
+                            Name = "Cửa hàng máy tính Hải Phòng",
+                            PhoneNumber = "0959842342"
+                        },
+                        new
+                        {
+                            Id = "SUN0005",
+                            Address = "Số 109,Nguyễn Bình, Đổng Quốc Bình, Ngô Quyền, Hải Phòng",
+                            Email = "minhanhconntact@gmail.com",
+                            EmployeeId = "EPN0002",
+                            IsDelete = false,
+                            Name = "Cửa hàng công nghệ Minh Anh",
+                            PhoneNumber = "0959842332"
+                        },
+                        new
+                        {
+                            Id = "SUN0006",
+                            Address = "Số 109,Nguyễn Bình, Đổng Quốc Bình, Ngô Quyền, Hải Phòng",
+                            Email = "thuyduongconntact@gmail.com",
+                            EmployeeId = "EPN0002",
+                            IsDelete = false,
+                            Name = "Cửa hàng công nghệ Thùy Dương",
+                            PhoneNumber = "0959842332"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.TransactionStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cc0c7f54-de94-481c-b662-36584002fe41",
+                            Name = "Đang kiểm kho"
+                        },
+                        new
+                        {
+                            Id = "1fd31639-0fa6-4ac2-bbf2-f8dbd6e1f3c8",
+                            Name = "Đang giao dịch"
+                        },
+                        new
+                        {
+                            Id = "4226c92d-694f-4948-afd4-04c636fd77a6",
+                            Name = "Hoàn thành"
+                        },
+                        new
+                        {
+                            Id = "38ed81d4-7606-458e-add1-bf4c03d035cb",
+                            Name = "Hủy"
+                        },
+                        new
+                        {
+                            Id = "7c2da6fd-28ab-496b-aa1b-bb343ec49d3a",
+                            Name = "Đang chờ"
+                        },
+                        new
+                        {
+                            Id = "138193dc-86b4-4c9d-a961-b7c1b1f7bed1",
+                            Name = "Đang giao hàng"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Transporter", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transporters");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "9d82a2e6-b9d9-4a89-977b-e94dd965e648",
+                            Address = "Số 347, Lạch Tray, Ngô Quyền, Hải Phòng",
+                            Name = "Giao hàng tiết kiệm",
+                            PhoneNumber = "0947685921"
+                        },
+                        new
+                        {
+                            Id = "0ac9fb8f-c352-498d-9129-229fd5a080fa",
+                            Address = "Số 647, Lạch Tray, Ngô Quyền, Hải Phòng",
+                            Name = "Giao hàng nhanh",
+                            PhoneNumber = "0947325921"
+                        },
+                        new
+                        {
+                            Id = "b6f71e5d-ea3b-4bbb-bbd4-b0f35acc052e",
+                            Address = "Số 147, Lạch Tray, Ngô Quyền, Hải Phòng",
+                            Name = "Viettel Post",
+                            PhoneNumber = "09476845921"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Warehouse", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("BranchId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Warehouses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "d6bbee65-fe3d-4765-b569-202d9f3aa4f5",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            Name = "Kho chính"
+                        },
+                        new
+                        {
+                            Id = "ac386e1b-3647-4457-92b5-3e003e726290",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            Name = "Kho chứa sản phẩm bảo hành"
+                        },
+                        new
+                        {
+                            Id = "3dea6b77-c95b-48ff-bf50-746ad1714bbd",
+                            BranchId = "ec4c314e-90b1-464c-aa52-2d34e555875e",
+                            Name = "Kho chứa sản phẩm thanh lý"
+                        });
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Warranty", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 799, DateTimeKind.Local).AddTicks(6427));
+
+                    b.Property<string>("Description")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("nvarchar(300)");
+
+                    b.Property<string>("EmployeeId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValue(new DateTime(2020, 11, 23, 21, 4, 40, 799, DateTimeKind.Local).AddTicks(6907));
+
+                    b.Property<string>("RepairVoucherId")
+                        .HasColumnType("varchar(12)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique()
+                        .HasFilter("[OrderId] IS NOT NULL");
+
+                    b.HasIndex("RepairVoucherId")
+                        .IsUnique()
+                        .HasFilter("[RepairVoucherId] IS NOT NULL");
+
+                    b.ToTable("Warranties");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.WarrantyDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<string>("WarrantyId")
+                        .HasColumnType("varchar(12)");
+
+                    b.Property<int>("WarrantyPeriods")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WarrantyId");
+
+                    b.ToTable("WarrantyDetails");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Cart", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Carts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Customer", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.AppUser", "AppUser")
+                        .WithOne("Customer")
+                        .HasForeignKey("eQACoLTD.Data.Entities.Customer", "AppUserId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.CustomerType", "CustomerType")
+                        .WithMany("Customers")
+                        .HasForeignKey("CustomerTypeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Customers")
+                        .HasForeignKey("EmployeeId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.CustomerPromotion", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("CustomerPromotions")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eQACoLTD.Data.Entities.Promotion", "Promotion")
+                        .WithMany("CustomerPromotions")
+                        .HasForeignKey("PromotionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Employee", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.AppUser", "AppUser")
+                        .WithOne("Employee")
+                        .HasForeignKey("eQACoLTD.Data.Entities.Employee", "AppuserId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("Employees")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsDeliveryNote", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.LiquidationVoucher", "LiquidationVoucher")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("LiquidationVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Order", "Order")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("RepairVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("ReturnId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.StockAction", "StockAction")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("StockActionId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("GoodsDeliveryNotes")
+                        .HasForeignKey("WarehouseId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsDeliveryNoteDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.GoodsDeliveryNote", "GoodsDeliveryNote")
+                        .WithMany("GoodsDeliveryNoteDetails")
+                        .HasForeignKey("GoodsDeliveryNoteId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("GoodsDeliveryNoteDetails")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsReceivedNote", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("GoodsReceivedNotes")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("PurchaseOrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("RepairVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
+                        .WithMany("GoodsReceivedNote")
+                        .HasForeignKey("ReturnId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.StockAction", "StockAction")
+                        .WithMany("GoodsReceivedNotes")
+                        .HasForeignKey("StockActionId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("GoodsReceivedNotes")
+                        .HasForeignKey("WarehouseId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.GoodsReceivedNoteDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.GoodsReceivedNote", "GoodsReceivedNote")
+                        .WithMany("GoodsReceivedNoteDetails")
+                        .HasForeignKey("GoodsReceivedNoteId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("GoodsReceivedNoteDetails")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.InventoryVoucher", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("InventoryVouchers")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("InventoryVouchers")
+                        .HasForeignKey("WarehouseId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.InventoryVoucherDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.InventoryVoucher", "InventoryVoucher")
+                        .WithMany("InventoryVoucherDetails")
+                        .HasForeignKey("InventoryVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("InventoryVoucherDetails")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.LiquidationVoucher", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("LiquidationVouchers")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("LiquidationVouchers")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("LiquidationVouchers")
+                        .HasForeignKey("WarehouseId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.LiquidationVoucherDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.LiquidationVoucher", "LiquidationVoucher")
+                        .WithMany("LiquidationVoucherDetails")
+                        .HasForeignKey("LiquidationVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("LiquidationVoucherDetails")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Order", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("Orders")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Orders")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.OrderStatus", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderStatusId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PaymentStatus", "PaymentStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("PaymentStatusId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Promotion", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("PromotionId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.TransactionStatus", "TransactionStatus")
+                        .WithMany("Orders")
+                        .HasForeignKey("TransactionStatusId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PaymentVoucher", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PaymentMethod", "PaymentMethod")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("PaymentMethodId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("PurchaseOrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("ReturnId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Shipping", "Shipping")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("ShippingId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Supplier", "Supplier")
+                        .WithMany("PaymentVouchers")
+                        .HasForeignKey("SupplierId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Product", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Brand", "Brand")
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ProductEvaluation", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.AppUser", "AppUser")
+                        .WithMany("ProductEvaluations")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("ProductEvaluations")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ProductEvaluationReply", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.AppUser", "AppUser")
+                        .WithMany("ProductEvaluationReplies")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.ProductEvaluation", "ProductEvaluation")
+                        .WithMany("ProductReviewReplies")
+                        .HasForeignKey("ProductEvaluationId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ProductImage", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Promotion", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Category", "Category")
+                        .WithMany("Promotions")
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PromotionDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("PromotionDetails")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Promotion", "Promotion")
+                        .WithMany("PromotionDetails")
+                        .HasForeignKey("PromotionId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PurchaseOrder", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("PurchaseOrders")
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("PurchaseOrders")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PaymentStatus", "PaymentStatus")
+                        .WithMany("PurchaseOrders")
+                        .HasForeignKey("PaymentStatusId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Supplier", "Supplier")
+                        .WithMany("PurchaseOrders")
+                        .HasForeignKey("SupplierId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.TransactionStatus", "TransactionStatus")
+                        .WithMany("PurchaseOrders")
+                        .HasForeignKey("TransactionStatusId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.PurchaseOrderDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("PurchaseOrderDetails")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("PurchaseOrderDetails")
+                        .HasForeignKey("PurchaseOrderId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ReceiptVoucher", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.LiquidationVoucher", "LiquidationVoucher")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("LiquidationVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Order", "Order")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PaymentMethod", "PaymentMethod")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("PaymentMethodId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("RepairVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("ReturnId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Shipping", "Shipping")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("ShippingId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Supplier", "Supplier")
+                        .WithMany("ReceiptVouchers")
+                        .HasForeignKey("SupplierId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.RepairVoucher", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("RepairVouchers")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("RepairVouchers")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("RepairVouchers")
+                        .HasForeignKey("EmployeeId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.RepairVoucherDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("RepairVoucherDetails")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
+                        .WithMany("RepairVoucherDetails")
+                        .HasForeignKey("RepairVoucherId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Return", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("Returns")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Returns")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Order", "Order")
+                        .WithMany("Returns")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("Returns")
+                        .HasForeignKey("PurchaseOrderId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.ReturnDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("ReturnDetails")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Return", "Return")
+                        .WithMany("ReturnDetails")
+                        .HasForeignKey("ReturnId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Shipping", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Customer", "Customer")
+                        .WithMany("Shippings")
+                        .HasForeignKey("CustomerId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Shippings")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.LiquidationVoucher", "LiquidationVoucher")
+                        .WithMany("Shippings")
+                        .HasForeignKey("LiquidationVoucherId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Order", "Order")
+                        .WithMany("Shippings")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.ShippingStatus", "ShippingStatus")
+                        .WithMany("Shippings")
+                        .HasForeignKey("ShippingStatusId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Transporter", "Transporter")
+                        .WithMany("Shippings")
+                        .HasForeignKey("TransporterId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Stock", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("Stocks")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eQACoLTD.Data.Entities.Warehouse", "Warehouse")
+                        .WithMany("Stocks")
+                        .HasForeignKey("WarehouseId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Supplier", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.AppUser", "AppUser")
+                        .WithOne("Supplier")
+                        .HasForeignKey("eQACoLTD.Data.Entities.Supplier", "AppUserId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Suppliers")
+                        .HasForeignKey("EmployeeId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Warehouse", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Branch", "Branch")
+                        .WithMany("Warehouses")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Warehouses")
+                        .HasForeignKey("EmployeeId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.Warranty", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Employee", "Employee")
+                        .WithMany("Warranties")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Order", "Order")
+                        .WithOne("Warranty")
+                        .HasForeignKey("eQACoLTD.Data.Entities.Warranty", "OrderId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.RepairVoucher", "RepairVoucher")
+                        .WithOne("Warranty")
+                        .HasForeignKey("eQACoLTD.Data.Entities.Warranty", "RepairVoucherId");
+                });
+
+            modelBuilder.Entity("eQACoLTD.Data.Entities.WarrantyDetail", b =>
+                {
+                    b.HasOne("eQACoLTD.Data.Entities.Product", "Product")
+                        .WithMany("WarrantyDetails")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("eQACoLTD.Data.Entities.Warranty", "Warranty")
+                        .WithMany("WarrantyDetails")
+                        .HasForeignKey("WarrantyId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNetCore.Http
+@model ProductDto
+@inject IConfiguration Configuration
+@{
+    Layout = "_Layout";
+}
+@section Styles
+{
+     <link rel="stylesheet" type="text/css" href="~/styles/product_styles.css">
+     <link rel="stylesheet" type="text/css" href="~/styles/product_responsive.css">
+}
+@section Scripts
+{
+    <script>
+		function changeImage(el) {
+			console.log($(el).attr('src'));
+		  $(".image_selected").empty().append('<img style="height: 300px;width: 300px" src='+$(el).attr('src')+'>');
+		}
+        function addToCart(el){
+		    bootbox.confirm('Bạn có muốn thêm sản phẩm này vào giỏ hàng?',function (result){
+		        if (result){
+		            var productId=$(el).attr('id');
+                    $.ajax({
+                        url:'@Configuration["APIServerHost"]api/accounts/carts',
+                        headers: {
+                            "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                            },
+                        method:'post',
+                        contentType:"application/json",
+                        dataType:'json',
+                        data:JSON.stringify(productId),
+                        success:function(data) {
+                          showAlertMessage(true,data.message);
+                        },
+                        error:function(data) {
+                          addToCartNoLogin(productId);
+                        }
+                    })      
+		        }
+		    })
+        }
+        function addToCartNoLogin(productId){
+		    var prodId=productId;
+		    $.ajax({
+                url:'@Configuration["ClientHost"]Account/AddProductToCartNoLogin?productId='+prodId,
+                headers: {
+                    "Authorization":'Bearer '+'@Context.Session.GetString("access_token")'
+                    },
+                method:'post',
+                contentType:"application/json",
+                dataType:'json',
+                success:function(data) {
+                  showAlertMessage(true,'Đã thêm sản phẩm vào giỏ hàng');
+                },
+                error:function(data) {
+                    showAlertMessage(false,'Có lỗi khi thêm sản phẩm vào giỏ hàng');
+                }
+            })      
+        }
+	</script>
+}
+<div class="single_product">
+    <div class="container">
+        <div class="row">
+
+            <!-- Images -->
+            <div class="col-lg-2 order-lg-1 order-2">
+                <ul class="image_list">
+                    @foreach (var pi in @Model.ListImage)
+                    {
+                        <li data-image="@Configuration["APIServerHost"]app-content/@pi.ImagePath">
+                            <img onclick="changeImage(this)" src="@Configuration["APIServerHost"]app-content/@pi.ImagePath">
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Selected Image -->
+            <div class="col-lg-5 order-lg-2 order-1">
+                <div class="image_selected">
+                    <img src="@Configuration["APIServerHost"]app-content/@Model.ListImage.Where(x => x.IsThumbnail == true).SingleOrDefault().ImagePath"
+                         style="height: 300px;width: 300px">
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="col-lg-5 order-3">
+                <div class="product_description">
+                    <div class="product_category">@Model.CategoryName</div>
+                    <div class="product_name font-weight-bold">@Model.Name</div>
+                    <div><p class="font-weight-bold">Còn lại: @Model.AbleToSale phiên bản</p></div>
+                    <div class="bestsellers_rating">
+                        <p class="font-weight-bold">Số sao đánh giá: </p>
+                        @{
+                            if (Model.Stars > 0)
+                            {
+                                for (int i = 0; i < Model.Stars; i++)
+                                {
+                                    <i class="fa fa-star" style="color:#ffe234"></i>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="product_text">
+                        <p class="font-weight-bold">Tổng quan cấu hình: @Model.OverView</p>
+                    </div>
+                    <div class="order_info d-flex flex-row">
+                        <form action="#">
+                            <div class="clearfix" style="z-index: 1000;">
+                                <!-- Product Quantity -->
+                            </div>
+                            @if (Model.PromotionPrice > 0 && Model.PromotionPrice != Model.RetailPrice)
+                            {
+                                <div class="product_price font-weight-bold font-italic"><del>Giá cũ: @Model.RetailPrice.ToString("#,##0") đ</del></div>
+                                <div class="product_price mt-1 font-weight-bold font-italic text-danger">Giá mới: @Model.PromotionPrice.ToString("#,##0") đ</div>
+                            }
+                            else
+                            {
+                                <div class="product_price font-weight-bold font-italic">Giá: @Model.RetailPrice.ToString("#,##0") đ</div>   
+                            }
+                            <div class="button_container">
+                                @if (Model.AbleToSale == 0)
+                                {
+                                    <button type="button" class="button bg-danger cart_button">Đã hết hàng</button>
+                                }
+                                else
+                                {
+                                    <button type="button" id='@Model.Id' onclick="addToCart(this)" class="button cart_button">Thêm vào giỏ</button>
+                                }
+                                <div class="product_fav">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-5">
+           <div class="card text-center col-md-12">
+             <div class="card-header bg-transparent">
+               <h3> Giới thiệu về sản phẩm @Model.Name</h3>
+             </div>
+             <div class="card-body">
+               @Html.Raw(@Model.Description)
+             </div>
+           </div>
+        </div>
+    </div>
+</div>

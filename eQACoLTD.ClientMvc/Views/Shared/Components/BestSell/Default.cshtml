@@ -1,0 +1,40 @@
+﻿@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Http
+@model List<ProductCardDto>
+@{
+    if (Model.Count > 0)
+    {
+        foreach (var p in Model)
+        {
+            <!-- Best Sellers Item -->
+            <div class="bestsellers_item discount">
+                <div class="bestsellers_item_container d-flex flex-row align-items-center justify-content-start">
+                    <div class="bestsellers_image"><img src='@Configuration["APIServerHost"]app-content/@p.ImagePath'></div>
+                    <div class="bestsellers_content">
+                        <div class="bestsellers_category"><a href="#">@p.CategoryName</a></div>
+                        <div class="bestsellers_name"><a asp-controller="Product" asp-action="Index" asp-route-productId=@p.Id>@p.Name</a></div>
+                        <div class="bestsellers_rating">
+                            @{
+                                if (p.Stars > 0)
+                                {
+                                    for (int i = 0; i < p.Stars; i++)
+                                    {
+                                        <i class="fa fa-star" style="color:#ffe234"></i>
+                                    }
+                                }
+                            }
+                        </div>
+                        <div class="bestsellers_price">@p.RetailPrice.ToString("#,##0") đ</div>
+                    </div>
+                </div>
+                <div class="bestsellers_fav active"><i class="fas fa-heart"></i></div>
+                <ul class="bestsellers_marks">
+                    <li class="bestsellers_mark bestsellers_discount">Hot</li>
+                    <li class="bestsellers_mark bestsellers_new">new</li>
+                </ul>
+            </div>
+
+
+        }
+    }
+}

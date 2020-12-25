@@ -1,4 +1,4 @@
-﻿@model RegisterRequest
+﻿@model RegisterAccountDto
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,65 +23,68 @@
 
         <div class="card">
             <div class="card-body register-card-body">
-                @if (!Model.RegisterSucceeded)
-                {
-                    <p class="login-box-msg">@Model.Error</p>
-                }
+                @{ if (ViewBag.RegisterError != null)
+                    {
+                        <div id="msgAlert" class="alert alert-danger" role="alert">
+                            @ViewBag.RegisterError
+                        </div> 
+                    } 
+                 }
 
-            <form asp-controller="Account" asp-action="Register" method="post">
-                <input type="hidden" asp-for="ReturnUrl"  />
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" asp-for="UserName" placeholder="Tên tài khoản">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                <form asp-controller="Account" asp-action="Register" method="post">
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" asp-for="UserName" placeholder="Tên tài khoản">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <span class="text-danger" asp-validation-for="UserName"></span>
-                <div class="input-group mb-3">
-                    <input type="email" class="form-control" asp-for="Email" placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                    <span class="text-danger" asp-validation-for="UserName"></span>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" asp-for="Email" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <span class="text-danger" asp-validation-for="Email"></span>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" asp-for="Password" placeholder="Mật khẩu">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" asp-for="Password" placeholder="Mật khẩu">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <span class="text-danger" asp-validation-for="Password"></span>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Xác nhận mật khẩu">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Xác nhận mật khẩu">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                            <label for="agreeTerms">
-                                I agree to the <a href="#">terms</a>
-                            </label>
+                    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                                <label for="agreeTerms">
+                                    I agree to the <a href="#">terms</a>
+                                </label>
+                            </div>
                         </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+                        </div>
+                        <!-- /.col -->
                     </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
+                </form>
 
                 <div class="social-auth-links text-center">
                     <p>- OR -</p>
@@ -107,5 +110,10 @@
     <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/js/adminlte.min.js"></script>
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').slideUp('slow');
+        }, 2000)
+    </script>
 </body>
 </html>

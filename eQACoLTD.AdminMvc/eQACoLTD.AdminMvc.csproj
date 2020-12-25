@@ -5,197 +5,477 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\bower.json" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\css\bootstrap-theme.css" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\css\bootstrap-theme.min.css" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\css\bootstrap.css" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\css\bootstrap.min.css" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\jquery\bower.json" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\jquery\MIT-LICENSE.txt" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\mocha\bower.json" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\mocha\mocha.css" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\sinonjs\bower.json" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\uwidget\bower.json" />
-    <Content Include="wwwroot\vendors\parsleyjs\bower_components\uwidget\uwidget.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\vendors\bootstrap\.github\CODEOWNERS" />
-    <None Include="wwwroot\vendors\bootstrap\.github\CONTRIBUTING.md" />
-    <None Include="wwwroot\vendors\bootstrap\.github\ISSUE_TEMPLATE\bug.md" />
-    <None Include="wwwroot\vendors\bootstrap\.github\ISSUE_TEMPLATE\bug_report.md" />
-    <None Include="wwwroot\vendors\bootstrap\.github\ISSUE_TEMPLATE\feature.md" />
-    <None Include="wwwroot\vendors\bootstrap\.github\ISSUE_TEMPLATE\feature_request.md" />
-    <None Include="wwwroot\vendors\bootstrap\.github\SUPPORT.md" />
-    <None Include="wwwroot\vendors\Chart.js\.github\ISSUE_TEMPLATE.md" />
-    <None Include="wwwroot\vendors\Chart.js\.github\PULL_REQUEST_TEMPLATE.md" />
-    <None Include="wwwroot\vendors\echarts\.github\CONTRIBUTING.md" />
-    <None Include="wwwroot\vendors\echarts\.github\ISSUE_TEMPLATE.md" />
-    <None Include="wwwroot\vendors\Flot\.circleci\config.yml" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\js\bootstrap.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\dist\js\bootstrap.min.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\DOCS-LICENSE" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\affix.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\alert.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\button.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\carousel.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\collapse.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\dropdown.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\modal.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\popover.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\scrollspy.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\tab.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\tooltip.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\js\transition.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\alerts.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\badges.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\bootstrap.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\breadcrumbs.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\button-groups.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\buttons.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\carousel.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\close.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\code.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\component-animations.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\dropdowns.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\forms.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\glyphicons.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\grid.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\input-groups.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\jumbotron.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\labels.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\list-group.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\media.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\mixins.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\modals.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\navbar.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\navs.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\normalize.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\pager.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\pagination.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\panels.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\popovers.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\print.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\progress-bars.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\responsive-utilities.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\scaffolding.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\tables.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\theme.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\thumbnails.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\tooltip.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\type.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\utilities.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\variables.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\less\wells.less" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\LICENSE" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\bootstrap\LICENSE-MIT" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\expect.js\index.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\expect.js\Makefile" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\expect.js\support\jquery.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\dist\jquery.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\dist\jquery.min.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\dist\jquery.min.map" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\jsonp.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\load.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\parseJSON.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\parseXML.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\script.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\var\nonce.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\var\rquery.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\ajax\xhr.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\attributes.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\attributes\attr.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\attributes\classes.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\attributes\prop.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\attributes\support.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\attributes\val.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\callbacks.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\core.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\core\access.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\core\init.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\core\parseHTML.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\core\ready.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\core\var\rsingleTag.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\addGetHookIf.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\curCSS.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\defaultDisplay.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\hiddenVisibleSelectors.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\support.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\swap.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\var\cssExpand.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\var\getStyles.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\var\isHidden.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\var\rmargin.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\css\var\rnumnonpx.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\data.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\data\accepts.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\data\Data.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\data\var\data_priv.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\data\var\data_user.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\deferred.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\deprecated.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\dimensions.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\effects.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\effects\animatedSelector.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\effects\Tween.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\event.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\event\ajax.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\event\alias.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\event\support.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\exports\amd.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\exports\global.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\intro.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\jquery.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\manipulation.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\manipulation\support.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\manipulation\var\rcheckableType.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\manipulation\_evalUrl.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\offset.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\outro.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\queue.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\queue\delay.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\selector-native.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\selector-sizzle.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\selector.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\serialize.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\sizzle\dist\sizzle.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\sizzle\dist\sizzle.min.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\sizzle\dist\sizzle.min.map" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\traversing.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\traversing\findFilter.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\traversing\var\rneedsContext.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\arr.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\class2type.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\concat.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\hasOwn.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\indexOf.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\pnum.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\push.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\rnotwhite.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\slice.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\strundefined.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\support.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\var\toString.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\jquery\src\wrap.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\mocha\LICENSE" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\mocha\media\logo.svg" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\mocha\mocha.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\mocha\scripts\ensure-compatible-npm.sh" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\sinonjs\sinon.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\uwidget\LICENSE" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\uwidget\uwidget.js" />
-    <None Include="wwwroot\vendors\parsleyjs\bower_components\uwidget\uwidget.less" />
+    <Compile Remove="wwwroot\vendors\**" />
+    <Content Remove="wwwroot\vendors\**" />
+    <EmbeddedResource Remove="wwwroot\vendors\**" />
+    <None Remove="wwwroot\vendors\**" />
+    <Content Update="Views\Category\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\img\no-image-icon.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Product\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Product\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Customer\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Customer\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Category\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Category\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Supplier\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Supplier\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Order\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Order\Create.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\js\accounting.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Order\Detail.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Order\Waiting.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Order\WaitingOrderDetail.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="4.3.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\eQACoLTD.ViewModel\eQACoLTD.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\bracket.js" />
+    <None Include="wwwroot\js\chart.chartist.js" />
+    <None Include="wwwroot\js\chart.chartjs.js" />
+    <None Include="wwwroot\js\chart.echarts.js" />
+    <None Include="wwwroot\js\chart.flot.js" />
+    <None Include="wwwroot\js\chart.morris.js" />
+    <None Include="wwwroot\js\chart.peity.js" />
+    <None Include="wwwroot\js\chart.rickshaw.js" />
+    <None Include="wwwroot\js\chart.sparkline.js" />
+    <None Include="wwwroot\js\dashboard.js" />
+    <None Include="wwwroot\js\jquery.vmap.sampledata.js" />
+    <None Include="wwwroot\js\map.apple.js" />
+    <None Include="wwwroot\js\map.bluewater.js" />
+    <None Include="wwwroot\js\map.mapbox.js" />
+    <None Include="wwwroot\js\map.shadesofgray.js" />
+    <None Include="wwwroot\js\map.shiftworker.js" />
+    <None Include="wwwroot\js\ResizeSensor.js" />
+    <None Include="wwwroot\js\widgets.js" />
+    <None Include="wwwroot\lib\bootstrap-tagsinput\bootstrap-tagsinput.js" />
+    <None Include="wwwroot\lib\bootstrap\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\bootstrap.scss" />
+    <None Include="wwwroot\lib\chart.js\Chart.js" />
+    <None Include="wwwroot\lib\chartist\chartist.js" />
+    <None Include="wwwroot\lib\codemirror\addon\comment\comment.js" />
+    <None Include="wwwroot\lib\codemirror\addon\comment\continuecomment.js" />
+    <None Include="wwwroot\lib\codemirror\addon\dialog\dialog.js" />
+    <None Include="wwwroot\lib\codemirror\addon\display\autorefresh.js" />
+    <None Include="wwwroot\lib\codemirror\addon\display\fullscreen.js" />
+    <None Include="wwwroot\lib\codemirror\addon\display\panel.js" />
+    <None Include="wwwroot\lib\codemirror\addon\display\placeholder.js" />
+    <None Include="wwwroot\lib\codemirror\addon\display\rulers.js" />
+    <None Include="wwwroot\lib\codemirror\addon\edit\closebrackets.js" />
+    <None Include="wwwroot\lib\codemirror\addon\edit\closetag.js" />
+    <None Include="wwwroot\lib\codemirror\addon\edit\continuelist.js" />
+    <None Include="wwwroot\lib\codemirror\addon\edit\matchbrackets.js" />
+    <None Include="wwwroot\lib\codemirror\addon\edit\matchtags.js" />
+    <None Include="wwwroot\lib\codemirror\addon\edit\trailingspace.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\brace-fold.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\comment-fold.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\foldcode.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\foldgutter.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\indent-fold.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\markdown-fold.js" />
+    <None Include="wwwroot\lib\codemirror\addon\fold\xml-fold.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\anyword-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\css-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\html-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\javascript-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\show-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\sql-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\hint\xml-hint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\coffeescript-lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\css-lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\html-lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\javascript-lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\json-lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\lint\yaml-lint.js" />
+    <None Include="wwwroot\lib\codemirror\addon\merge\merge.js" />
+    <None Include="wwwroot\lib\codemirror\addon\mode\loadmode.js" />
+    <None Include="wwwroot\lib\codemirror\addon\mode\multiplex.js" />
+    <None Include="wwwroot\lib\codemirror\addon\mode\multiplex_test.js" />
+    <None Include="wwwroot\lib\codemirror\addon\mode\overlay.js" />
+    <None Include="wwwroot\lib\codemirror\addon\mode\simple.js" />
+    <None Include="wwwroot\lib\codemirror\addon\runmode\colorize.js" />
+    <None Include="wwwroot\lib\codemirror\addon\runmode\runmode-standalone.js" />
+    <None Include="wwwroot\lib\codemirror\addon\runmode\runmode.js" />
+    <None Include="wwwroot\lib\codemirror\addon\runmode\runmode.node.js" />
+    <None Include="wwwroot\lib\codemirror\addon\scroll\annotatescrollbar.js" />
+    <None Include="wwwroot\lib\codemirror\addon\scroll\scrollpastend.js" />
+    <None Include="wwwroot\lib\codemirror\addon\scroll\simplescrollbars.js" />
+    <None Include="wwwroot\lib\codemirror\addon\search\jump-to-line.js" />
+    <None Include="wwwroot\lib\codemirror\addon\search\match-highlighter.js" />
+    <None Include="wwwroot\lib\codemirror\addon\search\matchesonscrollbar.js" />
+    <None Include="wwwroot\lib\codemirror\addon\search\search.js" />
+    <None Include="wwwroot\lib\codemirror\addon\search\searchcursor.js" />
+    <None Include="wwwroot\lib\codemirror\addon\selection\active-line.js" />
+    <None Include="wwwroot\lib\codemirror\addon\selection\mark-selection.js" />
+    <None Include="wwwroot\lib\codemirror\addon\selection\selection-pointer.js" />
+    <None Include="wwwroot\lib\codemirror\addon\tern\tern.js" />
+    <None Include="wwwroot\lib\codemirror\addon\tern\worker.js" />
+    <None Include="wwwroot\lib\codemirror\addon\wrap\hardwrap.js" />
+    <None Include="wwwroot\lib\codemirror\codemirror.js" />
+    <None Include="wwwroot\lib\codemirror\mode\apl\apl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\asciiarmor\asciiarmor.js" />
+    <None Include="wwwroot\lib\codemirror\mode\asn.1\asn.1.js" />
+    <None Include="wwwroot\lib\codemirror\mode\asterisk\asterisk.js" />
+    <None Include="wwwroot\lib\codemirror\mode\brainfuck\brainfuck.js" />
+    <None Include="wwwroot\lib\codemirror\mode\clike\clike.js" />
+    <None Include="wwwroot\lib\codemirror\mode\clojure\clojure.js" />
+    <None Include="wwwroot\lib\codemirror\mode\cmake\cmake.js" />
+    <None Include="wwwroot\lib\codemirror\mode\cobol\cobol.js" />
+    <None Include="wwwroot\lib\codemirror\mode\coffeescript\coffeescript.js" />
+    <None Include="wwwroot\lib\codemirror\mode\commonlisp\commonlisp.js" />
+    <None Include="wwwroot\lib\codemirror\mode\crystal\crystal.js" />
+    <None Include="wwwroot\lib\codemirror\mode\css\css.js" />
+    <None Include="wwwroot\lib\codemirror\mode\cypher\cypher.js" />
+    <None Include="wwwroot\lib\codemirror\mode\dart\dart.js" />
+    <None Include="wwwroot\lib\codemirror\mode\diff\diff.js" />
+    <None Include="wwwroot\lib\codemirror\mode\django\django.js" />
+    <None Include="wwwroot\lib\codemirror\mode\dockerfile\dockerfile.js" />
+    <None Include="wwwroot\lib\codemirror\mode\dtd\dtd.js" />
+    <None Include="wwwroot\lib\codemirror\mode\dylan\dylan.js" />
+    <None Include="wwwroot\lib\codemirror\mode\d\d.js" />
+    <None Include="wwwroot\lib\codemirror\mode\ebnf\ebnf.js" />
+    <None Include="wwwroot\lib\codemirror\mode\ecl\ecl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\eiffel\eiffel.js" />
+    <None Include="wwwroot\lib\codemirror\mode\elm\elm.js" />
+    <None Include="wwwroot\lib\codemirror\mode\erlang\erlang.js" />
+    <None Include="wwwroot\lib\codemirror\mode\factor\factor.js" />
+    <None Include="wwwroot\lib\codemirror\mode\fcl\fcl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\forth\forth.js" />
+    <None Include="wwwroot\lib\codemirror\mode\fortran\fortran.js" />
+    <None Include="wwwroot\lib\codemirror\mode\gas\gas.js" />
+    <None Include="wwwroot\lib\codemirror\mode\gfm\gfm.js" />
+    <None Include="wwwroot\lib\codemirror\mode\gherkin\gherkin.js" />
+    <None Include="wwwroot\lib\codemirror\mode\go\go.js" />
+    <None Include="wwwroot\lib\codemirror\mode\groovy\groovy.js" />
+    <None Include="wwwroot\lib\codemirror\mode\haml\haml.js" />
+    <None Include="wwwroot\lib\codemirror\mode\handlebars\handlebars.js" />
+    <None Include="wwwroot\lib\codemirror\mode\haskell-literate\haskell-literate.js" />
+    <None Include="wwwroot\lib\codemirror\mode\haskell\haskell.js" />
+    <None Include="wwwroot\lib\codemirror\mode\haxe\haxe.js" />
+    <None Include="wwwroot\lib\codemirror\mode\htmlembedded\htmlembedded.js" />
+    <None Include="wwwroot\lib\codemirror\mode\htmlmixed\htmlmixed.js" />
+    <None Include="wwwroot\lib\codemirror\mode\http\http.js" />
+    <None Include="wwwroot\lib\codemirror\mode\idl\idl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\javascript\javascript.js" />
+    <None Include="wwwroot\lib\codemirror\mode\jinja2\jinja2.js" />
+    <None Include="wwwroot\lib\codemirror\mode\jsx\jsx.js" />
+    <None Include="wwwroot\lib\codemirror\mode\julia\julia.js" />
+    <None Include="wwwroot\lib\codemirror\mode\livescript\livescript.js" />
+    <None Include="wwwroot\lib\codemirror\mode\lua\lua.js" />
+    <None Include="wwwroot\lib\codemirror\mode\markdown\markdown.js" />
+    <None Include="wwwroot\lib\codemirror\mode\mathematica\mathematica.js" />
+    <None Include="wwwroot\lib\codemirror\mode\mbox\mbox.js" />
+    <None Include="wwwroot\lib\codemirror\mode\meta.js" />
+    <None Include="wwwroot\lib\codemirror\mode\mirc\mirc.js" />
+    <None Include="wwwroot\lib\codemirror\mode\mllike\mllike.js" />
+    <None Include="wwwroot\lib\codemirror\mode\modelica\modelica.js" />
+    <None Include="wwwroot\lib\codemirror\mode\mscgen\mscgen.js" />
+    <None Include="wwwroot\lib\codemirror\mode\mumps\mumps.js" />
+    <None Include="wwwroot\lib\codemirror\mode\nginx\nginx.js" />
+    <None Include="wwwroot\lib\codemirror\mode\nsis\nsis.js" />
+    <None Include="wwwroot\lib\codemirror\mode\ntriples\ntriples.js" />
+    <None Include="wwwroot\lib\codemirror\mode\octave\octave.js" />
+    <None Include="wwwroot\lib\codemirror\mode\oz\oz.js" />
+    <None Include="wwwroot\lib\codemirror\mode\pascal\pascal.js" />
+    <None Include="wwwroot\lib\codemirror\mode\pegjs\pegjs.js" />
+    <None Include="wwwroot\lib\codemirror\mode\perl\perl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\php\php.js" />
+    <None Include="wwwroot\lib\codemirror\mode\pig\pig.js" />
+    <None Include="wwwroot\lib\codemirror\mode\powershell\powershell.js" />
+    <None Include="wwwroot\lib\codemirror\mode\properties\properties.js" />
+    <None Include="wwwroot\lib\codemirror\mode\protobuf\protobuf.js" />
+    <None Include="wwwroot\lib\codemirror\mode\pug\pug.js" />
+    <None Include="wwwroot\lib\codemirror\mode\puppet\puppet.js" />
+    <None Include="wwwroot\lib\codemirror\mode\python\python.js" />
+    <None Include="wwwroot\lib\codemirror\mode\q\q.js" />
+    <None Include="wwwroot\lib\codemirror\mode\rpm\rpm.js" />
+    <None Include="wwwroot\lib\codemirror\mode\rst\rst.js" />
+    <None Include="wwwroot\lib\codemirror\mode\ruby\ruby.js" />
+    <None Include="wwwroot\lib\codemirror\mode\rust\rust.js" />
+    <None Include="wwwroot\lib\codemirror\mode\r\r.js" />
+    <None Include="wwwroot\lib\codemirror\mode\sass\sass.js" />
+    <None Include="wwwroot\lib\codemirror\mode\sas\sas.js" />
+    <None Include="wwwroot\lib\codemirror\mode\scheme\scheme.js" />
+    <None Include="wwwroot\lib\codemirror\mode\shell\shell.js" />
+    <None Include="wwwroot\lib\codemirror\mode\sieve\sieve.js" />
+    <None Include="wwwroot\lib\codemirror\mode\slim\slim.js" />
+    <None Include="wwwroot\lib\codemirror\mode\smalltalk\smalltalk.js" />
+    <None Include="wwwroot\lib\codemirror\mode\smarty\smarty.js" />
+    <None Include="wwwroot\lib\codemirror\mode\solr\solr.js" />
+    <None Include="wwwroot\lib\codemirror\mode\soy\soy.js" />
+    <None Include="wwwroot\lib\codemirror\mode\sparql\sparql.js" />
+    <None Include="wwwroot\lib\codemirror\mode\spreadsheet\spreadsheet.js" />
+    <None Include="wwwroot\lib\codemirror\mode\sql\sql.js" />
+    <None Include="wwwroot\lib\codemirror\mode\stex\stex.js" />
+    <None Include="wwwroot\lib\codemirror\mode\stylus\stylus.js" />
+    <None Include="wwwroot\lib\codemirror\mode\swift\swift.js" />
+    <None Include="wwwroot\lib\codemirror\mode\tcl\tcl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\textile\textile.js" />
+    <None Include="wwwroot\lib\codemirror\mode\tiddlywiki\tiddlywiki.js" />
+    <None Include="wwwroot\lib\codemirror\mode\tiki\tiki.js" />
+    <None Include="wwwroot\lib\codemirror\mode\toml\toml.js" />
+    <None Include="wwwroot\lib\codemirror\mode\tornado\tornado.js" />
+    <None Include="wwwroot\lib\codemirror\mode\troff\troff.js" />
+    <None Include="wwwroot\lib\codemirror\mode\ttcn-cfg\ttcn-cfg.js" />
+    <None Include="wwwroot\lib\codemirror\mode\ttcn\ttcn.js" />
+    <None Include="wwwroot\lib\codemirror\mode\turtle\turtle.js" />
+    <None Include="wwwroot\lib\codemirror\mode\twig\twig.js" />
+    <None Include="wwwroot\lib\codemirror\mode\vbscript\vbscript.js" />
+    <None Include="wwwroot\lib\codemirror\mode\vb\vb.js" />
+    <None Include="wwwroot\lib\codemirror\mode\velocity\velocity.js" />
+    <None Include="wwwroot\lib\codemirror\mode\verilog\verilog.js" />
+    <None Include="wwwroot\lib\codemirror\mode\vhdl\vhdl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\vue\vue.js" />
+    <None Include="wwwroot\lib\codemirror\mode\webidl\webidl.js" />
+    <None Include="wwwroot\lib\codemirror\mode\xml\xml.js" />
+    <None Include="wwwroot\lib\codemirror\mode\xquery\xquery.js" />
+    <None Include="wwwroot\lib\codemirror\mode\yacas\yacas.js" />
+    <None Include="wwwroot\lib\codemirror\mode\yaml-frontmatter\yaml-frontmatter.js" />
+    <None Include="wwwroot\lib\codemirror\mode\yaml\yaml.js" />
+    <None Include="wwwroot\lib\codemirror\mode\z80\z80.js" />
+    <None Include="wwwroot\lib\d3\d3.js" />
+    <None Include="wwwroot\lib\datatables-responsive\dataTables.responsive.js" />
+    <None Include="wwwroot\lib\datatables-responsive\responsive.dataTables.scss" />
+    <None Include="wwwroot\lib\datatables\jquery.dataTables.js" />
+    <None Include="wwwroot\lib\eve-raphael\eve.js" />
+    <None Include="wwwroot\lib\flot-spline\jquery.flot.spline.js" />
+    <None Include="wwwroot\lib\Flot\jquery.flot.js" />
+    <None Include="wwwroot\lib\Flot\jquery.flot.pie.js" />
+    <None Include="wwwroot\lib\Flot\jquery.flot.resize.js" />
+    <None Include="wwwroot\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\lib\gmaps\gmaps.js" />
+    <None Include="wwwroot\lib\highlightjs\highlight.pack.js" />
+    <None Include="wwwroot\lib\ion.rangeSlider\js\ion.rangeSlider.js" />
+    <None Include="wwwroot\lib\ion.rangeSlider\js\ion.rangeSlider.min.js" />
+    <None Include="wwwroot\lib\Ionicons\fonts\ionicons.svg" />
+    <None Include="wwwroot\lib\Jcrop\Jcrop.js" />
+    <None Include="wwwroot\lib\jquery-switchbutton\jquery.switchButton.js" />
+    <None Include="wwwroot\lib\jquery-switchbutton\README.md" />
+    <None Include="wwwroot\lib\jquery-toggles\toggles.min.js" />
+    <None Include="wwwroot\lib\jquery-ui\jquery-ui.js" />
+    <None Include="wwwroot\lib\jquery.maskedinput\jquery.maskedinput.js" />
+    <None Include="wwwroot\lib\jquery.sparkline.bower\jquery.sparkline.min.js" />
+    <None Include="wwwroot\lib\jquery.steps\jquery.steps.js" />
+    <None Include="wwwroot\lib\jquery\jquery.js" />
+    <None Include="wwwroot\lib\jqvmap\jquery.vmap.js" />
+    <None Include="wwwroot\lib\jqvmap\jquery.vmap.min.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\continents\jquery.vmap.africa.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\continents\jquery.vmap.asia.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\continents\jquery.vmap.australia.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\continents\jquery.vmap.europe.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\continents\jquery.vmap.north-america.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\continents\jquery.vmap.south-america.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.algeria.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.argentina.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.brazil.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.canada.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.europe.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.france.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.germany.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.greece.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.iran.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.iraq.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.russia.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.tunisia.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.turkey.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.usa.js" />
+    <None Include="wwwroot\lib\jqvmap\maps\jquery.vmap.world.js" />
+    <None Include="wwwroot\lib\jt.timepicker\jquery.timepicker.js" />
+    <None Include="wwwroot\lib\leaflet\leaflet-src.js" />
+    <None Include="wwwroot\lib\leaflet\LICENSE" />
+    <None Include="wwwroot\lib\medium-editor\medium-editor.js" />
+    <None Include="wwwroot\lib\mocha\mocha.js" />
+    <None Include="wwwroot\lib\moment\moment.js" />
+    <None Include="wwwroot\lib\morris.js\morris.js" />
+    <None Include="wwwroot\lib\parsleyjs\parsley.js" />
+    <None Include="wwwroot\lib\peity\jquery.peity.js" />
+    <None Include="wwwroot\lib\perfect-scrollbar\js\perfect-scrollbar.jquery.js" />
+    <None Include="wwwroot\lib\perfect-scrollbar\js\perfect-scrollbar.jquery.min.js" />
+    <None Include="wwwroot\lib\perfect-scrollbar\js\perfect-scrollbar.js" />
+    <None Include="wwwroot\lib\perfect-scrollbar\js\perfect-scrollbar.min.js" />
+    <None Include="wwwroot\lib\popper.js\popper.js" />
+    <None Include="wwwroot\lib\raphael\raphael.min.js" />
+    <None Include="wwwroot\lib\rickshaw\rickshaw.js" />
+    <None Include="wwwroot\lib\rickshaw\rickshaw.min.js" />
+    <None Include="wwwroot\lib\select2\js\select2.full.min.js" />
+    <None Include="wwwroot\lib\select2\js\select2.min.js" />
+    <None Include="wwwroot\lib\sparklinejs\.gitignore" />
+    <None Include="wwwroot\lib\sparklinejs\dist\.gitignore" />
+    <None Include="wwwroot\lib\sparklinejs\index.js" />
+    <None Include="wwwroot\lib\sparklinejs\Makefile" />
+    <None Include="wwwroot\lib\sparklinejs\README.md" />
+    <None Include="wwwroot\lib\sparklinejs\src\base.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-bar.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-box.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-bullet.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-discrete.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-line.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-pie.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\chart-tristate.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\defaults.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\footer.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\header.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\interact.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\rangemap.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\simpledraw.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\utils.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\vcanvas-base.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\vcanvas-canvas.js" />
+    <None Include="wwwroot\lib\sparklinejs\src\vcanvas-vml.js" />
+    <None Include="wwwroot\lib\spectrum\spectrum.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ar-AR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ar-AR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-bg-BG.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-bg-BG.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ca-ES.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ca-ES.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-cs-CZ.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-cs-CZ.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-da-DK.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-da-DK.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-de-DE.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-de-DE.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-el-GR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-el-GR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-es-ES.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-es-ES.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-es-EU.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-es-EU.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-fa-IR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-fa-IR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-fi-FI.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-fi-FI.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-fr-FR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-fr-FR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-gl-ES.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-gl-ES.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-he-IL.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-he-IL.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-hr-HR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-hr-HR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-hu-HU.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-hu-HU.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-id-ID.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-id-ID.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-it-IT.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-it-IT.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ja-JP.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ja-JP.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ko-KR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ko-KR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-lt-LT.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-lt-LT.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-lt-LV.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-lt-LV.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-mn-MN.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-mn-MN.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-nb-NO.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-nb-NO.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-nl-NL.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-nl-NL.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-pl-PL.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-pl-PL.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-pt-BR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-pt-BR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-pt-PT.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-pt-PT.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ro-RO.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ro-RO.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ru-RU.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ru-RU.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sk-SK.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sk-SK.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sl-SI.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sl-SI.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sr-RS-Latin.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sr-RS-Latin.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sr-RS.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sr-RS.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sv-SE.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-sv-SE.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ta-IN.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-ta-IN.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-th-TH.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-th-TH.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-tr-TR.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-tr-TR.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-uk-UA.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-uk-UA.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-vi-VN.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-vi-VN.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-zh-CN.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-zh-CN.min.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-zh-TW.js" />
+    <None Include="wwwroot\lib\summernote\lang\summernote-zh-TW.min.js" />
+    <None Include="wwwroot\lib\summernote\summernote-bs4.js" />
+    <None Include="wwwroot\lib\summernote\summernote-bs4.min.js" />
+    <None Include="wwwroot\lib\summernote\summernote-lite.js" />
+    <None Include="wwwroot\lib\summernote\summernote.js" />
+    <None Include="wwwroot\lib\summernote\summernote.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>..\eQACoLTD.IdentityServer\bin\Debug\netcoreapp3.1\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

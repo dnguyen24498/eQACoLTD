@@ -1,4 +1,4 @@
-                                      Hệ thống quản lý bán hàng cho công ty TNHH phát triển công nghệ Quang Anh
+Hệ thống quản lý bán hàng cho công ty TNHH phát triển công nghệ Quang Anh
 1. Cách cài đặt
   - Clone project và open, nên chuyển sang develop branch
   - Vào file appsettings.json tại các project: BackendApi, IdentityServer, Data và sửa chuỗi kết nối cơ sở dữ liệu. 
